@@ -1,0 +1,44 @@
+
+.footerContainer{
+}
+
+
+.headerContainer{
+}
+
+
+.profileContainer{
+    -fx-background-color: grey;
+    -fx-background-radius: 20 20 20 20;
+
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+
+
+.userContainer{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+
+
+.imageContainer{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+
+.managementPaneContainer{
+    -fx-background-color: #FAFFFD;
+    -fx-background-radius: 10 10 10 10;
+}
+
+.managementPaneContainer Label {
+
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 200;
+    -fx-pref-height: 40;
+    -fx-font-weight: bold;
+}

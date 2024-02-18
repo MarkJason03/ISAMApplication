@@ -1,0 +1,66 @@
+.buttonContainer {
+
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-spacing: 20;
+}
+
+.buttonContainer Button {
+
+    -fx-pref-width: 180;
+    -fx-font-size: 1.5em;
+    -fx-pref-height: 40;
+
+}
+
+
+.AddButton{
+    -fx-background-color: #7CEA9C;
+}
+.EditButton{
+
+}
+
+.DeleteButton{
+    -fx-background-color : #DE1A1A;
+}
+
+.ClearButton{
+
+}
+.managementPaneContainer Label {
+
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-font-weight: bold;
+}
+
+
+.headerLabel {
+
+    -fx-font-size: 2em;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-pref-width: 555;
+    -fx-background-radius: 10 10 0 0;
+
+}
+
+.headerContainer {
+    -fx-background-color: #241f6ac7;
+    -fx-background-radius: 10 10 0 0;
+    -fx-alignment: center;
+
+
+}
+
+.managementPaneContainer{
+    -fx-background-color: #FAFFFD;
+    -fx-background-radius: 10 10 10 10;
+}
+
+
+.mainAnchorPane{
+    -fx-background-color: #EEEEEE;
+}

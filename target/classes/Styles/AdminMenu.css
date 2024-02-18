@@ -1,0 +1,130 @@
+
+.mainBodyAnchorPane{
+
+   -fx-background-color: #FFFFFF;
+}
+
+.buttonContainers {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+Text{
+    -fx-fill: #EEEEEE;
+    -fx-font-size: 2em;
+}
+.buttonContainers Button {
+    -fx-pref-width: 180;
+    -fx-pref-height: 40;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #132A13;
+    -fx-font-size: 1.5em;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+
+/*
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0.5, 0.0, 0.0);
+*/
+    /*-fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);*/
+}
+
+.buttonContainers Button:hover {
+    -fx-background-color: #241f6bc8;
+    -fx-text-fill: white;
+
+
+}
+
+.buttonContainers Button:pressed {
+    -fx-background-color: green;
+
+}
+
+
+/* dropshadow param pass, color, radius blur, spread, x, y*/
+
+.adminSidebar {
+    -fx-background-color: #9CE3FC;
+    -fx-background-radius: 0 20 20 0;
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,0,2);
+}
+
+.footerContainer {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+
+
+}
+
+
+.adminHeaderBar {
+    -fx-background-color: #ffffff
+}
+
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+.miniDashboardHeader{
+    -fx-background-radius: 20 0 20 0;
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-background-color: linear-gradient(to bottom, #98BBF7, #9CE3FC);
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+
+
+.miniDashboardHeader AnchorPane{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+    -fx-pref-width: 300;
+    -fx-pref-height: 150;
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+
+}
+
+
+.miniDashboardHeader HBox{
+    -fx-alignment: center;
+    -fx-spacing:30;
+
+}
+
+/*
+.miniDashboardInfo1{
+
+    }
+
+.miniDashboardInfo2{
+
+    -fx-background-color: #241f6ac7;
+    -fx-background-radius: 20 20 20 20;
+    -fx-pref-width: 200;
+    -fx-pref-height: 150;
+}
+
+.miniDashboardInfo3{
+
+    -fx-background-color: #241f6ac7;
+    -fx-background-radius: 20 20 20 20;
+}
+
+.miniDashboardInfo4{
+
+    -fx-background-color: #241f6ac7;
+    -fx-background-radius: 20 20 20 20;
+}*/
+.dashboardSP{
+
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+
+.dashboardMainBody{
+
+    -fx-background-color: linear-gradient(to bottom, #9CE3FC, #98BBF7);
+
+
+}
+
+
+

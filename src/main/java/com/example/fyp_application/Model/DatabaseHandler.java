@@ -9,12 +9,8 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class DatabaseHandler {
-
     private static final String dbUrl = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";
-
-
     public static Connection getConnection() {
-
         try{
             Connection connection = DriverManager.getConnection(dbUrl);
 
@@ -24,7 +20,4 @@ public class DatabaseHandler {
             return null;
         }
     }
-
-
-
 }

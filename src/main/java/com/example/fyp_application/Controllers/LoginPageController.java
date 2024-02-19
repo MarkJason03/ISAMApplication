@@ -169,8 +169,7 @@ public class LoginPageController implements Initializable {
 
     public void exitButtonAction() {
         System.out.println("Exit Button Clicked");
-
-        if (alertHandlerController.confirmationDialogueBox("Are you sure you want to exit?")){
+        if (alertHandlerController.confirmationDialogueBox("Exit Confirmation","Are you sure you want to exit?")){
             System.exit(0);
         }
     }

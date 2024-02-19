@@ -1,5 +1,8 @@
 package com.example.fyp_application.Model;
 
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ import java.util.List;
 public class UserDAO {
 
 
-    private Connection connection(){
+    private Connection connection() {
         String url = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";
         Connection conn = null;
 
@@ -19,7 +22,43 @@ public class UserDAO {
         return conn;
     }
 
-   /* public List<UserModel> getAllUsers() {
+    public ObservableList<UserModel> getAllUsers() {
+        String sql = "SELECT * FROM users";
+        ObservableList<UserModel> users = FXCollections.observableArrayList(); // Correctly initialize the list
+        try (Connection conn = this.connection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                UserModel user = new UserModel(
+                        rs.getInt("UserID"),
+                        rs.getInt("userRoleID"),
+                        rs.getInt("deptID"),
+                        rs.getString("FirstName"),
+                        rs.getString("LastName"),
+                        rs.getString("Gender"),
+                        rs.getString("DOB"),
+                        rs.getString("Email"),
+                        rs.getString("Username"),
+                        rs.getString("Password"),
+                        rs.getString("Phone"),
+                        rs.getString("AccountStatus"),
+                        rs.getString("Photo"),
+                        rs.getString("CreatedAt"),
+                        rs.getString("ExpiresAt")
+                );
+                users.add(user); // Add the user to the list
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+}
+
+
+/*    public List<UserModel> getAllUsers() {
         String sql = "SELECT * FROM users";
         List<UserModel> users = new ArrayList<>();
         try (Connection conn = this.connection();
@@ -50,4 +89,4 @@ public class UserDAO {
         }
         return users;
     }*/
-}
+

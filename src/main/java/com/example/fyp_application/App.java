@@ -12,7 +12,7 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource("/FXML/ClientSide/ClientDashboard.fxml")));
+        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
         Scene scene = new Scene(fxmlLoader. load());
         stage.setTitle("FYP Application");
         stage.setScene(scene);

@@ -11,6 +11,7 @@ public class AlertHandlerController {
     private Alert alert;
 
 
+    //Showing an error message to the user
     public boolean showError(String title, String Message){
         alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
@@ -22,6 +23,7 @@ public class AlertHandlerController {
         return option.get().equals(ButtonType.OK);
     }
 
+    //Showing Alert with Confirmation
     public boolean showAlert(String title, String Message) {
         alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
@@ -35,9 +37,10 @@ public class AlertHandlerController {
 
 
 
-    public boolean confirmationDialogueBox(String Message){
+    //Showing Alert with Confirmation
+    public boolean confirmationDialogueBox(String title, String Message){
         alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Message");
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(Message);
 

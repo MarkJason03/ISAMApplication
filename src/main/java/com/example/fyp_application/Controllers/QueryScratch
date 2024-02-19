@@ -1,0 +1,8 @@
+//
+//For gathering User information from the database
+SELECT tbl_Users.UserID, FirstName,LastName,Gender,DOB,Email,Username,Phone,AccountStatus,CreatedAt,ExpiresOn,
+       tbl_userRoles.userRoleName,
+       tbl_Departments.deptName AS departmentName
+FROM tbl_Users
+JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID
+JOIN tbl_Departments ON tbl_Users.deptID = tbl_Departments.deptID;

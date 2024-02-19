@@ -1,7 +1,5 @@
 package com.example.fyp_application.Model;
 
-import java.sql.Blob;
-
 public class UserModel {
 
     private int userID;
@@ -17,10 +15,9 @@ public class UserModel {
     private String password;
     private String phone;
     private String accountStatus;
-    private String profilePicture;
+    private String photo;
     private String createdAt;
     private String expiresAt;
-
 
 
     public UserModel(int userID,
@@ -35,7 +32,6 @@ public class UserModel {
                      String password,
                      String phone,
                      String accountStatus,
-                     String profilePicture,
                      String createdAt,
                      String expiresAt) {
         this.userID = userID;
@@ -50,7 +46,39 @@ public class UserModel {
         this.password = password;
         this.phone = phone;
         this.accountStatus = accountStatus;
-        this.profilePicture = profilePicture;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+    }
+
+    //for table view
+    public UserModel(int userID,
+                     int userRoleID,
+                     int deptID,
+                     String firstName,
+                     String lastName,
+                     String gender,
+                     String dob,
+                     String email,
+                     String username,
+                     String password,
+                     String phone,
+                     String accountStatus,
+                     String Photo,
+                     String createdAt,
+                     String expiresAt) {
+        this.userID = userID;
+        this.userRoleID = userRoleID;
+        this.deptID = deptID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = dob;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.phone = phone;
+        this.accountStatus = accountStatus;
+        this.photo = Photo;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
     }
@@ -93,8 +121,8 @@ public class UserModel {
     public String getAccountStatus() {
         return accountStatus;
     }
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getPhoto() {
+        return photo;
     }
     public String getCreatedAt() {
         return createdAt;
@@ -129,15 +157,18 @@ public class UserModel {
     public void setUsername(String username) {
         this.username = username;
     }
-    public void setPassword(String password) {this.password = password;}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
     public void setAccountStatus(String accountStatus) {
         this.accountStatus = accountStatus;
     }
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setPhoto(String Photo) {
+        this.photo = Photo;
     }
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;

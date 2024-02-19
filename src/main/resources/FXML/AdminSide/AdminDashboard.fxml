@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,9 +20,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="919.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="919.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.AdminDashboardController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane fx:id="adminDashboardPane" prefHeight="200.0" prefWidth="200.0">
          <top>
             <AnchorPane prefHeight="68.0" prefWidth="1605.0" stylesheets="@../../Styles/AdminMenu.css" BorderPane.alignment="CENTER">
                <children>
@@ -48,6 +49,115 @@
                </styleClass>
             </AnchorPane>
          </top>
+         <left>
+            <AnchorPane prefHeight="788.0" prefWidth="242.0" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane layoutY="9.0" prefHeight="809.0" prefWidth="242.0" styleClass="adminSidebar" stylesheets="@../../Styles/AdminMenu.css" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="9.0">
+                     <children>
+                        <AnchorPane layoutX="16.0" layoutY="686.0" prefHeight="117.0" prefWidth="212.0" styleClass="footerContainer" stylesheets="@../../Styles/AdminMenu.css">
+                           <children>
+                              <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="86.0" text="Report Bugs" textAlignment="JUSTIFY" textOverrun="CLIP">
+                                 <font>
+                                    <Font name="System Bold" size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="11.0" layoutY="78.0" prefHeight="27.0" prefWidth="86.0" text="ISAM v1.0">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="54.0" layoutY="40.0" mnemonicParsing="false" text="Report Bug">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="BUG" size="30" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                        <VBox layoutX="1.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
+                           <children>
+                              <Label prefHeight="53.0" prefWidth="204.0" text="Reports">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="dashboard_btn" mnemonicParsing="false" text="Dashboard">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="TABLE" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="reports_btn" mnemonicParsing="false" text="Reports">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="LIST" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Button">
+                                 <graphic>
+                                    <FontAwesomeIconView />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="1.0" layoutY="229.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
+                           <children>
+                              <Label prefHeight="53.0" prefWidth="204.0" text="Manage">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="manageUsers_btn" mnemonicParsing="false" onAction="#openUserMenu" text="Users">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="USER" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="manageSuppliers_btn" mnemonicParsing="false" text="Suppliers">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="TRUCK" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="manageAssets_btn" mnemonicParsing="false" text="Assets">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="MONEY" size="30" />
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="manageRequests_btn" mnemonicParsing="false" text="Requests">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="DATABASE" size="30" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="1.0" layoutY="512.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
+                           <children>
+                              <Label prefHeight="15.0" prefWidth="204.0" text="Profile">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="editCurUserProfile_btn" mnemonicParsing="false" text="Edit Profile">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="GEARS" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#logOutApp" text="Logout">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="SIGN_OUT" size="30" />
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="Logout?" />
+                                 </tooltip>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <Separator layoutX="-2.0" layoutY="222.0" prefHeight="13.0" prefWidth="241.0" />
+                        <Separator layoutX="-1.0" layoutY="512.0" prefHeight="13.0" prefWidth="241.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </left>
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
@@ -163,112 +273,6 @@
                </children>
             </AnchorPane>
          </center>
-         <left>
-            <AnchorPane prefHeight="788.0" prefWidth="242.0" BorderPane.alignment="CENTER">
-               <children>
-                  <AnchorPane layoutY="9.0" prefHeight="809.0" prefWidth="242.0" styleClass="adminSidebar" stylesheets="@../../Styles/AdminMenu.css" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="9.0">
-                     <children>
-                        <AnchorPane layoutX="16.0" layoutY="686.0" prefHeight="117.0" prefWidth="212.0" styleClass="footerContainer" stylesheets="@../../Styles/AdminMenu.css">
-                           <children>
-                              <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="86.0" text="Report Bugs" textAlignment="JUSTIFY" textOverrun="CLIP">
-                                 <font>
-                                    <Font name="System Bold" size="11.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="11.0" layoutY="78.0" prefHeight="27.0" prefWidth="86.0" text="ISAM v1.0">
-                                 <font>
-                                    <Font name="System Bold" size="10.0" />
-                                 </font>
-                              </Label>
-                              <Button layoutX="54.0" layoutY="40.0" mnemonicParsing="false" text="Report Bug">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="BUG" size="30" />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </AnchorPane>
-                        <VBox layoutX="1.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
-                           <children>
-                              <Label prefHeight="53.0" prefWidth="204.0" text="Reports">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="dashboard_btn" mnemonicParsing="false" text="Dashboard">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="TABLE" size="30" />
-                                 </graphic>
-                              </Button>
-                              <Button fx:id="reports_btn" mnemonicParsing="false" text="Reports">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="LIST" size="30" />
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Button">
-                                 <graphic>
-                                    <FontAwesomeIconView />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </VBox>
-                        <VBox layoutX="1.0" layoutY="229.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
-                           <children>
-                              <Label prefHeight="53.0" prefWidth="204.0" text="Manage">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="manageUsers_btn" mnemonicParsing="false" text="Users">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="USER" size="30" />
-                                 </graphic>
-                              </Button>
-                              <Button fx:id="manageUsers_btn1" mnemonicParsing="false" text="Suppliers">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="TRUCK" size="30" />
-                                 </graphic>
-                              </Button>
-                              <Button fx:id="manageAssets_btn" mnemonicParsing="false" text="Assets">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="MONEY" size="30" />
-                                 </graphic>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Requests">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="DATABASE" size="30" />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </VBox>
-                        <VBox layoutX="1.0" layoutY="512.0" prefHeight="165.0" prefWidth="241.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
-                           <children>
-                              <Label prefHeight="15.0" prefWidth="204.0" text="Profile">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button mnemonicParsing="false" text="Edit Profile">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="GEARS" size="30" />
-                                 </graphic>
-                              </Button>
-                              <Button mnemonicParsing="false" text="Logout">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="EXTERNAL_LINK" size="30" />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </VBox>
-                        <Separator layoutX="-2.0" layoutY="222.0" prefHeight="13.0" prefWidth="241.0" />
-                        <Separator layoutX="-1.0" layoutY="512.0" prefHeight="13.0" prefWidth="241.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
-         </left>
       </BorderPane>
    </children>
 </StackPane>

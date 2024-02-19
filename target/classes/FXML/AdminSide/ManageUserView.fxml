@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="mainAnchorPaneBody" prefHeight="817.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.ManageUserController">
+   <children>
+      <AnchorPane layoutX="8.0" layoutY="205.0" prefHeight="598.0" prefWidth="472.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+         <children>
+            <Pane prefHeight="63.0" prefWidth="472.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+               <children>
+                  <Label layoutX="14.0" layoutY="11.0" prefHeight="55.0" prefWidth="226.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Viewing Account Details">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <GridPane layoutX="39.0" layoutY="65.0" prefHeight="504.0" prefWidth="391.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="143.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="204.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Username" GridPane.rowIndex="2" />
+                  <Label text="Phone Number" GridPane.rowIndex="3" />
+                  <Label text="Account Status" GridPane.rowIndex="5" />
+                  <Label text="User Role" GridPane.rowIndex="6" />
+                  <Label text="Department" GridPane.rowIndex="7" />
+                  <Label prefHeight="17.0" prefWidth="56.0" text="Created at" GridPane.rowIndex="8" />
+                  <Label text="First Name" />
+                  <Label text="Last Name" GridPane.rowIndex="1" />
+                  <Label prefHeight="27.0" prefWidth="156.0" text="Expires on" GridPane.rowIndex="9" />
+                  <TextField prefWidth="231.0" GridPane.columnIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ComboBox prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ComboBox prefHeight="25.0" prefWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <ComboBox prefHeight="25.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <DatePicker prefHeight="25.0" prefWidth="257.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <DatePicker prefHeight="25.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Label text="Gender" GridPane.rowIndex="4" />
+                  <ComboBox prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </children>
+         <styleClass>
+            <String fx:value="informationContainer" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
+      <Separator layoutX="487.0" layoutY="207.0" orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" />
+      <AnchorPane layoutX="8.0" layoutY="14.0" prefHeight="176.0" prefWidth="1347.0" styleClass="miniDashboardHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="437.0" text="Statistics">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <HBox layoutX="158.0" layoutY="54.0" prefHeight="116.0" prefWidth="437.0">
+               <children>
+                  <AnchorPane prefHeight="163.0" prefWidth="163.0" styleClass="miniDashboardInfo3">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Inactive Users">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="140.0" prefWidth="153.0" styleClass="miniDashboardInfo4">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Users">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="498.0" layoutY="205.0" prefHeight="598.0" prefWidth="857.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+         <children>
+            <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+               <children>
+                  <Button fx:id="addUser_btn" mnemonicParsing="false" styleClass="addButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Add" />
+                  <Button fx:id="editUser_btn" mnemonicParsing="false" styleClass="editButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Edit" />
+                  <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Delete" />
+               </children>
+            </HBox>
+            <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="806.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
+               <children>
+                  <ScrollPane prefHeight="464.0" prefWidth="826.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-20.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TreeTableView fx:id="userTreeTable" prefHeight="462.0" prefWidth="824.0">
+                           <columns>
+                              <TreeTableColumn prefWidth="49.0" text="UserID" />
+                              <TreeTableColumn prefWidth="101.0" text="Username" />
+                              <TreeTableColumn prefWidth="93.0" text="FirstName" />
+                              <TreeTableColumn prefWidth="100.0" text="LastName" />
+                              <TreeTableColumn prefWidth="87.0" text="Phone" />
+                              <TreeTableColumn prefWidth="109.0" text="AccountStatus" />
+                              <TreeTableColumn prefWidth="90.0" text="Department" />
+                              <TreeTableColumn prefWidth="79.0" text="Role" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TreeTableView>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+            <Pane prefHeight="63.0" prefWidth="857.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+               <children>
+                  <TextField layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
+                  <FontAwesomeIconView glyphName="SEARCH" layoutX="324.0" layoutY="44.0" size="35" />
+                  <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="522.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <FontAwesomeIconView glyphName="REFRESH" layoutX="791.0" layoutY="44.0" size="35" text="" />
+                  <Button fx:id="reload_btn" layoutX="780.0" layoutY="12.0" mnemonicParsing="false" onAction="#test" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                  <Button fx:id="search_btn" layoutX="314.0" layoutY="12.0" mnemonicParsing="false" onAction="#searchUser" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+               </children>
+            </Pane>
+         </children>
+         <styleClass>
+            <String fx:value="treeTableContainer" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
+   </children>
+</AnchorPane>

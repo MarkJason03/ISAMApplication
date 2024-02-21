@@ -24,14 +24,12 @@ public class AlertHandlerController {
     }
 
     //Showing Alert with Confirmation
-    public boolean showAlert(String title, String Message) {
-        alert = new Alert(AlertType.ERROR);
+    public boolean showInformationMessage(String title, String Message) {
+        alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(Message);
-
         Optional<ButtonType> option = alert.showAndWait();
-
         return option.get().equals(ButtonType.OK);
     }
 
@@ -48,6 +46,5 @@ public class AlertHandlerController {
 
         return option.get().equals(ButtonType.OK);
     }
-
 
 }

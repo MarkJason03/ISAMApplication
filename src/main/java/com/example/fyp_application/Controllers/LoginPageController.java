@@ -1,12 +1,12 @@
 package com.example.fyp_application.Controllers;
 
+import com.example.fyp_application.Controllers.Admin.AdminDashboardController;
 import com.example.fyp_application.Model.DatabaseHandler;
 import com.example.fyp_application.Model.LoginModel;
 import com.example.fyp_application.Model.UserModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -223,7 +223,7 @@ public class LoginPageController implements Initializable {
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
-                alertHandlerController.showAlert("Login Successful", "Welcome Admin " + firstName + "!");
+                alertHandlerController.showInformationMessage("Login Successful", "Welcome Admin " + firstName + "!");
 /*                login_btn.getScene().getWindow().hide();
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
                 Stage stage  = new Stage();
@@ -248,7 +248,7 @@ public class LoginPageController implements Initializable {
 
             case "User" ->{
                 // Logic for user
-                alertHandlerController.showAlert("Login Successful", "Welcome " + firstName + "!");
+                alertHandlerController.showInformationMessage("Login Successful", "Welcome " + firstName + "!");
                 openClientView();
             }
 
@@ -261,20 +261,13 @@ public class LoginPageController implements Initializable {
 
 
     public void openAdminView() throws IOException {
+
+
         login_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
 
-        parent.setOnMousePressed((MouseEvent event) ->{
-            x = event.getSceneX();
-            y = event.getSceneY();
-        });
-
-        parent.setOnMouseDragged((MouseEvent event) ->{
-            stage.setX(event.getScreenX() - x);
-            stage.setY(event.getScreenY() - y);
-        });
 
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);

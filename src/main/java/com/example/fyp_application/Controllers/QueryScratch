@@ -6,3 +6,24 @@ SELECT tbl_Users.UserID, FirstName,LastName,Gender,DOB,Email,Username,Phone,Acco
 FROM tbl_Users
 JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID
 JOIN tbl_Departments ON tbl_Users.deptID = tbl_Departments.deptID;
+
+
+
+//Logic for login
+SELECT tbl_Users.UserID, tbl_Users.Username, tbl_Users.Password, tbl_Users.FirstName, tbl_Users.userRoleID, tbl_userRoles.userRoleName, tbl_userRoles.userRoleID AS userRoleID
+FROM tbl_Users
+JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID
+WHERE tbl_Users.Username = ? AND tbl_Users.Password = ?;
+
+
+
+//Logic for update
+
+Update tbl_Users SET column=? where ID=?
+
+//Logic for delete
+
+DELETE FROM tbl_Users WHERE ID=?
+
+//Logic for insert
+In

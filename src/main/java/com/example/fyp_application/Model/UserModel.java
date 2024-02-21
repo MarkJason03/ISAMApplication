@@ -1,10 +1,16 @@
 package com.example.fyp_application.Model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class UserModel {
 
     private int userID;
     private int userRoleID;
     private int deptID;
+
+    //Foreign Keys
+    private String RoleName;
+    private String DeptName;
 
     private String firstName;
     private String lastName;
@@ -19,35 +25,33 @@ public class UserModel {
     private String createdAt;
     private String expiresAt;
 
+    private SimpleStringProperty storedName = new SimpleStringProperty();
 
     public UserModel(int userID,
-                     int userRoleID,
-                     int deptID,
                      String firstName,
                      String lastName,
                      String gender,
-                     String dob,
                      String email,
                      String username,
-                     String password,
                      String phone,
                      String accountStatus,
                      String createdAt,
-                     String expiresAt) {
+                     String expiresAt,
+                     String RoleName,
+                     String DeptName) {
+
         this.userID = userID;
-        this.userRoleID = userRoleID;
-        this.deptID = deptID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.dob = dob;
         this.email = email;
         this.username = username;
-        this.password = password;
         this.phone = phone;
         this.accountStatus = accountStatus;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
+        this.RoleName = RoleName;
+        this.DeptName = DeptName;
     }
 
     //for table view
@@ -130,6 +134,12 @@ public class UserModel {
     public String getExpiresAt() {
         return expiresAt;
     }
+    public String getRoleName() {
+        return RoleName;
+    }
+    public String getDeptName() {
+        return DeptName;
+    }
 
     //Setter Methods
     public void setUserID(int userID) {
@@ -175,6 +185,13 @@ public class UserModel {
     }
     public void setExpiresAt(String expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    public void setRoleName(String roleName) {
+        RoleName = roleName;
+    }
+    public void setDeptName(String deptName) {
+        DeptName = deptName;
     }
 
 }

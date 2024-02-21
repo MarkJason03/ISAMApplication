@@ -21,18 +21,18 @@
 
 <AnchorPane id="mainAnchorPaneBody" prefHeight="817.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.ManageUserController">
    <children>
-      <AnchorPane layoutX="8.0" layoutY="205.0" prefHeight="598.0" prefWidth="472.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+      <AnchorPane layoutX="8.0" layoutY="205.0" prefHeight="598.0" prefWidth="472.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
          <children>
-            <Pane prefHeight="63.0" prefWidth="472.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+            <Pane prefHeight="63.0" prefWidth="472.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <Label layoutX="14.0" layoutY="11.0" prefHeight="55.0" prefWidth="226.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Viewing Account Details">
+                  <Label layoutX="14.0" layoutY="11.0" prefHeight="55.0" prefWidth="226.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Viewing Account Details">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <GridPane layoutX="39.0" layoutY="65.0" prefHeight="504.0" prefWidth="391.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+            <GridPane layoutX="39.0" layoutY="65.0" prefHeight="504.0" prefWidth="391.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="143.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="204.0" />
@@ -78,8 +78,8 @@
             <String fx:value="shadow" />
          </styleClass>
       </AnchorPane>
-      <Separator layoutX="487.0" layoutY="207.0" orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" />
-      <AnchorPane layoutX="8.0" layoutY="14.0" prefHeight="176.0" prefWidth="1347.0" styleClass="miniDashboardHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+      <Separator layoutX="487.0" layoutY="207.0" orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
+      <AnchorPane layoutX="8.0" layoutY="14.0" prefHeight="176.0" prefWidth="1347.0" styleClass="miniDashboardHeader" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
          <children>
             <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="437.0" text="Statistics">
                <font>
@@ -95,7 +95,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                        <Label  fx:id="userInactiveCounter_lbl" layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -109,7 +109,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                        <Label  fx:id="userCounter_lbl"  layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -120,23 +120,23 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="498.0" layoutY="205.0" prefHeight="598.0" prefWidth="857.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+      <AnchorPane layoutX="498.0" layoutY="205.0" prefHeight="598.0" prefWidth="857.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
          <children>
-            <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+            <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <Button fx:id="addUser_btn" mnemonicParsing="false" styleClass="addButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Add" />
-                  <Button fx:id="editUser_btn" mnemonicParsing="false" styleClass="editButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Edit" />
-                  <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" text="Delete" />
+                  <Button fx:id="addUser_btn" mnemonicParsing="false" styleClass="addButton" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
+                  <Button fx:id="editUser_btn" mnemonicParsing="false" styleClass="editButton" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
+                  <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" onAction="#deleteUser" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
                </children>
             </HBox>
-            <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="806.0" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
+            <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="806.0" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
                <children>
                   <ScrollPane prefHeight="464.0" prefWidth="826.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-20.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <TableView fx:id="userTableView" prefHeight="449.0" prefWidth="905.0">
+                        <TableView fx:id="userTableView" prefHeight="449.0" prefWidth="1006.0">
                           <columns>
                             <TableColumn fx:id="userTable_col_userID" prefWidth="34.0" text="ID" />
-                            <TableColumn fx:id="userTable_col_Fname" prefWidth="116.0" text="FirstName" />
+                            <TableColumn fx:id="userTable_col_FName" prefWidth="116.0" text="FirstName" />
                               <TableColumn fx:id="userTable_col_LName" prefWidth="75.0" text="LastName" />
                               <TableColumn fx:id="userTable_col_Username" prefWidth="75.0" text="Username" />
                               <TableColumn fx:id="userTable_col_Email" prefWidth="75.0" text="Email" />
@@ -148,14 +148,17 @@
                               <TableColumn fx:id="userTable_col_createdAt" prefWidth="75.0" text="Created" />
                               <TableColumn fx:id="userTable_col_ExpiresOn" prefWidth="75.0" text="Expires" />
                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                      </content>
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <Pane prefHeight="63.0" prefWidth="857.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/ManageUserStylesheet.css">
+            <Pane prefHeight="63.0" prefWidth="857.0" styleClass="informationContainerHeader" stylesheets="@../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <TextField layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
+                  <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
                   <FontAwesomeIconView glyphName="SEARCH" layoutX="324.0" layoutY="44.0" size="35" />
                   <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="522.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
                      <font>

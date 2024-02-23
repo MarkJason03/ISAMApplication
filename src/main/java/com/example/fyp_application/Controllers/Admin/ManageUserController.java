@@ -1,8 +1,9 @@
 package com.example.fyp_application.Controllers.Admin;
 
-import com.example.fyp_application.Controllers.AlertHandlerController;
+import com.example.fyp_application.Utils.AlertHandlerController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
+import com.example.fyp_application.Utils.TimeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,11 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.net.URL;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+
 
 public class ManageUserController  implements Initializable {
 
@@ -139,9 +138,6 @@ public class ManageUserController  implements Initializable {
     public void loadTableData(){
         userListData = userDAO.getAllUsers();
 
-
-        System.out.print(userListData);
-
         userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
         userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         userTable_col_LName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -161,72 +157,75 @@ public class ManageUserController  implements Initializable {
 
 
 
-    public void addUser() {
+    @FXML
+    private void addUser() {
 
     }
 
 
-    public void deleteUser() {
+    @FXML
+    private void deleteUser() {
 
-        if (alertHandlerController.confirmationDialogueBox("Delete User Confirmation", "Are you sure you want to delete this user?")) {
+        if (alertHandlerController.showConfirmationAlert("Delete User Confirmation", "Are you sure you want to delete this user?")) {
             UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
             int userID = selectedUser.getUserID();
             userDAO.deleteUser(userID);
             loadTableData();
         }
         else{
-            alertHandlerController.showInformationMessage("Delete User", "User Deletion Cancelled");
+            alertHandlerController.showInformationMessageAlert("Delete User", "User Deletion Cancelled");
         }
-
-
-
     }
 
 
-    public void editUser() {
+    @FXML
+    private void editUser() {
     }
 
-    public void test(){
+    @FXML
+    private void test(){
         System.out.println("Test");
         /*System.out.println(userListData);*/
         loadTableData();
      }
 
 
-    public  void refreshTable(){
+    @FXML
+    private  void refreshTable(){
 
     }
 
 
-    public void searchUser(){
+    @FXML
+    private void searchUser(){
         System.out.println("Search");
         System.out.println("Last Updated");
     }
 
 
-    public void refreshTimer(){
-
-        LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter currentTimeFormat = DateTimeFormatter.ofPattern("HH:mm a");
-        String formattedTime = currentTime.format(currentTimeFormat);
-
-        lastUpdate_lbl.setText("Last Updated : " + formattedTime);
+    @FXML
+    private void displayTableRefreshTime(){
+        String currentTime = TimeHandler.getCurrentTime();
+        lastUpdate_lbl.setText("Last Updated : " + currentTime);
     }
 
 
-    public void displayActiveUsers() {
+    @FXML
+    private void displayActiveUsers() {
         int userCount = userDAO.countActiveUsers();
         userCounter_lbl.setText("Total Users : " + userCount);
 
     }
 
-    public void displayInactiveUsers() {
+    @FXML
+    private void displayInactiveUsers() {
         int userCount = userDAO.countInactiveUsers();
         userInactiveCounter_lbl.setText("Total Users : " + userCount);
-
     }
 
-    public void searchBarListener(){
+
+    @FXML
+    private void searchBarListener(){
         searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 userTableView.setItems(userListData); // Reset to show all data
@@ -241,16 +240,16 @@ public class ManageUserController  implements Initializable {
             }
             userTableView.setItems(filteredList);
         });
-
     }
+
+
 
     public void initialize(URL location, ResourceBundle resources) {
 
         Platform.runLater(this::loadTableData);
-        refreshTimer();
+        displayTableRefreshTime();
         displayActiveUsers();
         displayInactiveUsers();
-
         searchBarListener();
 
     }

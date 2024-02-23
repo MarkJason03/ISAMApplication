@@ -128,3 +128,43 @@ Text{
 
 
 
+
+
+.minimizeButton{
+    -fx-background-color: #ffffff;
+}
+
+.minimizeButton:hover{
+    -fx-background-color: #241f6bc8;
+    -fx-text-fill: white;
+}
+
+.minimizeButton:pressed{
+    -fx-background-color: white;
+}
+
+.closeButton{
+    -fx-background-color: #ffffff;
+}
+
+.closeButton:hover{
+    -fx-background-color: #C97064;
+    -fx-text-fill: white;
+}
+
+.closeButton:pressed{
+    -fx-background-color: red;
+}
+
+.maximizeButton{
+    -fx-background-color: #ffffff;
+}
+
+.maximizeButton:hover{
+    -fx-background-color: #241f6bc8;
+    -fx-text-fill: white;
+}
+
+.maximizeButton:pressed{
+    -fx-background-color: green;
+}

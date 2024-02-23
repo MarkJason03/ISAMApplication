@@ -1,0 +1,49 @@
+
+
+/*Shared css for modal pop-ups
+Supplier
+Asset
+User
+*/
+
+
+.buttonContainer {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+.buttonContainer Button {
+    -fx-pref-width: 180;
+    -fx-font-size: 1.5em;
+    -fx-pref-height: 40;
+}
+
+
+.addButton {
+    -fx-background-color: #7CEA9C;
+
+}
+
+
+.saveButton{
+}
+
+.cancelButton {
+    -fx-background-color : #FF7378;
+}
+
+
+
+.headerAP {
+}
+
+.footerAP{
+}
+
+.userContainer{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+}
+

@@ -1,8 +1,8 @@
 package com.example.fyp_application.Model;
 
+import com.example.fyp_application.Utils.DatabaseHandler;
+
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginModel {

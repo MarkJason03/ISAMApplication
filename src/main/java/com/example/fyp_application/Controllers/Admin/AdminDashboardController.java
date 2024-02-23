@@ -1,7 +1,11 @@
 package com.example.fyp_application.Controllers.Admin;
 
-import com.example.fyp_application.Model.UserModel;
-import javafx.application.Platform;
+import com.example.fyp_application.Controllers.Admin.SupplierControllers.SupplierDashboardController;
+import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.TimeHandler;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,24 +13,39 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class AdminDashboardController implements Initializable {
 
-    public Label loggedUserHolder_lbl;
-    public AnchorPane homePageAP;
+    @FXML
+    private Label loggedUserHolder_lbl;
+
+    @FXML
+    private AnchorPane homePageAP;
+
+    @FXML
+    private Button minimize_btn;
+
+    @FXML
+    private Button exit_btn;
+
+    @FXML
+    private Button maximize_btn;
+
     @FXML
     private Button dashboard_btn;
+
+    @FXML
+    private Label dateTime_lbl;
 
     @FXML
     private Button editCurUserProfile_btn;
@@ -53,7 +72,10 @@ public class AdminDashboardController implements Initializable {
     private BorderPane adminDashboardPane;
 
 
-    public void openDashboardMenu(){
+    private static final AlertHandlerController ALERT_HANDLER = new AlertHandlerController();
+
+    @FXML
+    private void openDashboardMenu(){
         // Open the dashboard menu
         //To be implemented
 
@@ -64,24 +86,27 @@ public class AdminDashboardController implements Initializable {
         //To be implemented
 
     }
-    public void openSupplierMenu() throws IOException {
+    @FXML
+    private void openSupplierMenu() throws IOException {
         //To be implemented
         //Opens the supplier menu FXML File
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AdminSide/ManageSupplierView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AdminView/SupplierView/ManageSupplierView.fxml"));
         AnchorPane supplierMenu = loader.load(); // Load the FXML
-        ManageSupplierController controller = loader.getController(); // Get the associated controller
+        SupplierDashboardController controller = loader.getController(); // Get the associated controller
         adminDashboardPane.setCenter(supplierMenu);
     }
 
-    public void openAssetMenu(){
+    @FXML
+    private void openAssetMenu(){
         //To be implemented
 
     }
 
-    public void openUserMenu() throws IOException {
+    @FXML
+    private void openUserMenu() throws IOException {
 
         //Opens the user menu FXML File
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AdminSide/ManageUserView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/AdminView/ManageUserView.fxml"));
         AnchorPane userMenu = loader.load(); // Load the FXML
         ManageUserController controller = loader.getController(); // Get the associated controller
         adminDashboardPane.setCenter(userMenu);
@@ -89,7 +114,8 @@ public class AdminDashboardController implements Initializable {
     }
     /*     AnchorPane userMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/ManageUserView.fxml")));
          adminDashboardPane.setCenter(userMenu);*/
-    public void logOutApp() throws IOException {
+    @FXML
+    private void logOutApp() throws IOException {
 
 /*
         Stage dashboardMenuStage = (Stage) logout_btn.getScene().getWindow();
@@ -119,8 +145,48 @@ public class AdminDashboardController implements Initializable {
 //        loggedUserHolder_lbl.setText(userModel.getFirstName());
 //    }
 
+
+    public void getCurrentTime(){
+        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+    }
+
+    @FXML
+    private void updateTime (){
+
+        dateTime_lbl.setText(TimeHandler.getCurrentTime() + " " + TimeHandler.getCurrentDate());
+
+/*        LocalTime currentTime = LocalTime.now();
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm a");
+        String formattedDate = currentDate.format(dateFormatter);
+        String formattedTime = currentTime.format(formatter);
+
+        dateTime_lbl.setText(formattedDate+ " " + formattedTime);*/
+    }
+
+
+    @FXML
+    private void minimizeWindow(){
+        Stage stage = (Stage) minimize_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+
+    @FXML
+    private void closeWindow(){
+        Stage stage = (Stage) exit_btn.getScene().getWindow();
+
+        if(ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit the application?")){
+            stage.close();
+        }
+    }
+
     public void initialize(URL location, ResourceBundle resources) {
 
+        getCurrentTime();
 
     }
 }

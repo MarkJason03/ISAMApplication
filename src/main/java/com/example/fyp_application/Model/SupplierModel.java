@@ -3,13 +3,13 @@ package com.example.fyp_application.Model;
 public class SupplierModel {
 
     private int supplierID;
-
     private String supplierName;
     private String supplierAddress;
     private String supplierEmail;
     private String supplierContact;
 
 
+    //Constructor for supplier table
     public SupplierModel(int supplierID, String supplierName, String supplierAddress, String supplierEmail, String supplierContact) {
         this.supplierID = supplierID;
         this.supplierName = supplierName;

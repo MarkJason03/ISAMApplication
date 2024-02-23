@@ -1,7 +1,7 @@
 package com.example.fyp_application.Controllers;
 
-import com.example.fyp_application.Controllers.Admin.AdminDashboardController;
-import com.example.fyp_application.Model.DatabaseHandler;
+import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.DatabaseHandler;
 import com.example.fyp_application.Model.LoginModel;
 import com.example.fyp_application.Model.UserModel;
 import javafx.fxml.FXML;
@@ -169,7 +169,7 @@ public class LoginPageController implements Initializable {
 
     public void exitButtonAction() {
         System.out.println("Exit Button Clicked");
-        if (alertHandlerController.confirmationDialogueBox("Exit Confirmation","Are you sure you want to exit?")){
+        if (alertHandlerController.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
             System.exit(0);
         }
     }
@@ -181,7 +181,7 @@ public class LoginPageController implements Initializable {
     }
 
     public void loginFailed(){
-        alertHandlerController.showError("Login Failed", "Invalid Username or Password");
+        alertHandlerController.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
         error_lbl.setText("");
     }
 
@@ -205,6 +205,7 @@ public class LoginPageController implements Initializable {
             } else {
                 loginFailed();
             }
+            DatabaseHandler.closeConnection(connection);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -223,7 +224,7 @@ public class LoginPageController implements Initializable {
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
-                alertHandlerController.showInformationMessage("Login Successful", "Welcome Admin " + firstName + "!");
+                alertHandlerController.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
 /*                login_btn.getScene().getWindow().hide();
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
                 Stage stage  = new Stage();
@@ -248,7 +249,7 @@ public class LoginPageController implements Initializable {
 
             case "User" ->{
                 // Logic for user
-                alertHandlerController.showInformationMessage("Login Successful", "Welcome " + firstName + "!");
+                alertHandlerController.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
                 openClientView();
             }
 
@@ -264,9 +265,19 @@ public class LoginPageController implements Initializable {
 
 
         login_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminView/AdminDashboard.fxml")));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
+
+        parent.setOnMousePressed((MouseEvent event) ->{
+            x = event.getSceneX();
+            y = event.getSceneY();
+        });
+
+        parent.setOnMouseDragged((MouseEvent event) ->{
+            stage.setX(event.getScreenX() - x);
+            stage.setY(event.getScreenY() - y);
+        });
 
 
         stage.initStyle(StageStyle.TRANSPARENT);
@@ -279,7 +290,7 @@ public class LoginPageController implements Initializable {
 
     public void openClientView() throws IOException {
         login_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ClientSide/ClientDashboard.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ClientView/ClientDashboard.fxml")));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
 

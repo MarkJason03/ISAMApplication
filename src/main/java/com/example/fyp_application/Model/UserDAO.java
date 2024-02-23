@@ -1,5 +1,6 @@
 package com.example.fyp_application.Model;
 
+import com.example.fyp_application.Utils.DatabaseHandler;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
@@ -85,6 +86,8 @@ public class UserDAO {
                 count = resultSet.getInt(1);
             }
 
+            connection.close();
+
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -109,6 +112,7 @@ public class UserDAO {
             if (resultSet.next()){
                 count = resultSet.getInt(1);
             }
+            connection.close();
 
 
         } catch (SQLException e){

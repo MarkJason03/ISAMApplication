@@ -17,6 +17,8 @@ module com.example.fyp_application {
     requires com.google.api.client;
     requires com.google.api.client.json.gson;
     requires com.google.api.services.gmail;
+    requires MaterialFX;
+    requires com.jfoenix;
 
     opens com.example.fyp_application to javafx.fxml;
     opens com.example.fyp_application.Controllers to javafx.fxml;

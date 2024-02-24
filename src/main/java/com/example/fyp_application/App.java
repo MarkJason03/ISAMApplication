@@ -20,7 +20,7 @@ public class App extends Application{
 
 
         //FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource("/FXML/LoginPage.fxml")));
-        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource("/FXML/AdminView/AdminDashboard.fxml")));
+        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource("/FXML/ClientView/ClientDashboard.fxml")));
         Scene scene = new Scene(fxmlLoader. load());
 
         scene.setOnMousePressed((MouseEvent event) ->{
@@ -36,7 +36,7 @@ public class App extends Application{
 
         stage.setTitle("FYP Application");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        /*stage.initStyle(StageStyle.UNDECORATED);*/
         stage.show();
         stage.setResizable(false);
     }

@@ -1,42 +1,37 @@
 package com.example.fyp_application.Controllers.Client;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.ParallelTransition;
-import javafx.animation.Timeline;
+import com.jfoenix.controls.JFXDrawer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class ClientDashboardController {
 
-    public Button logout_btn;
+public class ClientDashboardController implements Initializable {
+
+    @FXML
+    private JFXDrawer drawerContainer;
+
     @FXML
     private Button menu_btn;
 
-
     @FXML
-    private AnchorPane menuPanel;
+    private Button menu_btn1;
 
-
-    @FXML
-    private VBox sideBar;
-
-
-    private boolean isMenuClosed;
-
-
-    public void logout() throws IOException {
+/*    @FXML
+    private void logout() throws IOException {
         logout_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/LoginPage.fxml")));
         Stage stage  = new Stage();
@@ -46,5 +41,39 @@ public class ClientDashboardController {
         stage.setScene(scene);
         stage.show();
 
+    }*/
+
+    @FXML
+    private void initializeSideMenu(){
+        try {
+
+            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ClientView/ClientSideBar.fxml")));
+            drawerContainer.setSidePane(sideMenu);
+            menu_btn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> toggleMenu() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void toggleMenu(){
+        if (drawerContainer.isOpened()) {
+            drawerContainer.close();
+        } else {
+            drawerContainer.open();
+        }
+    }
+
+    @FXML
+    private void closeMenu(){
+        if (drawerContainer.isOpened()) {
+            drawerContainer.close();
+        }
+    }
+
+    public void initialize(URL location, ResourceBundle resources) {
+/*
+        initializeSideMenu();
+*/
     }
 }

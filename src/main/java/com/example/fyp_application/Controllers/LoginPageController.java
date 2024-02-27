@@ -1,9 +1,12 @@
 package com.example.fyp_application.Controllers;
 
-import com.example.fyp_application.Utils.AlertHandlerController;
-import com.example.fyp_application.Utils.DatabaseHandler;
+import com.example.fyp_application.Controllers.Client.RevisedDBController;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AlertHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionHandler;
 import com.example.fyp_application.Model.LoginModel;
 import com.example.fyp_application.Model.UserModel;
+import com.example.fyp_application.Views.ViewHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,160 +43,73 @@ public class LoginPageController implements Initializable {
     @FXML
     private Label error_lbl;
 
-
-    @FXML
-    private ListView<UserModel> userListView;
-
     @FXML
     private Label dbStatusCheck_lbl;
 
-    private final LoginModel loginModel = new LoginModel();
 
-    private final AlertHandlerController alertHandlerController = new AlertHandlerController();
+
+    private final AlertHandler ALERT_HANDLER = new AlertHandler();
     private double x= 0 ;
     private double y= 0;
 
 
 
     public void checkDatabaseConnection() {
+/*
         if (LoginModel.isDbConnected()) {
             dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
         } else {
             System.out.println("Database Connection Failed");
         }
+*/
 
+        if (DatabaseConnectionHandler.isDbConnected(Objects.requireNonNull(DatabaseConnectionHandler.getConnection()))){
+            dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
+        } else {
+            dbStatusCheck_lbl.setText("Back-end Status: Database Connection Failed");
+        }
     }
 
 
-    public void loginButtonAction() {
-        if (isValidInput()) {
+    @FXML
+    private void loginButtonAction() {
+        if (isValidTextFields()) {
             handleLogin();
         } else {
             error_lbl.setText("Empty Username or Password");
         }
     }
-        // Check if username and password fields are empty
-/*        if (username_TF.getText().isEmpty() ||
-        password_PF.getText().isEmpty()){
-            //set placeholder text as this error message
-            error_lbl.setText("Please enter username and password");
-        }
 
-        else{
-            //otherwise , check if the username and password are valid and exist in the database
-            String sql = "SELECT tbl_Users.UserID, tbl_Users.Username, tbl_Users.Password, tbl_Users.FirstName, tbl_Users.userRoleID, tbl_userRoles.userRoleName, tbl_userRoles.userRoleID AS userRoleID\n" +
-                    "FROM tbl_Users\n" +
-                    "JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID\n" +
-                    "WHERE tbl_Users.Username = ? AND tbl_Users.Password = ?;\n";
+    @FXML
+    private void exitApplication() {
 
-            Connection connection = DatabaseHandler.getConnection();
-            try {
-                assert connection != null;
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, username_TF.getText());
-                preparedStatement.setString(2, password_PF.getText());
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    String first_name = resultSet.getString("FirstName");
-                    String role =  resultSet.getString("userRoleName");
-                    System.out.println(role);
-                    alertHandlerController.showAlert("Login Successful", "Welcome " + first_name + "!");
-                } else {
-                    alertHandlerController.showError("Login Failed", "Invalid Username or Password");
-                    error_lbl.setText("");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }*/
-/*            try(Connection connection = SqliteConnection.getConnection()){
-                PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM tbl_Users");
-                ResultSet resultSet = prepareStatement.executeQuery();
-
-                while (resultSet.next()){
-                    UserModel userModel = new UserModel();
-                    userModel.getUsername(resultSet.getString("username"));
-                    userModel.setPassword(resultSet.getString("password"));
-                    userListView.getItems().add(userModel);
-                }*/
-
-  /*          try(Connection connection = DatabaseConnection.getConnection()) {
-                UserModel userModel = new UserModel();
-                userModel.setUsername(username_TF.getText());
-                userModel.setPassword(password_PF.getText());
-
-                if (userModel.login(connection)){
-                    login_btn.getScene().getWindow().hide();
-                    Parent parent = FXMLLoader.load(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml"));
-                    Stage stage  = new Stage();
-                    Scene scene = new Scene(parent);
-
-                    parent.setOnMousePressed((MouseEvent event) ->{
-                        x = event.getSceneX();
-                        y = event.getSceneY();
-                    });
-
-                    parent.setOnMouseDragged((MouseEvent event) ->{
-                        stage.setX(event.getScreenX() - x);
-                        stage.setY(event.getScreenY() - y);
-                    });
-
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.setScene(scene);
-
-                    stage.show();
-                }else {
-                    error_lbl.setText("Invalid username or password");
-                }*/
-
-/*        login_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml"));
-        Stage stage  = new Stage();
-        Scene scene = new Scene(parent);
-
-        parent.setOnMousePressed((MouseEvent event) ->{
-             x = event.getSceneX();
-             y = event.getSceneY();
-        });
-
-        parent.setOnMouseDragged((MouseEvent event) ->{
-            stage.setX(event.getScreenX() - x);
-            stage.setY(event.getScreenY() - y);
-        });
-
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setScene(scene);
-
-        stage.show();*/
-
-    public void exitButtonAction() {
-        System.out.println("Exit Button Clicked");
-        if (alertHandlerController.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
+        if (ALERT_HANDLER.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
             System.exit(0);
         }
     }
 
 
-    public boolean isValidInput(){
+    public boolean isValidTextFields(){
         // Check if username and password fields are empty
         return !username_TF.getText().isEmpty() && !password_PF.getText().isEmpty();
     }
 
     public void loginFailed(){
-        alertHandlerController.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
+        ALERT_HANDLER.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
         error_lbl.setText("");
     }
 
 
     public void handleLogin(){
         //otherwise , check if the username and password are valid and exist in the database
-        String sql = "SELECT tbl_Users.UserID, tbl_Users.Username, tbl_Users.Password, tbl_Users.FirstName, tbl_Users.userRoleID, tbl_userRoles.userRoleName, tbl_userRoles.userRoleID AS userRoleID\n" +
-                "FROM tbl_Users\n" +
-                "JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID\n" +
-                "WHERE tbl_Users.Username = ? AND tbl_Users.Password = ?;\n";
+        String sql = """
+                SELECT *
+                from tbl_Users
+                JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID
+                Where tbl_Users.Username = ? AND tbl_Users.Password = ?;
+                """;
 
-        Connection connection = DatabaseHandler.getConnection();
+        Connection connection = DatabaseConnectionHandler.getConnection();
         try {
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -205,52 +121,58 @@ public class LoginPageController implements Initializable {
             } else {
                 loginFailed();
             }
-            DatabaseHandler.closeConnection(connection);
+            DatabaseConnectionHandler.closeConnection(connection);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
     private void handleSuccessfulLogin(ResultSet resultSet) throws SQLException, IOException {
+
+/*        UserModel user = new UserModel(
+                resultSet.getInt("UserID"),
+                resultSet.getInt("userRoleID"),
+                resultSet.getInt("deptID"),
+                resultSet.getString("FirstName"),
+                resultSet.getString("LastName"),
+                resultSet.getString("Gender"),
+                resultSet.getString("DOB"),
+                resultSet.getString("Email"),
+                resultSet.getString("Username"),
+                resultSet.getString("Password"),
+                resultSet.getString("Phone"),
+                resultSet.getString("AccountStatus"),
+                resultSet.getString("Photo"),
+                resultSet.getString("CreatedAt"),
+                resultSet.getString("ExpiresOn")
+        );*/
         // Get the first name and role of the user
         String first_name = resultSet.getString("FirstName");
         String role = resultSet.getString("userRoleName"); // Assuming 'userRoleName' holds the role name
-        handleRoleBasedLogin(first_name, role);
+        Integer userID = Integer.valueOf(resultSet.getString("UserID"));
+        String photoPath = resultSet.getString("Photo");
+        String name = resultSet.getString("FirstName");
+
+        handleRoleBasedLogin(userID, name, photoPath , first_name, role);
+
     }
 
-    private void handleRoleBasedLogin(String firstName, String role) throws IOException {
+    private void handleRoleBasedLogin(Integer userID, String name, String photoPath, String firstName, String role) throws IOException {
         // Logic for handling role based login - Current defined roles are "Admin" and "User"
         // Perhaps hashmap would suit this better on a larger scale
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
-                alertHandlerController.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
-/*                login_btn.getScene().getWindow().hide();
-                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/AdminSide/AdminDashboard.fxml")));
-                Stage stage  = new Stage();
-                Scene scene = new Scene(parent);
+                ALERT_HANDLER.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
 
-                parent.setOnMousePressed((MouseEvent event) ->{
-                    x = event.getSceneX();
-                    y = event.getSceneY();
-                });
-
-                parent.setOnMouseDragged((MouseEvent event) ->{
-                    stage.setX(event.getScreenX() - x);
-                    stage.setY(event.getScreenY() - y);
-                });
-
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.setScene(scene);
-                stage.show();*/
                 openAdminView();
             }
 
 
             case "User" ->{
                 // Logic for user
-                alertHandlerController.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
-                openClientView();
+                ALERT_HANDLER.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
+                openClientView(userID, name, photoPath);
             }
 
 
@@ -258,7 +180,38 @@ public class LoginPageController implements Initializable {
 
     }
 
+    public void openClientView(Integer userID, String name, String photoPath) throws IOException {
 
+        //Store the current ID of the logged-in user - used for fetching data from the database within the application
+        CurrentLoggedUserHandler.setCurrentUser(userID, name, photoPath);
+
+        login_btn.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_DASHBOARD_VIEW)));
+        Parent parent = loader.load(); // Load the FXML and get the root node
+
+        RevisedDBController controller = loader.getController(); // Get the controller instance
+        //controller.loadCurrentUserInfo(userID,name,photoPath ); // Pass the user data to the controller
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(parent);
+
+        // Your existing setup for draggable window
+        parent.setOnMousePressed(event -> {
+            x = event.getSceneX();
+            y = event.getSceneY();
+        });
+
+        parent.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() - x);
+            stage.setY(event.getScreenY() - y);
+        });
+
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(scene);
+        stage.show();
+
+
+    }
 
 
     public void openAdminView() throws IOException {
@@ -288,28 +241,7 @@ public class LoginPageController implements Initializable {
     }
 
 
-    public void openClientView() throws IOException {
-        login_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ClientView/ClientDashboard.fxml")));
-        Stage stage  = new Stage();
-        Scene scene = new Scene(parent);
 
-        parent.setOnMousePressed((MouseEvent event) ->{
-            x = event.getSceneX();
-            y = event.getSceneY();
-        });
-
-        parent.setOnMouseDragged((MouseEvent event) ->{
-            stage.setX(event.getScreenX() - x);
-            stage.setY(event.getScreenY() - y);
-        });
-
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setScene(scene);
-        stage.show();
-
-
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //check if the database is connected

@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-public class AlertHandlerController {
+public class AlertHandler {
 
     private Alert alert;
 

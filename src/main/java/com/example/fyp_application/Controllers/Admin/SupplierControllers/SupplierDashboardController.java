@@ -1,6 +1,6 @@
 package com.example.fyp_application.Controllers.Admin.SupplierControllers;
 
-import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.AlertHandler;
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.TimeHandler;
@@ -143,7 +143,7 @@ public class SupplierDashboardController implements Initializable {
     @FXML
     private TableView<?> userTableView1;
 
-    private static final  AlertHandlerController ALERT_HANDLER = new AlertHandlerController();//instance of the Alert Handler Controller
+    private static final AlertHandler ALERT_HANDLER = new AlertHandler();//instance of the Alert Handler Controller
     private final SupplierDAO supplierDAO = new SupplierDAO();//instance of the Supplier Data Access Object
 
 

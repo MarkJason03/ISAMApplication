@@ -2,7 +2,7 @@ package com.example.fyp_application.Controllers.Admin.SupplierControllers;
 
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
-import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.AlertHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -30,13 +30,13 @@ public class EditSupplierController {
 
     private int supplierID;
 
-    private static final AlertHandlerController ALERT_HANDLER = new AlertHandlerController();
+    private static final AlertHandler ALERT_HANDLER = new AlertHandler();
 
     private static final SupplierDAO SUPPLIER_DAO = new SupplierDAO();
+
     @FXML
     private void cancelEdit(){
         cancel_btn.getScene().getWindow().hide();
-
     }
 
     @FXML

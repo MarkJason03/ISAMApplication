@@ -18,7 +18,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="dashboard_btn" mnemonicParsing="false" text="Home">
+            <Button fx:id="dashboard_btn" mnemonicParsing="false" onAction="#openDashboard" text="Home">
                <graphic>
                   <FontAwesomeIconView glyphName="HOME" size="30" />
                </graphic>
@@ -63,12 +63,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" text="Edit Profile">
+            <Button fx:id="editProfile_btn" mnemonicParsing="false" onAction="#openEditProfile" text="Edit Profile">
                <graphic>
                   <FontAwesomeIconView glyphName="GEARS" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="logout_btn" mnemonicParsing="false" text="Logout">
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#logoutUser" text="Logout">
                <graphic>
                   <FontAwesomeIconView glyphName="SIGN_OUT" size="30" />
                </graphic>

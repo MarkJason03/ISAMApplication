@@ -1,7 +1,7 @@
 package com.example.fyp_application.Controllers.Admin;
 
 import com.example.fyp_application.Controllers.Admin.SupplierControllers.SupplierDashboardController;
-import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.AlertHandler;
 import com.example.fyp_application.Utils.TimeHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -72,7 +72,8 @@ public class AdminDashboardController implements Initializable {
     private BorderPane adminDashboardPane;
 
 
-    private static final AlertHandlerController ALERT_HANDLER = new AlertHandlerController();
+    private static final AlertHandler ALERT_HANDLER = new AlertHandler();
+
 
     @FXML
     private void openDashboardMenu(){
@@ -145,8 +146,8 @@ public class AdminDashboardController implements Initializable {
 //        loggedUserHolder_lbl.setText(userModel.getFirstName());
 //    }
 
-
-    public void getCurrentTime(){
+    @FXML
+    private void getCurrentTime(){
         Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTime()));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();

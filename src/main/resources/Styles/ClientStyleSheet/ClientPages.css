@@ -1,0 +1,113 @@
+
+/*Styling for edit profile view*/
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+.personalInformationContainer{
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
+}
+
+.personalInformationContainer Label{
+    -fx-font-size: 1.5em;
+    -fx-font-weight: Bold Italic;
+}
+
+.titledPaneContainer Label {
+      -fx-font-size:  14px;
+      -fx-font-weight: Bold Italic;
+}
+
+.personalInformationContainer TextField{
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 250;
+    -fx-background-color : transparent;
+}
+
+.personalInformationContainer PasswordField{
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 250;
+    -fx-background-color : transparent;
+}
+
+.editProfileButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+
+}
+
+.editProfileButton:hover{
+    -fx-background-color: #7CEA9C;
+}
+
+.editProfileButton:pressed{
+    -fx-background-color: #7CEA9Cc8;
+}
+
+.personalInformationHeaderLabel {
+    -fx-font-size: 2.5em;
+    -fx-font-weight: bold;
+    -fx-pref-width: 400;
+}
+
+
+/*Styling for dashboard view*/
+
+
+.refreshButton{
+    -fx-background-color: transparent;
+
+}
+
+.refreshButton:hover{
+    -fx-background-color: #7CEA9C;
+}
+
+}.refreshButton:pressed{
+    -fx-background-color: #7CEA9Cc8;
+}
+
+.minimizeButton{
+    -fx-background-color: transparent;
+}
+
+.minimizeButton:hover{
+    -fx-background-color: #241f6bc8;
+    -fx-text-fill: white;
+}
+
+.minimizeButton:pressed{
+    -fx-background-color: white;
+}
+
+.closeButton{
+    -fx-background-color: transparent;
+}
+
+.closeButton:hover{
+    -fx-background-color: #C97064;
+    -fx-text-fill: white;
+}
+
+.closeButton:pressed{
+    -fx-background-color: red;
+}
+
+.maximizeButton{
+    -fx-background-color: #ffffff;
+}
+
+.maximizeButton:hover{
+    -fx-background-color: #241f6bc8;
+    -fx-text-fill: white;
+}
+
+.maximizeButton:pressed{
+    -fx-background-color: green;
+}
+
+
+
+
+/*Styling for request view*/

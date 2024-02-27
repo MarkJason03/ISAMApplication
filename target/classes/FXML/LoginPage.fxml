@@ -100,7 +100,7 @@
                   </Label>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="exit_btn" mnemonicParsing="false" onAction="#exitButtonAction" prefHeight="103.0" prefWidth="155.0" styleClass="exitButton" stylesheets="@../Styles/LoginPageStylesheet.css" text="Exit">
+                        <Button fx:id="exit_btn" mnemonicParsing="false" onAction="#exitApplication" prefHeight="103.0" prefWidth="155.0" styleClass="exitButton" stylesheets="@../Styles/LoginPageStylesheet.css" text="Exit">
                            <HBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </HBox.margin>

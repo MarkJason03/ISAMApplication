@@ -1,9 +1,9 @@
 package com.example.fyp_application.Controllers.Admin;
 
-import com.example.fyp_application.Utils.AlertHandler;
+import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
-import com.example.fyp_application.Utils.TimeHandler;
+import com.example.fyp_application.Utils.DateTimeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,7 +84,7 @@ public class ManageUserController  implements Initializable {
     private TableColumn<?, ?> userTable_col_userID;
 
     private UserDAO userDAO = new UserDAO(); //instance of the Data Access Object
-    private final AlertHandler alertHandler = new AlertHandler();//instance of the Alert Handler Controller
+    private final AlertNotificationHandler alertNotificationHandler = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
     private final String dbUrl = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";
 
@@ -169,14 +169,14 @@ public class ManageUserController  implements Initializable {
     @FXML
     private void deleteUser() {
 
-        if (alertHandler.showConfirmationAlert("Delete User Confirmation", "Are you sure you want to delete this user?")) {
+        if (alertNotificationHandler.showConfirmationAlert("Delete User Confirmation", "Are you sure you want to delete this user?")) {
             UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
             int userID = selectedUser.getUserID();
             userDAO.deleteUser(userID);
             loadTableData();
         }
         else{
-            alertHandler.showInformationMessageAlert("Delete User", "User Deletion Cancelled");
+            alertNotificationHandler.showInformationMessageAlert("Delete User", "User Deletion Cancelled");
         }
     }
 
@@ -208,7 +208,7 @@ public class ManageUserController  implements Initializable {
 
     @FXML
     private void displayTableRefreshTime(){
-        String currentTime = TimeHandler.getCurrentTime();
+        String currentTime = DateTimeHandler.getCurrentTime();
         lastUpdate_lbl.setText("Last Updated : " + currentTime);
     }
 

@@ -25,6 +25,8 @@ public class UserModel {
     private String createdAt;
     private String expiresAt;
 
+    private String lastLogin;
+    private String lastUpdated;
 
 
     //for table view
@@ -93,7 +95,7 @@ public class UserModel {
     public UserModel(Integer userID,String firstName, String lastName,
     String email, String gender, String photo, String phone,
     String dob, String password, String username, String createdAt,
-    String accountStatus, String deptName){
+    String accountStatus, String deptName , String lastUpdated){
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -107,8 +109,17 @@ public class UserModel {
         this.createdAt = createdAt;
         this.accountStatus = accountStatus;
         this.deptName = deptName;
+        this.lastUpdated = lastUpdated;
+
     }
 
+
+    public UserModel (Integer userID, String firstName, String roleName, String photo){
+        this.userID = userID;
+        this.firstName = firstName;
+        this.roleName = roleName;
+        this.photo = photo;
+    }
 
 
 
@@ -182,6 +193,15 @@ public class UserModel {
         return deptName;
     }
 
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+
     //Setter Methods
     public void setUserID(int userID) {
         this.userID = userID;
@@ -250,96 +270,13 @@ public class UserModel {
     public void setDeptName(String deptName) {
         this.deptName = deptName;
     }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }
-/*    public class ClientModel extends UserModel{
-        private int userID;
-        private String firstName;
-        private String lastName;
-        private String password;
-        private String phone;
-        private String email;
-        private String photo;
-
-    }*//*
-
-}
-*/
-/*
-
-package com.example.fyp_application.Model;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
-public class UserModel {
-
-    // Use SimpleIntegerProperty for observable integer fields
-    private SimpleIntegerProperty userID = new SimpleIntegerProperty();
-    private SimpleIntegerProperty userRoleID = new SimpleIntegerProperty();
-    private SimpleIntegerProperty deptID = new SimpleIntegerProperty();
-
-    // Use SimpleStringProperty for observable string fields
-    private SimpleStringProperty roleName = new SimpleStringProperty();
-    private SimpleStringProperty deptName = new SimpleStringProperty();
-    private SimpleStringProperty firstName = new SimpleStringProperty();
-    private SimpleStringProperty lastName = new SimpleStringProperty();
-    private SimpleStringProperty gender = new SimpleStringProperty();
-    private SimpleStringProperty dob = new SimpleStringProperty();
-    private SimpleStringProperty email = new SimpleStringProperty();
-    private SimpleStringProperty username = new SimpleStringProperty();
-    private SimpleStringProperty password = new SimpleStringProperty();
-    private SimpleStringProperty phone = new SimpleStringProperty();
-    private SimpleStringProperty accountStatus = new SimpleStringProperty();
-    private SimpleStringProperty photo = new SimpleStringProperty();
-    private SimpleStringProperty createdAt = new SimpleStringProperty();
-    private SimpleStringProperty expiresAt = new SimpleStringProperty();
-
-    // Constructor for table view
-    public UserModel(int userID, String firstName, String lastName, String gender,
-                     String email, String username, String phone, String accountStatus,
-                     String createdAt, String expiresAt, String roleName, String deptName) {
-        this.userID.set(userID);
-        this.firstName.set(firstName);
-        this.lastName.set(lastName);
-        this.gender.set(gender);
-        this.email.set(email);
-        this.username.set(username);
-        this.phone.set(phone);
-        this.accountStatus.set(accountStatus);
-        this.createdAt.set(createdAt);
-        this.expiresAt.set(expiresAt);
-        this.roleName.set(roleName);
-        this.deptName.set(deptName);
-    }
-
-    // Full constructor
-    public UserModel(int userID, int userRoleID, int deptID, String firstName, String lastName,
-                     String gender, String dob, String email, String username, String password,
-                     String phone, String accountStatus, String photo, String createdAt, String expiresAt) {
-        this(userID, firstName, lastName, gender, email, username, phone, accountStatus, createdAt, expiresAt, "", "");
-        this.userRoleID.set(userRoleID);
-        this.deptID.set(deptID);
-        this.dob.set(dob);
-        this.password.set(password);
-        this.photo.set(photo);
-        // RoleName and DeptName need to be set via separate method or directly if required
-    }
-
-    // Example getter for a JavaFX property
-    public SimpleStringProperty firstNameProperty() {
-        return firstName;
-    }
-
-    // Example regular getter
-    public String getFirstName() {
-        return firstName.get();
-    }
-
-    // Example setter
-    public void setFirstName(String firstName) {
-        this.firstName.set(firstName);
-    }
-
-    // Add other getters and setters for JavaFX properties and regular fields...
-
-}*/
 

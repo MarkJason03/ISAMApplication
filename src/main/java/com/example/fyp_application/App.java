@@ -18,7 +18,7 @@ public class App extends Application{
     public void start(Stage stage) throws Exception {
 
 
-        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource(ViewHandler.LOGIN)));
+        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource(ViewHandler.APP_LOGIN)));
 
         Scene scene = new Scene(fxmlLoader. load());
 

@@ -21,13 +21,11 @@
 
 .personalInformationContainer TextField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
     -fx-background-color : transparent;
 }
 
 .personalInformationContainer PasswordField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
     -fx-background-color : transparent;
 }
 
@@ -54,6 +52,7 @@
 
 /*Styling for dashboard view*/
 
+/*custom button controls*/
 
 .refreshButton{
     -fx-background-color: transparent;
@@ -110,4 +109,54 @@
 
 
 
-/*Styling for request view*/
+/*Styling for edit profile pop*/
+
+.editInformationContainer{
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
+}
+
+.editInformationContainer Label{
+    -fx-font-size: 1.5em;
+    -fx-font-weight: Bold;
+}
+
+.editInformationContainer TextField{
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 250;
+
+}
+
+.editInformationContainer PasswordField{
+    -fx-font-size: 1.5em;
+    -fx-pref-width: 250;
+}
+
+.saveInformationButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+
+}
+.saveInformationButton:hover{
+    -fx-background-color: #7CEA9C;
+}
+
+.saveInformationButton:pressed{
+    -fx-background-color: #7CEA9Cc8;
+}
+
+
+.cancelChangesButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+
+}
+
+.cancelChangesButton:hover{
+    -fx-background-color: #C97064;
+    -fx-text-fill: white;
+}
+
+.cancelChangesButton:pressed{
+    -fx-background-color: red;
+}

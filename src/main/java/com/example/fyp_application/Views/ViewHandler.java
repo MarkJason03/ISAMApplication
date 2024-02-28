@@ -6,7 +6,7 @@ public class ViewHandler {
     //ViewHandler class to store all the paths to the FXML files
 
     //Login Page
-    public static final String LOGIN = "/FXML/LoginPage.fxml";
+    public static final String APP_LOGIN = "/FXML/LoginPage.fxml";
 
     //Client views
     public static final String CLIENT_HOME_PAGE_VIEW = "/FXML/ClientView/OpenHomeView.fxml";
@@ -17,8 +17,10 @@ public class ViewHandler {
 
 
     //Admin views
-    public static final String ADMIN_DASHBOARD = "/FXML/AdminView/AdminDashboard.fxml";
+    public static final String ADMIN_DASHBOARD = "/FXML/AdminView/ModifiedAdminDashboard.fxml";
 
+    public static final String ADMIN_SIDEBAR_MENU = "/FXML/AdminView/AdminSideBar.fxml";
+    public static final String ADMIN_HOME_PAGE_VIEW = "FXML/AdminView/ModifiedHomePageView";
 
 
 

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierControllers.EditSupplierController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.EditSupplierController">
    <children>
       <AnchorPane prefHeight="225.0" prefWidth="1061.0" style="-fx-background-color: green;" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" />
       <AnchorPane layoutY="662.0" prefHeight="173.0" prefWidth="1061.0" style="-fx-background-color: green;" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" />

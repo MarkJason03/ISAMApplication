@@ -57,7 +57,7 @@ public class ClientSideBarController {
     private void logoutUser() throws IOException {
 
         logout_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.LOGIN)));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.APP_LOGIN)));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
         stage.initStyle(StageStyle.DECORATED);

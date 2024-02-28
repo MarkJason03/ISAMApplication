@@ -14,27 +14,22 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Client.ProfilePopUpController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="936.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Client.EditProfilePopUpController">
    <children>
-      <AnchorPane id="mainAnchorPaneBody">
+      <AnchorPane id="mainAnchorPaneBody" prefHeight="905.0" prefWidth="1562.0" scaleShape="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="315.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="932.0" AnchorPane.leftAnchor="315.0" AnchorPane.rightAnchor="315.0" AnchorPane.topAnchor="10.0" />
-            <AnchorPane layoutX="352.0" layoutY="188.0" prefHeight="583.0" prefWidth="911.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="340.0">
+            <AnchorPane layoutX="340.0" layoutY="188.0" prefHeight="583.0" prefWidth="911.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="188.0">
                <children>
-                  <Label layoutX="66.0" layoutY="170.0" text="First Name" />
-                  <Label layoutX="399.0" layoutY="170.0" text="Last Name">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="66.0" layoutY="297.0" text="Email" />
-                  <Label layoutX="400.0" layoutY="303.0" text="Gender" />
-                  <TextField fx:id="firstName_TF" layoutX="66.0" layoutY="197.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
-                  <TextField fx:id="lastName_TF" layoutX="402.0" layoutY="197.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
-                  <TextField fx:id="email_TF" layoutX="66.0" layoutY="324.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
-                  <TextField fx:id="gender_TF" layoutX="400.0" layoutY="330.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
+                  <Label layoutX="65.0" layoutY="164.0" text="First Name" AnchorPane.leftAnchor="65.0" />
+                  <Label layoutX="420.0" layoutY="158.0" text="Last Name" AnchorPane.leftAnchor="420.0" />
+                  <Label layoutX="65.0" layoutY="262.0" text="Email" AnchorPane.leftAnchor="65.0" />
+                  <Label layoutX="420.0" layoutY="262.0" text="Gender" AnchorPane.leftAnchor="420.0" />
+                  <TextField fx:id="firstName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="257.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" />
+                  <TextField fx:id="lastName_TF" layoutX="420.0" layoutY="185.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="420.0" />
+                  <TextField fx:id="email_TF" layoutX="65.0" layoutY="289.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" />
                   <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
-                  <Button fx:id="editProfile_btn" layoutX="592.0" layoutY="53.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
+                  <Button fx:id="saveProfileChanges_btn" layoutX="592.0" layoutY="53.0" mnemonicParsing="false" onAction="#saveProfileChanges" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" size="30" />
                      </graphic>
@@ -42,16 +37,16 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Label layoutX="73.0" layoutY="408.0" text="Phone" />
-                  <TextField fx:id="phone_TF" layoutX="66.0" layoutY="435.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
-                  <Pane layoutX="43.0" layoutY="507.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
-                  <Label layoutX="391.0" layoutY="408.0" text="Password" />
-                  <PasswordField fx:id="password_TF" layoutX="391.0" layoutY="435.0" prefHeight="40.0" prefWidth="149.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" />
-                  <FontAwesomeIconView glyphName="USER" layoutX="653.0" layoutY="515.0" opacity="0.1" size="300" />
-                  <ChoiceBox fx:id="gender_CB" layoutX="685.0" layoutY="145.0" prefWidth="150.0" />
+                  <Label layoutX="65.0" layoutY="366.0" text="Phone" AnchorPane.leftAnchor="65.0" />
+                  <TextField fx:id="phone_TF" layoutX="65.0" layoutY="393.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="393.0" />
+                  <Pane layoutX="43.0" layoutY="463.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="463.0" />
+                  <Label layoutX="65.0" layoutY="525.0" prefHeight="27.0" prefWidth="182.0" text="New Password" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="635.0" AnchorPane.topAnchor="525.0" />
+                  <FontAwesomeIconView glyphName="USER" layoutX="648.0" layoutY="644.0" opacity="0.1" size="300" />
+                  <PasswordField fx:id="newPassword_TF" layoutX="65.0" layoutY="552.0" prefHeight="40.0" prefWidth="149.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="552.0" />
+                  <ChoiceBox fx:id="gender_CB" layoutX="420.0" layoutY="290.0" prefHeight="39.0" prefWidth="250.0" AnchorPane.leftAnchor="420.0" />
                   <Circle fx:id="userProfilePhoto" layoutX="137.0" layoutY="15.0" radius="84.0" stroke="BLACK" strokeType="INSIDE" />
                   <Circle fx:id="userProfileHolder" fill="WHITE" layoutX="137.0" layoutY="15.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button fx:id="cancel_btn" layoutX="728.0" layoutY="53.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
+                  <Button fx:id="cancel_btn" layoutX="728.0" layoutY="53.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" size="30" />
                      </graphic>
@@ -59,13 +54,19 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
+                  <Label fx:id="passwordChecker_lbl" layoutX="422.0" layoutY="591.0" textFill="RED" />
+                  <Label layoutX="43.0" layoutY="128.0" text="Personal Information" AnchorPane.leftAnchor="43.0" AnchorPane.topAnchor="128.0" />
+                  <Pane layoutX="50.0" layoutY="650.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
+                  <Label layoutX="43.0" layoutY="141.0" text="Change Password" AnchorPane.topAnchor="475.0" />
+                  <Label layoutX="420.0" layoutY="525.0" text="Confirm Password" AnchorPane.topAnchor="525.0" />
+                  <PasswordField fx:id="confirmationPassword_TF" layoutX="420.0" layoutY="552.0" prefHeight="40.0" prefWidth="149.0" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="420.0" AnchorPane.topAnchor="552.0" />
                </children>
                <styleClass>
                   <String fx:value="shadow" />
-                  <String fx:value="personalInformationContainer" />
+                  <String fx:value="editInformationContainer" />
                </styleClass>
             </AnchorPane>
-            <Label layoutX="352.0" layoutY="29.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Account Settings" textFill="WHITE">
+            <Label layoutX="352.0" layoutY="29.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Profile Settings" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>

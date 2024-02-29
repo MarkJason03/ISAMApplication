@@ -86,7 +86,9 @@ public class ManageUserController  implements Initializable {
     private UserDAO userDAO = new UserDAO(); //instance of the Data Access Object
     private final AlertNotificationHandler alertNotificationHandler = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
+/*
     private final String dbUrl = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";
+*/
 
 
 /*

@@ -31,6 +31,7 @@ import java.util.Objects;
 
 public class EditProfilePopUpController implements Initializable {
 
+
     @FXML
     private Button cancel_btn;
 
@@ -39,9 +40,6 @@ public class EditProfilePopUpController implements Initializable {
 
     @FXML
     private Label dateTimeHolder;
-
-    @FXML
-    private Button saveProfileChanges_btn;
 
     @FXML
     private TextField email_TF;
@@ -62,60 +60,37 @@ public class EditProfilePopUpController implements Initializable {
     private Label passwordChecker_lbl;
 
     @FXML
-    private PasswordField password_TF;
+    private TextField phone_TF;
 
     @FXML
-    private TextField phone_TF;
+    private Button saveProfileChanges_btn;
+
+    @FXML
+    private Button updatePassword_btn;
 
     @FXML
     private Circle userProfileHolder;
 
     @FXML
     private Circle userProfilePhoto;
-
     private static final UserDAO USER_DAO = new UserDAO();
 
     private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
+    private boolean isMatched = false;
 
     private int userID;
 
 
     @FXML
     private void cancelAction(){
+        // Close the window
         cancel_btn.getScene().getWindow().hide();
 
 
     }
-
-
-
-/*    public String hashPassword(String password) {
-        try {
-            // Create a MessageDigest instance for SHA-256
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-            // Perform the hashing
-            byte[] hashedBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-
-            // Convert the byte array into a hexadecimal string
-            BigInteger no = new BigInteger(1, hashedBytes);
-            StringBuilder hexString = new StringBuilder(no.toString(16));
-
-            // Pad with leading zeros
-            while (hexString.length() < 32) {
-                hexString.insert(0, '0');
-            }
-
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            // Handle the exception
-            throw new RuntimeException(e);
-        }
-    }*/
-
     public void loadUserDetails(UserModel currentUser) {
-
+        //Take the user details and display them in the fields
         this.userID = currentUser.getUserID();
         System.out.println(userID);
         firstName_TF.setText(currentUser.getFirstName());
@@ -146,15 +121,46 @@ public class EditProfilePopUpController implements Initializable {
             ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
         }
         else{
-
-            String hashedPassword = PasswordHashHandler.hashPassword(confirmationPassword_TF.getText());
-
-            UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue(), hashedPassword);
+            UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
             ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Supplier information updated successfully");
-            //saveProfileChanges_btn.getScene().getWindow().hide();
+            saveProfileChanges_btn.getScene().getWindow().hide();
         }
 
 
+    }
+
+    @FXML
+
+    private void savePasswordChange() {
+        // First, confirm if the user wants to update the password.
+        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
+
+        // If the user confirmed, proceed with further checks.
+        if (confirmation) {
+            // Check if either password field is empty.
+            if (newPassword_TF.getText().isEmpty() || confirmationPassword_TF.getText().isEmpty()) {
+                ALERT_HANDLER.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
+                return;
+            }
+
+            // Check if the passwords match.
+            if (newPassword_TF.getText().equals(confirmationPassword_TF.getText())) {
+                // Hash the password and update it in the database.
+                String hashedPassword = PasswordHashHandler.hashPassword(confirmationPassword_TF.getText());
+                UserDAO.updateUserPassword(this.userID, hashedPassword);
+
+                // Show success message and close the window.
+                ALERT_HANDLER.showInformationMessageAlert("Password Updated", "Password updated successfully.");
+                //updatePassword_btn.getScene().getWindow().hide();
+            } else {
+                // Indicate that the passwords do not match.
+                ALERT_HANDLER.showInformationMessageAlert("Action aborted", "Password has not been updated. Please check your fields.");
+                newPassword_TF.setStyle("-fx-border-color: red");
+                confirmationPassword_TF.setStyle("-fx-border-color: red");
+                passwordChecker_lbl.setStyle("-fx-text-fill: red");
+                passwordChecker_lbl.setText("Passwords do not match");
+            }
+        }
     }
 
     @FXML
@@ -166,10 +172,11 @@ public class EditProfilePopUpController implements Initializable {
                 || gender_CB.getValue().isEmpty();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gender_CB.setItems(FXCollections.observableArrayList("Male", "Female"));
+
+        updatePassword_btn.setDisable(true);
 
         ChangeListener<String> passwordChangeListener = new ChangeListener<String>() {
             @Override
@@ -177,16 +184,20 @@ public class EditProfilePopUpController implements Initializable {
                 // Check if the text in both password fields matches
                 if (newPassword_TF.getText().equals(confirmationPassword_TF.getText()) || confirmationPassword_TF.getText().equals(newPassword_TF.getText())) {
                     // If they match, indicate success in some way
+                    updatePassword_btn.setDisable(false);
                     newPassword_TF.setStyle("-fx-border-color: green");
                     confirmationPassword_TF.setStyle("-fx-border-color: green");
                     passwordChecker_lbl.setStyle("-fx-text-fill: green");
                     passwordChecker_lbl.setText("Passwords match");
+
                 } else {
                     // If they do not match, show the label or indicate the mismatch
+                    updatePassword_btn.setDisable(true);
                     newPassword_TF.setStyle("-fx-border-color: red");
                     confirmationPassword_TF.setStyle("-fx-border-color: red");
                     passwordChecker_lbl.setStyle("-fx-text-fill: red");
                     passwordChecker_lbl.setText("Passwords do not match");
+
                 }
             }
         };

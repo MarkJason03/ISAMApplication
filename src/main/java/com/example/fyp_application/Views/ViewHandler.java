@@ -17,7 +17,10 @@ public class ViewHandler {
 
 
     //Admin views
-    public static final String ADMIN_DASHBOARD = "/FXML/AdminView/ModifiedAdminDashboard.fxml";
+    //public static final String ADMIN_DASHBOARD = "/FXML/AdminView/ModifiedAdminDashboard.fxml"; //Actual Admin Dashboard
+
+
+    public static final String ADMIN_DASHBOARD = "/FXML/AdminView/ModifiedAdminDashboard.fxml"; //Modified Admin Dashboard
 
     public static final String ADMIN_SIDEBAR_MENU = "/FXML/AdminView/AdminSideBar.fxml";
     public static final String ADMIN_HOME_PAGE_VIEW = "FXML/AdminView/ModifiedHomePageView";

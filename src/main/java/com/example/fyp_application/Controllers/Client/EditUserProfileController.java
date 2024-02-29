@@ -115,55 +115,7 @@ public class EditUserProfileController implements Initializable {
 
 
     private void loadUserData(Integer userID) throws SQLException {
-/*        String sql = """
-            SELECT UserID, FirstName, LastName, Email, Gender, Photo, Phone, DOB, Password, Username, CreatedAt, AccountStatus, tbl_Departments.deptName as Department
-            FROM tbl_Users
-            JOIN tbl_Departments ON tbl_Users.deptID = tbl_Departments.deptID
-            WHERE UserID = ?;
-            """;
-
-        try (Connection connection = DatabaseConnectionHandler.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            // Set the userID in the query
-            preparedStatement.setInt(1, userID);
-
-            // Execute the query
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            // Check if a result is returned
-            if (resultSet.next()) {
-                // Assuming UserModel has a constructor that matches these fields
-                UserModel userModel = new UserModel( // You need to fetch this as well if your constructor expects it
-                        resultSet.getInt("UserID"),
-                        resultSet.getString("FirstName"),
-                        resultSet.getString("LastName"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("Gender"),
-                        resultSet.getString("Photo"),
-                        resultSet.getString("Phone"),
-                        resultSet.getString("DOB"),
-                        resultSet.getString("Password"),
-                        resultSet.getString("Username"),
-                        resultSet.getString("CreatedAt"),
-                        resultSet.getString("AccountStatus"),
-                        resultSet.getString("Department")
-                );
-
-                // Now you can use the userModel to set UI components, e.g.,
-                firstName_TF.setText(userModel.getFirstName());
-                // ...set other fields as needed
-            } else {
-                // Handle case where user is not found
-                System.out.println("User not found with ID: " + userID);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle SQL exceptions
-        }*/
-
-
-        UserModel userModel = USER_DAO.loadLoggedInUserDetails(userID);
+        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
 
         if (userModel != null) {
             firstName_TF.setText(userModel.getFirstName());
@@ -171,7 +123,7 @@ public class EditUserProfileController implements Initializable {
             email_TF.setText(userModel.getEmail());
             gender_TF.setText(userModel.getGender());
             userName_TF.setText(userModel.getUsername());
-            password_TF.setText(userModel.getPassword());
+            //password_TF.setText(userModel.getPassword());
             createdAt_TF.setText(userModel.getCreatedAt());
             accountStatus_TF.setText(userModel.getAccountStatus());
             dept_TF.setText(userModel.getDeptName());
@@ -192,7 +144,7 @@ public class EditUserProfileController implements Initializable {
         Stage currentDashboardStage = (Stage) accountSettingsAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur);
 
-        UserModel userModel = USER_DAO.loadLoggedInUserDetails(userID);
+        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
@@ -219,8 +171,9 @@ public class EditUserProfileController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }  finally {
-                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-            }
+                currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
+                loadUserData(userID);
+        }
 
     }
 
@@ -254,7 +207,7 @@ public class EditUserProfileController implements Initializable {
             Platform.runLater(() -> {
                 try {
                     loadUserData(CurrentLoggedUserHandler.getUserID());
-                    UserModel userModel = userDAO.loadLoggedInUserDetails(userID);
+                    UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
 
 

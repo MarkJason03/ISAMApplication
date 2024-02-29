@@ -2,7 +2,7 @@
 
 
 
-
+/*to be deleted later*/
 
 
 .treeTableContainer {
@@ -92,3 +92,24 @@
     -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
 
 }
+
+
+
+/*Styling for dashboard view*/
+
+.personalInformationContainer{
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
+}
+
+
+
+.personalInformationContainer Label{
+
+}
+
+
+/*custom button control styles*/
+
+
+

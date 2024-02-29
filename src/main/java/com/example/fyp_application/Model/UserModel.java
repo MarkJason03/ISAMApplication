@@ -1,6 +1,6 @@
-package com.example.fyp_application.Model;
 
-import javafx.beans.property.SimpleStringProperty;
+
+package com.example.fyp_application.Model;
 
 public class UserModel {
 
@@ -9,8 +9,8 @@ public class UserModel {
     private int deptID;
 
     //Foreign Keys
-    private String RoleName;
-    private String DeptName;
+    private String roleName;
+    private String deptName;
 
     private String firstName;
     private String lastName;
@@ -25,8 +25,11 @@ public class UserModel {
     private String createdAt;
     private String expiresAt;
 
-    private SimpleStringProperty storedName = new SimpleStringProperty();
+    private String lastLogin;
+    private String lastUpdated;
 
+
+    //for table view
     public UserModel(int userID,
                      String firstName,
                      String lastName,
@@ -50,11 +53,11 @@ public class UserModel {
         this.accountStatus = accountStatus;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.RoleName = RoleName;
-        this.DeptName = DeptName;
+        this.roleName = RoleName;
+        this.deptName = DeptName;
     }
 
-    //for table view
+
     public UserModel(int userID,
                      int userRoleID,
                      int deptID,
@@ -87,6 +90,39 @@ public class UserModel {
         this.expiresAt = expiresAt;
     }
 
+
+    //For Loading and Editing User Profile on client's view
+    public UserModel(Integer userID,String firstName, String lastName,
+    String email, String gender, String photo, String phone,
+    String dob, String username, String createdAt,
+    String accountStatus, String deptName , String lastUpdated){
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.photo = photo;
+        this.phone = phone;
+        this.dob = dob;
+        this.username = username;
+        this.createdAt = createdAt;
+        this.accountStatus = accountStatus;
+        this.deptName = deptName;
+        this.lastUpdated = lastUpdated;
+
+    }
+
+
+    public UserModel (Integer userID, String firstName, String roleName, String photo){
+        this.userID = userID;
+        this.firstName = firstName;
+        this.roleName = roleName;
+        this.photo = photo;
+    }
+
+
+
+
     //Getter Methods
     public int getUserID() {
         return userID;
@@ -95,78 +131,113 @@ public class UserModel {
     public int getUserRoleID() {
         return userRoleID;
     }
+
     public int getDeptID() {
         return deptID;
     }
+
     public String getFirstName() {
         return firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
+
     public String getGender() {
         return gender;
     }
-    public String getDob() {
+
+    public String getDOB() {
         return dob;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getUsername() {
         return username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public String getPhone() {
         return phone;
     }
+
     public String getAccountStatus() {
         return accountStatus;
     }
+
     public String getPhoto() {
         return photo;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
+
     public String getExpiresAt() {
         return expiresAt;
     }
+
     public String getRoleName() {
-        return RoleName;
+        return roleName;
     }
+
     public String getDeptName() {
-        return DeptName;
+        return deptName;
     }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
 
     //Setter Methods
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
     public void setUserRoleID(int userRoleID) {
         this.userRoleID = userRoleID;
     }
+
     public void setDeptID(int deptID) {
         this.deptID = deptID;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public void setGender(String gender){this.gender = gender;}
-    public void setDob(String dob){
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setDob(String dob) {
         this.dob = dob;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -174,24 +245,37 @@ public class UserModel {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public void setAccountStatus(String accountStatus) {
         this.accountStatus = accountStatus;
     }
+
     public void setPhoto(String Photo) {
         this.photo = Photo;
     }
+
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
+
     public void setExpiresAt(String expiresAt) {
         this.expiresAt = expiresAt;
     }
 
     public void setRoleName(String roleName) {
-        RoleName = roleName;
-    }
-    public void setDeptName(String deptName) {
-        DeptName = deptName;
+        this.roleName = roleName;
     }
 
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }
+

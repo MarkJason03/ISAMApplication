@@ -1,9 +1,8 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,7 @@ public class SupplierDAO {
 
 
         try{
-            Connection connection = DatabaseHandler.getConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -37,7 +36,7 @@ public class SupplierDAO {
                 );
             supplierList.add(supplierModel);
             }
-            DatabaseHandler.closeConnection(connection);
+            DatabaseConnectionHandler.closeConnection(connection);
 
         } catch (SQLException error) {
             error.printStackTrace();
@@ -52,7 +51,7 @@ public class SupplierDAO {
         String sql  = "INSERT INTO tbl_Suppliers (supplierName, supplierAddress, supplierEmail, supplierPhone) VALUES (?,?,?,?)";
 
         try {
-            Connection connection = DatabaseHandler.getConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, supplierName);
@@ -60,7 +59,7 @@ public class SupplierDAO {
             preparedStatement.setString(3, supplierEmail);
             preparedStatement.setString(4, supplierPhone);
             preparedStatement.executeUpdate();
-            DatabaseHandler.closeConnection(connection);
+            DatabaseConnectionHandler.closeConnection(connection);
 
 
         } catch (SQLException error) {
@@ -73,7 +72,7 @@ public class SupplierDAO {
         String sql = "UPDATE tbl_Suppliers SET supplierName = ? , supplierAddress = ?, supplierEmail = ?, supplierPhone = ? WHERE supplierID = ?";
 
         try {
-            Connection connection = DatabaseHandler.getConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
             assert connection != null;
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -84,7 +83,7 @@ public class SupplierDAO {
             preparedStatement.setInt(5, supplierID);
             preparedStatement.executeUpdate();
 
-            DatabaseHandler.closeConnection(connection);
+            DatabaseConnectionHandler.closeConnection(connection);
 
         } catch (SQLException error) {
             error.printStackTrace();
@@ -96,7 +95,7 @@ public class SupplierDAO {
         String sql = "delete from tbl_Suppliers where supplierID = ?";
         try{
 
-            Connection connection = DatabaseHandler.getConnection();
+            Connection connection = DatabaseConnectionHandler.getConnection();
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, supplierID );

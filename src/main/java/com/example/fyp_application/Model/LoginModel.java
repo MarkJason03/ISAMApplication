@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ public class LoginModel {
     static Connection connection;
 
     public LoginModel() {
-        connection = DatabaseHandler.getConnection();
+        connection = DatabaseConnectionHandler.getConnection();
         if (connection == null) {
             System.out.println("Database Connection Failed");
             System.exit(1);

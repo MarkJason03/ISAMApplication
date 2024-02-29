@@ -1,9 +1,9 @@
 package com.example.fyp_application.Controllers.Admin;
 
-import com.example.fyp_application.Utils.AlertHandlerController;
+import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
-import com.example.fyp_application.Utils.TimeHandler;
+import com.example.fyp_application.Utils.DateTimeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,11 +84,11 @@ public class ManageUserController  implements Initializable {
     private TableColumn<?, ?> userTable_col_userID;
 
     private UserDAO userDAO = new UserDAO(); //instance of the Data Access Object
-    private final AlertHandlerController alertHandlerController = new AlertHandlerController();//instance of the Alert Handler Controller
+    private final AlertNotificationHandler alertNotificationHandler = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
+/*
     private final String dbUrl = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";
-
-
+*/
 
 
 /*
@@ -138,6 +138,10 @@ public class ManageUserController  implements Initializable {
     public void loadTableData(){
         userListData = userDAO.getAllUsers();
 
+
+        userListData.forEach(System.out::println);
+
+
         userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
         userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         userTable_col_LName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -146,12 +150,13 @@ public class ManageUserController  implements Initializable {
         userTable_col_Username.setCellValueFactory(new PropertyValueFactory<>("username"));
         userTable_col_Phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         userTable_col_AccStatus.setCellValueFactory(new PropertyValueFactory<>("accountStatus"));
-        userTable_col_Role.setCellValueFactory(new PropertyValueFactory<>("RoleName"));
-        userTable_col_Dept.setCellValueFactory(new PropertyValueFactory<>("DeptName"));
+        userTable_col_Role.setCellValueFactory(new PropertyValueFactory<>("roleName"));
+        userTable_col_Dept.setCellValueFactory(new PropertyValueFactory<>("deptName"));
         userTable_col_createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         userTable_col_ExpiresOn.setCellValueFactory(new PropertyValueFactory<>("expiresAt"));
 
         userTableView.setItems(userListData);
+
 
     }
 
@@ -166,14 +171,14 @@ public class ManageUserController  implements Initializable {
     @FXML
     private void deleteUser() {
 
-        if (alertHandlerController.showConfirmationAlert("Delete User Confirmation", "Are you sure you want to delete this user?")) {
+        if (alertNotificationHandler.showConfirmationAlert("Delete User Confirmation", "Are you sure you want to delete this user?")) {
             UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
             int userID = selectedUser.getUserID();
             userDAO.deleteUser(userID);
             loadTableData();
         }
         else{
-            alertHandlerController.showInformationMessageAlert("Delete User", "User Deletion Cancelled");
+            alertNotificationHandler.showInformationMessageAlert("Delete User", "User Deletion Cancelled");
         }
     }
 
@@ -205,7 +210,7 @@ public class ManageUserController  implements Initializable {
 
     @FXML
     private void displayTableRefreshTime(){
-        String currentTime = TimeHandler.getCurrentTime();
+        String currentTime = DateTimeHandler.getCurrentTime();
         lastUpdate_lbl.setText("Last Updated : " + currentTime);
     }
 

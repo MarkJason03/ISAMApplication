@@ -1,8 +1,8 @@
 package com.example.fyp_application.Controllers.Admin;
 
-import com.example.fyp_application.Controllers.Admin.SupplierControllers.SupplierDashboardController;
-import com.example.fyp_application.Utils.AlertHandlerController;
-import com.example.fyp_application.Utils.TimeHandler;
+import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.SupplierDashboardController;
+import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.DateTimeHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -72,7 +72,8 @@ public class AdminDashboardController implements Initializable {
     private BorderPane adminDashboardPane;
 
 
-    private static final AlertHandlerController ALERT_HANDLER = new AlertHandlerController();
+    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
+
 
     @FXML
     private void openDashboardMenu(){
@@ -145,8 +146,8 @@ public class AdminDashboardController implements Initializable {
 //        loggedUserHolder_lbl.setText(userModel.getFirstName());
 //    }
 
-
-    public void getCurrentTime(){
+    @FXML
+    private void getCurrentTime(){
         Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTime()));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
@@ -155,7 +156,7 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private void updateTime (){
 
-        dateTime_lbl.setText(TimeHandler.getCurrentTime() + " " + TimeHandler.getCurrentDate());
+        dateTime_lbl.setText(DateTimeHandler.getCurrentTime() + " " + DateTimeHandler.getCurrentDate());
 
 /*        LocalTime currentTime = LocalTime.now();
         LocalDate currentDate = LocalDate.now();

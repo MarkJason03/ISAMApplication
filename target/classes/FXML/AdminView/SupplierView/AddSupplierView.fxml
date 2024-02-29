@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="1174.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierControllers.AddSupplierController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="835.0" prefWidth="1174.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.AddSupplierController">
    <children>
       <AnchorPane prefHeight="225.0" prefWidth="1174.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" />
       <AnchorPane layoutY="662.0" prefHeight="173.0" prefWidth="1174.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" />
@@ -20,13 +20,14 @@
          <children>
             <AnchorPane layoutX="50.0" layoutY="30.0" prefHeight="696.0" prefWidth="978.0" styleClass="userContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css">
                <children>
-                  <Label layoutX="24.0" layoutY="14.0" prefHeight="61.0" prefWidth="332.0" text="Supplier Information">
+                  <Label layoutX="179.0" layoutY="11.0" prefHeight="61.0" prefWidth="332.0" text="Supplier Information">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
                   <AnchorPane layoutX="101.0" layoutY="84.0" prefHeight="521.0" prefWidth="782.0" styleClass="userContainer" stylesheets="@../../../Styles/userMenu.css">
                      <children>
+                        <FontAwesomeIconView glyphName="TRUCK" layoutX="412.0" layoutY="448.0" opacity="0.2" size="350" />
                         <GridPane layoutX="28.0" layoutY="61.0" prefHeight="401.0" prefWidth="500.0" styleClass="managementPaneContainer" stylesheets="@../../../Styles/userMenu.css">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="208.0" />
@@ -58,7 +59,7 @@
                   </AnchorPane>
                   <HBox layoutX="289.0" layoutY="615.0" prefHeight="61.0" prefWidth="408.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css">
                      <children>
-                        <Button fx:id="save_btn" mnemonicParsing="false" onAction="#addSupplier" prefHeight="61.0" prefWidth="200.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" text="Save Changes">
+                        <Button fx:id="save_btn" mnemonicParsing="false" onAction="#addSupplier" prefHeight="61.0" prefWidth="200.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedPopUpStyleSheet.css" text="Add Supplier">
                            <graphic>
                               <FontAwesomeIconView glyphName="SAVE" size="35" />
                            </graphic>
@@ -76,6 +77,7 @@
                         </Button>
                      </children>
                   </HBox>
+                  <FontAwesomeIconView glyphName="TRUCK" layoutX="101.0" layoutY="63.0" size="60" />
                </children>
             </AnchorPane>
          </children>

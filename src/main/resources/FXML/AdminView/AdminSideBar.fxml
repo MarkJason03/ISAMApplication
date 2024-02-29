@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="230.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.AdminSidebarController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="230.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.TempPackage.AdminSidebarController">
    <children>
       <VBox prefHeight="593.0" prefWidth="230.0" styleClass="buttonContainers" stylesheets="@../../Styles/AdminMenu.css">
          <children>
@@ -19,7 +19,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="dashboard_btn" mnemonicParsing="false" text="Dashboard">
+            <Button fx:id="dashboard_btn" mnemonicParsing="false" onAction="#openDashboard" text="Dashboard">
                <graphic>
                   <FontAwesomeIconView glyphName="DASHBOARD" size="30" />
                </graphic>
@@ -39,7 +39,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="manageUsers_btn" mnemonicParsing="false" text="Users">
+            <Button fx:id="manageUsers_btn" onAction="#openManageUsers" mnemonicParsing="false" text="Users">
                <graphic>
                   <FontAwesomeIconView glyphName="USER" size="30" />
                </graphic>
@@ -71,12 +71,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="editCurUserProfile_btn" mnemonicParsing="false" text="Edit Profile">
+            <Button fx:id="editCurUserProfile_btn" mnemonicParsing="false" onAction="#openEditProfile" text="Edit Profile">
                <graphic>
                   <FontAwesomeIconView glyphName="GEARS" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="logout_btn" mnemonicParsing="false" text="Logout">
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#logoutUser" text="Logout">
                <graphic>
                   <FontAwesomeIconView glyphName="SIGN_OUT" size="30" />
                </graphic>

@@ -1,6 +1,6 @@
-package com.example.fyp_application.Controllers.Admin;
+package com.example.fyp_application.Controllers.Admin.TempPackage;
 
-import com.example.fyp_application.Controllers.Client.RevisedDBController;
+import com.example.fyp_application.Controllers.Shared.EditUserProfileController;
 import com.example.fyp_application.Views.ViewHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,20 +41,28 @@ public class AdminSidebarController {
     private Button reports_btn;
 
     @FXML
-    private void openDashboard() {
+    private void openDashboard() throws IOException {
         //TODO
+
+
+        swapScene(ViewHandler.ADMIN_DASHBOARD, ModifiedAdminDashboardController.class);
     }
 
 
     @FXML
-    private void openReports() {
+    private void openReports() throws IOException {
         //TODO
+
+
     }
 
 
     @FXML
-    private void openManageUsers() {
+    private void openManageUsers() throws  IOException{
+
         //TODO
+        swapScene(ViewHandler.ADMIN_MANAGE_USER_VIEW, ModifiedHomePageController.class);
+
     }
 
 
@@ -66,6 +74,8 @@ public class AdminSidebarController {
     @FXML
     private void openManageSuppliers() {
         //TODO
+
+        //swapScene(ViewHandler.ADMIN_MANAGE_SUPPLIER_VIEW, ModifiedHomePageController.class);
     }
 
 
@@ -75,11 +85,11 @@ public class AdminSidebarController {
     }
 
 
+
+
     @FXML
-    private void openEditProfile() {
-        //TODO
-
-
+    private void openEditProfile() throws IOException {
+        swapScene(ViewHandler.SHARED_EDIT_PROFILE_VIEW, EditUserProfileController.class);
     }
 
 
@@ -103,16 +113,21 @@ public class AdminSidebarController {
     private <T> void swapScene(String newContent, Class<T> controllerClass) throws IOException {
 
         try {
+
+            // Load the new content
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(newContent)));
             StackPane newLoadedPane = loader.load();
+            // Get the controller for the new content
             T controller = loader.getController();
+            // Check if the controller is the type you want
             if (controllerClass.isInstance(controller)) {
-                // Assuming you want to replace all children of temporaryAP with those of newLoadedPane
-                RevisedDBController.swappableContentPane.getChildren().setAll(newLoadedPane);
+                // Replace the current content with the new lo
+                ModifiedAdminDashboardController.swappableContentPane.getChildren().setAll(newLoadedPane);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+
 }

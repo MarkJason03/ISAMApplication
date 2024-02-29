@@ -1,4 +1,4 @@
-package com.example.fyp_application.Controllers.Client;
+package com.example.fyp_application.Controllers.Admin.TempPackage;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
@@ -28,8 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
-public class RevisedDBController implements Initializable {
+public class ModifiedAdminDashboardController implements Initializable {
 
     @FXML
     private Button closeMenu_btn;
@@ -64,25 +63,31 @@ public class RevisedDBController implements Initializable {
     @FXML
     private Label username_lbl;
 
-
+    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
     public static AnchorPane swappableContentPane;
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
-/*
-    private   int userID;
-    private   String firstName;
-    private   String photo;*/
 
+    //
     public static Integer userID;
     public static String name;
     public static String photoPath;
+    @FXML
+    private void refreshInformationHeader() {
+        //TODO
+    }
+
+
+
+
+
 
     @FXML
-    private void initializeSideMenu(){
+    private void initializeSideMenu() {
+        //TODO
         try {
 
-            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_SIDEBAR_MENU)));
+            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.ADMIN_SIDEBAR_MENU)));
             drawerContainer.setSidePane(sideMenu);
             openMenu_btn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> openMenu() );
         } catch (IOException e) {
@@ -109,7 +114,7 @@ public class RevisedDBController implements Initializable {
 
     @FXML
     private void closeMenuCopy() {
-   // Make the drawer visible
+        // Make the drawer visible
         closeMenu_btn.setVisible(false); // Hide the close menu button
         openMenu_btn.setVisible(true);
         drawerContainer.setDefaultDrawerSize(230); // Example width in pixels
@@ -123,14 +128,25 @@ public class RevisedDBController implements Initializable {
     }
 
     @FXML
-    private void helloworld(){
-        System.out.println("Hello World");
+    private void minimizeApplication() {
+        //Minimalize the application
+        Stage stage = (Stage) minimizeApp_btn.getScene().getWindow();
+        stage.setIconified(true);
     }
 
 
+    @FXML
+    private void closeApplication() {
+        //TODO
+        Stage stage = (Stage) exitApp_btn.getScene().getWindow();
 
+        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+            stage.close();
+        }
+    }
 
-    public void loadCurrentUser() {
+    @FXML
+    private void loadCurrentUser() {
         userID = CurrentLoggedUserHandler.getUserID();
         name = CurrentLoggedUserHandler.getFirstName();
         photoPath = CurrentLoggedUserHandler.getImagePath();
@@ -142,31 +158,8 @@ public class RevisedDBController implements Initializable {
         lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeHandler.getCurrentTime());
     }
 
-
     @FXML
-    private void closeApplication(){
-        //TODO
-        Stage stage = (Stage) exitApp_btn.getScene().getWindow();
-
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
-            stage.close();
-        }
-    }
-
-    @FXML
-    private void minimizeApplication(){
-        Stage stage = (Stage) minimizeApp_btn.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    private void refreshInformationHeader(){
-        System.out.println("Refreshing Information");
-        loadCurrentUser();
-
-    }
-
-    public void setLastLoginTime(){
+    private void setLastLoginTime(){
         String lastLoginTime = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
         UserDAO userDAO = new UserDAO();
         userDAO.updateUserLastLoginTime(userID, lastLoginTime);
@@ -177,7 +170,7 @@ public class RevisedDBController implements Initializable {
     private void loadHomeScreen(){
         try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewHandler.CLIENT_HOME_PAGE_VIEW));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_HOME_PAGE_VIEW));
             StackPane stackPane = fxmlLoader.load();
 
             swappableContentPane.getChildren().setAll(stackPane);/*
@@ -187,23 +180,12 @@ public class RevisedDBController implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Set the swappable content pane to the main content anchor pane
         swappableContentPane = mainContentAnchorPane;
-        /*initializeSideMenu();*/
-        // Use the CurrentUserService to access the logged-in user's information
-/*         userID = CurrentLoggedUserHandler.getUserID();
-         name = CurrentLoggedUserHandler.getFirstName();
-         photoPath = CurrentLoggedUserHandler.getImagePath();
-
-
-        username_lbl.setText(name);
-        Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
-        loggedUserImage.setFill(new ImagePattern(curPhoto));*/
         loadHomeScreen();
         loadCurrentUser();
-
         Platform.runLater(this::setLastLoginTime);
     }
-
 }

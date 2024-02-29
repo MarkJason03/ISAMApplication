@@ -1,13 +1,12 @@
-package com.example.fyp_application.Controllers;
+package com.example.fyp_application.Controllers.Shared;
 
-import com.example.fyp_application.Controllers.Admin.ModifiedAdminDashboardController;
+import com.example.fyp_application.Controllers.Admin.TempPackage.ModifiedAdminDashboardController;
 import com.example.fyp_application.Controllers.Client.RevisedDBController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Views.ViewHandler;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -17,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -296,6 +294,24 @@ public class LoginPageController implements Initializable {
 
     }
 
+
+    @FXML
+    private void minimizeApplication() {
+        //Minimalize the application
+        Stage stage = (Stage) login_btn.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+
+    @FXML
+    private void closeApplication() {
+        //TODO
+        Stage stage = (Stage) exit_btn.getScene().getWindow();
+
+        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+            stage.close();
+        }
+    }
 
 
     @Override

@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class App extends Application{
@@ -35,7 +36,7 @@ public class App extends Application{
 
         /*stage.setTitle("FYP Application");*/
         stage.setScene(scene);
-        /*stage.initStyle(StageStyle.UNDECORATED);*/
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
         stage.setResizable(false);
     }

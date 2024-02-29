@@ -22,13 +22,13 @@ module com.example.fyp_application {
     requires de.mkammerer.argon2;
 
     opens com.example.fyp_application to javafx.fxml;
-    opens com.example.fyp_application.Controllers to javafx.fxml;
+    opens com.example.fyp_application.Controllers.Shared to javafx.fxml;
     opens com.example.fyp_application.Controllers.Admin to javafx.fxml;
     opens com.example.fyp_application.Controllers.Client to javafx.fxml;
 
 
     exports com.example.fyp_application;
-    exports com.example.fyp_application.Controllers;
+
     exports com.example.fyp_application.Controllers.Admin;
     exports com.example.fyp_application.Controllers.Client;
     exports com.example.fyp_application.Model;
@@ -37,6 +37,10 @@ module com.example.fyp_application {
     opens com.example.fyp_application.Utils to javafx.fxml;
     exports com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
     opens com.example.fyp_application.Controllers.Admin.SupplierManagementControllers to javafx.fxml;
+    exports com.example.fyp_application.Controllers.Admin.TempPackage;
+    opens com.example.fyp_application.Controllers.Admin.TempPackage to javafx.fxml;
+    exports com.example.fyp_application.Controllers.Shared;
+
 
 
 }

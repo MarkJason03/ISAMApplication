@@ -1,5 +1,6 @@
 package com.example.fyp_application.Controllers.Client;
 
+import com.example.fyp_application.Controllers.Shared.EditUserProfileController;
 import com.example.fyp_application.Views.ViewHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

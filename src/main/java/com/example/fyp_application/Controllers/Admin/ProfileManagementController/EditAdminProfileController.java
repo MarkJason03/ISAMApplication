@@ -1,5 +1,6 @@
-package com.example.fyp_application.Controllers.Shared;
+package com.example.fyp_application.Controllers.Client;
 
+import com.example.fyp_application.Controllers.Client.EditProfilePopUpController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
@@ -148,7 +149,7 @@ public class EditUserProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.CLIENT_EDIT_PROFILE_POPUP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.SHARED_EDIT_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 EditProfilePopUpController accountSettingsController = modalViewLoader.getController();

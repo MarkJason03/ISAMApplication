@@ -1,4 +1,4 @@
-package com.example.fyp_application.Controllers.Shared;
+package com.example.fyp_application.Controllers.Client;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;

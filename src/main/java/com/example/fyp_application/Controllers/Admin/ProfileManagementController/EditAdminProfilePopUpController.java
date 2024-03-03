@@ -1,35 +1,25 @@
-package com.example.fyp_application.Controllers.Client;
+package com.example.fyp_application.Controllers.Admin.ProfileManagementController;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.PasswordHashHandler;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.image.Image;
-
-
-import javafx.beans.value.ChangeListener;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-
-
-import java.util.Objects;
-
-
-public class EditProfilePopUpController implements Initializable {
+public class EditAdminProfilePopUpController implements Initializable {
 
 
     @FXML
@@ -77,8 +67,6 @@ public class EditProfilePopUpController implements Initializable {
 
     private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
-    private boolean isMatched = false;
-
     private int userID;
 
 
@@ -122,7 +110,7 @@ public class EditProfilePopUpController implements Initializable {
         }
         else{
             UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
-            ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Supplier information updated successfully");
+            ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Account information updated successfully");
             saveProfileChanges_btn.getScene().getWindow().hide();
         }
 

@@ -1,6 +1,6 @@
-package com.example.fyp_application.Controllers.Client;
+package com.example.fyp_application.Controllers.Client.ProfileManagement;
 
-import com.example.fyp_application.Controllers.Client.EditProfilePopUpController;
+import com.example.fyp_application.Controllers.Client.ProfileManagement.EditProfilePopUpController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
@@ -100,18 +100,7 @@ public class EditUserProfileController implements Initializable {
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
     private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler(); // This is a class that handles alerts
 
-    @FXML
-    private void setTimeUpdater(){
-        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> loadCurrentDateTime()));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-    }
 
-
-    @FXML
-    private void loadCurrentDateTime() {
-        dateTimeHolder.setText("Today " + DateTimeHandler.getMonthDayYearFormat() + " | " + DateTimeHandler.getCurrentTime());
-    }
 
 
 
@@ -149,7 +138,7 @@ public class EditUserProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.SHARED_EDIT_PROFILE_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.CLIENT_EDIT_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 EditProfilePopUpController accountSettingsController = modalViewLoader.getController();
@@ -174,6 +163,8 @@ public class EditUserProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
+                CurrentLoggedUserHandler.setNewName(userModel.getFirstName());
+
         }
 
     }
@@ -221,7 +212,7 @@ public class EditUserProfileController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setTimeUpdater();
+        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
         try {
             loadUserData(userID);
         } catch (SQLException e) {

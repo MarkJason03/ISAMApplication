@@ -1,4 +1,4 @@
-package com.example.fyp_application.Controllers.Client;
+package com.example.fyp_application.Controllers.Client.ProfileManagement;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
@@ -77,7 +77,7 @@ public class EditProfilePopUpController implements Initializable {
 
     private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
-    private boolean isMatched = false;
+
 
     private int userID;
 
@@ -122,7 +122,7 @@ public class EditProfilePopUpController implements Initializable {
         }
         else{
             UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
-            ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Supplier information updated successfully");
+            ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Details updated successfully.");
             saveProfileChanges_btn.getScene().getWindow().hide();
         }
 

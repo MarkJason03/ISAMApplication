@@ -1,15 +1,11 @@
-package com.example.fyp_application.Controllers.Client;
+package com.example.fyp_application.Controllers.Admin.ProfileManagementController;
 
-import com.example.fyp_application.Controllers.Client.EditProfilePopUpController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Views.ViewHandler;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +25,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +33,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class EditUserProfileController implements Initializable {
+public class EditAdminProfileController implements Initializable {
 
     @FXML
     private TextField accountStatus_TF;
@@ -95,23 +90,10 @@ public class EditUserProfileController implements Initializable {
     @FXML
     private Label usernameMainHolder_lbl;
 
-    private final int userID = CurrentLoggedUserHandler.getUserID();
+    private final int userID = CurrentLoggedUserHandler.getAdminID();
 
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
     private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler(); // This is a class that handles alerts
-
-    @FXML
-    private void setTimeUpdater(){
-        Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), event -> loadCurrentDateTime()));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-    }
-
-
-    @FXML
-    private void loadCurrentDateTime() {
-        dateTimeHolder.setText("Today " + DateTimeHandler.getMonthDayYearFormat() + " | " + DateTimeHandler.getCurrentTime());
-    }
 
 
 
@@ -149,10 +131,10 @@ public class EditUserProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.SHARED_EDIT_PROFILE_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_MY_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
-                EditProfilePopUpController accountSettingsController = modalViewLoader.getController();
+                EditAdminProfilePopUpController accountSettingsController = modalViewLoader.getController();
                 accountSettingsController.loadUserDetails(userModel);
 
 
@@ -174,6 +156,7 @@ public class EditUserProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
+                CurrentLoggedUserHandler.setNewAdminName(userModel.getFirstName());
         }
 
     }
@@ -204,12 +187,12 @@ public class EditUserProfileController implements Initializable {
         new Thread(() -> {
             String  timeStamp = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
             UserDAO userDAO = new UserDAO();
-            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getUserID(), newPath, timeStamp);
+            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getAdminID(), newPath, timeStamp);
             Platform.runLater(() -> {
                 try {
-                    loadUserData(CurrentLoggedUserHandler.getUserID());
+                    loadUserData(CurrentLoggedUserHandler.getAdminID());
                     UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
-                    CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
+                    CurrentLoggedUserHandler.setNewAdminPhoto(userModel.getPhoto());
 
 
                 } catch (SQLException error) {
@@ -221,7 +204,7 @@ public class EditUserProfileController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setTimeUpdater();
+        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
         try {
             loadUserData(userID);
         } catch (SQLException e) {

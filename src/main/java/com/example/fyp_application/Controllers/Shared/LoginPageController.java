@@ -1,7 +1,7 @@
 package com.example.fyp_application.Controllers.Shared;
 
-import com.example.fyp_application.Controllers.Admin.TempPackage.ModifiedAdminDashboardController;
-import com.example.fyp_application.Controllers.Client.RevisedDBController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController;
+import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
@@ -23,7 +23,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -63,18 +62,14 @@ public class LoginPageController implements Initializable {
 
 
     public void checkDatabaseConnection() {
-/*
-        if (LoginModel.isDbConnected()) {
-            dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
-        } else {
-            System.out.println("Database Connection Failed");
-        }
-*/
 
+        // Check if the database is connected
         if (DatabaseConnectionHandler.isDbConnected(Objects.requireNonNull(DatabaseConnectionHandler.getConnection()))){
             dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
         } else {
-            dbStatusCheck_lbl.setText("Back-end Status: Database Connection Failed");
+            // If the database is not connected, display an error message and exit the application
+            System.out.println("Database Connection Failed");
+            System.exit(0);
         }
     }
 
@@ -187,19 +182,13 @@ public class LoginPageController implements Initializable {
         new Thread(task).start();
     }
 
-    private void handleSuccessfulLogin(UserModel userDetails) throws SQLException, IOException {
-
-        // Get the first name and role of the user
+    private void handleSuccessfulLogin(UserModel userDetails) throws IOException {
+            // Get the first name and role of the user
             String first_name = userDetails.getFirstName();
             String role = userDetails.getRoleName(); // Assuming 'userRoleName' holds the role name
             Integer userID = userDetails.getUserID();
             String photoPath = userDetails.getPhoto();
-
-
-
             handleRoleBasedLogin(userID, first_name, photoPath, role);
-
-
     }
 
     private void handleRoleBasedLogin(Integer userID, String firstName, String photoPath, String role) throws IOException {
@@ -224,15 +213,13 @@ public class LoginPageController implements Initializable {
         //Store the current ID of the logged-in user - used for fetching data from the database within the application
         CurrentLoggedUserHandler.setCurrentUser(userID, name, photoPath);
 
+
         login_btn.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_DASHBOARD_VIEW)));
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
-        RevisedDBController controller = loader.getController(); // Get the controller instance
-        //controller.setLastLoginTime(userID, lastLoginTime); // Update the last login time
-
-        //controller.loadCurrentUserInfo(userID,name,photoPath ); // Pass the user data to the controller
+        ClientDashboardController controller = loader.getController(); // Get the controller instance
 
         Stage stage = new Stage();
         Scene scene = new Scene(parent);
@@ -260,17 +247,15 @@ public class LoginPageController implements Initializable {
 
 
         //Store the current ID of the logged-in user - used for fetching data from the database within the application
-        CurrentLoggedUserHandler.setCurrentUser(userID, name, photoPath);
 
+        //TODO - Revised the admin dashboard controller to use this shared service
+        CurrentLoggedUserHandler.setCurrentAdmin(userID, name, photoPath);
         login_btn.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewHandler.ADMIN_DASHBOARD)));
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
         ModifiedAdminDashboardController controller = loader.getController(); // Get the controller instance
-        //controller.setLastLoginTime(userID, lastLoginTime); // Update the last login time
-
-        //controller.loadCurrentUserInfo(userID,name,photoPath ); // Pass the user data to the controller
 
         Stage stage = new Stage();
         Scene scene = new Scene(parent);
@@ -297,7 +282,7 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void minimizeApplication() {
-        //Minimalize the application
+        //Minimize the application
         Stage stage = (Stage) login_btn.getScene().getWindow();
         stage.setIconified(true);
     }

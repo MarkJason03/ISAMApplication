@@ -10,7 +10,7 @@ import java.sql.*;
 public class UserDAO {
 
 
-    public boolean isUsernameTaken(String Username) {
+    public static boolean isUsernameTaken(String Username) {
 
         String sql = "SELECT tbl_Users.Username from tbl_Users where Username = ?";
         boolean isUsernameTaken = false;
@@ -24,7 +24,9 @@ public class UserDAO {
 
             if (resultSet.next()) {
                 isUsernameTaken = true;
+                System.out.println("Username is taken");
             }
+            System.out.println("Username is not taken");
             DatabaseConnectionHandler.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,29 +80,49 @@ public class UserDAO {
     }
 
 
-    public ObservableList<UserModel> getAllUsers() {
+    public ObservableList<UserModel> getAllUsers() throws SQLException {
         ObservableList<UserModel> arrayList = FXCollections.observableArrayList();
 
-        String sql = "SELECT tbl_Users.UserID, FirstName,LastName,Gender,Email,Username,Phone,AccountStatus,CreatedAt,ExpiresOn, \n" + "       tbl_userRoles.userRoleName As Role,\n" + "       tbl_Departments.deptName AS departmentName\n" + "FROM tbl_Users\n" + "JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID\n" + "JOIN tbl_Departments ON tbl_Users.deptID = tbl_Departments.deptID;";
-
+        String sql = """
+                select UserID, tbl_Users.deptID, tbl_Users.userRoleID, FirstName, LastName, Gender, DOB, Email, Photo, Username, Phone, AccountStatus, CreatedAt, ExpiresOn,
+                LastLogin, tbl_userRoles.userRoleName as Role, tbl_Departments.deptName as departmentName
+                from tbl_Users
+                join tbl_userRoles on tbl_Users.userRoleID = tbl_userRoles.userRoleID
+                join tbl_Departments on tbl_Users.deptID = tbl_Departments.deptID;
+                """;
 
         UserModel userModel;
 
-        try {
-            Connection connect = DatabaseConnectionHandler.getConnection();
-            PreparedStatement preparedStatement = connect.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Connection connect = DatabaseConnectionHandler.getConnection()) {
+            assert connect != null;
+            try (PreparedStatement preparedStatement = connect.prepareStatement(sql); ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    userModel = new UserModel(
+                            resultSet.getInt("UserID"),
+                            resultSet.getInt("deptID"),
+                            resultSet.getInt("userRoleID"),
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("LastName"),
+                            resultSet.getString("Gender"),
+                            resultSet.getString("DOB"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Photo"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Phone"),
+                            resultSet.getString("AccountStatus"),
+                            resultSet.getString("CreatedAt"),
+                            resultSet.getString("ExpiresOn"),
+                            resultSet.getString("LastLogin"),
+                            resultSet.getString("Role"),
+                            resultSet.getString("departmentName"));
 
-            while (resultSet.next()) {
-                userModel = new UserModel(resultSet.getInt("UserID"), resultSet.getString("FirstName"), resultSet.getString("LastName"), resultSet.getString("Gender"), resultSet.getString("Email"), resultSet.getString("Username"), resultSet.getString("Phone"), resultSet.getString("AccountStatus"), resultSet.getString("CreatedAt"), resultSet.getString("ExpiresOn"), resultSet.getString("Role"), resultSet.getString("departmentName"));
-                arrayList.add(userModel);
+                    arrayList.add(userModel);
             }
-
-            DatabaseConnectionHandler.closeConnection(connect);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return arrayList;
+    }
     }
 
 

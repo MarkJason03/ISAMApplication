@@ -29,30 +29,40 @@ public class UserModel {
     private String lastUpdated;
 
 
-    //for table view
+    //for admin table view
     public UserModel(int userID,
+                     int userRoleID,
+                     int deptID,
                      String firstName,
                      String lastName,
                      String gender,
+                     String dob,
                      String email,
+                     String photo,
                      String username,
                      String phone,
                      String accountStatus,
                      String createdAt,
                      String expiresAt,
+                     String lastLogin,
                      String RoleName,
                      String DeptName) {
 
         this.userID = userID;
+        this.userRoleID = userRoleID;
+        this.deptID = deptID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+        this.dob = dob;
         this.email = email;
+        this.photo = photo;
         this.username = username;
         this.phone = phone;
         this.accountStatus = accountStatus;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
+        this.lastLogin = lastLogin;
         this.roleName = RoleName;
         this.deptName = DeptName;
     }
@@ -95,7 +105,7 @@ public class UserModel {
     public UserModel(Integer userID,String firstName, String lastName,
     String email, String gender, String photo, String phone,
     String dob, String username, String createdAt,
-    String accountStatus, String deptName , String lastUpdated){
+    String accountStatus, String deptName, String lastUpdated){
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;

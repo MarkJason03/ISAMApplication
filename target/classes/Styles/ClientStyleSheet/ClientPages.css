@@ -123,13 +123,13 @@
 
 .editInformationContainer TextField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
+
 
 }
 
 .editInformationContainer PasswordField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
+
 }
 
 .saveInformationButton{
@@ -159,4 +159,28 @@
 
 .cancelChangesButton:pressed{
     -fx-background-color: red;
+}
+
+
+
+/*scroll pane styling*/
+
+.scroll-pane {
+     -fx-background-color: transparent;
+ }
+
+ .scroll-pane .viewport {
+     -fx-background-color: transparent;
+ }
+
+ .scroll-pane .content {
+     -fx-background-color: transparent;
+ }
+.scroll-pane .scroll-bar:vertical {
+    -fx-max-width: 0;
+    -fx-pref-width: 0;
+    -fx-opacity: 50%;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }

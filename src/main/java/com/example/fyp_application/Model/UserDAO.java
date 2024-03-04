@@ -10,7 +10,7 @@ import java.sql.*;
 public class UserDAO {
 
 
-    public boolean isUsernameTaken(String Username) {
+    public static boolean isUsernameTaken(String Username) {
 
         String sql = "SELECT tbl_Users.Username from tbl_Users where Username = ?";
         boolean isUsernameTaken = false;
@@ -24,7 +24,9 @@ public class UserDAO {
 
             if (resultSet.next()) {
                 isUsernameTaken = true;
+                System.out.println("Username is taken");
             }
+            System.out.println("Username is not taken");
             DatabaseConnectionHandler.closeConnection(connection);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,25 +80,44 @@ public class UserDAO {
     }
 
 
-    public ObservableList<UserModel> getAllUsers() {
+    public ObservableList<UserModel> getAllUsers()  {
         ObservableList<UserModel> arrayList = FXCollections.observableArrayList();
 
-        String sql = "SELECT tbl_Users.UserID, FirstName,LastName,Gender,Email,Username,Phone,AccountStatus,CreatedAt,ExpiresOn, \n" + "       tbl_userRoles.userRoleName As Role,\n" + "       tbl_Departments.deptName AS departmentName\n" + "FROM tbl_Users\n" + "JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID\n" + "JOIN tbl_Departments ON tbl_Users.deptID = tbl_Departments.deptID;";
-
+        String sql = """
+                select UserID, tbl_Users.deptID, tbl_Users.userRoleID, FirstName, LastName, Gender, DOB, Email, Photo, Username, Phone, AccountStatus, CreatedAt, ExpiresOn,
+                LastLogin, tbl_userRoles.userRoleName as Role, tbl_Departments.deptName as departmentName
+                from tbl_Users
+                join tbl_userRoles on tbl_Users.userRoleID = tbl_userRoles.userRoleID
+                join tbl_Departments on tbl_Users.deptID = tbl_Departments.deptID;
+                """;
 
         UserModel userModel;
 
-        try {
-            Connection connect = DatabaseConnectionHandler.getConnection();
-            PreparedStatement preparedStatement = connect.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Connection connect = DatabaseConnectionHandler.getConnection();
+             PreparedStatement preparedStatement = connect.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    userModel = new UserModel(
+                            resultSet.getInt("UserID"),
+                            resultSet.getInt("deptID"),
+                            resultSet.getInt("userRoleID"),
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("LastName"),
+                            resultSet.getString("Gender"),
+                            resultSet.getString("DOB"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Photo"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Phone"),
+                            resultSet.getString("AccountStatus"),
+                            resultSet.getString("CreatedAt"),
+                            resultSet.getString("ExpiresOn"),
+                            resultSet.getString("LastLogin"),
+                            resultSet.getString("Role"),
+                            resultSet.getString("departmentName"));
 
-            while (resultSet.next()) {
-                userModel = new UserModel(resultSet.getInt("UserID"), resultSet.getString("FirstName"), resultSet.getString("LastName"), resultSet.getString("Gender"), resultSet.getString("Email"), resultSet.getString("Username"), resultSet.getString("Phone"), resultSet.getString("AccountStatus"), resultSet.getString("CreatedAt"), resultSet.getString("ExpiresOn"), resultSet.getString("Role"), resultSet.getString("departmentName"));
-                arrayList.add(userModel);
+                    arrayList.add(userModel);
             }
-
-            DatabaseConnectionHandler.closeConnection(connect);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,10 +125,71 @@ public class UserDAO {
     }
 
 
+    public static void addUser(int userRoleID, int deptID, String firstName, String lastName, String gender, String dob, String email, String username, String password, String phone, String accountStatus, String photo, String createdAt, String expiresOn) {
+
+        String sql = """
+                INSERT INTO tbl_Users (
+                userRoleID,
+                deptID,
+                FirstName,
+                LastName,
+                Gender,
+                DOB,
+                Email,
+                Username,
+                Password,
+                Phone,
+                AccountStatus,
+                Photo,
+                CreatedAt,
+                ExpiresOn) VALUES
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                
+                """;
+
+        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, userRoleID);
+                preparedStatement.setInt(2, deptID);
+                preparedStatement.setString(3, firstName);
+                preparedStatement.setString(4, lastName);
+                preparedStatement.setString(5,gender);
+                preparedStatement.setString(6, dob);
+                preparedStatement.setString(7, email);
+                preparedStatement.setString(8, username);
+                preparedStatement.setString(9, password);
+                preparedStatement.setString(10, phone);
+                preparedStatement.setString(11, accountStatus);
+                preparedStatement.setString(12, photo);
+                preparedStatement.setString(13, createdAt);
+                preparedStatement.setString(14, expiresOn);
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException e){
+                e.printStackTrace();
+        }
+
+    }
+
+
+
+
     public void deleteUser(int userID) {
         String sql = "DELETE FROM tbl_Users WHERE UserID = ?";
 
-        try {
+        try(Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, userID);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(
+            );
+        }
+/*        try {
             //try getting connection from the DatabaseConnectionHandler
             Connection connection = DatabaseConnectionHandler.getConnection();
             assert connection != null;
@@ -121,6 +203,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        */
     }
 
     public int countActiveUsers() {
@@ -281,4 +364,56 @@ public class UserDAO {
         }
     }
 
+
+
+    public static void updateUserProfile(int userID,
+                                         int userRoleID,
+                                         int deptID,
+                                         String firstName,
+                                         String lastName,
+                                         String gender,
+                                         String phone,
+                                         String email,
+                                         String accountStatus,
+                                         String expiresOn
+
+    ) throws SQLException {
+
+
+        String sql = """
+                
+                UPDATE tbl_Users Set
+                userRoleID = ?,
+                deptID = ?,
+                FirstName = ?,
+                LastName = ?,
+                Gender= ?,
+                Phone = ?,
+                Email = ?,
+                AccountStatus = ?,
+                ExpiresOn = ?
+                WHERE UserID = ?
+                
+                """;
+
+        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, userRoleID);
+                preparedStatement.setInt(2, deptID);
+                preparedStatement.setString(3, firstName);
+                preparedStatement.setString(4, lastName);
+                preparedStatement.setString(5,gender);
+                preparedStatement.setString(6, phone);
+                preparedStatement.setString(7, email);
+                preparedStatement.setString(8, accountStatus);
+                preparedStatement.setString(9, expiresOn);
+                preparedStatement.setInt(10, userID);
+                preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            }
+        }
+    }
 }

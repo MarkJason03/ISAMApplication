@@ -8,18 +8,28 @@ public class SupplierModel {
     private String supplierEmail;
     private String supplierContact;
 
+    private String supplierContractStatus;
+
+    private String contractStartDate;
+
+    private String contractEndDate;
 
     //Constructor for supplier table
-    public SupplierModel(int supplierID, String supplierName, String supplierAddress, String supplierEmail, String supplierContact) {
+    public SupplierModel(int supplierID, String supplierName, String supplierAddress, String supplierEmail, String supplierContact, String contractStatus, String contractStartDate, String contractEndDate) {
         this.supplierID = supplierID;
         this.supplierName = supplierName;
         this.supplierAddress = supplierAddress;
         this.supplierEmail = supplierEmail;
         this.supplierContact = supplierContact;
+        this.supplierContractStatus = contractStatus;
+        this.contractStartDate = contractStartDate;
+        this.contractEndDate = contractEndDate;
+
     }
 
 
     //getter methods
+
 
 
     public int getSupplierID() {
@@ -42,7 +52,17 @@ public class SupplierModel {
         return supplierContact;
     }
 
+    public String getSupplierContractStatus() {
+        return supplierContractStatus;
+    }
 
+    public String getContractStartDate() {
+        return contractStartDate;
+    }
+
+    public String getContractEndDate() {
+        return contractEndDate;
+    }
 
     //setter methods
 
@@ -65,5 +85,19 @@ public class SupplierModel {
     public void setSupplierContact(String supplierContact) {
         this.supplierContact = supplierContact;
     }
+
+    public void setSupplierContractStatus(String supplierContractStatus) {
+        this.supplierContractStatus = supplierContractStatus;
+    }
+
+    public void setContractStartDate(String contractStartDate) {
+        this.contractStartDate = contractStartDate;
+    }
+
+    public void setContractEndDate(String contractEndDate) {
+        this.contractEndDate = contractEndDate;
+    }
+
+
 
 }

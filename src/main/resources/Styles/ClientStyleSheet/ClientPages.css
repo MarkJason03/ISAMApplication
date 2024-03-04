@@ -123,13 +123,13 @@
 
 .editInformationContainer TextField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
+
 
 }
 
 .editInformationContainer PasswordField{
     -fx-font-size: 1.5em;
-    -fx-pref-width: 250;
+
 }
 
 .saveInformationButton{

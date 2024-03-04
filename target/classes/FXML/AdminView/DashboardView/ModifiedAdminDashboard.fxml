@@ -67,11 +67,11 @@
             <Label fx:id="lastUpdateTime_lbl" layoutX="1333.0" layoutY="73.0" prefHeight="17.0" prefWidth="258.0" text="Last Updated:" />
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenuCopy" prefHeight="60.0" prefWidth="60.0" text="close">
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenuCopy" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="DEDENT" size="50" />
                      </graphic></Button>
-                  <Button fx:id="openMenu_btn" mnemonicParsing="false" onAction="#initializeSideMenu" prefHeight="60.0" prefWidth="60.0" text="open">
+                  <Button fx:id="openMenu_btn" mnemonicParsing="false" onAction="#initializeSideMenu" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="INDENT" size="50" />
                      </graphic>
@@ -84,7 +84,7 @@
             <String fx:value="shadow" />
          </styleClass>
       </AnchorPane>
-      <AnchorPane fx:id="mainContentAnchorPane" layoutX="-1.0" layoutY="94.0" prefHeight="800.0" prefWidth="1600.0" />
+      <AnchorPane fx:id="mainContentAnchorPane" layoutX="-1.0" layoutY="94.0" prefHeight="800.0" prefWidth="1600.0" AnchorPane.rightAnchor="0.0" />
       <JFXDrawer fx:id="drawerContainer" layoutY="95.0" overLayVisible="false" prefHeight="825.0" prefWidth="170.0" />
    </children>
 </AnchorPane>

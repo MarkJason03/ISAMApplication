@@ -166,27 +166,24 @@ public class EditAdminProfilePopUpController implements Initializable {
 
         updatePassword_btn.setDisable(true);
 
-        ChangeListener<String> passwordChangeListener = new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // Check if the text in both password fields matches
-                if (newPassword_TF.getText().equals(confirmationPassword_TF.getText()) || confirmationPassword_TF.getText().equals(newPassword_TF.getText())) {
-                    // If they match, indicate success in some way
-                    updatePassword_btn.setDisable(false);
-                    newPassword_TF.setStyle("-fx-border-color: green");
-                    confirmationPassword_TF.setStyle("-fx-border-color: green");
-                    passwordChecker_lbl.setStyle("-fx-text-fill: green");
-                    passwordChecker_lbl.setText("Passwords match");
+        ChangeListener<String> passwordChangeListener = (observable, oldValue, newValue) -> {
+            // Check if the text in both password fields matches
+            if (newPassword_TF.getText().equals(confirmationPassword_TF.getText()) || confirmationPassword_TF.getText().equals(newPassword_TF.getText())) {
+                // If they match, indicate success in some way
+                updatePassword_btn.setDisable(false);
+                newPassword_TF.setStyle("-fx-border-color: green");
+                confirmationPassword_TF.setStyle("-fx-border-color: green");
+                passwordChecker_lbl.setStyle("-fx-text-fill: green");
+                passwordChecker_lbl.setText("Passwords match");
 
-                } else {
-                    // If they do not match, show the label or indicate the mismatch
-                    updatePassword_btn.setDisable(true);
-                    newPassword_TF.setStyle("-fx-border-color: red");
-                    confirmationPassword_TF.setStyle("-fx-border-color: red");
-                    passwordChecker_lbl.setStyle("-fx-text-fill: red");
-                    passwordChecker_lbl.setText("Passwords do not match");
+            } else {
+                // If they do not match, show the label or indicate the mismatch
+                updatePassword_btn.setDisable(true);
+                newPassword_TF.setStyle("-fx-border-color: red");
+                confirmationPassword_TF.setStyle("-fx-border-color: red");
+                passwordChecker_lbl.setStyle("-fx-text-fill: red");
+                passwordChecker_lbl.setText("Passwords do not match");
 
-                }
             }
         };
 

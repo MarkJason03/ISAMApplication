@@ -309,7 +309,7 @@ public class ModifiedManageSupplierController implements Initializable {
             supplierDAO.deleteSupplier(supplierID);
             loadSupplierTableData();
         } else{
-            ALERT_HANDLER.showInformationMessageAlert("Delete Supplier", "Supplier Deletion Cancelled");
+            ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
         }
     }
 

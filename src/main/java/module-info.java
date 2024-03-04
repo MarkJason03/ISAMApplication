@@ -6,6 +6,7 @@ module com.example.fyp_application {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
 
+    requires jdk.httpserver;
 
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
@@ -20,6 +21,8 @@ module com.example.fyp_application {
     requires MaterialFX;
     requires com.jfoenix;
     requires de.mkammerer.argon2;
+    requires org.apache.commons.codec;
+    requires mail;
 
     opens com.example.fyp_application to javafx.fxml;
     opens com.example.fyp_application.Controllers.Shared to javafx.fxml;

@@ -1,8 +1,9 @@
 package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.InformationGeneratorHandler;
+import com.example.fyp_application.Utils.*;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.net.URL;
 import java.util.List;
@@ -105,16 +107,32 @@ public class ModifiedEditUserController implements Initializable{
 
 
     @FXML
-    private void saveProfileChanges() {
+    private void saveProfileChanges() throws SQLException {
+
         //TODO: Implement this method
 
-        String username = InformationGeneratorHandler.generateUsername(userFirstName_TF.getText(), userLastName_TF.getText());
+        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
-        System.out.println(username);
-    }
 
-    private void updatePassword() {
-        //TODO: Implement this method
+        if (isEmptyField()){
+            ALERT_HANDLER.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+
+        } else {
+            UserDAO.updateUserProfile(userID,
+                    accountRole_CB.getValue().getUserRoleID(),
+                    dept_CB.getValue().getDeptID(),
+                    userFirstName_TF.getText(),
+                    userLastName_TF.getText(),
+                    userGender_CB.getValue(),
+                    userPhone_TF.getText(),
+                    userEmail_TF.getText(),
+                    accStatus_CB.getValue(),
+                    DateTimeHandler.setSQLiteDateFormat(expiryDate_DP.getValue())
+                    );
+
+            ALERT_HANDLER.showInformationMessageAlert("Profile Updated", "User profile has been updated successfully.");
+            cancel_btn.getScene().getWindow().hide();
+        }
     }
 
 
@@ -129,10 +147,70 @@ public class ModifiedEditUserController implements Initializable{
 
         String randomPassword = InformationGeneratorHandler.generatePassword(12);
 
-        System.out.println(randomPassword);
+        newPassword_TF1.setText(randomPassword);
+        confirmationPassword_TF1.setText(randomPassword);
+        newPassword_TF1.setEditable(true);
+        confirmationPassword_TF1.setEditable(true);
+
     }
 
 
+    @FXML
+    private void sendPasswordResetEmail() throws Exception {
+
+        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
+
+        if (confirmation) {
+            // Check if either of the password fields is empty
+            if (newPassword_TF1.getText().isEmpty() || confirmationPassword_TF1.getText().isEmpty()) {
+                ALERT_HANDLER.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+                return;
+            }
+
+            // Check if the passwords match
+            if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText())) {
+
+
+                // Passwords match, proceed with sending email
+                GMailHandler gMailHandler = new GMailHandler();
+                gMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", gMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
+                ALERT_HANDLER.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
+
+
+                UserDAO.updateUserPassword(userID, PasswordHashHandler.hashPassword(newPassword_TF1.getText()));
+
+                 Platform.runLater(cancel_btn.getScene().getWindow()::hide);
+
+
+
+            } else {
+                // Passwords do not match, show an error message
+                ALERT_HANDLER.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
+            }
+        }
+    }
+
+
+    private boolean isEmptyField() {
+
+        return (userFirstName_TF.getText().isEmpty() ||
+                userLastName_TF.getText().isEmpty() ||
+                userEmail_TF.getText().isEmpty() ||
+                userPhone_TF.getText().isEmpty() ||
+                userGender_CB.getValue().isEmpty() ||
+                accStatus_CB.getValue().isEmpty() ||
+                accountRole_CB.getValue() == null ||
+                dept_CB.getValue() == null) ||
+                createdDate_DP.getValue() == null ||
+                expiryDate_DP.getValue() == null ||
+                dob_DP.getValue() == null;
+
+    }
+    private void resetPasswordFields() {
+        newPassword_TF1.clear();
+        confirmationPassword_TF1.clear();
+        passwordChecker_lbl1.setText("");
+    }
     public void loadSelectedUserDetails(UserModel user) {
 
         this.userID = user.getUserID();
@@ -182,7 +260,58 @@ public class ModifiedEditUserController implements Initializable{
 
 
 
+        updatePassword_btn1.setDisable(true);
 
+        ChangeListener<String> passwordChangeListener = (observable, oldValue, newValue) -> {
+            // Check if the text in both password fields matches
+            if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText()) || confirmationPassword_TF1.getText().equals(newPassword_TF1.getText())) {
+                // If they match, indicate success in some way
+                updatePassword_btn1.setDisable(false);
+                newPassword_TF1.setStyle("-fx-border-color: green");
+                confirmationPassword_TF1.setStyle("-fx-border-color: green");
+                passwordChecker_lbl1.setStyle("-fx-text-fill: green");
+                passwordChecker_lbl1.setText("Passwords match");
+
+            } else {
+                // If they do not match, show the label or indicate the mismatch
+                updatePassword_btn1.setDisable(true);
+                newPassword_TF1.setStyle("-fx-border-color: red");
+                confirmationPassword_TF1.setStyle("-fx-border-color: red");
+                passwordChecker_lbl1.setStyle("-fx-text-fill: red");
+                passwordChecker_lbl1.setText("Passwords do not match");
+
+            }
+        };
+
+        // Add the listener to both password fields' text properties
+        newPassword_TF1.textProperty().addListener(passwordChangeListener);
+        confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
+
+
+
+        expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && newValue.isBefore(LocalDate.now())) {
+                System.out.println("Invalid date: The date cannot be in the past.");
+                ALERT_HANDLER.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
+                expiryDate_DP.setValue(oldValue);  // Revert to the old value if new value is invalid
+                expiryDate_DP.setStyle("-fx-border-color: red");
+
+            } else {
+                // Handle valid date selection
+                expiryDate_DP.setStyle("-fx-border-color: green");
+                System.out.println("Valid date selected: " + newValue);
+            }
+        });
+
+
+        accStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals("Inactive")) {
+                expiryDate_DP.setDisable(true);
+                expiryDate_DP.setValue(null);
+            } else {
+                expiryDate_DP.setDisable(false);
+            }
+        });
 
 
 

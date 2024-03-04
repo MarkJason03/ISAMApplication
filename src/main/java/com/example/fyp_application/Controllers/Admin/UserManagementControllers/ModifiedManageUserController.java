@@ -1,11 +1,13 @@
 package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
+import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Views.ViewHandler;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -131,35 +133,30 @@ public class ModifiedManageUserController implements Initializable {
     private TextField username_TF;
     private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
-    private UserDAO USER_DAO = new UserDAO(); //instance of the Data Access Object
+    private final UserDAO USER_DAO = new UserDAO(); //instance of the Data Access Object
 
-    public void loadTableData() {
-        ObservableList<UserModel> userListData;
-        try {
+    private ObservableList<UserModel> userListData;
+
+    @FXML
+    private void loadTableData() {
+
             userListData = USER_DAO.getAllUsers();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+            userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+            userTable_col_LName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+            userTable_col_Username.setCellValueFactory(new PropertyValueFactory<>("username"));
+            userTable_col_Email.setCellValueFactory(new PropertyValueFactory<>("email"));
+            userTable_col_AccStatus.setCellValueFactory(new PropertyValueFactory<>("accountStatus"));
+            userTable_col_Role.setCellValueFactory(new PropertyValueFactory<>("roleName"));
+            userTable_col_Dept.setCellValueFactory(new PropertyValueFactory<>("deptName"));
+            userTable_col_createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+            userTable_col_ExpiresOn.setCellValueFactory(new PropertyValueFactory<>("expiresAt"));
+
+            userTableView.setItems(userListData);
+
         }
 
-
-        userListData.forEach(System.out::println);
-
-
-        userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        userTable_col_LName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        userTable_col_Username.setCellValueFactory(new PropertyValueFactory<>("username"));
-        userTable_col_Email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        userTable_col_AccStatus.setCellValueFactory(new PropertyValueFactory<>("accountStatus"));
-        userTable_col_Role.setCellValueFactory(new PropertyValueFactory<>("roleName"));
-        userTable_col_Dept.setCellValueFactory(new PropertyValueFactory<>("deptName"));
-        userTable_col_createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-        userTable_col_ExpiresOn.setCellValueFactory(new PropertyValueFactory<>("expiresAt"));
-
-        userTableView.setItems(userListData);
-
-
-    }
 
 
     @FXML
@@ -207,6 +204,7 @@ public class ModifiedManageUserController implements Initializable {
                 e.printStackTrace();
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+                Platform.runLater(this::loadTableData);
 
 
     /*            Platform.runLater(this::runContractStatusUpdate);
@@ -223,35 +221,7 @@ public class ModifiedManageUserController implements Initializable {
 
     }
 
-
-    private void tableListener(){
-        userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
-
-
-                //personal info
-                fullNameHolder_lbl.setText(selectedUser.getFirstName() + " " + selectedUser.getLastName());
-                deptHolder_lbl.setText(selectedUser.getDeptName());
-                email_TF.setText(selectedUser.getEmail());
-                username_TF.setText(selectedUser.getUsername());
-                firstName_TF.setText(selectedUser.getFirstName());
-                lastName_TF.setText(selectedUser.getLastName());
-
-                //account info
-                accRole_TF.setText(selectedUser.getRoleName());
-                accStatus_TF.setText(selectedUser.getAccountStatus());
-                createdOn_TF.setText(selectedUser.getCreatedAt());
-                expiresOn_TF.setText(selectedUser.getExpiresAt());
-                lastLogin_TF.setText(selectedUser.getLastLogin());
-
-
-
-
-            }
-        });
-    }
-
+    @FXML
     public void addUser() {
 
         GaussianBlur blur = new GaussianBlur(10);
@@ -280,15 +250,88 @@ public class ModifiedManageUserController implements Initializable {
             e.printStackTrace();
         } finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            Platform.runLater(this::loadTableData);
+
         }
     }
+
+    @FXML
+    private void deleteUser(){
+        UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            ALERT_HANDLER.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
+            return;
+        }
+
+        if(ALERT_HANDLER.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
+            int userID = selectedUser.getUserID();
+            USER_DAO.deleteUser(userID);
+            loadTableData();
+
+        } else {
+
+             ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "User has not been deleted");
+
+            }
+    }
+
+    @FXML
+    private void reloadTable(){
+        Platform.runLater(this::loadTableData);
+        lastUpdate_lbl.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+    }
+
+
+
+    @FXML
+    private void searchUserDetails(){
+        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                userTableView.setItems(userListData); // Reset to show all data
+                return;
+            }
+            ObservableList<UserModel> filteredList = FXCollections.observableArrayList();
+            for (UserModel userModel : userListData) {
+                if(userModel.getFirstName().toLowerCase().contains(newValue.toLowerCase())) {
+                    filteredList.add(userModel);
+                }
+
+            }
+            userTableView.setItems(filteredList);
+        });
+    }
+    private void tableListener(){
+        userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
+
+
+                //personal info
+                fullNameHolder_lbl.setText(selectedUser.getFirstName() + " " + selectedUser.getLastName());
+                deptHolder_lbl.setText(selectedUser.getDeptName());
+                email_TF.setText(selectedUser.getEmail());
+                username_TF.setText(selectedUser.getUsername());
+                firstName_TF.setText(selectedUser.getFirstName());
+                lastName_TF.setText(selectedUser.getLastName());
+
+                //account info
+                accRole_TF.setText(selectedUser.getRoleName());
+                accStatus_TF.setText(selectedUser.getAccountStatus());
+                createdOn_TF.setText(selectedUser.getCreatedAt());
+                expiresOn_TF.setText(selectedUser.getExpiresAt());
+                lastLogin_TF.setText(selectedUser.getLastLogin());
+            }
+        });
+    }
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(this::loadTableData);
-        tableListener();
 
+        searchUserDetails();
+        tableListener();
 
     /*            Platform.runLater(this::runContractStatusUpdate);
                 Platform.runLater(this::loadSupplierTableData);

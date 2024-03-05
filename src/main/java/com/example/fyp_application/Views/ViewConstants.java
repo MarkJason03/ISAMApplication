@@ -1,9 +1,9 @@
 package com.example.fyp_application.Views;
 
-public class ViewHandler {
+public class ViewConstants {
 
 
-    //ViewHandler class to store all the paths to the FXML files
+    //ViewConstants class to store all the paths to the FXML(Views) files to complete the MVC architecture
 
 
 
@@ -19,7 +19,14 @@ public class ViewHandler {
 
     public static final String CLIENT_MY_REQUEST_VIEW  = "";
 
+    public static final String CLIENT_RAISE_TICKET_POP_UP = "";
+
+    public static final String CLIENT_EDIT_TICKET_POP_UP = "";
+
+
     public static final String CLIENT_MY_ASSET_VIEW = "";
+
+
 
     //Admin views
     //public static final String ADMIN_DASHBOARD = "/FXML/AdminView/ModifiedAdminDashboard.fxml"; //Actual Admin Dashboard
@@ -50,18 +57,46 @@ public class ViewHandler {
 
     //managing requests
 
-    public static final String ADMIN_MANAGE_REQUEST_VIEW = "";
+    public static final String ADMIN_MANAGE_REQUEST_VIEW = "/FXML/AdminView/RequestView/ManageRequestView.fxml";
+
+    public static final String ADMIN_RAISE_TICKET_POP_UP = "/FXML/AdminView/RequestView/CreateTicketView.fxml";
+
+    public static final String ADMIN_EDIT_TICKET_POP_UP = "/FXML/AdminView/RequestView/EditTicketView.fxml";
+
 
 
     //managing assets
     public static final String ADMIN_MANAGE_ASSET_VIEW = "";
 
+    public static final String ADMIN_ADD_ASSET_POP_UP = "";
+    public static final String ADMIN_EDIT_ASSET_POP_UP = "";
+
+    public static final String ADMIN_ALLOCATION_POP_UP = "";
 
     public  static  final String ADMIN_EDIT_MY_PROFILE_VIEW = "/FXML/AdminView/AdminProfileView/EditAdminProfileView.fxml";
 
     public static final String ADMIN_EDIT_MY_PROFILE_POP_UP = "/FXML/AdminView/AdminProfileView/EditAdminProfilePopUpView.fxml";
 
 
+    //Admin procurement view
+
+    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "";
+
+    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_POP_UP = "";
+
+    // Procurement Officer Views
+
+    public static final String PROCUREMENT_OFFICER_DASHBOARD = "";
+
+    public static final String PROCUREMENT_OFFICER_SIDEBAR_MENU = "";
+
+    public static final String PROCUREMENT_OFFICER_HOME_PAGE_VIEW = "";
+
+    public static final String PROCUREMENT_OFFICER_MANAGE_REQUEST_VIEW = "";
+
+    public static final String PROCUREMENT_OFFICER_RAISE_TICKET_POP_UP = "";
+
+    public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "";
 
     //Shared Views for admin and user
 

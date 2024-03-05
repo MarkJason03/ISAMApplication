@@ -1,11 +1,12 @@
 package com.example.fyp_application.Controllers.Admin.NavigationController;
 
 import com.example.fyp_application.Controllers.Admin.ProfileManagementController.EditAdminProfileController;
+import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
 import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController;
 import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController;
 import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedHomePageController;
 import com.example.fyp_application.Controllers.Admin.UserManagementControllers.ModifiedManageUserController;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -46,16 +47,16 @@ public class AdminSidebarController {
 
     @FXML
     private void openDashboard() throws IOException {
-        //TODO
+        //Opens the dashboard page / home page
 
 
-        swapScene(ViewHandler.ADMIN_HOME_PAGE_VIEW, ModifiedHomePageController.class);
+        swapScene(ViewConstants.ADMIN_HOME_PAGE_VIEW, ModifiedHomePageController.class);
     }
 
 
     @FXML
     private void openReports() throws IOException {
-        //TODO
+        //TODO - write maybe predefined reports?
 
 
     }
@@ -64,28 +65,30 @@ public class AdminSidebarController {
     @FXML
     private void openManageUsers() throws  IOException{
 
-        //TODO
-        swapScene(ViewHandler.ADMIN_MANAGE_USER_VIEW, ModifiedManageUserController.class);
+        //Opens the manage users page
+        swapScene(ViewConstants.ADMIN_MANAGE_USER_VIEW, ModifiedManageUserController.class);
 
     }
 
 
     @FXML
     private void openManageAssets() {
-        //TODO
+        //TODO - write the manage assets page - perhaps a list of assets and their details
     }
 
     @FXML
     private void openManageSuppliers() throws IOException {
-        //TODO
+        //Opens the manage suppliers page
 
-        swapScene(ViewHandler.ADMIN_MANAGE_SUPPLIER_VIEW, ModifiedManageSupplierController.class);
+        swapScene(ViewConstants.ADMIN_MANAGE_SUPPLIER_VIEW, ModifiedManageSupplierController.class);
     }
 
 
     @FXML
-    private void openManageRequests() {
-        //TODO
+    private void openManageRequests() throws IOException {
+        //TODO - write the manage requests page - perhaps a list of requests and their details
+
+        swapScene(ViewConstants.ADMIN_MANAGE_REQUEST_VIEW, ManageRequestController.class);
     }
 
 
@@ -93,18 +96,16 @@ public class AdminSidebarController {
 
     @FXML
     private void openEditProfile() throws IOException {
-        swapScene(ViewHandler.ADMIN_EDIT_MY_PROFILE_VIEW, EditAdminProfileController.class);
+        swapScene(ViewConstants.ADMIN_EDIT_MY_PROFILE_VIEW, EditAdminProfileController.class);
     }
 
 
     @FXML
     private void logoutUser() throws IOException {
 
-        //TODO
-
         //Swap stage to log in screen
         logout_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.APP_LOGIN)));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -116,6 +117,7 @@ public class AdminSidebarController {
 
     private <T> void swapScene(String newContent, Class<T> controllerClass) throws IOException {
 
+        // swap the scene to the new content
         try {
 
             // Load the new content

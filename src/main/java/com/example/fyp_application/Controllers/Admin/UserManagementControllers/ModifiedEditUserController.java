@@ -109,15 +109,16 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void saveProfileChanges() throws SQLException {
 
-        //TODO: Implement this method
-
+        // Show a confirmation alert before saving the changes
         boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
 
+        // Check if the user has confirmed the changes
         if (isEmptyField()){
             ALERT_HANDLER.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
 
         } else {
+            // Proceed with saving the changes
             UserDAO.updateUserProfile(userID,
                     accountRole_CB.getValue().getUserRoleID(),
                     dept_CB.getValue().getDeptID(),

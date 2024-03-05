@@ -3,6 +3,7 @@ package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.*;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -86,7 +87,7 @@ public class ModifiedAddUserController implements Initializable {
     private static final String DEFAULT_EMAIL = "projecthandler51@gmail.com";
 
     //Default photo for the user profile
-    private static final String DEFAULT_PHOTO= "/Assets/defaultUser.png";
+    private static final String DEFAULT_USER_PLACEHOLDER_PHOTO = "/Assets/defaultUser.png";
 
     @FXML
     private void cancelCreateUserAction(){
@@ -94,9 +95,9 @@ public class ModifiedAddUserController implements Initializable {
         cancel_btn.getScene().getWindow().hide();
     }
 
-    @FXML
+/*
     private void addUser(){
-        //TODO: Implement this method
+        // check if the phone number is valid
 
         if (userWorkPhone_TF.getText().length() < 11) {
             ALERT_HANDLER.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
@@ -135,10 +136,73 @@ public class ModifiedAddUserController implements Initializable {
 
             Platform.runLater(cancel_btn.getScene().getWindow()::hide);
         }
+    }*/
+
+    @FXML
+    private void addUser() {
+        // check if the phone number is valid
+        if (userWorkPhone_TF.getText().length() < 11) {
+            ALERT_HANDLER.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
+            return; // Stop execution if validation fails
+        }
+
+        // check if any field is empty
+        if (isEmptyFields()) {
+            ALERT_HANDLER.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+        } else {
+            UserDAO.addUser(
+                    accountRole_CB.getValue().getUserRoleID(),
+                    userDept_CB.getValue().getDeptID(),
+                    userFirstName_TF.getText(),
+                    userLastName_TF.getText(),
+                    userGender_TF.getValue(),
+                    DateTimeHandler.setSQLiteDateFormat(dob_DP.getValue()),
+                    userEmail_TF.getText(),
+                    userName_TF.getText(),
+                    PasswordHashHandler.hashPassword(password_TF.getText()),
+                    userWorkPhone_TF.getText(),
+                    accountStatus_CB.getValue(),
+                    DEFAULT_USER_PLACEHOLDER_PHOTO,
+                    DateTimeHandler.setSQLiteDateFormat(createdOn_DP.getValue()),
+                    DateTimeHandler.setSQLiteDateFormat(expiresAt_DP.getValue())
+            );
+            ALERT_HANDLER.showInformationMessageAlert("Success", "User added successfully");
+
+            Task<Void> emailTask = getEmailTask();
+
+            new Thread(emailTask).start(); // Run the task in its own thread
+
+            Platform.runLater(cancel_btn.getScene().getWindow()::hide);
+        }
     }
 
+    private Task<Void> getEmailTask() {
+        Task<Void> emailTask = new Task<>() {
+            @Override
+            protected Void call() {
+                try {
+                    sendAccountDetailEmail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle exceptions, potentially update the UI with the failure.
+                }
+                return null;
+            }
+        };
 
+        emailTask.setOnSucceeded(event -> {
+            // UI update after email sent can go here, executed on JavaFX Application Thread
+            //ALERT_HANDLER.showInformationMessageAlert("Email sent", "Account details emailed successfully");
+            System.out.println("Email sent");
+        });
 
+        emailTask.setOnFailed(event -> {
+            // UI update after email sending failure can go here
+            System.out.println("Email failed");
+            //ALERT_HANDLER.showErrorMessageAlert("Email failed", "Failed to send account details");
+        });
+        return emailTask;
+    }
 
 
     @FXML

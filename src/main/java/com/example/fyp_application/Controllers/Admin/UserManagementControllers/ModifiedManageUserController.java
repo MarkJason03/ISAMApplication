@@ -1,11 +1,10 @@
 package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
-import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +27,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ModifiedManageUserController implements Initializable {
@@ -177,7 +175,7 @@ public class ModifiedManageUserController implements Initializable {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_USER_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_USER_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 ModifiedEditUserController editUserController = modalViewLoader.getController();
@@ -231,7 +229,7 @@ public class ModifiedManageUserController implements Initializable {
         try {
             //Load the add user menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_ADD_USER_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_USER_POP_UP));
             Parent root = modalViewLoader.load();
 
             ModifiedAddUserController addUserController = modalViewLoader.getController();

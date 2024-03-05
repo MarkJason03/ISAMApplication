@@ -7,7 +7,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -215,7 +215,7 @@ public class LoginPageController implements Initializable {
 
 
         login_btn.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_DASHBOARD_VIEW)));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewConstants.CLIENT_DASHBOARD_VIEW)));
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
@@ -248,10 +248,9 @@ public class LoginPageController implements Initializable {
 
         //Store the current ID of the logged-in user - used for fetching data from the database within the application
 
-        //TODO - Revised the admin dashboard controller to use this shared service
         CurrentLoggedUserHandler.setCurrentAdmin(userID, name, photoPath);
         login_btn.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewHandler.ADMIN_DASHBOARD)));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewConstants.ADMIN_DASHBOARD)));
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
@@ -290,7 +289,7 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void closeApplication() {
-        //TODO
+
         Stage stage = (Stage) exit_btn.getScene().getWindow();
 
         if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {

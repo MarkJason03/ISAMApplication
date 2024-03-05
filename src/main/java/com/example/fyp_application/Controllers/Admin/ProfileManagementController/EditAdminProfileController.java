@@ -5,7 +5,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -131,7 +131,7 @@ public class EditAdminProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_MY_PROFILE_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_MY_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 EditAdminProfilePopUpController accountSettingsController = modalViewLoader.getController();

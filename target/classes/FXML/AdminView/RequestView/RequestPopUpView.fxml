@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController">
+   <children>
+      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1600.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/17636963371641122584-128.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="username_lbl" layoutX="1333.0" layoutY="38.0" prefHeight="24.0" prefWidth="227.0" text="User" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="40.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Circle fx:id="loggedUserImage" fill="DODGERBLUE" layoutX="1289.0" layoutY="57.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="5.0" />
+            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
+                     <children>
+                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#refreshInformationHeader" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
+                     <children>
+                        <Button fx:id="minimizeApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#minimizeApplication" prefHeight="56.0" prefWidth="67.0" styleClass="minimizeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="MINUS" size="40" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
+                     <children>
+                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeApplication" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <Label fx:id="lastUpdateTime_lbl" layoutX="1333.0" layoutY="73.0" prefHeight="17.0" prefWidth="258.0" text="Last Updated:" />
+            <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
+               <children>
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenuCopy" prefHeight="60.0" prefWidth="60.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="DEDENT" size="50" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="openMenu_btn" mnemonicParsing="false" onAction="#initializeSideMenu" prefHeight="60.0" prefWidth="60.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="INDENT" size="50" />
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+         </children>
+         <styleClass>
+            <String fx:value="adminHeaderBar" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
+      <AnchorPane fx:id="mainContentAnchorPane" layoutX="-1.0" layoutY="94.0" prefHeight="830.0" prefWidth="1600.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TabPane layoutY="14.0" prefHeight="813.0" prefWidth="1600.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                  <Tab text="Call Information">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1586.0">
+                                 <children>
+                                    <AnchorPane layoutX="1051.0" layoutY="35.0" prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                       <children>
+                                          <Label fx:id="fullNameHolder_lbl1" layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Additional Information">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="editProfile_btn11" layoutX="310.0" layoutY="21.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="181.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Open Profile">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="ID_CARD" size="30" />
+                                             </graphic>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <VBox layoutX="32.0" layoutY="96.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                                             <children>
+                                                <TitledPane expanded="false" prefWidth="459.0" text="Call Information">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="457.0">
+                                                         <children>
+                                                            <Label layoutX="31.0" layoutY="25.0" text="First Name" />
+                                                            <TextField fx:id="firstName_TF1" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="ticketID" />
+                                                            <Label layoutX="31.0" layoutY="90.0" text="Category" />
+                                                            <TextField fx:id="username_TF1" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Category" />
+                                                            <Label layoutX="230.0" layoutY="27.0" text="Last Name" />
+                                                            <TextField fx:id="lastName_TF1" layoutX="229.0" layoutY="47.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="createdDate" />
+                                                            <Label layoutX="32.0" layoutY="171.0" text="Status" />
+                                                            <TextField fx:id="email_TF1" layoutX="31.0" layoutY="191.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Status" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="BOOK" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                                <TitledPane expanded="false" prefWidth="459.0" text="User Information">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="457.0">
+                                                         <children>
+                                                            <Label layoutX="31.0" layoutY="25.0" text="First Name" />
+                                                            <TextField fx:id="firstName_TF11" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="ticketID" />
+                                                            <Label layoutX="31.0" layoutY="90.0" text="Category" />
+                                                            <TextField fx:id="username_TF11" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Category" />
+                                                            <Label layoutX="230.0" layoutY="27.0" text="Last Name" />
+                                                            <TextField fx:id="lastName_TF11" layoutX="229.0" layoutY="47.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="createdDate" />
+                                                            <Label layoutX="32.0" layoutY="171.0" text="Status" />
+                                                            <TextField fx:id="email_TF11" layoutX="31.0" layoutY="191.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Status" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="ID_CARD" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                                <TitledPane prefWidth="459.0" text="Attachments">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="457.0">
+                                                         <children>
+                                                            <ListView layoutX="29.0" layoutY="24.0" prefHeight="200.0" prefWidth="393.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="IMAGE" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="30.0" />
+                                             </padding>
+                                          </VBox>
+                                          <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="shadow" />
+                                          <String fx:value="personalInformationContainer" />
+                                       </styleClass>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="14.0" layoutY="35.0" prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                       <styleClass>
+                                          <String fx:value="shadow" />
+                                          <String fx:value="personalInformationContainer" />
+                                       </styleClass>
+                                       <children>
+                                          <VBox layoutY="98.0" prefWidth="980.0" spacing="10.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
+                                             <children>
+                                                <TitledPane text="Call Description">
+                                                   <content>
+                                                      <AnchorPane style="-fx-background-radius: 0px;" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                                         <children>
+                                                            <Pane layoutX="27.0" layoutY="80.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="27.0" />
+                                                            <Label layoutX="27.0" layoutY="32.0" prefHeight="27.0" prefWidth="333.0" text="Incident Description">
+                                                               <font>
+                                                                  <Font name="System Bold" size="24.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <ScrollPane layoutX="27.0" layoutY="95.0">
+                                                               <content>
+                                                                  <TextArea prefHeight="146.0" prefWidth="907.0" />
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="shadow" />
+                                                            <String fx:value="personalInformationContainer" />
+                                                         </styleClass>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="INBOX" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                                <TitledPane text="Knowledge Base">
+                                                   <content>
+                                                      <AnchorPane style="-fx-background-radius: 0px;" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                                         <children>
+                                                            <Pane layoutX="27.0" layoutY="80.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="27.0" />
+                                                            <Label layoutX="27.0" layoutY="14.0" prefHeight="53.0" prefWidth="333.0" text="Knowledge Base">
+                                                               <font>
+                                                                  <Font name="System Bold" size="24.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <ScrollPane layoutX="27.0" layoutY="95.0">
+                                                               <content>
+                                                                  <TextArea prefHeight="146.0" prefWidth="907.0" />
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="shadow" />
+                                                            <String fx:value="personalInformationContainer" />
+                                                         </styleClass>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="DATABASE" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                                <TitledPane text="Message History">
+                                                   <content>
+                                                      <AnchorPane stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                                         <children>
+                                                            <Pane layoutX="29.0" layoutY="74.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="29.0" />
+                                                            <Label layoutX="29.0" layoutY="14.0" prefHeight="53.0" prefWidth="333.0" text="Message History">
+                                                               <font>
+                                                                  <Font name="System Bold" size="24.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TableView layoutX="29.0" layoutY="85.0" prefHeight="190.0" prefWidth="911.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="114.0" text="Date" />
+                                                                  <TableColumn prefWidth="696.0" text="Message" />
+                                                                  <TableColumn prefWidth="103.0" text="From" />
+                                                               </columns>
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                            </TableView>
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="shadow" />
+                                                            <String fx:value="personalInformationContainer" />
+                                                         </styleClass>
+                                                      </AnchorPane>
+                                                   </content>
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="COMMENT" size="30" />
+                                                   </graphic>
+                                                </TitledPane>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="30.0" left="20.0" right="20.0" />
+                                             </padding>
+                                          </VBox>
+                                          <Label fx:id="fullNameHolder_lbl11" layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Call Summary">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
+                                          <HBox fillHeight="false" layoutX="727.0" layoutY="33.0" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                                             <children>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <Button fx:id="refreshHeader_btn1111" layoutY="-2.0" mnemonicParsing="false" onAction="#refreshInformationHeader" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Action call" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                                         <graphic>
+                                                            <FontAwesomeIconView glyphName="EDIT" size="35" />
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <Button fx:id="exitApp_btn1111" layoutY="-2.0" mnemonicParsing="false" onAction="#closeApplication" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Quick Close" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                                                         <graphic>
+                                                            <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" />
+                                 </padding>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

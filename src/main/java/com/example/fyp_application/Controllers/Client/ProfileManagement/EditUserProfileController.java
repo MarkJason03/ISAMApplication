@@ -1,15 +1,11 @@
 package com.example.fyp_application.Controllers.Client.ProfileManagement;
 
-import com.example.fyp_application.Controllers.Client.ProfileManagement.EditProfilePopUpController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +25,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,7 +133,7 @@ public class EditUserProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.CLIENT_EDIT_PROFILE_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.CLIENT_EDIT_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 EditProfilePopUpController accountSettingsController = modalViewLoader.getController();

@@ -211,6 +211,12 @@ public class UserModel {
     }
 
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+
+
     //Setter Methods
     public void setUserID(int userID) {
         this.userID = userID;

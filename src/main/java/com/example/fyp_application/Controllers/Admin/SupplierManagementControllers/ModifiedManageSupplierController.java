@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -199,7 +199,7 @@ public class ModifiedManageSupplierController implements Initializable {
         try {
             //Load the supplier menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_ADD_SUPPLIER_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_SUPPLIER_POP_UP));
             Parent root = modalViewLoader.load();
 
             ModifiedAddSupplierController addSupplierController = modalViewLoader.getController();
@@ -255,7 +255,7 @@ public class ModifiedManageSupplierController implements Initializable {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_SUPPLIER_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_SUPPLIER_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 ModifiedEditSupplierController editSupplierController = modalViewLoader.getController();

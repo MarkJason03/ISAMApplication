@@ -70,7 +70,10 @@ public class UserDAO {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new UserModel(resultSet.getInt("UserID"), resultSet.getString("FirstName"), resultSet.getString("userRoleName"), resultSet.getString("Photo"));
+                    return new UserModel(resultSet.getInt("UserID"),
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("userRoleName"),
+                            resultSet.getString("Photo"));
                 }
             }
         } catch (SQLException error) {
@@ -80,7 +83,7 @@ public class UserDAO {
     }
 
 
-    public ObservableList<UserModel> getAllUsers()  {
+    public static ObservableList<UserModel> getAllUsers()  {
         ObservableList<UserModel> arrayList = FXCollections.observableArrayList();
 
         String sql = """

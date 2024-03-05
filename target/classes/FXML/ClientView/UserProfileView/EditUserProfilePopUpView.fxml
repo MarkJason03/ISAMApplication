@@ -25,9 +25,9 @@
                   <Label layoutX="420.0" layoutY="158.0" text="Last Name" AnchorPane.leftAnchor="420.0" />
                   <Label layoutX="65.0" layoutY="262.0" text="Email" AnchorPane.leftAnchor="65.0" />
                   <Label layoutX="420.0" layoutY="262.0" text="Gender" AnchorPane.leftAnchor="420.0" />
-                  <TextField fx:id="firstName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="257.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" />
-                  <TextField fx:id="lastName_TF" layoutX="420.0" layoutY="185.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="420.0" />
-                  <TextField fx:id="email_TF" layoutX="65.0" layoutY="289.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" />
+                  <TextField fx:id="firstName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="517.0" />
+                  <TextField fx:id="lastName_TF" layoutX="420.0" layoutY="185.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="420.0" />
+                  <TextField fx:id="email_TF" layoutX="65.0" layoutY="289.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="517.0" />
                   <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
                   <Button fx:id="saveProfileChanges_btn" layoutX="527.0" layoutY="53.0" mnemonicParsing="false" onAction="#saveProfileChanges" prefHeight="42.0" prefWidth="182.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Update Profile">
                      <graphic>
@@ -38,13 +38,13 @@
                      </font>
                   </Button>
                   <Label layoutX="65.0" layoutY="366.0" text="Phone" AnchorPane.leftAnchor="65.0" />
-                  <TextField fx:id="phone_TF" layoutX="65.0" layoutY="393.0" prefHeight="40.0" prefWidth="141.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="560.0" AnchorPane.topAnchor="393.0" />
+                  <TextField fx:id="phone_TF" layoutX="65.0" layoutY="393.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="test" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="517.0" AnchorPane.topAnchor="393.0" />
                   <Pane layoutX="43.0" layoutY="463.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="463.0" />
                   <Label layoutX="65.0" layoutY="525.0" prefHeight="27.0" prefWidth="182.0" text="New Password" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="635.0" AnchorPane.topAnchor="525.0" />
                   <FontAwesomeIconView glyphName="USER" layoutX="648.0" layoutY="644.0" opacity="0.1" size="300" />
-                  <PasswordField fx:id="newPassword_TF" layoutX="65.0" layoutY="552.0" prefHeight="40.0" prefWidth="149.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="552.0" />
-                  <ChoiceBox fx:id="gender_CB" layoutX="420.0" layoutY="290.0" prefHeight="39.0" prefWidth="250.0" AnchorPane.leftAnchor="420.0" />
-                  <Circle fx:id="userProfilePhoto" layoutX="137.0" layoutY="15.0" radius="84.0" stroke="BLACK" strokeType="INSIDE" />
+                  <PasswordField fx:id="newPassword_TF" layoutX="65.0" layoutY="552.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="552.0" />
+                  <ChoiceBox fx:id="gender_CB" layoutX="420.0" layoutY="290.0" prefHeight="39.0" prefWidth="300.0" AnchorPane.leftAnchor="420.0" />
+                  <Circle fx:id="userProfilePhoto" fill="WHITE" layoutX="137.0" layoutY="15.0" radius="84.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="4.0" />
                   <Circle fx:id="userProfileHolder" fill="WHITE" layoutX="137.0" layoutY="15.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" />
                   <Button fx:id="cancel_btn" layoutX="728.0" layoutY="53.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
                      <graphic>
@@ -59,7 +59,7 @@
                   <Pane layoutX="50.0" layoutY="650.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
                   <Label layoutX="43.0" layoutY="141.0" text="Change Password" AnchorPane.topAnchor="475.0" />
                   <Label layoutX="420.0" layoutY="525.0" text="Confirm Password" AnchorPane.topAnchor="525.0" />
-                  <PasswordField fx:id="confirmationPassword_TF" layoutX="420.0" layoutY="552.0" prefHeight="40.0" prefWidth="149.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="420.0" AnchorPane.topAnchor="552.0" />
+                  <PasswordField fx:id="confirmationPassword_TF" layoutX="420.0" layoutY="552.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="420.0" AnchorPane.topAnchor="552.0" />
                   <Button fx:id="updatePassword_btn" layoutX="636.0" layoutY="468.0" mnemonicParsing="false" onAction="#savePasswordChange" prefHeight="42.0" prefWidth="203.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Update Password">
                      <graphic>
                         <FontAwesomeIconView glyphName="EDIT" size="30" />

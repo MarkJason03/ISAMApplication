@@ -27,18 +27,23 @@ module com.example.fyp_application {
     opens com.example.fyp_application to javafx.fxml;
     opens com.example.fyp_application.Controllers.Shared to javafx.fxml;
 
+    opens com.example.fyp_application.Utils to javafx.fxml;
+    opens com.example.fyp_application.Controllers.Admin.SupplierManagementControllers to javafx.fxml;
+
+
 
     exports com.example.fyp_application;
 
     exports com.example.fyp_application.Model;
     exports com.example.fyp_application.Utils;
-
-    opens com.example.fyp_application.Utils to javafx.fxml;
-    exports com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
-    opens com.example.fyp_application.Controllers.Admin.SupplierManagementControllers to javafx.fxml;
-    exports com.example.fyp_application.Controllers.Admin.DashboardControllers;
-    opens com.example.fyp_application.Controllers.Admin.DashboardControllers to javafx.fxml;
     exports com.example.fyp_application.Controllers.Shared;
+    exports com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
+    exports com.example.fyp_application.Controllers.Admin.DashboardControllers;
+
+
+
+    opens com.example.fyp_application.Controllers.Admin.DashboardControllers to javafx.fxml;
+
     exports com.example.fyp_application.Controllers.Client.ProfileManagement;
     opens com.example.fyp_application.Controllers.Client.ProfileManagement to javafx.fxml;
     exports com.example.fyp_application.Controllers.Admin.ProfileManagementController;
@@ -51,6 +56,9 @@ module com.example.fyp_application {
     opens com.example.fyp_application.Controllers.Client.NavigationController to javafx.fxml;
     exports com.example.fyp_application.Controllers.Client.DashboardControllers;
     opens com.example.fyp_application.Controllers.Client.DashboardControllers to javafx.fxml;
+    exports com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
+    opens com.example.fyp_application.Controllers.Admin.RequestManagementControllers to javafx.fxml;
+
 
 
 }

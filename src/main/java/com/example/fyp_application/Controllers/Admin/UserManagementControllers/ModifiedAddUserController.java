@@ -255,7 +255,7 @@ public class ModifiedAddUserController implements Initializable {
         } else {
             GMailHandler gMailHandler = new GMailHandler();
             gMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
-                    gMailHandler.generateEmailBody(
+                    gMailHandler.generateAccountCreationEmailBody(
                             userFirstName_TF.getText(),
                             userName_TF.getText(),
                             password_TF.getText()));

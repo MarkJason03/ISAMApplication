@@ -8,22 +8,22 @@ import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -339,9 +339,51 @@ public class ModifiedManageUserController implements Initializable {
                 Platform.runLater(this::countInactiveSuppliers);*/
 
         DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+
+
+
+        TableColumn<UserModel, Void> actionCol = new TableColumn<>("Actions");
+
+        Callback<TableColumn<UserModel, Void>, TableCell<UserModel, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<UserModel, Void> call(final TableColumn<UserModel, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btnModify = new Button("Modify");
+                    private final Button btnDelete = new Button("Delete");
+
+                    {
+                        btnModify.setOnAction((ActionEvent event) -> {
+                            UserModel data = getTableView().getItems().get(getIndex());
+                            //modifyUser(data);
+                        });
+
+                        btnDelete.setOnAction((ActionEvent event) -> {
+                            UserModel data = getTableView().getItems().get(getIndex());
+                            //deleteUser(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox manageBtn = new HBox(btnModify, btnDelete);
+                            manageBtn.setStyle("-fx-alignment:center");
+                            HBox.setMargin(btnModify, new Insets(2, 2, 0, 3));
+                            HBox.setMargin(btnDelete, new Insets(2, 3, 0, 2));
+                            setGraphic(manageBtn);
+                        }
+                    }
+                };
+            }
+        };
+
+        actionCol.setCellFactory(cellFactory);
+
+        userTableView.getColumns().add(actionCol);
     }
-
-
-
 }
 

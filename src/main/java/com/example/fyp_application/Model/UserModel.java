@@ -67,40 +67,6 @@ public class UserModel {
         this.deptName = DeptName;
     }
 
-
-    public UserModel(int userID,
-                     int userRoleID,
-                     int deptID,
-                     String firstName,
-                     String lastName,
-                     String gender,
-                     String dob,
-                     String email,
-                     String username,
-                     String password,
-                     String phone,
-                     String accountStatus,
-                     String Photo,
-                     String createdAt,
-                     String expiresAt) {
-        this.userID = userID;
-        this.userRoleID = userRoleID;
-        this.deptID = deptID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.dob = dob;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.phone = phone;
-        this.accountStatus = accountStatus;
-        this.photo = Photo;
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
-    }
-
-
     //For Loading and Editing User Profile on client's view
     public UserModel(Integer userID,String firstName, String lastName,
     String email, String gender, String photo, String phone,

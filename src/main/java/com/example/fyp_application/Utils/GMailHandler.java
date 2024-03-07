@@ -119,7 +119,7 @@ public class GMailHandler {
 
     }
 
-    public String  generateEmailBody(String firstname, String username, String password) {
+    public String generateAccountCreationEmailBody(String firstname, String username, String password) {
 
 
         return
@@ -148,6 +148,19 @@ public class GMailHandler {
                 + "Best Regards," + "\n\n"
                 + "ISAM Team";
     }
+
+
+    public String generateTicketRequestEmailBody(Integer ticketID , String firstname,String ticketTitle, String ticketDescription) {
+        return "Hello " + firstname + "," + "\n\n\n"
+                + "Your ticket request has been submitted created. Please find your ticket details below: " + "\n\n\n"
+                + "Ticket ID: " + ticketID + "\n\n"
+                + "Ticket Title: " + ticketTitle + "\n\n\n"
+                + "Ticket Description: " +"\n\n" + ticketDescription + "\n\n"
+                + "To follow up with this request, please contact 020 1234 5678 quoting this SD Number" + ticketID + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+    }
+
 
 
 

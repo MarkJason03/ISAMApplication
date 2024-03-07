@@ -1,9 +1,9 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
-import com.example.fyp_application.Model.SupplierModel;
-import com.example.fyp_application.Model.UserDAO;
-import com.example.fyp_application.Model.UserModel;
+import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.GMailHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -113,47 +113,71 @@ public class RaiseTicketController implements Initializable {
 
     private static final UserDAO USER_DAO = new UserDAO();
 
-    @FXML
-    private void raiseNewTicket(){
-        //TODO: Implement this method
-        // This method should raise a new ticket and send it to the database
+    private static final TicketDAO TICKET_DAO = new TicketDAO();
 
+    @FXML
+    private void raiseNewTicket() throws Exception {
         if (isEmptyFields()) {
             ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
             return;
-        } else {
-            String title = ticketTitle.getText();
-            String details = ticketDetails.getText();
-            UserModel selectedUser = userComboBox.getSelectionModel().getSelectedItem();
-            int userID = selectedUser.getUserID();
-            String username = selectedUser.getUsername();
-            String email = selectedUser.getEmail();
-            String phone = selectedUser.getPhone();
-            String firstName = selectedUser.getFirstName();
-            String lastName = selectedUser.getLastName();
-            String dept = selectedUser.getDeptName();
+        }
 
-            System.out.println("Title: " + title);
-            System.out.println("Details: " + details);
-            System.out.println("User ID: " + userID);
-            System.out.println("Username: " + username);
-            System.out.println("Email: " + email);
-            System.out.println("Phone: " + phone);
-            System.out.println("First Name: " + firstName);
-            System.out.println("Last Name: " + lastName);
-            System.out.println("Department: " + dept);
+        UserModel selectedUser = userComboBox.getSelectionModel().getSelectedItem();
+        int userID = selectedUser.getUserID();
+        String title = ticketTitle.getText();
+        String details = ticketDetails.getText();
 
+        // Assuming openUserTicketRequest now returns the created ticket ID
+        int ticketID = TICKET_DAO.openUserTicketRequest(
+                userID,
+                title,
+                details,
+                "Created",
+                DateTimeHandler.getCurrentDateTime()
+        );
 
+        // Check if the attachments ListView is not null and has items
+        if (attachmentListView != null && !attachmentListView.getItems().isEmpty()) {
+            // Iterate over the attachments and queue them for insertion
+            for (String filePath : attachmentListView.getItems()) {
+                // Assuming you have a method to insert just the file path and ticket ID into the database
+                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getCurrentDateTime());
+            }
 
         }
 
+        // Send an email notification
+        sendEmailNotification(ticketID, firstName_TF.getText(), title, details);
+
+        // Show a confirmation alert
+        ALERT_HANDLER.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
+
+        // Close the window
+        closeWindow();
+    }
+
+    // Dummy method to represent sending an email notification
+    private void sendEmailNotification(int ticketID,String firstname, String title, String details) throws Exception {
+        // Implement the email sending logic here
 
 
+        GMailHandler gMailHandler = new GMailHandler();
 
-
+        gMailHandler.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , gMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
 
     }
 
+    // Dummy method to close the window
+    private void closeWindow() {
+        // Implement the window closing logic here, e.g., get a handle to the stage and call close()
+        cancelBtn.getScene().getWindow().hide();
+    }
+    private void clearFields() {
+        ticketTitle.clear();
+        ticketDetails.clear();
+        userComboBox.getSelectionModel().clearSelection();
+        attachmentListView.getItems().clear();
+    }
 
 
     @FXML

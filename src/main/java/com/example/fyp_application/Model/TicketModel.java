@@ -9,7 +9,6 @@ public class TicketModel {
 
     private int agentID;
 
-
     private int categoryID;
 
     private String ticketTitle;
@@ -18,14 +17,25 @@ public class TicketModel {
 
     private String ticketStatus;
 
-
-    private String ticketPriority;
+   private String ticketPriority;
 
     private String dateCreated;
 
     private String dateClosed;
 
     private String targetResolutionDate;
+
+
+
+    // Foreign Keys
+
+    private String knowledgeBaseInfo;
+    private String agentFullName;
+    private String categoryName;
+    private String userFullName;
+
+
+
 
 
 
@@ -44,10 +54,71 @@ public class TicketModel {
         this.dateCreated = dateCreated;
     }
 
+    // Constructor for viewing ticket - user side
+
+
     // Constructor for creating ticket - agent side
 
 
 
+
+
+
+
+
+    // Constructor for viewing ticket - agent side // table view
+    public TicketModel(int ticketID,
+                       String userFullName,
+                       String ticketTitle,
+                       String status,
+                       String priority,
+                       String category,
+                       String agentFullName,
+                       String dateCreated,
+                       String dateClosed) {
+        this.ticketID = ticketID;
+        this.userFullName = userFullName;
+        this.ticketTitle = ticketTitle;
+        this.ticketStatus = status;
+        this.ticketPriority = priority;
+        this.categoryName = category;
+        this.agentFullName = agentFullName;
+        this.dateCreated = dateCreated;
+        this.dateClosed = dateClosed;
+    }
+
+
+    //Constructor for viewing ticket page view
+    public TicketModel(int ticketID,
+                       int userID,
+                       int agentID,
+                       int categoryID,
+                       String userFullName,
+                       String ticketTitle,
+                       String description,
+                       String status,
+                       String priority,
+                       String categoryName,
+                       String knowledgeInfo,
+                       String agentFullName,
+                       String dateCreated,
+                       String dateClosed) {
+
+        this.ticketID = ticketID;
+        this.userID = userID;
+        this.agentID = agentID;
+        this.categoryID = categoryID;
+        this.userFullName = userFullName;
+        this.ticketTitle = ticketTitle;
+        this.ticketDescription = description;
+        this.ticketStatus = status;
+        this.ticketPriority = priority;
+        this.categoryName = categoryName;
+        this.knowledgeBaseInfo = knowledgeInfo;
+        this.agentFullName = agentFullName;
+        this.dateCreated = dateCreated;
+        this.dateClosed = dateClosed;
+    }
 
     // getter methods
 
@@ -96,6 +167,23 @@ public class TicketModel {
         return targetResolutionDate;
     }
 
+    public String getAgentFullName() {
+        return agentFullName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public String getUserFullName() {
+        return userFullName;
+    }
+
+    public String getKnowledgeBaseInfo() {
+        return knowledgeBaseInfo;
+    }
+
+
 
     // setter methods
 
@@ -143,5 +231,20 @@ public class TicketModel {
         this.targetResolutionDate = targetResolutionDate;
     }
 
+    public void setAgentFullName(String agentFullName) {
+        this.agentFullName = agentFullName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setUserFullName(String userFullName) {
+        this.userFullName = userFullName;
+    }
+
+    public void setKnowledgeBaseInfo(String knowledgeBaseInfo) {
+        this.knowledgeBaseInfo = knowledgeBaseInfo;
+    }
 
 }

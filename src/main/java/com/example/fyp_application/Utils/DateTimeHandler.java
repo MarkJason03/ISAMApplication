@@ -63,4 +63,8 @@ public class DateTimeHandler {
 
 
     }
+
+    public static String getCurrentDateTime() {
+        return getSQLiteDate() + " " + getCurrentTime();
+    }
 }

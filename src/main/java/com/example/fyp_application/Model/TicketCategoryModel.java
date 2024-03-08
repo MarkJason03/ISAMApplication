@@ -13,6 +13,13 @@ public class TicketCategoryModel {
         this.categoryName = categoryName;
     }
 
+
+    public TicketCategoryModel(int categoryID, String categoryName){
+
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
+    }
+
     // Getters and Setters
     public int getCategoryID() {
         return categoryID;

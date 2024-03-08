@@ -2,6 +2,7 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
+import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
 public class ManageRequestController implements Initializable {
 
 
+    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler() ;
     @FXML
     private TableColumn<?, ?> agentName_col;
 
@@ -199,44 +201,48 @@ public class ManageRequestController implements Initializable {
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
 
-        //SupplierModel selectedSupplier = requestTableView.getSelectionModel().getSelectedItem();
+        TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
 
-        try {
-            //Load the supplier menu
-            //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_TICKET_POP_UP));
-            Parent root = modalViewLoader.load();
-
-
-            ViewTicketController viewTicketController = modalViewLoader.getController();
-            viewTicketController.sample(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
-
-
-            // New window setup as modal
-            Stage supplierPopUpStage = new Stage();
-            supplierPopUpStage.initOwner(currentDashboardStage);
-            supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
-            supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
-
-
-            Scene scene = new Scene(root);
-            supplierPopUpStage.setScene(scene);
-
-            supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }  finally {
-            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-
-
-
-            Platform.runLater(this::countCreatedRequests);
-            Platform.runLater(this::countOnProgressRequests);
-            Platform.runLater(this::countClosedCalls);
-
+        if (selectedTicket == null) {
+            ALERT_HANDLER.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         }
+        else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_TICKET_POP_UP));
+                Parent root = modalViewLoader.load();
 
+
+                ViewTicketController viewTicketController = modalViewLoader.getController();
+                viewTicketController.sample(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
+
+
+                // New window setup as modal
+                Stage supplierPopUpStage = new Stage();
+                supplierPopUpStage.initOwner(currentDashboardStage);
+                supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
+                supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                supplierPopUpStage.setScene(scene);
+
+                supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+
+                Platform.runLater(this::countCreatedRequests);
+                Platform.runLater(this::countOnProgressRequests);
+                Platform.runLater(this::countClosedCalls);
+
+            }
+        }
 
     }
 

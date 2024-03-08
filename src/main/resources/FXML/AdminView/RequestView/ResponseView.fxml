@@ -68,7 +68,7 @@
             </HBox>
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="backBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#cancelAction" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="50" />
                      </graphic>
@@ -126,7 +126,7 @@
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="targetResolution_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="OpenDate+2 weeks">
+                                                <Label fx:id="targetResolution_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
@@ -144,7 +144,51 @@
                                        </font>
                                     </Label>
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                                    <HBox fillHeight="false" layoutX="684.0" layoutY="33.0" prefHeight="46.0" prefWidth="301.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="463.0" prefWidth="1021.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                 <styleClass>
+                                    <String fx:value="shadow" />
+                                    <String fx:value="personalInformationContainer" />
+                                 </styleClass>
+                                 <children>
+                                    <VBox layoutY="98.0" prefHeight="347.0" prefWidth="1021.0" spacing="10.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
+                                       <children>
+                                          <HBox prefWidth="947.0" spacing="30.0">
+                                             <children>
+                                                <Label prefHeight="50.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Ticket Title">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="ticketTitle" disable="true" editable="false" prefHeight="40.0" prefWidth="790.0" style="-fx-opacity: 1; -fx-background-color: transparent;" text="test">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font></TextField>
+                                             </children>
+                                          </HBox>
+                                          <ScrollPane hbarPolicy="NEVER">
+                                             <content>
+                                                <TextArea fx:id="ticketDetails" prefHeight="200.0" prefWidth="980.0" wrapText="true">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </TextArea>
+                                             </content>
+                                          </ScrollPane>
+                                          <CheckBox fx:id="attachmentCheckbox" mnemonicParsing="false" prefHeight="35.0" prefWidth="978.0" text="IncludeAttachments?" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" right="20.0" />
+                                       </padding>
+                                    </VBox>
+                                    <Label layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="239.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Response Message">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="980.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
+                                    <HBox fillHeight="false" layoutX="699.0" layoutY="373.0" prefHeight="46.0" prefWidth="301.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                        <children>
                                           <AnchorPane>
                                              <children>
@@ -168,48 +212,7 @@
                                     </HBox>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="463.0" prefWidth="1021.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-                                 <styleClass>
-                                    <String fx:value="shadow" />
-                                    <String fx:value="personalInformationContainer" />
-                                 </styleClass>
-                                 <children>
-                                    <VBox layoutY="98.0" prefHeight="347.0" prefWidth="1021.0" spacing="10.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
-                                       <children>
-                                          <HBox spacing="30.0">
-                                             <children>
-                                                <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Ticket Title">
-                                                   <font>
-                                                      <Font name="System Bold" size="24.0" />
-                                                   </font>
-                                                </Label>
-                                                <TextField fx:id="ticketTitle" prefHeight="40.0" prefWidth="790.0" />
-                                             </children>
-                                          </HBox>
-                                          <ScrollPane hbarPolicy="NEVER">
-                                             <content>
-                                                <TextArea fx:id="ticketDetails" prefHeight="200.0" prefWidth="980.0" wrapText="true">
-                                                   <font>
-                                                      <Font size="24.0" />
-                                                   </font>
-                                                </TextArea>
-                                             </content>
-                                          </ScrollPane>
-                                          <CheckBox fx:id="attachmentCheckbox" mnemonicParsing="false" prefHeight="35.0" prefWidth="978.0" text="IncludeAttachments?" />
-                                       </children>
-                                       <padding>
-                                          <Insets left="20.0" right="20.0" />
-                                       </padding>
-                                    </VBox>
-                                    <Label layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Action Ticket">
-                                       <font>
-                                          <Font name="System Bold" size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                                 </children>
-                              </AnchorPane>
-                              <TitledPane fx:id="attachmentTitlePane" expanded="false" text="Attachments">
+                              <TitledPane fx:id="attachmentTitlePane" disable="true" expanded="false" text="Attachments">
                                  <content>
                                     <AnchorPane prefWidth="521.0" style="-fx-background-radius: 0px;" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                        <styleClass>

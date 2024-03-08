@@ -247,4 +247,45 @@ public class TicketDAO {
         }
         return ticketDetails;
     }
+
+
+    public ObservableList<TicketModel> getShortenedTicketInformation(int ticketID){
+        ObservableList<TicketModel>shortenedTicketDetails = FXCollections.observableArrayList();
+
+        String sql = """
+                select TicketID,categoryID,Title,Status,Priority,DateCreated from tbl_tickets where TicketID = ?;
+                """;
+
+        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, ticketID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        TicketModel ticket = new TicketModel(
+                                resultSet.getInt("TicketID"),
+                                resultSet.getInt("categoryID"),
+                                resultSet.getString("Title"),
+                                resultSet.getString("Status"),
+                                resultSet.getString("Priority"),
+                                resultSet.getString("DateCreated")
+                        );
+                        shortenedTicketDetails.add(ticket);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+
+        return shortenedTicketDetails;
+    }
+
+
+    public void quickCloseTicket(){
+
+        // todo update these to quick close a ticket then update put message history too
+
+        String sql = "UPDATE tbl_ticket set Priority = ? , TargetResolutionDate = ? , DateClosed = ? where TicketID = ?";
+    }
 }

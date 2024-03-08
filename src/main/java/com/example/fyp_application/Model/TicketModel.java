@@ -120,6 +120,26 @@ public class TicketModel {
         this.dateClosed = dateClosed;
     }
 
+
+    // constructor for getting ticket information to do actioning
+
+    public TicketModel(
+            int userID,
+            int categoryID,
+            String title,
+            String status,
+            String priority,
+            String dateCreated){
+
+        this.userID = userID;
+        this.categoryID = categoryID;
+        this.ticketTitle = title;
+        this.ticketStatus = status;
+        this.ticketPriority = priority;
+        this.dateCreated = dateCreated;
+    }
+
+
     // getter methods
 
 

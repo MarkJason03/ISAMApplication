@@ -68,7 +68,7 @@
             </HBox>
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="backBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0">
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#cancelAction" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="50" />
                      </graphic>
@@ -209,7 +209,7 @@
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
                                  </children>
                               </AnchorPane>
-                              <TitledPane fx:id="attachmentTitlePane" expanded="false" text="Attachments">
+                              <TitledPane fx:id="attachmentTitlePane" disable="true" expanded="false" text="Attachments">
                                  <content>
                                     <AnchorPane prefWidth="521.0" style="-fx-background-radius: 0px;" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                        <styleClass>

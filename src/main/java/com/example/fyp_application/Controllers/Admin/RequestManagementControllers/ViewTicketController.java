@@ -1,11 +1,15 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Views.ViewConstants;
 import com.google.api.client.util.Strings;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -13,8 +17,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.io.File;
@@ -125,6 +133,9 @@ public class ViewTicketController implements Initializable {
     @FXML
     private TableColumn<?, ?> filePath_col;
 
+    @FXML
+    private AnchorPane mainAP;
+
     //to store the ticket ID to perform sql operations
 
 
@@ -203,7 +214,48 @@ public class ViewTicketController implements Initializable {
 
 
     @FXML
-    private void actionCall(){};
+    private void actionTicket(){
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+        //SupplierModel selectedSupplier = requestTableView.getSelectionModel().getSelectedItem();
+
+        try {
+            //Load the supplier menu
+            //modal pop-up dialogue box
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ACTION_TICKET_POP_UP));
+            Parent root = modalViewLoader.load();
+
+
+            ActionTicketController actionTicketController = modalViewLoader.getController();
+            actionTicketController.loadTicketInfo(ticketID);
+
+
+            // New window setup as modal
+            Stage supplierPopUpStage = new Stage();
+            supplierPopUpStage.initOwner(currentDashboardStage);
+            supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
+            supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
+
+
+            Scene scene = new Scene(root);
+            supplierPopUpStage.setScene(scene);
+
+            supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+
+        }
+
+
+
+    };
 
 
 

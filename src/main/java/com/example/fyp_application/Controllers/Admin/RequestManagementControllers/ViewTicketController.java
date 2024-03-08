@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ViewTicketController implements Initializable {
@@ -130,6 +129,8 @@ public class ViewTicketController implements Initializable {
 
 
     private  int ticketID;
+    private int agentID;
+    private int userID;
 
     private static final TicketAttachmentDAO TICKET_ATTACHMENT_DAO = new TicketAttachmentDAO();
 
@@ -147,19 +148,21 @@ public class ViewTicketController implements Initializable {
 */
 
 
-    private ObservableList<TicketModel> ticketModelObservableList;
+    private ObservableList<TicketModel> ticketInformationArray;
 
     @FXML
     public void sample(int ticketID){
         TicketDAO ticketDAO = new TicketDAO();
-        ticketModelObservableList  = ticketDAO.getTicketDetails(ticketID);
+        ticketInformationArray = ticketDAO.getTicketDetails(ticketID);
 
-        this.ticketID = ticketModelObservableList.get(0).getTicketID();
+        this.ticketID = ticketInformationArray.get(0).getTicketID();
+        this.agentID = ticketInformationArray.get(0).getAgentID();
+        this.userID = ticketInformationArray.get(0).getUserID();
 
-        ticketTitleHolder_lbl.setText("Subject:" + ticketModelObservableList.get(0).getTicketTitle());
-        ticketDescriptionHolder_TA.setText(ticketModelObservableList.get(0).getTicketDescription());
-        knowledgeBaseTitleHolder_lbl.setText("Category: " + ticketModelObservableList.get(0).getCategoryName());
-        knowledgeBaseDescriptionHolder_TA.setText(ticketModelObservableList.get(0).getKnowledgeBaseInfo());
+        ticketTitleHolder_lbl.setText("Subject:" + ticketInformationArray.get(0).getTicketTitle());
+        ticketDescriptionHolder_TA.setText(ticketInformationArray.get(0).getTicketDescription());
+        knowledgeBaseTitleHolder_lbl.setText("Category: " + ticketInformationArray.get(0).getCategoryName());
+        knowledgeBaseDescriptionHolder_TA.setText(ticketInformationArray.get(0).getKnowledgeBaseInfo());
 
         System.out.println(ticketID);
 
@@ -198,6 +201,16 @@ public class ViewTicketController implements Initializable {
         }
     }
 
+
+    @FXML
+    private void actionCall(){};
+
+
+
+    @FXML
+    private void updateTicketCategory(){
+
+    }
     @FXML
     private void closeMenu() {
         closeMenu_btn.getScene().getWindow().hide();

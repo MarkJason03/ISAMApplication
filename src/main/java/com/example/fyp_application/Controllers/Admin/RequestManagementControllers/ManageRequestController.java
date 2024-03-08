@@ -1,6 +1,5 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
-import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedEditSupplierController;
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Views.ViewConstants;
@@ -205,7 +204,7 @@ public class ManageRequestController implements Initializable {
         try {
             //Load the supplier menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_TICKET_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_TICKET_POP_UP));
             Parent root = modalViewLoader.load();
 
 

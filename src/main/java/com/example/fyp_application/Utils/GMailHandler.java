@@ -161,6 +161,11 @@ public class GMailHandler {
                 + "ISAM Team";
     }
 
+/*
+    public String sendEmailWithAttachment(Gmail gmail,) {
+
+        MimeMessage
+    }*/
 
 
 

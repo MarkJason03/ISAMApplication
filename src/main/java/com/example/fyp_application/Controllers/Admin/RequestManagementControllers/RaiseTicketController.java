@@ -129,6 +129,8 @@ public class RaiseTicketController implements Initializable {
 
         // Assuming openUserTicketRequest now returns the created ticket ID
         int ticketID = TICKET_DAO.openUserTicketRequest(
+
+                ///todo need to put probably uncategorised as primary ticket category?
                 userID,
                 title,
                 details,

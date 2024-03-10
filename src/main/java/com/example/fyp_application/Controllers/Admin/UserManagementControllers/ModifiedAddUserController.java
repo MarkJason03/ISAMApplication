@@ -80,7 +80,6 @@ public class ModifiedAddUserController implements Initializable {
     @FXML
     private TextField userWorkPhone_TF;
 
-    AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
     UserRoleDAO USER_ROLE_DAO = new UserRoleDAO();
 
     DepartmentDAO DEPARTMENT_DAO = new DepartmentDAO();
@@ -142,13 +141,13 @@ public class ModifiedAddUserController implements Initializable {
     private void addUser() {
         // check if the phone number is valid
         if (userWorkPhone_TF.getText().length() < 11) {
-            ALERT_HANDLER.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
             return; // Stop execution if validation fails
         }
 
         // check if any field is empty
         if (isEmptyFields()) {
-            ALERT_HANDLER.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         } else {
             UserDAO.addUser(
                     accountRole_CB.getValue().getUserRoleID(),
@@ -166,7 +165,7 @@ public class ModifiedAddUserController implements Initializable {
                     DateTimeHandler.setSQLiteDateFormat(createdOn_DP.getValue()),
                     DateTimeHandler.setSQLiteDateFormat(expiresAt_DP.getValue())
             );
-            ALERT_HANDLER.showInformationMessageAlert("Success", "User added successfully");
+            AlertNotificationHandler.showInformationMessageAlert("Success", "User added successfully");
 
             Task<Void> emailTask = getEmailTask();
 
@@ -251,7 +250,7 @@ public class ModifiedAddUserController implements Initializable {
     private void sendAccountDetailEmail() throws Exception {
 
         if (userName_TF.getText().isEmpty() || password_TF.getText().isEmpty()) {
-            ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Cannot send details without a username and password");
+            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Cannot send details without a username and password");
         } else {
             GMailHandler gMailHandler = new GMailHandler();
             gMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
@@ -362,7 +361,7 @@ public class ModifiedAddUserController implements Initializable {
 
             if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
                 System.out.println("Invalid date: The date cannot be in the future.");
-                ALERT_HANDLER.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
                 dob_DP.setValue(null);  // Revert to the old value if new value is invalid
                 dob_DP.setStyle("-fx-border-color: red");
             } else {
@@ -376,7 +375,7 @@ public class ModifiedAddUserController implements Initializable {
         expiresAt_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.isBefore(LocalDate.now())) {
                 System.out.println("Invalid date: The date cannot be in the past.");
-                ALERT_HANDLER.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
                 expiresAt_DP.setValue(null);  // Revert to the old value if new value is invalid
                 expiresAt_DP.setStyle("-fx-border-color: red");
 

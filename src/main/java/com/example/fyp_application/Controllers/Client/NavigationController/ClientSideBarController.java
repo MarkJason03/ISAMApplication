@@ -1,7 +1,7 @@
 package com.example.fyp_application.Controllers.Client.NavigationController;
 
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientHomePageController;
-import com.example.fyp_application.Controllers.Client.ProfileManagement.EditUserProfileController;
+import com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers.EditUserProfileController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;

@@ -105,5 +105,5 @@ public class ViewConstants {
     //Login Page
     public static final String APP_LOGIN = "/FXML/SharedView/LoginPage.fxml";
 
-
+    public static final String SHARED_MESSAGE_HISTORY_BOX_POP_UP = "/FXML/SharedView/MessageBoxView.fxml";
 }

@@ -1,6 +1,9 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
+import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.GMailHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import com.google.api.client.util.Strings;
 import javafx.application.Platform;
@@ -32,6 +35,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ViewTicketController implements Initializable {
+
 
     @FXML
     private Button closeMenu_btn;
@@ -91,7 +95,9 @@ public class ViewTicketController implements Initializable {
     private TableColumn<?, ?> messageDate_col;
 
     @FXML
-    private TableView<?> messageHistoryTable;
+    private TableColumn<?, ?> messageID_col;
+    @FXML
+    private TableView<MessageHistoryModel> messageHistoryTable;
 
     @FXML
     private Button minimizeApp_btn;
@@ -139,12 +145,15 @@ public class ViewTicketController implements Initializable {
     //to store the ticket ID to perform sql operations
 
 
-    private  int ticketID;
+    private int ticketID;
     private int agentID;
-    private int userID;
 
+    private int requesterID;
+
+    private static final MessageHistoryDAO MESSAGE_HISTORY_DAO = new MessageHistoryDAO();
     private static final TicketAttachmentDAO TICKET_ATTACHMENT_DAO = new TicketAttachmentDAO();
 
+    private static final TicketDAO TICKET_DAO = new TicketDAO();
 /*
     @FXML
     public void loadTicketDetails(TicketModel ticketModel) {
@@ -162,13 +171,13 @@ public class ViewTicketController implements Initializable {
     private ObservableList<TicketModel> ticketInformationArray;
 
     @FXML
-    public void sample(int ticketID){
+    public void loadTicketInfo(int ticketID){
         TicketDAO ticketDAO = new TicketDAO();
         ticketInformationArray = ticketDAO.getTicketDetails(ticketID);
 
         this.ticketID = ticketInformationArray.get(0).getTicketID();
         this.agentID = ticketInformationArray.get(0).getAgentID();
-        this.userID = ticketInformationArray.get(0).getUserID();
+        this.requesterID = ticketInformationArray.get(0).getUserID();
 
         ticketTitleHolder_lbl.setText("Subject:" + ticketInformationArray.get(0).getTicketTitle());
         ticketDescriptionHolder_TA.setText(ticketInformationArray.get(0).getTicketDescription());
@@ -178,6 +187,51 @@ public class ViewTicketController implements Initializable {
         System.out.println(ticketID);
 
     }
+
+
+    @FXML
+    private void quickClose() throws Exception {
+        //Todo - experimental to try and close the call and
+        TICKET_DAO.quickCloseTicket(ticketID,
+                ticketInformationArray.get(0).getCategoryID(),
+                "Closed",
+                "Low",
+                DateTimeHandler.dateParser(ticketInformationArray.get(0).getDateCreated()),
+                DateTimeHandler.getSQLiteDate()
+        );
+
+
+        GMailHandler gMailHandler = new GMailHandler();
+
+        gMailHandler.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
+                "Call Closed: SD" +  ticketID,
+                gMailHandler.generateAutoCloseEmailBody(ticketID,
+                        ticketInformationArray.get(0).getUserFullName(),
+                        ticketInformationArray.get(0).getTicketTitle(),
+                        "Auto Resolution"
+                )
+        );
+
+
+        quickClose_btn.getScene().getWindow().hide();
+
+    }
+
+
+    @FXML
+    private void openFilePath(String path) throws IOException {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File file = new File(path);
+                Desktop.getDesktop().open(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle exceptions (file not found, no application associated with the file type, etc.)
+            }
+        }
+    }
+
+
 
 
     private ObservableList<TicketAttachmentModel> attachmentList;
@@ -198,21 +252,19 @@ public class ViewTicketController implements Initializable {
     }
 
 
-
+    private  ObservableList<MessageHistoryModel> messageHistoryList;
     @FXML
-    private void openFilePath(String path) throws IOException {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File file = new File(path);
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exceptions (file not found, no application associated with the file type, etc.)
-            }
-        }
+    private void loadMessageHistory(){
+        messageHistoryList = MESSAGE_HISTORY_DAO.getMessageHistory(ticketID);
+
+
+        messageID_col.setCellValueFactory(new PropertyValueFactory<>("messageID"));
+        messageBody_col.setCellValueFactory(new PropertyValueFactory<>("messageBody"));
+        messageDate_col.setCellValueFactory(new PropertyValueFactory<>("dateSent"));
+
+        messageHistoryTable.setItems(messageHistoryList);
+
     }
-
-
     @FXML
     private void actionTicket(){
         GaussianBlur blur = new GaussianBlur(10);
@@ -220,10 +272,9 @@ public class ViewTicketController implements Initializable {
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
 
-        //SupplierModel selectedSupplier = requestTableView.getSelectionModel().getSelectedItem();
+
 
         try {
-            //Load the supplier menu
             //modal pop-up dialogue box
             FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ACTION_TICKET_POP_UP));
             Parent root = modalViewLoader.load();
@@ -249,7 +300,10 @@ public class ViewTicketController implements Initializable {
             e.printStackTrace();
         }  finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            loadTicketInfo(ticketID);
 
+            Platform.runLater(this::loadAttachmentTable);
+            Platform.runLater(this::loadMessageHistory);
 
         }
 
@@ -259,9 +313,44 @@ public class ViewTicketController implements Initializable {
 
 
 
-    @FXML
-    private void updateTicketCategory(){
 
+    @FXML
+    private void openMessageBox(int messageID){
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+        try {
+            //modal pop-up dialogue box
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.SHARED_MESSAGE_HISTORY_BOX_POP_UP));
+            Parent root = modalViewLoader.load();
+
+
+            MessageBoxController messageBoxController = modalViewLoader.getController();
+            messageBoxController.loadMessage(messageID);
+
+
+            // New window setup as modal
+            Stage messageBoxPopUp = new Stage();
+            messageBoxPopUp.initOwner(currentDashboardStage);
+            messageBoxPopUp.initModality(Modality.WINDOW_MODAL);
+            messageBoxPopUp.initStyle(StageStyle.TRANSPARENT);
+
+
+            Scene scene = new Scene(root);
+            messageBoxPopUp.setScene(scene);
+
+            messageBoxPopUp.showAndWait(); // Blocks interaction with the main stage
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            loadTicketInfo(ticketID);
+
+            Platform.runLater(this::loadAttachmentTable);
+            Platform.runLater(this::loadMessageHistory);
+        }
     }
     @FXML
     private void closeMenu() {
@@ -273,6 +362,7 @@ public class ViewTicketController implements Initializable {
 
         Platform.runLater(this::loadAttachmentTable);
 
+        Platform.runLater(this::loadMessageHistory);
         attachmentsTable.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() == 2) {
                 String selectedItem = attachmentsTable.getSelectionModel().getSelectedItem().getFilePath();
@@ -284,6 +374,14 @@ public class ViewTicketController implements Initializable {
                 if (!Strings.isNullOrEmpty(selectedItem)) {
                     System.out.println("Selected Item: " + selectedItem);
                 }
+            }
+        });
+
+        messageHistoryTable.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                int selectedItem = messageHistoryTable.getSelectionModel().getSelectedItem().getMessageID();
+                System.out.println(selectedItem);
+                openMessageBox(selectedItem);
             }
         });
     }

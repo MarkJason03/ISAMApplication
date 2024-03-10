@@ -1,4 +1,4 @@
-package com.example.fyp_application.Controllers.Client.ProfileManagement;
+package com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
@@ -93,7 +93,6 @@ public class EditUserProfileController implements Initializable {
     private final int userID = CurrentLoggedUserHandler.getUserID();
 
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-    private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler(); // This is a class that handles alerts
 
 
 
@@ -181,7 +180,7 @@ public class EditUserProfileController implements Initializable {
             runProfileChanges(newPath);
 
         } else {
-            ALERT_HANDLER.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
 
     }

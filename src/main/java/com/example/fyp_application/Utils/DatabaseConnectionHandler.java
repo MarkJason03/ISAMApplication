@@ -8,10 +8,11 @@ import java.sql.SQLException;
 public class DatabaseConnectionHandler {
 
 
-    /*private static final String dbUrl = "jdbc:sqlite:/D:\\FYP_Application\\src\\main\\resources\\db\\ISAMDB.db";*/
-    //private static final String dbUrl = "jdbc:sqlite::resource:db/ISAMDB.db";
     private static final String dbUrl = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/db/ISAMDB.db";
 
+    private DatabaseConnectionHandler(){
+
+    }
     public static Connection getConnection() {
         try{
             return DriverManager.getConnection(dbUrl);

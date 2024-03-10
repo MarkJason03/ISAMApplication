@@ -2,9 +2,12 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.AttachmentHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.GMailHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -24,8 +27,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.FileHandler;
 
 public class ActionTicketController implements Initializable {
 
@@ -46,7 +51,7 @@ public class ActionTicketController implements Initializable {
     private Button backBtn;
 
     @FXML
-    private Button cancelBtn;
+    private Button quickClose_btn;
 
     @FXML
     private Button exitApp_btn;
@@ -76,7 +81,7 @@ public class ActionTicketController implements Initializable {
     private ComboBox<TicketCategoryModel> ticketCategory_CB;
 
     @FXML
-    private TextArea ticketDetails;
+    private TextArea responseDetails;
 
     @FXML
     private ComboBox<String> ticketPriority_CB;
@@ -89,25 +94,136 @@ public class ActionTicketController implements Initializable {
 
     private static final TicketDAO TICKET_DAO = new TicketDAO();
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
     private static  final TicketCategoryDAO TICKET_CATEGORY_DAO = new TicketCategoryDAO();
-    @FXML
-    private void submitResponse(){
 
+
+    @FXML
+    private  int ticketID;
+    private int agentID;
+    private int userID;
+
+
+    @FXML
+    private Button b1;
+
+
+
+    @FXML
+    private void handleTicketUpdate() {
+        Task<Void> updateTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitTicketDetailChanges();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                submitResponseAsync(); // Call the next step when succeeded
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                // Handle failure
+            }
+        };
+
+        new Thread(updateTask).start();
     }
+
+    private void submitResponseAsync() {
+        Task<Void> responseTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitResponse(); // This method now just contains the DB operation, no FX handling
+                sendUpdateEmail();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                submitAttachmentsAsync(); // Proceed to attachments after response
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                // Handle failure
+            }
+        };
+
+        new Thread(responseTask).start();
+    }
+
+    private void submitAttachmentsAsync() {
+        Task<Void> attachmentTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitAttachment();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                // Close the window or do other UI stuff as needed
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                // Handle failure
+            }
+        };
+
+        new Thread(attachmentTask).start();
+    }
+
+    @FXML
+    private void submitTicketDetailChanges(){
+        TicketDAO.updateTicketDetails(ticketID,
+                ticketCategory_CB.getValue().getCategoryID(),
+                ticketStatus_CB.getValue(),
+                ticketPriority_CB.getValue(),
+                targetResolution_lbl.getText()
+                );
+    }
+
+    @FXML
+    private void submitResponse() throws SQLException {
+        MessageHistoryDAO.recordMessage(ticketID,
+                responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
+                DateTimeHandler.getCurrentDateTime());
+        }
 
 
 
     @FXML
     private void submitAttachment(){
 
-
-
+        if (attachmentListView != null){
+            for (String filePath : filePaths) {
+                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeHandler.getSQLiteDate());
+            }
+        }
     }
 
+
     @FXML
-    private void quickClose(){
-        //Todo - experimental to try and close the call and
+    private void sendUpdateEmail() throws Exception {
+        GMailHandler gMailHandler = new GMailHandler();
+
+        gMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+                "Call In Progress: SD" +  ticketID,
+                gMailHandler.generateResponseEmailBody(ticketID,
+                        ticketInfolist.get(0).getUserFullName(),
+                        ticketInfolist.get(0).getTicketTitle(),
+                        responseDetails.getText()
+                )
+        );
     }
 
 
@@ -119,7 +235,7 @@ public class ActionTicketController implements Initializable {
     private final ObservableList<String> filePaths = FXCollections.observableArrayList();
     @FXML
     private void addAttachment(){
-        // Create a FileChooser object
+    /*    // Create a FileChooser object
         FileChooser fileChooser = new FileChooser();
 
         // Set the title of the FileChooser and extension filters
@@ -141,33 +257,42 @@ public class ActionTicketController implements Initializable {
         }
 
         // This will reset your ListView's items every time. If you want to accumulate files, you should update the list, not reset it.
-        attachmentListView.setItems(filePaths);
+        attachmentListView.setItems(filePaths);*/
+
+        AttachmentHandler.addAttachments(filePaths,attachmentListView);
     }
 
 
     @FXML
     private void deleteAttachment(){
-        attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
-
+        //attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
+        AttachmentHandler.deleteAttachment(attachmentListView);
     }
 
+    @FXML
+    private void test(){
+        System.out.println(ticketInfolist.get(0).getAgentFullName());
+        System.out.println(ticketInfolist.get(0).getUserFullName());
+    }
 
-
+    private ObservableList<TicketModel>ticketInfolist;
     @FXML
     public void loadTicketInfo(int ticketID){
 
-        ObservableList<TicketModel>ticketInfolist;
+
         ticketInfolist = TICKET_DAO.getShortenedTicketInformation(ticketID);
 
+        //this.ticketID = ViewTicketController.ticketID;
 
+        this.ticketID = ticketInfolist.get(0).getTicketID();
+        System.out.println(ticketID);
 
-        for (TicketModel items : ticketInfolist){
-            System.out.println(items);
-        }
+        ticketInfolist.forEach(System.out::println);
+
         System.out.println(ticketInfolist.get(0).getTicketStatus());
         ticketStatus_CB.setValue(ticketInfolist.get(0).getTicketStatus());
         targetResolution_lbl.setText(DateTimeHandler.dateParser(ticketInfolist.get(0).getDateCreated()));
-
+        ticketPriority_CB.setValue(ticketInfolist.get(0).getTicketPriority());
         ticketTitle.setText(ticketInfolist.get(0).getTicketTitle());
 
 
@@ -179,19 +304,12 @@ public class ActionTicketController implements Initializable {
                 break;
             }}
 
+
     }
 
     @FXML
     private void openFile(String path) {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File file = new File(path);
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exceptions (file not found, no application associated with the file type, etc.)
-            }
-        }
+        AttachmentHandler.openAttachment(path);
     }
 
 

@@ -2,6 +2,7 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.AttachmentHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Utils.GMailHandler;
 import javafx.collections.FXCollections;
@@ -109,16 +110,12 @@ public class RaiseTicketController implements Initializable {
     private ListView<String> attachmentListView;
 
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
-
-    private static final UserDAO USER_DAO = new UserDAO();
-
     private static final TicketDAO TICKET_DAO = new TicketDAO();
 
     @FXML
     private void raiseNewTicket() throws Exception {
         if (isEmptyFields()) {
-            ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
             return;
         }
 
@@ -130,11 +127,12 @@ public class RaiseTicketController implements Initializable {
         // Assuming openUserTicketRequest now returns the created ticket ID
         int ticketID = TICKET_DAO.openUserTicketRequest(
 
-                ///todo need to put probably uncategorised as primary ticket category?
+                ///todo need to put probably uncategorized as primary ticket category?
                 userID,
                 title,
                 details,
                 "Created",
+                "Low",
                 DateTimeHandler.getCurrentDateTime()
         );
 
@@ -143,7 +141,7 @@ public class RaiseTicketController implements Initializable {
             // Iterate over the attachments and queue them for insertion
             for (String filePath : attachmentListView.getItems()) {
                 // Assuming you have a method to insert just the file path and ticket ID into the database
-                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getCurrentDateTime());
+                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getSQLiteDate());
             }
 
         }
@@ -152,7 +150,7 @@ public class RaiseTicketController implements Initializable {
         sendEmailNotification(ticketID, firstName_TF.getText(), title, details);
 
         // Show a confirmation alert
-        ALERT_HANDLER.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
+        AlertNotificationHandler.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
 
         // Close the window
         closeWindow();
@@ -218,7 +216,7 @@ public class RaiseTicketController implements Initializable {
 
         else {
             // Show an error message if no file was selected
-            ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "No file selected");
+            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "No file selected");
         }
 
         // This will reset your ListView's items every time. If you want to accumulate files, you should update the list, not reset it.
@@ -242,7 +240,7 @@ public class RaiseTicketController implements Initializable {
         allUsers = UserDAO.getAllUsers();
         userComboBox.getItems().addAll(allUsers);
         // Define how to display the user information in the ComboBox
-        userComboBox.setCellFactory(lv -> new ListCell<UserModel>() {
+        userComboBox.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(UserModel user, boolean empty) {
                 super.updateItem(user, empty);
@@ -303,15 +301,7 @@ public class RaiseTicketController implements Initializable {
     }
 
     private void openFile(String path) {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File file = new File(path);
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exceptions (file not found, no application associated with the file type, etc.)
-            }
-        }
+        AttachmentHandler.openAttachment(path);
     }
 
 
@@ -332,7 +322,7 @@ public class RaiseTicketController implements Initializable {
                 attachmentListView.getItems().clear();
 
 
-            };
+            }
         });
 
 

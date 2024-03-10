@@ -22,6 +22,9 @@ public class DateTimeHandler {
 
 
     private static final DateTimeFormatter DATE_CREATED_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
+
+
+    private DateTimeHandler (){}
     public static String getCurrentTime(){
 
         return LocalTime.now().format(CURRENT_TIME_FORMAT);

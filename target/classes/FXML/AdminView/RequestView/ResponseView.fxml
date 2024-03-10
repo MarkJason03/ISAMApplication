@@ -126,7 +126,7 @@
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="targetResolution_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="OpenDate+2 weeks">
+                                                <Label fx:id="targetResolution_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
@@ -144,28 +144,9 @@
                                        </font>
                                     </Label>
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                                    <HBox fillHeight="false" layoutX="684.0" layoutY="33.0" prefHeight="46.0" prefWidth="301.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
-                                       <children>
-                                          <AnchorPane>
-                                             <children>
-                                                <Button fx:id="sendBtn" layoutY="-2.0" mnemonicParsing="false" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Response" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
-                                                   <graphic>
-                                                      <FontAwesomeIconView glyphName="EDIT" size="35" />
-                                                   </graphic>
-                                                </Button>
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane>
-                                             <children>
-                                                <Button fx:id="cancelBtn" layoutY="-2.0" mnemonicParsing="false" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Quick Close" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                                                   <graphic>
-                                                      <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                                                   </graphic>
-                                                </Button>
-                                             </children>
-                                          </AnchorPane>
-                                       </children>
-                                    </HBox>
+                                    <Button fx:id="b1" layoutX="420.0" layoutY="43.0" mnemonicParsing="false" onAction="#test" text="Button" />
+                                    <Button layoutX="517.0" layoutY="43.0" mnemonicParsing="false" text="Button" />
+                                    <Button layoutX="638.0" layoutY="43.0" mnemonicParsing="false" text="Button" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="463.0" prefWidth="1021.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
@@ -176,19 +157,22 @@
                                  <children>
                                     <VBox layoutY="98.0" prefHeight="347.0" prefWidth="1021.0" spacing="10.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
                                        <children>
-                                          <HBox spacing="30.0">
+                                          <HBox prefWidth="947.0" spacing="30.0">
                                              <children>
-                                                <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Ticket Title">
+                                                <Label prefHeight="50.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Ticket Title">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="ticketTitle" prefHeight="40.0" prefWidth="790.0" />
+                                                <TextField fx:id="ticketTitle" disable="true" editable="false" prefHeight="40.0" prefWidth="790.0" style="-fx-opacity: 1; -fx-background-color: transparent;" text="test">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font></TextField>
                                              </children>
                                           </HBox>
                                           <ScrollPane hbarPolicy="NEVER">
                                              <content>
-                                                <TextArea fx:id="ticketDetails" prefHeight="200.0" prefWidth="980.0" wrapText="true">
+                                                <TextArea fx:id="responseDetails" prefHeight="200.0" prefWidth="980.0" wrapText="true">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
@@ -201,12 +185,34 @@
                                           <Insets left="20.0" right="20.0" />
                                        </padding>
                                     </VBox>
-                                    <Label layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Action Ticket">
+                                    <Label layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="239.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Response Message">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
-                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
+                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="980.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
+                                    <HBox fillHeight="false" layoutX="699.0" layoutY="373.0" prefHeight="46.0" prefWidth="301.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                                       <children>
+                                          <AnchorPane>
+                                             <children>
+                                                <Button fx:id="sendBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#handleTicketUpdate" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Response" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="EDIT" size="35" />
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane>
+                                             <children>
+                                                <Button fx:id="quickClose_btn" layoutY="-2.0" mnemonicParsing="false" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Clear Page?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </AnchorPane>
                               <TitledPane fx:id="attachmentTitlePane" disable="true" expanded="false" text="Attachments">

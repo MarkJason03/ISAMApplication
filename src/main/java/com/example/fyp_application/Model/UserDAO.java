@@ -323,10 +323,13 @@ public class UserDAO {
     public void updateUserLastLoginTime(int userID, String lastLogin) {
 
         String sql = "UPDATE tbl_Users SET LastLogin = ? WHERE UserID = ?";
-        try (Connection connection = DatabaseConnectionHandler.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, lastLogin);
-            preparedStatement.setInt(2, userID);
-            preparedStatement.executeUpdate();
+        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, lastLogin);
+                preparedStatement.setInt(2, userID);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

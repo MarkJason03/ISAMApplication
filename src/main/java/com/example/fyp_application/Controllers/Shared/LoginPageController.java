@@ -7,6 +7,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.WindowCommandsHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -55,7 +56,7 @@ public class LoginPageController implements Initializable {
 
     private final UserDAO USER_DAO = new UserDAO();
 
-    private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
+
     private double x= 0 ;
     private double y= 0;
 
@@ -86,7 +87,7 @@ public class LoginPageController implements Initializable {
     @FXML
     private void exitApplication() {
 
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
+        if (AlertNotificationHandler.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
             System.exit(0);
         }
     }
@@ -98,7 +99,7 @@ public class LoginPageController implements Initializable {
     }
 
     public void loginFailed(){
-        ALERT_HANDLER.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
+        AlertNotificationHandler.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
         error_lbl.setText("");
     }
 
@@ -197,12 +198,12 @@ public class LoginPageController implements Initializable {
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
-                ALERT_HANDLER.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
+                AlertNotificationHandler.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
                 openAdminView(userID, firstName, photoPath);
             }
             case "User" ->{
                 // Logic for user
-                ALERT_HANDLER.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
+                AlertNotificationHandler.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
                 openClientView(userID, firstName, photoPath);
             }
         }
@@ -289,12 +290,15 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void closeApplication() {
-
+/*
         Stage stage = (Stage) exit_btn.getScene().getWindow();
 
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+        if (AlertNotificationHandler.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
             stage.close();
-        }
+        }*/
+
+        WindowCommandsHandler.exitApplication(exit_btn,
+                AlertNotificationHandler.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
     }
 
 

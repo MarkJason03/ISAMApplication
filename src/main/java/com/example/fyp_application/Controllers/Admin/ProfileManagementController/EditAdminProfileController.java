@@ -93,7 +93,6 @@ public class EditAdminProfileController implements Initializable {
     private final int userID = CurrentLoggedUserHandler.getAdminID();
 
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-    private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler(); // This is a class that handles alerts
 
 
 
@@ -178,7 +177,7 @@ public class EditAdminProfileController implements Initializable {
             runProfileChanges(newPath);
 
         } else {
-            ALERT_HANDLER.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
 
     }

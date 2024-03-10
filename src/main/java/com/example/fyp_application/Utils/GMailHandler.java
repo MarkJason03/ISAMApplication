@@ -56,36 +56,6 @@ public class GMailHandler {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public void sendMail(String subject, String message) throws Exception {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-        MimeMessage email = new MimeMessage(session);
-        email.setFrom(new InternetAddress(DEFAULT_EMAIL));
-        email.addRecipient(TO, new InternetAddress(DEFAULT_EMAIL));
-        email.setSubject(subject);
-        email.setText(message);
-
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        email.writeTo(buffer);
-        byte[] rawMessageBytes = buffer.toByteArray();
-        String encodedEmail = Base64.encodeBase64URLSafeString(rawMessageBytes);
-        Message msg = new Message();
-        msg.setRaw(encodedEmail);
-
-        try {
-            msg = service.users().messages().send("me", msg).execute();
-            System.out.println("Message id: " + msg.getId());
-            System.out.println(msg.toPrettyString());
-        } catch (GoogleJsonResponseException e) {
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 403) {
-                System.err.println("Unable to send message: " + e.getDetails());
-            } else {
-                throw e;
-            }
-        }
-    }
-
 
     public void sendEmailTo(String emailAddress, String subject, String message) throws Exception{
 
@@ -119,7 +89,7 @@ public class GMailHandler {
 
     }
 
-    public String generateAccountCreationEmailBody(String firstname, String username, String password) {
+    public  String generateAccountCreationEmailBody(String firstname, String username, String password) {
 
 
         return
@@ -137,7 +107,7 @@ public class GMailHandler {
     }
 
 
-    public String generatePasswordResetEmailBody(String firstName, String password) {
+    public  String generatePasswordResetEmailBody(String firstName, String password) {
 
         return "Hello " + firstName + "," + "\n\n\n"
                 + "Your password has been reset successfully. Please find your new password details below: " + "\n\n\n"
@@ -150,7 +120,7 @@ public class GMailHandler {
     }
 
 
-    public String generateTicketRequestEmailBody(Integer ticketID , String firstname,String ticketTitle, String ticketDescription) {
+    public  String generateTicketRequestEmailBody(Integer ticketID , String firstname,String ticketTitle, String ticketDescription) {
         return "Hello " + firstname + "," + "\n\n\n"
                 + "Your ticket request has been submitted created. Please find your ticket details below: " + "\n\n\n"
                 + "Ticket ID: " + ticketID + "\n\n"
@@ -161,6 +131,27 @@ public class GMailHandler {
                 + "ISAM Team";
     }
 
+
+    public  String generateAutoCloseEmailBody(Integer ticketID, String fullname, String ticketTitle, String responseDescription){
+        return "Hello " + fullname + "," + "\n\n\n"
+                + "Your ticket request has been submitted closed. Please find your ticket details below: " + "\n\n\n"
+                + "Ticket Title: " + ticketTitle + "\n\n"
+                + "\n\n" + responseDescription + "\n\n\n"
+                + "If you wish to re-open this request, please respond to this email or contact 020 1234 5678 quoting this SD Number " + ticketID + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+    }
+
+
+    public static String generateResponseEmailBody(Integer ticketID, String fullname, String ticketTitle, String responseDescription){
+        return "Hello " + fullname + "," + "\n\n\n"
+                + "Your ticket request has been submitted actioned. Please find your ticket details below: " + "\n\n\n"
+                + "Ticket Title: " + ticketTitle + "\n\n"
+                + "Action Description" + "\n\n\n" + responseDescription + "\n\n\n"
+                + "Please respond to this update using your account or contact 020 1234 5678 quoting this SD Number " + ticketID + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+    }
 /*
     public String sendEmailWithAttachment(Gmail gmail,) {
 

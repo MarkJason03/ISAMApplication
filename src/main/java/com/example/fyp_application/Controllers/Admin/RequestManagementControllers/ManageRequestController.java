@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 public class ManageRequestController implements Initializable {
 
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler() ;
+    
     @FXML
     private TableColumn<?, ?> agentName_col;
 
@@ -204,7 +204,7 @@ public class ManageRequestController implements Initializable {
         TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
 
         if (selectedTicket == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         }
         else {
@@ -216,7 +216,7 @@ public class ManageRequestController implements Initializable {
 
 
                 ViewTicketController viewTicketController = modalViewLoader.getController();
-                viewTicketController.sample(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
+                viewTicketController.loadTicketInfo(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
 
 
                 // New window setup as modal
@@ -235,7 +235,7 @@ public class ManageRequestController implements Initializable {
                 e.printStackTrace();
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-
+                Platform.runLater(this::loadTicketsTable);
 
                 Platform.runLater(this::countCreatedRequests);
                 Platform.runLater(this::countOnProgressRequests);

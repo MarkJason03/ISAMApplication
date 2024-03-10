@@ -4,6 +4,7 @@ import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.WindowCommandsHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
@@ -63,7 +64,6 @@ public class ModifiedAdminDashboardController implements Initializable {
     @FXML
     private Label username_lbl;
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
     public static AnchorPane swappableContentPane;
 
@@ -141,11 +141,10 @@ public class ModifiedAdminDashboardController implements Initializable {
     @FXML
     private void closeApplication() {
         //Close the application and exit
-        Stage stage = (Stage) exitApp_btn.getScene().getWindow();
-
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
-            stage.close();
-        }
+        WindowCommandsHandler.exitApplication(
+                exitApp_btn,
+                AlertNotificationHandler.showConfirmationAlert("Exit Application?",
+                        "Are you sure you want to exit the application"));
     }
 
     @FXML

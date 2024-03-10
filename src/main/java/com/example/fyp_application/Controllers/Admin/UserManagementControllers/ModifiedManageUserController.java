@@ -129,7 +129,6 @@ public class ModifiedManageUserController implements Initializable {
 
     @FXML
     private TextField username_TF;
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
     private final UserDAO USER_DAO = new UserDAO(); //instance of the Data Access Object
 
@@ -138,7 +137,7 @@ public class ModifiedManageUserController implements Initializable {
     @FXML
     private void loadTableData() {
 
-            userListData = USER_DAO.getAllUsers();
+            userListData = UserDAO.getAllUsers();
 
             userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
             userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -169,7 +168,7 @@ public class ModifiedManageUserController implements Initializable {
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
 
         if (selectedUser == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -257,18 +256,18 @@ public class ModifiedManageUserController implements Initializable {
     private void deleteUser(){
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
+            AlertNotificationHandler.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
             return;
         }
 
-        if(ALERT_HANDLER.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
+        if(AlertNotificationHandler.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
             int userID = selectedUser.getUserID();
             USER_DAO.deleteUser(userID);
             loadTableData();
 
         } else {
 
-             ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "User has not been deleted");
+             AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "User has not been deleted");
 
             }
     }

@@ -44,8 +44,8 @@ module com.example.fyp_application {
 
     opens com.example.fyp_application.Controllers.Admin.DashboardControllers to javafx.fxml;
 
-    exports com.example.fyp_application.Controllers.Client.ProfileManagement;
-    opens com.example.fyp_application.Controllers.Client.ProfileManagement to javafx.fxml;
+    exports com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers;
+    opens com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers to javafx.fxml;
     exports com.example.fyp_application.Controllers.Admin.ProfileManagementController;
     opens com.example.fyp_application.Controllers.Admin.ProfileManagementController to javafx.fxml;
     exports com.example.fyp_application.Controllers.Admin.UserManagementControllers;

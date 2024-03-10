@@ -1,4 +1,4 @@
-package com.example.fyp_application.Controllers.Client.ProfileManagement;
+package com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
@@ -75,7 +75,7 @@ public class EditProfilePopUpController implements Initializable {
     private Circle userProfilePhoto;
     private static final UserDAO USER_DAO = new UserDAO();
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
+    
 
 
 
@@ -118,11 +118,11 @@ public class EditProfilePopUpController implements Initializable {
 
 
         if(isValidFields()){
-            ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
+            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
         }
         else{
             UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
-            ALERT_HANDLER.showInformationMessageAlert("Update Completed", "Details updated successfully.");
+            AlertNotificationHandler.showInformationMessageAlert("Update Completed", "Details updated successfully.");
             saveProfileChanges_btn.getScene().getWindow().hide();
         }
 
@@ -133,13 +133,13 @@ public class EditProfilePopUpController implements Initializable {
 
     private void savePasswordChange() {
         // First, confirm if the user wants to update the password.
-        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
+        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
 
         // If the user confirmed, proceed with further checks.
         if (confirmation) {
             // Check if either password field is empty.
             if (newPassword_TF.getText().isEmpty() || confirmationPassword_TF.getText().isEmpty()) {
-                ALERT_HANDLER.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
+                AlertNotificationHandler.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
                 return;
             }
 
@@ -150,11 +150,11 @@ public class EditProfilePopUpController implements Initializable {
                 UserDAO.updateUserPassword(this.userID, hashedPassword);
 
                 // Show success message and close the window.
-                ALERT_HANDLER.showInformationMessageAlert("Password Updated", "Password updated successfully.");
+                AlertNotificationHandler.showInformationMessageAlert("Password Updated", "Password updated successfully.");
                 //updatePassword_btn.getScene().getWindow().hide();
             } else {
                 // Indicate that the passwords do not match.
-                ALERT_HANDLER.showInformationMessageAlert("Action aborted", "Password has not been updated. Please check your fields.");
+                AlertNotificationHandler.showInformationMessageAlert("Action aborted", "Password has not been updated. Please check your fields.");
                 newPassword_TF.setStyle("-fx-border-color: red");
                 confirmationPassword_TF.setStyle("-fx-border-color: red");
                 passwordChecker_lbl.setStyle("-fx-text-fill: red");

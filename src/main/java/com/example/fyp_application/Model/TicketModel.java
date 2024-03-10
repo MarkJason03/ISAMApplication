@@ -34,6 +34,8 @@ public class TicketModel {
     private String categoryName;
     private String userFullName;
 
+    private String userEmail;
+
 
 
 
@@ -94,6 +96,7 @@ public class TicketModel {
                        int agentID,
                        int categoryID,
                        String userFullName,
+                       String userEmail,
                        String ticketTitle,
                        String description,
                        String status,
@@ -109,6 +112,7 @@ public class TicketModel {
         this.agentID = agentID;
         this.categoryID = categoryID;
         this.userFullName = userFullName;
+        this.userEmail = userEmail;
         this.ticketTitle = ticketTitle;
         this.ticketDescription = description;
         this.ticketStatus = status;
@@ -124,19 +128,26 @@ public class TicketModel {
     // constructor for getting ticket information to do actioning
 
     public TicketModel(
-            int userID,
+            int ticketID,
             int categoryID,
             String title,
             String status,
             String priority,
-            String dateCreated){
+            String dateCreated,
+            String fullName,
+            String agentName,
+            String email
+    ){
 
-        this.userID = userID;
+        this.ticketID = ticketID;
         this.categoryID = categoryID;
         this.ticketTitle = title;
         this.ticketStatus = status;
         this.ticketPriority = priority;
         this.dateCreated = dateCreated;
+        this.userFullName = fullName;
+        this.agentFullName = agentName;
+        this.userEmail = email;
     }
 
 
@@ -204,6 +215,8 @@ public class TicketModel {
     }
 
 
+    public String getUserEmail(){return userEmail;}
+
 
     // setter methods
 
@@ -267,4 +280,5 @@ public class TicketModel {
         this.knowledgeBaseInfo = knowledgeBaseInfo;
     }
 
+    public void setUserEmail(String userEmail){this.userEmail = userEmail;}
 }

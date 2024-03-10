@@ -68,7 +68,6 @@ public class ClientDashboardController implements Initializable {
 
     public static AnchorPane swappableContentPane;
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 /*
     private   int userID;
     private   String firstName;
@@ -147,7 +146,7 @@ public class ClientDashboardController implements Initializable {
     private void closeApplication(){
         Stage stage = (Stage) exitApp_btn.getScene().getWindow();
 
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+        if (AlertNotificationHandler.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
             stage.close();
         }
     }

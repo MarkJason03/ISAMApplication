@@ -121,7 +121,6 @@ public class ModifiedManageSupplierController implements Initializable {
     private Label InactiveSuppliers_lbl;
 
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();//instance of the Alert Handler Controller
     private final SupplierDAO supplierDAO = new SupplierDAO();//instance of the Supplier Data Access Object
 
 
@@ -249,7 +248,7 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if (selectedSupplier == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -301,15 +300,15 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if(selectedSupplier == null){
-            ALERT_HANDLER.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
+            AlertNotificationHandler.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
             return;
         }
-        if(ALERT_HANDLER.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
+        if(AlertNotificationHandler.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
             int supplierID = selectedSupplier.getSupplierID();
             supplierDAO.deleteSupplier(supplierID);
             loadSupplierTableData();
         } else{
-            ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
+            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
         }
     }
 

@@ -21,6 +21,7 @@ public class InformationGeneratorHandler {
 
     private static final SecureRandom random = new SecureRandom();
 
+    private InformationGeneratorHandler(){}
     public static String generatePassword(int length) {
         if (length < 4) {
             throw new IllegalArgumentException();

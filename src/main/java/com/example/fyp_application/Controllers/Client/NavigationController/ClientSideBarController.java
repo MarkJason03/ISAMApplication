@@ -1,9 +1,10 @@
 package com.example.fyp_application.Controllers.Client.NavigationController;
 
+import com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRequestDashboardController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientHomePageController;
-import com.example.fyp_application.Controllers.Client.ProfileManagement.EditUserProfileController;
+import com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers.EditUserProfileController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,12 +40,17 @@ public class ClientSideBarController {
 
     @FXML
     private void openEditProfile () throws IOException {
-        swapScene(ViewHandler.CLIENT_EDIT_PROFILE_VIEW, EditUserProfileController.class);
+        swapScene(ViewConstants.CLIENT_EDIT_PROFILE_VIEW, EditUserProfileController.class);
     }
 
     @FXML
     private void openDashboard() throws IOException {
-        swapScene(ViewHandler.CLIENT_HOME_PAGE_VIEW, ClientHomePageController.class);
+        swapScene(ViewConstants.CLIENT_HOME_PAGE_VIEW, ClientHomePageController.class);
+    }
+
+    @FXML
+    private void openRequestDashboard() throws IOException {
+        swapScene(ViewConstants.CLIENT_TICKET_DASHBOARD_VIEW, ClientRequestDashboardController.class);
     }
 
 
@@ -52,7 +58,7 @@ public class ClientSideBarController {
     private void logoutUser() throws IOException {
 
         logout_btn.getScene().getWindow().hide();
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.APP_LOGIN)));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));
         Stage stage  = new Stage();
         Scene scene = new Scene(parent);
         stage.initStyle(StageStyle.UNDECORATED);

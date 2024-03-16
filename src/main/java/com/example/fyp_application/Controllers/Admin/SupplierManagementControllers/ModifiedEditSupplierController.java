@@ -55,7 +55,6 @@ public class ModifiedEditSupplierController implements Initializable {
 
     private int supplierID;
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
     private static final SupplierDAO SUPPLIER_DAO = new SupplierDAO();
 
@@ -70,13 +69,13 @@ public class ModifiedEditSupplierController implements Initializable {
         if(checkForm()){
 
             SUPPLIER_DAO.updateSupplier(supplierID, supName_TF.getText(), supAddress_TF.getText(), supPhone_TF.getText(), supEmail_TF.getText(), supStatus_CB.getValue(), DateTimeHandler.setSQLiteDateFormat(currentSelectedDate));
-            ALERT_HANDLER.showInformationMessageAlert("Success", "Supplier edited successfully");
+            AlertNotificationHandler.showInformationMessageAlert("Success", "Supplier edited successfully");
             cancel_btn.getScene().getWindow().hide();
 
 
 
         } else {
-            ALERT_HANDLER.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         }
 
     }

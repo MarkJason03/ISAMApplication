@@ -5,7 +5,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,10 +90,9 @@ public class EditAdminProfileController implements Initializable {
     @FXML
     private Label usernameMainHolder_lbl;
 
-    private final int userID = CurrentLoggedUserHandler.getAdminID();
+    private final int userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
 
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-    private final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler(); // This is a class that handles alerts
 
 
 
@@ -131,7 +130,7 @@ public class EditAdminProfileController implements Initializable {
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_MY_PROFILE_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_MY_PROFILE_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 EditAdminProfilePopUpController accountSettingsController = modalViewLoader.getController();
@@ -178,7 +177,7 @@ public class EditAdminProfileController implements Initializable {
             runProfileChanges(newPath);
 
         } else {
-            ALERT_HANDLER.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
 
     }
@@ -187,10 +186,10 @@ public class EditAdminProfileController implements Initializable {
         new Thread(() -> {
             String  timeStamp = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
             UserDAO userDAO = new UserDAO();
-            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getAdminID(), newPath, timeStamp);
+            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedAdminID(), newPath, timeStamp);
             Platform.runLater(() -> {
                 try {
-                    loadUserData(CurrentLoggedUserHandler.getAdminID());
+                    loadUserData(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
                     UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewAdminPhoto(userModel.getPhoto());
 

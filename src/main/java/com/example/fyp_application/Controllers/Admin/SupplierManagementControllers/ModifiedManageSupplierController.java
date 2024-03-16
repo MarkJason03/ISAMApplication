@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -121,7 +121,6 @@ public class ModifiedManageSupplierController implements Initializable {
     private Label InactiveSuppliers_lbl;
 
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();//instance of the Alert Handler Controller
     private final SupplierDAO supplierDAO = new SupplierDAO();//instance of the Supplier Data Access Object
 
 
@@ -199,7 +198,7 @@ public class ModifiedManageSupplierController implements Initializable {
         try {
             //Load the supplier menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_ADD_SUPPLIER_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_SUPPLIER_POP_UP));
             Parent root = modalViewLoader.load();
 
             ModifiedAddSupplierController addSupplierController = modalViewLoader.getController();
@@ -249,13 +248,13 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if (selectedSupplier == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_SUPPLIER_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_SUPPLIER_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 ModifiedEditSupplierController editSupplierController = modalViewLoader.getController();
@@ -301,15 +300,15 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if(selectedSupplier == null){
-            ALERT_HANDLER.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
+            AlertNotificationHandler.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
             return;
         }
-        if(ALERT_HANDLER.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
+        if(AlertNotificationHandler.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
             int supplierID = selectedSupplier.getSupplierID();
             supplierDAO.deleteSupplier(supplierID);
             loadSupplierTableData();
         } else{
-            ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
+            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
         }
     }
 

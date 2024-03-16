@@ -57,7 +57,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="manageRequests_btn" mnemonicParsing="false" text="Requests">
+            <Button fx:id="manageRequests_btn" onAction="#openManageRequests" mnemonicParsing="false" text="Requests">
                <graphic>
                   <FontAwesomeIconView glyphName="ENVELOPE" size="30" />
                </graphic>

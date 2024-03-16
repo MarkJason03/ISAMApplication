@@ -1,34 +1,32 @@
 package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
-import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ModifiedManageUserController implements Initializable {
@@ -131,7 +129,6 @@ public class ModifiedManageUserController implements Initializable {
 
     @FXML
     private TextField username_TF;
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();//instance of the Alert Handler Controller
 
     private final UserDAO USER_DAO = new UserDAO(); //instance of the Data Access Object
 
@@ -140,7 +137,7 @@ public class ModifiedManageUserController implements Initializable {
     @FXML
     private void loadTableData() {
 
-            userListData = USER_DAO.getAllUsers();
+            userListData = UserDAO.getAllUsers();
 
             userTable_col_userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
             userTable_col_FName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -171,13 +168,13 @@ public class ModifiedManageUserController implements Initializable {
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
 
         if (selectedUser == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_USER_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_USER_POP_UP));
                 Parent root = modalViewLoader.load();
 
                 ModifiedEditUserController editUserController = modalViewLoader.getController();
@@ -231,7 +228,7 @@ public class ModifiedManageUserController implements Initializable {
         try {
             //Load the add user menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_ADD_USER_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_USER_POP_UP));
             Parent root = modalViewLoader.load();
 
             ModifiedAddUserController addUserController = modalViewLoader.getController();
@@ -259,18 +256,18 @@ public class ModifiedManageUserController implements Initializable {
     private void deleteUser(){
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            ALERT_HANDLER.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
+            AlertNotificationHandler.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
             return;
         }
 
-        if(ALERT_HANDLER.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
+        if(AlertNotificationHandler.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
             int userID = selectedUser.getUserID();
             USER_DAO.deleteUser(userID);
             loadTableData();
 
         } else {
 
-             ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "User has not been deleted");
+             AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "User has not been deleted");
 
             }
     }
@@ -341,9 +338,51 @@ public class ModifiedManageUserController implements Initializable {
                 Platform.runLater(this::countInactiveSuppliers);*/
 
         DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+
+
+
+        TableColumn<UserModel, Void> actionCol = new TableColumn<>("Actions");
+
+        Callback<TableColumn<UserModel, Void>, TableCell<UserModel, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<UserModel, Void> call(final TableColumn<UserModel, Void> param) {
+                return new TableCell<>() {
+
+                    private final Button btnModify = new Button("Modify");
+                    private final Button btnDelete = new Button("Delete");
+
+                    {
+                        btnModify.setOnAction((ActionEvent event) -> {
+                            UserModel data = getTableView().getItems().get(getIndex());
+                            //modifyUser(data);
+                        });
+
+                        btnDelete.setOnAction((ActionEvent event) -> {
+                            UserModel data = getTableView().getItems().get(getIndex());
+                            //deleteUser(data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox manageBtn = new HBox(btnModify, btnDelete);
+                            manageBtn.setStyle("-fx-alignment:center");
+                            HBox.setMargin(btnModify, new Insets(2, 2, 0, 3));
+                            HBox.setMargin(btnDelete, new Insets(2, 3, 0, 2));
+                            setGraphic(manageBtn);
+                        }
+                    }
+                };
+            }
+        };
+
+        actionCol.setCellFactory(cellFactory);
+
+        userTableView.getColumns().add(actionCol);
     }
-
-
-
 }
 

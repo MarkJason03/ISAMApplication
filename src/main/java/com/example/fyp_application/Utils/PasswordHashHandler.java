@@ -5,7 +5,7 @@ import de.mkammerer.argon2.Argon2Factory;
 
 public class PasswordHashHandler {
 
-
+    private PasswordHashHandler(){}
     public static String hashPassword(String password) {
         Argon2 argon2 = Argon2Factory.create();
         try {

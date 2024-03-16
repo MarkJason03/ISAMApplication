@@ -70,7 +70,10 @@ public class UserDAO {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new UserModel(resultSet.getInt("UserID"), resultSet.getString("FirstName"), resultSet.getString("userRoleName"), resultSet.getString("Photo"));
+                    return new UserModel(resultSet.getInt("UserID"),
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("userRoleName"),
+                            resultSet.getString("Photo"));
                 }
             }
         } catch (SQLException error) {
@@ -80,7 +83,7 @@ public class UserDAO {
     }
 
 
-    public ObservableList<UserModel> getAllUsers()  {
+    public static ObservableList<UserModel> getAllUsers()  {
         ObservableList<UserModel> arrayList = FXCollections.observableArrayList();
 
         String sql = """
@@ -273,7 +276,7 @@ public class UserDAO {
     }
 
 
-    public UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
+    public static UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
         String sql = """
                 SELECT UserID, FirstName , LastName , Email, Gender,Photo, Phone, DOB, Username , CreatedAt, AccountStatus , LastLogin, tbl_Departments.deptName as Department
                 from tbl_Users
@@ -320,10 +323,13 @@ public class UserDAO {
     public void updateUserLastLoginTime(int userID, String lastLogin) {
 
         String sql = "UPDATE tbl_Users SET LastLogin = ? WHERE UserID = ?";
-        try (Connection connection = DatabaseConnectionHandler.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, lastLogin);
-            preparedStatement.setInt(2, userID);
-            preparedStatement.executeUpdate();
+        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, lastLogin);
+                preparedStatement.setInt(2, userID);
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

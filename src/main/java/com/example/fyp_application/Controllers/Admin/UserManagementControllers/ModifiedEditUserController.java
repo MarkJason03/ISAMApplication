@@ -145,8 +145,10 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void generateRandomPassword() {
 
+        // Generate a random password and display it in the password fields - 12 string length
         String randomPassword = InformationGeneratorHandler.generatePassword(12);
 
+        // Display the generated password in the password fields
         newPassword_TF1.setText(randomPassword);
         confirmationPassword_TF1.setText(randomPassword);
         newPassword_TF1.setEditable(true);
@@ -156,7 +158,7 @@ public class ModifiedEditUserController implements Initializable{
 
 
     @FXML
-    private void sendPasswordResetEmail() throws Exception {
+    private void sendPasswordResetEmail() {
 
         boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
 
@@ -169,19 +171,15 @@ public class ModifiedEditUserController implements Initializable{
 
             // Check if the passwords match
             if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText())) {
-
-
                 // Passwords match, proceed with sending email
-                GMailHandler gMailHandler = new GMailHandler();
-                gMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", gMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
+                GMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", GMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
+
                 AlertNotificationHandler.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
 
 
                 UserDAO.updateUserPassword(userID, PasswordHashHandler.hashPassword(newPassword_TF1.getText()));
 
                  Platform.runLater(cancel_btn.getScene().getWindow()::hide);
-
-
 
             } else {
                 // Passwords do not match, show an error message
@@ -283,7 +281,7 @@ public class ModifiedEditUserController implements Initializable{
             }
         };
 
-        // Add the listener to both password fields' text properties
+        // Add the listener to both password fields' text application.properties
         newPassword_TF1.textProperty().addListener(passwordChangeListener);
         confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
 

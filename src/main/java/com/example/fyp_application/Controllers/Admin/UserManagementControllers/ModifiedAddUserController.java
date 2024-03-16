@@ -167,7 +167,7 @@ public class ModifiedAddUserController implements Initializable {
             );
             AlertNotificationHandler.showInformationMessageAlert("Success", "User added successfully");
 
-            Task<Void> emailTask = getEmailTask();
+            Task<Void> emailTask = getEmailAsync();
 
             new Thread(emailTask).start(); // Run the task in its own thread
 
@@ -175,7 +175,7 @@ public class ModifiedAddUserController implements Initializable {
         }
     }
 
-    private Task<Void> getEmailTask() {
+    private Task<Void> getEmailAsync() {
         Task<Void> emailTask = new Task<>() {
             @Override
             protected Void call() {
@@ -183,7 +183,6 @@ public class ModifiedAddUserController implements Initializable {
                     sendAccountDetailEmail();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Handle exceptions, potentially update the UI with the failure.
                 }
                 return null;
             }
@@ -191,14 +190,14 @@ public class ModifiedAddUserController implements Initializable {
 
         emailTask.setOnSucceeded(event -> {
             // UI update after email sent can go here, executed on JavaFX Application Thread
-            //ALERT_HANDLER.showInformationMessageAlert("Email sent", "Account details emailed successfully");
+            AlertNotificationHandler.showInformationMessageAlert("Email sent", "Account details emailed successfully");
             System.out.println("Email sent");
         });
 
         emailTask.setOnFailed(event -> {
             // UI update after email sending failure can go here
             System.out.println("Email failed");
-            //ALERT_HANDLER.showErrorMessageAlert("Email failed", "Failed to send account details");
+            AlertNotificationHandler.showErrorMessageAlert("Email failed", "Failed to send account details");
         });
         return emailTask;
     }
@@ -249,12 +248,14 @@ public class ModifiedAddUserController implements Initializable {
     @FXML
     private void sendAccountDetailEmail() throws Exception {
 
+        // Check if the username and password fields are empty
         if (userName_TF.getText().isEmpty() || password_TF.getText().isEmpty()) {
+
             AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Cannot send details without a username and password");
         } else {
-            GMailHandler gMailHandler = new GMailHandler();
-            gMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
-                    gMailHandler.generateAccountCreationEmailBody(
+            // Send the email
+            GMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
+                    GMailHandler.generateAccountCreationEmailBody(
                             userFirstName_TF.getText(),
                             userName_TF.getText(),
                             password_TF.getText()));
@@ -278,6 +279,7 @@ public class ModifiedAddUserController implements Initializable {
 
 
 
+        // Listen for changes in the first name field
         userFirstName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() >= 2 && userLastName_TF.getText().length() >= 2) {
                 userName_TF.setText(InformationGeneratorHandler.generateUsername(userFirstName_TF.getText(), userLastName_TF.getText()));
@@ -286,7 +288,7 @@ public class ModifiedAddUserController implements Initializable {
             }
         });
 
-
+        // Listen for changes in the last name field
         userLastName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() >=2 && userFirstName_TF.getText().length() >= 2) {
                 userName_TF.setText(InformationGeneratorHandler.generateUsername(userFirstName_TF.getText(), userLastName_TF.getText()));
@@ -297,6 +299,7 @@ public class ModifiedAddUserController implements Initializable {
         });
 
 
+        // Listen for changes in the phone number field
         userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
 
             // Remove spaces from the new value and set it to the TextField.
@@ -331,7 +334,7 @@ public class ModifiedAddUserController implements Initializable {
 
 
         PauseTransition pause = new PauseTransition(Duration.seconds(1)); //
-
+        // Listen for changes in the username field
         userName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             // Stop any previously running pause transition
             pause.stop();

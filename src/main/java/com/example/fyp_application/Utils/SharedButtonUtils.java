@@ -3,11 +3,11 @@ package com.example.fyp_application.Utils;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
-public class WindowCommandsHandler {
+public class SharedButtonUtils {
 
 
 
-    private WindowCommandsHandler(){
+    private SharedButtonUtils(){
 
     }
 
@@ -26,5 +26,22 @@ public class WindowCommandsHandler {
         }
 
     }
+
+    public static void closeMenu(Node node){
+        Stage stage = (Stage) node.getScene().getWindow();
+        if(stage != null){
+            stage.close();
+        }
+    }
+
+/*
+    ///
+    @FXML
+    private void reloadTable(){
+        Platform.runLater(this::loadTableData);
+        lastUpdate_lbl.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+    }
+*/
+
 
 }

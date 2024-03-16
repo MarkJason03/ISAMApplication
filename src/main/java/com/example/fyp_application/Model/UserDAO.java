@@ -276,7 +276,7 @@ public class UserDAO {
     }
 
 
-    public UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
+    public static UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
         String sql = """
                 SELECT UserID, FirstName , LastName , Email, Gender,Photo, Phone, DOB, Username , CreatedAt, AccountStatus , LastLogin, tbl_Departments.deptName as Department
                 from tbl_Users

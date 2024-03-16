@@ -310,7 +310,7 @@
                                     <CheckBox fx:id="attachmentCheckbox" layoutX="23.0" layoutY="408.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="978.0" text="IncludeAttachments?" />
                                  </children>
                               </AnchorPane>
-                              <TitledPane fx:id="attachmentTitlePane" expanded="false" text="Attachments">
+                              <TitledPane fx:id="attachmentTitlePane" disable="true" expanded="false" text="Attachments">
                                  <content>
                                     <AnchorPane prefWidth="521.0" style="-fx-background-radius: 0px;" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                        <styleClass>

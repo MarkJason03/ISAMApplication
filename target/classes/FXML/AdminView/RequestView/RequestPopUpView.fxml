@@ -298,8 +298,17 @@
                                  </font>
                               </Label>
                               <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                              <HBox fillHeight="false" layoutX="727.0" layoutY="33.0" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                              <HBox fillHeight="false" layoutX="598.0" layoutY="33.0" prefHeight="46.0" prefWidth="387.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                  <children>
+                                    <AnchorPane>
+                                       <children>
+                                          <Button fx:id="assignToMyself_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#assignTicketToCurrentAgent" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Assign to me" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="USER" size="35" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
                                     <AnchorPane>
                                        <children>
                                           <Button fx:id="respondButton" layoutY="-2.0" mnemonicParsing="false" onAction="#actionTicket" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Action call" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">

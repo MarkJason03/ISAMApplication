@@ -186,7 +186,7 @@ public class EditAdminProfilePopUpController implements Initializable {
             }
         };
 
-        // Add the listener to both password fields' text properties
+        // Add the listener to both password fields' text application.properties
         newPassword_TF.textProperty().addListener(passwordChangeListener);
         confirmationPassword_TF.textProperty().addListener(passwordChangeListener);
     }

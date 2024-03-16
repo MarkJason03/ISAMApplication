@@ -70,7 +70,7 @@
             </AnchorPane>
          </children>
       </HBox>
-      <Label fx:id="messageTimestamp_lbl" layoutX="699.0" layoutY="38.0" prefHeight="35.0" prefWidth="239.0" style="-fx-font-size: 24;" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Response Message">
+      <Label fx:id="messageTimestamp_lbl" layoutX="582.0" layoutY="38.0" prefHeight="35.0" prefWidth="239.0" style="-fx-font-size: 24;" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Response Message">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

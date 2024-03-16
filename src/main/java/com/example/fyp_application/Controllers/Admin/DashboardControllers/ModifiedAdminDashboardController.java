@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.WindowCommandsHandler;
+import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
@@ -141,7 +141,7 @@ public class ModifiedAdminDashboardController implements Initializable {
     @FXML
     private void closeApplication() {
         //Close the application and exit
-        WindowCommandsHandler.exitApplication(
+        SharedButtonUtils.exitApplication(
                 exitApp_btn,
                 AlertNotificationHandler.showConfirmationAlert("Exit Application?",
                         "Are you sure you want to exit the application"));
@@ -149,9 +149,9 @@ public class ModifiedAdminDashboardController implements Initializable {
 
     @FXML
     private void loadCurrentUser() {
-        userID = CurrentLoggedUserHandler.getAdminID();
-        name = CurrentLoggedUserHandler.getAdminName();
-        photoPath = CurrentLoggedUserHandler.getAdminImagePath();
+        userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
+        name = CurrentLoggedUserHandler.getCurrentLoggedAdminName();
+        photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
 
 
         username_lbl.setText(name);

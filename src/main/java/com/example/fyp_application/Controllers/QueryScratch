@@ -61,3 +61,111 @@ on the initializable method, you can add the following code to check if the pass
 // Assuming newPassword_TF and confirmationPassword_TF are your TextField variables
 newPassword_TF.textProperty().addListener((observable, oldValue, newValue) -> checkPasswords());
 confirmationPassword_TF.textProperty().addListener((observable, oldValue, newValue) -> checkPasswords());
+
+
+
+select
+	TicketID,
+	categoryID,
+	Title,
+	Status,
+	Priority,
+	DateCreated,
+	TargetResolution,
+	DateClosed,
+	user.FirstName || ' ' || user.LastName as Fullname,
+	user.Email
+From tbl_tickets
+Join tbl_Users as user on user.UserID = tbl_tickets.UserID
+Where TicketID = 2;
+
+
+select
+	TicketID,
+	categoryID,
+	Title,
+	Status,
+	Priority,
+	DateCreated,
+	user.FirstName || ' ' || user.LastName as Fullname,
+	user.Email
+From tbl_tickets
+Join tbl_Users as user on user.UserID = tbl_tickets.UserID
+Where TicketID = 2;
+
+SELECT
+    history.MessageID,
+    history.TicketID,
+    user.FirstName || ' ' || user.LastName AS Sender,
+    history.MessageBody,
+    history.Timestamp
+FROM
+    tbl_messageHistory AS history
+JOIN
+    tbl_tickets AS tickets ON history.TicketID = tickets.TicketID
+JOIN
+    tbl_Users AS user ON tickets.AgentID = user.UserID
+WHERE
+    history.TicketID = 3
+
+
+SELECT
+    request.TicketID,
+    request.UserID,
+    request.AgentID,
+    request.categoryID,
+    user.FirstName || ' ' || user.LastName AS User,
+    user.Email,
+    request.Title,
+    request.Description,
+    request.Status,
+    request.Priority,
+    reqcat.categoryName as Category,
+    info.knowledgeInformation,
+    agent.FirstName || ' ' || agent.LastName AS Agent,
+    request.DateCreated,
+    request.DateClosed
+FROM
+    tbl_tickets AS request
+JOIN
+    tbl_ticketCategory as reqcat on reqcat.ticketCategoryID = request.categoryID
+JOIN
+    tbl_knowledgeBase AS info on reqcat.knowledgeID = info.knowledgeID
+JOIN
+    tbl_Users AS user ON user.UserID = request.UserID
+
+LEFT JOIN
+    tbl_Users AS agent ON agent.UserID = request.AgentID
+Where request.TicketID = 1;
+
+
+select
+    TicketID,
+    categoryID,
+    Title,
+    Status,
+    Priority,
+    DateCreated,
+    user.FirstName || ' ' || user.LastName as Fullname,
+    user.FirstName || ' ' || user.LastName as Agentname,
+    user.Email
+From tbl_tickets
+Join tbl_Users as user on user.UserID = tbl_tickets.UserID
+Join tbl_Users as agent on agent.UserID = tbl_tickets.AgentID
+Where TicketID = ?;
+
+
+SELECT
+	history.MessageID,
+	tickets.Title,
+	history.MessageBody,
+	history.Timestamp
+FROM
+	tbl_messageHistory AS history
+JOIN
+	tbl_tickets AS tickets ON history.TicketID = tickets.TicketID
+JOIN
+	tbl_Users AS user ON tickets.UserID = user.UserID
+JOIN
+	tbl_Users AS agent ON tickets.AgentID = agent.UserID
+;

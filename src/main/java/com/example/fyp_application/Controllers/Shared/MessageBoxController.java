@@ -38,9 +38,15 @@ public class MessageBoxController {
 
         System.out.println(messageHistoryList.get(0).getMessageBody());
 
-        ticketTitle.setText(messageHistoryList.get(0).getTicketTitle());
-        messageTimestamp_lbl.setText(messageHistoryList.get(0).getDateSent());
-        responseDetails.setText(messageHistoryList.get(0).getMessageBody());
+        if(!messageHistoryList.isEmpty()){
+            ticketTitle.setText(messageHistoryList.get(0).getTicketTitle());
+            messageTimestamp_lbl.setText(messageHistoryList.get(0).getDateSent());
+            responseDetails.setText(messageHistoryList.get(0).getMessageBody());
+
+        } else {
+            System.out.println("Message not found");
+        }
+
 
     }
 

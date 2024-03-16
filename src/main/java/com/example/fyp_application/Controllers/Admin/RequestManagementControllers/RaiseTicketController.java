@@ -1,10 +1,12 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.AttachmentHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Utils.GMailHandler;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,17 +16,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.photoPath;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.userID;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.name;
 
 public class RaiseTicketController implements Initializable {
 
@@ -110,6 +117,9 @@ public class RaiseTicketController implements Initializable {
     private ListView<String> attachmentListView;
 
 
+    //Default Ticket Category - Uncategorized
+    private static final int ticketCategory = 4;
+
     private static final TicketDAO TICKET_DAO = new TicketDAO();
 
     @FXML
@@ -124,11 +134,12 @@ public class RaiseTicketController implements Initializable {
         String title = ticketTitle.getText();
         String details = ticketDetails.getText();
 
-        // Assuming openUserTicketRequest now returns the created ticket ID
+        // Open a new ticket request
         int ticketID = TICKET_DAO.openUserTicketRequest(
 
-                ///todo need to put probably uncategorized as primary ticket category?
+                // Inserting the ticket details into the database - ticketCategory is assumed to be uncategorized/others as default option
                 userID,
+                ticketCategory,
                 title,
                 details,
                 "Created",
@@ -160,10 +171,7 @@ public class RaiseTicketController implements Initializable {
     private void sendEmailNotification(int ticketID,String firstname, String title, String details) throws Exception {
         // Implement the email sending logic here
 
-
-        GMailHandler gMailHandler = new GMailHandler();
-
-        gMailHandler.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , gMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
+       GMailHandler.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , GMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
 
     }
 
@@ -281,6 +289,18 @@ public class RaiseTicketController implements Initializable {
         });
     }
 
+    @FXML
+    private void loadCurrentUser() {
+        userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
+        name = CurrentLoggedUserHandler.getCurrentLoggedAdminName();
+        photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
+
+
+        username_lbl.setText(name);
+        javafx.scene.image.Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
+        loggedUserImage.setFill(new ImagePattern(curPhoto));
+        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeHandler.getCurrentTime());
+    }
 
     @FXML
     private void searchUserInformation(){
@@ -311,6 +331,7 @@ public class RaiseTicketController implements Initializable {
         setUserComboBox();
         userInformationListener();
         searchUserInformation();
+        Platform.runLater(this::loadCurrentUser);
 
         attachmentCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {

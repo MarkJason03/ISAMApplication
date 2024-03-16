@@ -30,7 +30,7 @@
                      <children>
                         <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
                         <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#actionTicket" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
+                        <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to" />
                      </children>
                   </HBox>
                   <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
@@ -45,7 +45,6 @@
                                     <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
                                     <TableColumn fx:id="ticketPriority_col" prefWidth="86.0" text="Priority" />
                                     <TableColumn fx:id="ticketCategory_col" prefWidth="74.0" text="Category" />
-                                    <TableColumn fx:id="agentName_col" prefWidth="127.0" text="Agent" />
                                     <TableColumn fx:id="ticketDateCreated_col" prefWidth="107.0" text="DateCreated" />
                                     <TableColumn fx:id="ticketDateClosed_col" prefWidth="103.0" text="DateClosed" />
                                  </columns>

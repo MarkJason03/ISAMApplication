@@ -28,9 +28,8 @@
                <children>
                   <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
-                        <Button fx:id="newRequest" mnemonicParsing="false" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="viewRequest" mnemonicParsing="false" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="deleteUser_btn" mnemonicParsing="false" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
+                        <Button fx:id="newRequest" mnemonicParsing="false" onAction="#openNewRequestForm" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Raise Request" />
+                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewRequestDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="View Request" />
                      </children>
                   </HBox>
                   <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
@@ -40,14 +39,12 @@
                               <TableView fx:id="requestTableView" prefHeight="467.0" prefWidth="941.0" tableMenuButtonVisible="true">
                                  <columns>
                                     <TableColumn fx:id="ticketID_col" prefWidth="50.0" text="SD ID" />
-                                    <TableColumn fx:id="userFullname_col" prefWidth="57.0" text="User" />
-                                    <TableColumn fx:id="ticketTitle_col" prefWidth="273.0" text="Title" />
-                                    <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
-                                    <TableColumn fx:id="ticketPriority_col" prefWidth="86.0" text="Priority" />
-                                    <TableColumn fx:id="ticketCategory_col" prefWidth="74.0" text="Category" />
-                                    <TableColumn fx:id="agentName_col" prefWidth="127.0" text="Agent" />
-                                    <TableColumn fx:id="ticketDateCreated_col" prefWidth="107.0" text="DateCreated" />
-                                    <TableColumn fx:id="ticketDateClosed_col" prefWidth="103.0" text="DateClosed" />
+                                    <TableColumn fx:id="ticketTitle_col" prefWidth="222.0" text="Title" />
+                                    <TableColumn fx:id="ticketDescription_col" prefWidth="106.0" text="Description" />
+                                    <TableColumn fx:id="ticketStatus_col" prefWidth="103.0" text="Status" />
+                                    <TableColumn fx:id="ticketDateCreated_col" prefWidth="121.0" text="DateCreated" />
+                                    <TableColumn fx:id="ticketDateClosed_col" prefWidth="137.0" text="DateClosed" />
+                                    <TableColumn fx:id="agentName_col" prefWidth="184.0" text="Agent" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

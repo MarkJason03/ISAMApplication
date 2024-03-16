@@ -7,7 +7,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import com.example.fyp_application.Utils.WindowCommandsHandler;
+import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -297,7 +297,7 @@ public class LoginPageController implements Initializable {
             stage.close();
         }*/
 
-        WindowCommandsHandler.exitApplication(exit_btn,
+        SharedButtonUtils.exitApplication(exit_btn,
                 AlertNotificationHandler.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
     }
 

@@ -1,5 +1,6 @@
 package com.example.fyp_application.Controllers.Client.NavigationController;
 
+import com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRequestDashboardController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientHomePageController;
 import com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers.EditUserProfileController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
@@ -45,6 +46,11 @@ public class ClientSideBarController {
     @FXML
     private void openDashboard() throws IOException {
         swapScene(ViewConstants.CLIENT_HOME_PAGE_VIEW, ClientHomePageController.class);
+    }
+
+    @FXML
+    private void openRequestDashboard() throws IOException {
+        swapScene(ViewConstants.CLIENT_TICKET_DASHBOARD_VIEW, ClientRequestDashboardController.class);
     }
 
 

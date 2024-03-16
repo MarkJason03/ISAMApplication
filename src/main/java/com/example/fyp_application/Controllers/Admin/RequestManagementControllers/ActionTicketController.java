@@ -1,7 +1,6 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.AttachmentHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Utils.GMailHandler;
@@ -20,17 +19,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.FileHandler;
 
 public class ActionTicketController implements Initializable {
 
@@ -110,6 +104,7 @@ public class ActionTicketController implements Initializable {
 
     @FXML
     private void handleTicketUpdate() {
+
         Task<Void> updateTask = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -126,7 +121,6 @@ public class ActionTicketController implements Initializable {
             @Override
             protected void failed() {
                 super.failed();
-                // Handle failure
             }
         };
 
@@ -151,7 +145,6 @@ public class ActionTicketController implements Initializable {
             @Override
             protected void failed() {
                 super.failed();
-                // Handle failure
             }
         };
 
@@ -213,12 +206,10 @@ public class ActionTicketController implements Initializable {
 
 
     @FXML
-    private void sendUpdateEmail() throws Exception {
-        GMailHandler gMailHandler = new GMailHandler();
-
-        gMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+    private void sendUpdateEmail() {
+        GMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
                 "Call In Progress: SD" +  ticketID,
-                gMailHandler.generateResponseEmailBody(ticketID,
+                GMailHandler.generateResponseEmailBody(ticketID,
                         ticketInfolist.get(0).getUserFullName(),
                         ticketInfolist.get(0).getTicketTitle(),
                         responseDetails.getText()
@@ -235,38 +226,15 @@ public class ActionTicketController implements Initializable {
     private final ObservableList<String> filePaths = FXCollections.observableArrayList();
     @FXML
     private void addAttachment(){
-    /*    // Create a FileChooser object
-        FileChooser fileChooser = new FileChooser();
-
-        // Set the title of the FileChooser and extension filters
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Select Files", "*.*"));
-
-        // Show the FileChooser and get the selected files
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null); // Let users select multiple files
-
-
-        if (selectedFiles != null && !selectedFiles.isEmpty()) {
-            for (File file : selectedFiles) {
-                filePaths.add(file.getAbsolutePath());
-            }
-        }
-
-        else {
-            // Show an error message if no file was selected
-            ALERT_HANDLER.showInformationMessageAlert("Action Aborted", "No file selected");
-        }
-
-        // This will reset your ListView's items every time. If you want to accumulate files, you should update the list, not reset it.
-        attachmentListView.setItems(filePaths);*/
-
+        // Instantiate the attachment handler
         AttachmentHandler.addAttachments(filePaths,attachmentListView);
     }
 
 
     @FXML
     private void deleteAttachment(){
-        //attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
-        AttachmentHandler.deleteAttachment(attachmentListView);
+        // Instantiate the attachment handler
+        AttachmentHandler.deleteAttachments(attachmentListView);
     }
 
     @FXML
@@ -282,7 +250,7 @@ public class ActionTicketController implements Initializable {
 
         ticketInfolist = TICKET_DAO.getShortenedTicketInformation(ticketID);
 
-        //this.ticketID = ViewTicketController.ticketID;
+ /*       //this.ticketID = ViewTicketController.ticketID;
 
         this.ticketID = ticketInfolist.get(0).getTicketID();
         System.out.println(ticketID);
@@ -304,7 +272,25 @@ public class ActionTicketController implements Initializable {
                 break;
             }}
 
+*/
+        if(!ticketInfolist.isEmpty()){
+            this.ticketID = ticketInfolist.get(0).getTicketID();
+            System.out.println(ticketID);
 
+            ticketStatus_CB.setValue(ticketInfolist.get(0).getTicketStatus());
+            targetResolution_lbl.setText(DateTimeHandler.dateParser(ticketInfolist.get(0).getDateCreated()));
+            ticketPriority_CB.setValue(ticketInfolist.get(0).getTicketPriority());
+            ticketTitle.setText(ticketInfolist.get(0).getTicketTitle());
+
+            for (TicketCategoryModel category : ticketCategory_CB.getItems()) {
+                if (category.getCategoryID() == ticketInfolist.get(0).getCategoryID()) {
+                    ticketCategory_CB.setValue(category);
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Ticket not found");
+        }
     }
 
     @FXML
@@ -322,7 +308,7 @@ public class ActionTicketController implements Initializable {
         ticketCategory_CB.getItems().addAll(categoryModelList);
 
 
-        ticketStatus_CB.setItems(FXCollections.observableArrayList("Created", "In Progress", "Closed"));
+        ticketStatus_CB.setItems(FXCollections.observableArrayList("Created", "In Progress", "Awaiting Response", "Closed"));
         ticketPriority_CB.setItems(FXCollections.observableArrayList("Low", "Medium", "High"));
 
 

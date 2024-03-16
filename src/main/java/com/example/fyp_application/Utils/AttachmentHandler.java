@@ -1,7 +1,11 @@
 package com.example.fyp_application.Utils;
 
+import com.example.fyp_application.Model.MessageHistoryModel;
 import javafx.collections.ObservableList;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
 
 import java.awt.*;
@@ -15,6 +19,8 @@ public class AttachmentHandler {
     private AttachmentHandler(){
 
     }
+
+    // Add the attachment
     public static void addAttachments(ObservableList<String> filePaths, ListView<String> attachmentList) {
 
 
@@ -34,7 +40,8 @@ public class AttachmentHandler {
     }
 
 
-    public static void deleteAttachment(ListView<String> attachmentList){
+    // Delete the attachment
+    public static void deleteAttachments(ListView<String> attachmentList){
 
         String selectedFile = attachmentList.getSelectionModel().getSelectedItem();
         if (selectedFile != null){
@@ -43,6 +50,7 @@ public class AttachmentHandler {
     }
 
 
+    // Open the attachment
     public static void openAttachment(String filePath){
         if (Desktop.isDesktopSupported()) {
             try {
@@ -50,8 +58,32 @@ public class AttachmentHandler {
                 Desktop.getDesktop().open(file);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Handle exceptions (file not found, no application associated with the file type, etc.)
             }
         }
     }
+
+
+    //
+
+    public static void setAttachmentListState(CheckBox attachmentCheckbox, TitledPane attachmentTitlePane) {
+        attachmentCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                attachmentTitlePane.setDisable(false);
+            } else {
+                attachmentTitlePane.setExpanded(false);
+                attachmentTitlePane.setDisable(true);
+            }
+        });
+    }
+
+
+    public static void setAttachmentListListener(ListView<String> attachmentList) {
+        attachmentList.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                String selectedItem = attachmentList.getSelectionModel().getSelectedItem();
+                openAttachment(selectedItem);
+            }
+        });
+    }
+
 }

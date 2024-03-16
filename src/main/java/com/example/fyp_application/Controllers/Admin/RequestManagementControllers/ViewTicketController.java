@@ -2,6 +2,7 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Utils.GMailHandler;
 import com.example.fyp_application.Views.ViewConstants;
@@ -177,6 +178,7 @@ public class ViewTicketController implements Initializable {
 
         this.ticketID = ticketInformationArray.get(0).getTicketID();
         this.agentID = ticketInformationArray.get(0).getAgentID();
+        System.out.println(agentID);
         this.requesterID = ticketInformationArray.get(0).getUserID();
 
         ticketTitleHolder_lbl.setText("Subject:" + ticketInformationArray.get(0).getTicketTitle());
@@ -200,12 +202,9 @@ public class ViewTicketController implements Initializable {
                 DateTimeHandler.getSQLiteDate()
         );
 
-
-        GMailHandler gMailHandler = new GMailHandler();
-
-        gMailHandler.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
+        GMailHandler.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
                 "Call Closed: SD" +  ticketID,
-                gMailHandler.generateAutoCloseEmailBody(ticketID,
+                GMailHandler.generateAutoCloseEmailBody(ticketID,
                         ticketInformationArray.get(0).getUserFullName(),
                         ticketInformationArray.get(0).getTicketTitle(),
                         "Auto Resolution"
@@ -312,7 +311,16 @@ public class ViewTicketController implements Initializable {
     };
 
 
+    @FXML
+    private void assignTicketToCurrentAgent(){
 
+        TicketDAO.assignTicketToCurrentLoggedAgent(ticketID, CurrentLoggedUserHandler.getCurrentLoggedAdminID());
+
+
+        Platform.runLater(this::loadAttachmentTable);
+        Platform.runLater(this::loadMessageHistory);
+
+    }
 
     @FXML
     private void openMessageBox(int messageID){
@@ -363,6 +371,7 @@ public class ViewTicketController implements Initializable {
         Platform.runLater(this::loadAttachmentTable);
 
         Platform.runLater(this::loadMessageHistory);
+
         attachmentsTable.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() == 2) {
                 String selectedItem = attachmentsTable.getSelectionModel().getSelectedItem().getFilePath();

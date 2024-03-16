@@ -3,6 +3,7 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -140,22 +141,23 @@ public class ManageRequestController implements Initializable {
 
 
             // New window setup as modal
-            Stage supplierPopUpStage = new Stage();
-            supplierPopUpStage.initOwner(currentDashboardStage);
-            supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
-            supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
+            Stage requestPopUp = new Stage();
+            requestPopUp.initOwner(currentDashboardStage);
+            requestPopUp.initModality(Modality.WINDOW_MODAL);
+            requestPopUp.initStyle(StageStyle.TRANSPARENT);
 
 
             Scene scene = new Scene(root);
-            supplierPopUpStage.setScene(scene);
+            requestPopUp.setScene(scene);
 
-            supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
+            requestPopUp.showAndWait(); // Blocks interaction with the main stage
 
         } catch (IOException e) {
             e.printStackTrace();
         }  finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
+            loadTicketsTable();
 
 
             Platform.runLater(this::countCreatedRequests);
@@ -173,6 +175,8 @@ public class ManageRequestController implements Initializable {
     @FXML
     private void reloadTable() {
 
+        Platform.runLater(this::loadTicketsTable);
+        dateTimeHolder.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
     }
 
 
@@ -204,7 +208,7 @@ public class ManageRequestController implements Initializable {
         TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
 
         if (selectedTicket == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationHandler.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         }
         else {
@@ -235,7 +239,7 @@ public class ManageRequestController implements Initializable {
                 e.printStackTrace();
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-                Platform.runLater(this::loadTicketsTable);
+                //Platform.runLater(this::loadTicketsTable);
 
                 Platform.runLater(this::countCreatedRequests);
                 Platform.runLater(this::countOnProgressRequests);
@@ -260,7 +264,6 @@ public class ManageRequestController implements Initializable {
         ticketStatus_col.setCellValueFactory(new PropertyValueFactory<>("ticketStatus"));
         ticketPriority_col.setCellValueFactory(new PropertyValueFactory<>("ticketPriority"));
         ticketCategory_col.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
-        agentName_col.setCellValueFactory(new PropertyValueFactory<>("agentFullName"));
         ticketDateCreated_col.setCellValueFactory(new PropertyValueFactory<>("dateCreated"));
         ticketDateClosed_col.setCellValueFactory(new PropertyValueFactory<>("dateClosed"));
 

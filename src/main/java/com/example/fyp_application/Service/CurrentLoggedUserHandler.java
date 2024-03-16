@@ -2,18 +2,18 @@ package com.example.fyp_application.Service;
 
 public class CurrentLoggedUserHandler {
     private static Integer userID;
-    private static String userName;
+    private static String userFirstName;
     private static String imagePath;
 
 
     private static Integer adminID;
-    private static String adminName;
+    private static String adminFirstName;
     private static String adminImagePath;
 
 
-    public static void setCurrentUser(Integer userID, String username, String imagePath) {
+    public static void setCurrentUser(Integer userID, String firstName, String imagePath) {
         CurrentLoggedUserHandler.userID = userID;
-        CurrentLoggedUserHandler.userName = username;
+        CurrentLoggedUserHandler.userFirstName = firstName;
         CurrentLoggedUserHandler.imagePath = imagePath;
     }
 
@@ -22,25 +22,25 @@ public class CurrentLoggedUserHandler {
     }
 
     public static void setNewName(String newFirstName) {
-        CurrentLoggedUserHandler.userName = newFirstName;
+        CurrentLoggedUserHandler.userFirstName = newFirstName;
     }
 
-    public static Integer getUserID() {
+    public static Integer getCurrentLoggedUserID() {
         return userID;
     }
 
-    public static String getFirstName() {
-        return userName;
+    public static String getCurrentLoggedUserFirstName() {
+        return userFirstName;
     }
 
-    public static String getImagePath() {
+    public static String getCurrentLoggedUserImagePath() {
         return imagePath;
     }
 
 
     public static void setCurrentAdmin(Integer adminID, String adminName, String adminImagePath) {
         CurrentLoggedUserHandler.adminID = adminID;
-        CurrentLoggedUserHandler.adminName = adminName;
+        CurrentLoggedUserHandler.adminFirstName = adminName;
         CurrentLoggedUserHandler.adminImagePath = adminImagePath;
     }
 
@@ -49,18 +49,18 @@ public class CurrentLoggedUserHandler {
     }
 
     public static void setNewAdminName(String newFirstName) {
-        CurrentLoggedUserHandler.adminName = newFirstName;
+        CurrentLoggedUserHandler.adminFirstName = newFirstName;
     }
 
-    public static Integer getAdminID() {
+    public static Integer getCurrentLoggedAdminID() {
         return adminID;
     }
 
-    public static String getAdminName() {
-        return adminName;
+    public static String getCurrentLoggedAdminName() {
+        return adminFirstName;
     }
 
-    public static String getAdminImagePath() {
+    public static String getCurrentLoggedAdminImagePath() {
         return adminImagePath;
     }
 

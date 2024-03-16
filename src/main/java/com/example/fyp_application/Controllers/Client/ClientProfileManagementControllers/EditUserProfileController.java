@@ -90,7 +90,7 @@ public class EditUserProfileController implements Initializable {
     @FXML
     private Label usernameMainHolder_lbl;
 
-    private final int userID = CurrentLoggedUserHandler.getUserID();
+    private final int userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
 
     private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
 
@@ -189,10 +189,10 @@ public class EditUserProfileController implements Initializable {
         new Thread(() -> {
             String  timeStamp = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
             UserDAO userDAO = new UserDAO();
-            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getUserID(), newPath, timeStamp);
+            userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedUserID(), newPath, timeStamp);
             Platform.runLater(() -> {
                 try {
-                    loadUserData(CurrentLoggedUserHandler.getUserID());
+                    loadUserData(CurrentLoggedUserHandler.getCurrentLoggedUserID());
                     UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
 

@@ -75,7 +75,6 @@ public class TicketModel {
                        String status,
                        String priority,
                        String category,
-                       String agentFullName,
                        String dateCreated,
                        String dateClosed) {
         this.ticketID = ticketID;
@@ -84,11 +83,30 @@ public class TicketModel {
         this.ticketStatus = status;
         this.ticketPriority = priority;
         this.categoryName = category;
-        this.agentFullName = agentFullName;
+
         this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
     }
 
+
+    // Constructor for viewing ticket - client side // single ticket view
+    public TicketModel(int ticketID,
+                       String ticketTitle,
+                       String ticketDescription,
+                       String status,
+                       String DateCreated,
+                       String DateClosed,
+                       String agentFullName
+                       ) {
+        this.ticketID = ticketID;
+        this.ticketTitle = ticketTitle;
+        this.ticketDescription = ticketDescription;
+        this.ticketStatus = status;
+        this.dateCreated = DateCreated;
+        this.dateClosed = DateClosed;
+        this.agentFullName = agentFullName;
+
+    }
 
     //Constructor for viewing ticket page view
     public TicketModel(int ticketID,

@@ -130,9 +130,9 @@ public class ClientDashboardController implements Initializable {
 
 
     public void loadCurrentUser() {
-        userID = CurrentLoggedUserHandler.getUserID();
-        name = CurrentLoggedUserHandler.getFirstName();
-        photoPath = CurrentLoggedUserHandler.getImagePath();
+        userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
+        name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
+        photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
 
         username_lbl.setText(name);
@@ -190,9 +190,9 @@ public class ClientDashboardController implements Initializable {
         swappableContentPane = mainContentAnchorPane;
         /*initializeSideMenu();*/
         // Use the CurrentUserService to access the logged-in user's information
-/*         userID = CurrentLoggedUserHandler.getUserID();
-         name = CurrentLoggedUserHandler.getFirstName();
-         photoPath = CurrentLoggedUserHandler.getImagePath();
+/*         userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
+         name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
+         photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
 
         username_lbl.setText(name);

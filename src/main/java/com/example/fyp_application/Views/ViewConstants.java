@@ -17,12 +17,13 @@ public class ViewConstants {
     public static final String CLIENT_EDIT_PROFILE_POP_UP = "/FXML/ClientView/UserProfileView/EditUserProfilePopUpView.fxml";
 
 
-    public static final String CLIENT_MY_REQUEST_VIEW  = "";
+    public static final String CLIENT_TICKET_DASHBOARD_VIEW = "/FXML/ClientView/RequestView/ClientRequestsDashboardView.fxml";
 
-    public static final String CLIENT_RAISE_TICKET_POP_UP = "";
+    public static final String CLIENT_RAISE_TICKET_POP_UP = "/FXML/ClientView/RequestView/ClientRaiseRequestView.fxml";
 
-    public static final String CLIENT_EDIT_TICKET_POP_UP = "";
+    public static final String CLIENT_RESPONSE_TICKET_POP_UP = "/FXML/ClientView/RequestView/ClientResponsePopUp.fxml";
 
+    public static final String CLIENT_VIEW_TICKET_POP_UP = "/FXML/ClientView/RequestView/ClientSelfTicketView.fxml";
 
     public static final String CLIENT_MY_ASSET_VIEW = "";
 

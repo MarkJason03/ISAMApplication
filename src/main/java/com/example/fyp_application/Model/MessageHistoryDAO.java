@@ -42,20 +42,20 @@ public class MessageHistoryDAO {
                 SELECT
                     history.MessageID,
                     history.TicketID,
-                    user.FirstName || ' ' || user.LastName AS Sender,
-                    agent.FirstName || ' ' || agent.LastName As Agent,
+                    user.FirstName || ' ' || user.LastName AS User,
+                    agent.FirstName || ' ' || agent.LastName AS Agent,
                     history.MessageBody,
                     history.Timestamp
-                 FROM
+                FROM
                     tbl_messageHistory AS history
-                 JOIN
+                INNER JOIN
                     tbl_tickets AS tickets ON history.TicketID = tickets.TicketID
-                 JOIN
+                INNER JOIN
                     tbl_Users AS user ON tickets.UserID = user.UserID
-                 JOIN
+                LEFT JOIN  -- Using LEFT JOIN in case some tickets don't have an assigned agent
                     tbl_Users AS agent ON tickets.AgentID = agent.UserID
-                 WHERE
-                    history.TicketID =?;
+                WHERE
+                    history.TicketID = ?;
                 """;
 
 
@@ -70,7 +70,7 @@ public class MessageHistoryDAO {
                     while (resultSet.next()) {
                         int MessageID = resultSet.getInt("MessageID");
                         int TicketID = resultSet.getInt("TicketID");
-                        String userSenderName = resultSet.getString("Sender");
+                        String userSenderName = resultSet.getString("User");
                         String agentSenderName = resultSet.getString("Agent");
                         String Body = resultSet.getString("MessageBody");
                         String time = resultSet.getString("Timestamp");
@@ -91,20 +91,16 @@ public class MessageHistoryDAO {
 
         String sql = """
                 SELECT
-                	history.MessageID,
-                	tickets.Title,
-                	history.MessageBody,
-                	history.Timestamp
+                    history.MessageID,
+                    tickets.Title,
+                    history.MessageBody,
+                    history.Timestamp
                 FROM
-                	tbl_messageHistory AS history
-                JOIN
-                	tbl_tickets AS tickets ON history.TicketID = tickets.TicketID
-                JOIN
-                	tbl_Users AS user ON tickets.UserID = user.UserID
-                JOIN
-                	tbl_Users AS agent ON tickets.AgentID = agent.UserID
+                    tbl_messageHistory AS history
+                INNER JOIN
+                    tbl_tickets AS tickets ON history.TicketID = tickets.TicketID
                 WHERE
-                	history.MessageID =?;
+                    history.MessageID = ?;
                 """;
 
 

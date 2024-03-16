@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ActionTicketController">
+<AnchorPane fx:id ="mainAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="950.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientViewRequestController">
    <children>
       <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1052.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.topAnchor="0.0">
          <children>
@@ -68,7 +68,7 @@
                <children>
                   <Button fx:id="backBtn" mnemonicParsing="false" onAction="#cancelAction" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
-                        <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="50" />
+                        <FontAwesomeIconView glyphName="ARROW_LEFT" size="50" />
                      </graphic>
                   </Button>
                </children>
@@ -130,7 +130,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
-                                          <TableView fx:id="AttachmentTable" layoutX="29.0" layoutY="85.0" prefHeight="190.0" prefWidth="911.0">
+                                          <TableView fx:id="attachmentTable" layoutX="29.0" layoutY="85.0" prefHeight="190.0" prefWidth="911.0">
                                              <columns>
                                                 <TableColumn fx:id="dateAdded_col" prefWidth="171.3333282470703" text="Date Added" />
                                                 <TableColumn fx:id="fileName_col" prefWidth="600.6666717529297" text="File name" />
@@ -163,7 +163,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
-                                          <TableView fx:id="messageHistoryTable1" layoutX="29.0" layoutY="85.0" prefHeight="190.0" prefWidth="911.0">
+                                          <TableView fx:id="messageHistoryTable" layoutX="29.0" layoutY="85.0" prefHeight="190.0" prefWidth="911.0">
                                              <columns>
                                                 <TableColumn fx:id="messageID_col" prefWidth="58.0" text="ID" />
                                                 <TableColumn fx:id="messageBody_col" prefWidth="584.0" text="Message" />
@@ -198,22 +198,13 @@
                            </font>
                         </Label>
                         <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="965.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                        <HBox fillHeight="false" layoutX="727.0" layoutY="33.0" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                        <HBox fillHeight="false" layoutX="886.0" layoutY="33.0" prefHeight="46.0" prefWidth="110.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                            <children>
                               <AnchorPane>
                                  <children>
-                                    <Button fx:id="respondButton" layoutY="-2.0" mnemonicParsing="false" onAction="#actionTicket" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Action call" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                    <Button fx:id="respondButton" onAction="#respondToTicket" layoutY="-2.0" mnemonicParsing="false" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Respond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                                        <graphic>
                                           <FontAwesomeIconView glyphName="EDIT" size="35" />
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane>
-                                 <children>
-                                    <Button fx:id="quickClose_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#quickClose" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Quick Close" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                                       <graphic>
-                                          <FontAwesomeIconView glyphName="CLOSE" size="40" />
                                        </graphic>
                                     </Button>
                                  </children>

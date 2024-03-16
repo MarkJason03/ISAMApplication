@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -68,7 +68,6 @@ public class ClientDashboardController implements Initializable {
 
     public static AnchorPane swappableContentPane;
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 /*
     private   int userID;
     private   String firstName;
@@ -82,7 +81,7 @@ public class ClientDashboardController implements Initializable {
     private void initializeSideMenu(){
         try {
 
-            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_SIDEBAR_MENU)));
+            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.CLIENT_SIDEBAR_MENU)));
             drawerContainer.setSidePane(sideMenu);
             openMenu_btn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> openMenu() );
         } catch (IOException e) {
@@ -131,9 +130,9 @@ public class ClientDashboardController implements Initializable {
 
 
     public void loadCurrentUser() {
-        userID = CurrentLoggedUserHandler.getUserID();
-        name = CurrentLoggedUserHandler.getFirstName();
-        photoPath = CurrentLoggedUserHandler.getImagePath();
+        userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
+        name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
+        photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
 
         username_lbl.setText(name);
@@ -145,10 +144,9 @@ public class ClientDashboardController implements Initializable {
 
     @FXML
     private void closeApplication(){
-        //TODO
         Stage stage = (Stage) exitApp_btn.getScene().getWindow();
 
-        if (ALERT_HANDLER.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+        if (AlertNotificationHandler.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
             stage.close();
         }
     }
@@ -177,11 +175,11 @@ public class ClientDashboardController implements Initializable {
     private void loadHomeScreen(){
         try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewHandler.CLIENT_HOME_PAGE_VIEW));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.CLIENT_HOME_PAGE_VIEW));
             StackPane stackPane = fxmlLoader.load();
 
             swappableContentPane.getChildren().setAll(stackPane);/*
-            swappableContentPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewHandler.CLIENT_HOME_PAGE_VIEW)));
+            swappableContentPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.CLIENT_HOME_PAGE_VIEW)));
             mainContentAnchorPane.getChildren().setAll(swappableContentPane);*/
         } catch (IOException e) {
             e.printStackTrace();
@@ -192,9 +190,9 @@ public class ClientDashboardController implements Initializable {
         swappableContentPane = mainContentAnchorPane;
         /*initializeSideMenu();*/
         // Use the CurrentUserService to access the logged-in user's information
-/*         userID = CurrentLoggedUserHandler.getUserID();
-         name = CurrentLoggedUserHandler.getFirstName();
-         photoPath = CurrentLoggedUserHandler.getImagePath();
+/*         userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
+         name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
+         photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
 
         username_lbl.setText(name);

@@ -7,6 +7,7 @@ import javafx.util.Duration;
 
 import javafx.scene.control.Label;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +19,12 @@ public class DateTimeHandler {
     private static  final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("LLL dd, yyyy");
 
     private static final DateTimeFormatter SQLITE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
+    private static final DateTimeFormatter DATE_CREATED_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
+
+
+    private DateTimeHandler (){}
     public static String getCurrentTime(){
 
         return LocalTime.now().format(CURRENT_TIME_FORMAT);
@@ -62,5 +69,23 @@ public class DateTimeHandler {
         );
 
 
+    }
+
+    public static String getCurrentDateTime() {
+        return getSQLiteDate() + " " + getCurrentTime();
+    }
+
+
+
+    public static String dateParser(String dateCreated){
+
+
+
+        // parse the date
+        LocalDateTime dateTime = LocalDateTime.parse(dateCreated,DATE_CREATED_DATE_FORMAT);
+
+        LocalDateTime twoWeeksDateTime = dateTime.plusDays(14);
+
+        return twoWeeksDateTime.format(SQLITE_DATE_FORMAT);
     }
 }

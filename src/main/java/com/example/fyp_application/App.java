@@ -1,6 +1,6 @@
 package com.example.fyp_application;
 
-import com.example.fyp_application.Views.ViewHandler;
+import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +18,7 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource(ViewHandler.APP_LOGIN)));
+        FXMLLoader fxmlLoader = new FXMLLoader((getClass().getResource(ViewConstants.APP_LOGIN)));
 
         Scene scene = new Scene(fxmlLoader.load());
 
@@ -46,7 +46,7 @@ public class App extends Application{
 /*    @Override
     public void start(Stage primaryStage) throws Exception {
             // Load and set the first scene
-        FXMLLoader firstLoader = new FXMLLoader(getClass().getResource(ViewHandler.APP_LOGIN));
+        FXMLLoader firstLoader = new FXMLLoader(getClass().getResource(ViewConstants.APP_LOGIN));
         Scene firstScene = new Scene(firstLoader.load());
         primaryStage.setScene(firstScene);
         primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -65,7 +65,7 @@ public class App extends Application{
 
         // Create and set up the second stage (window)
         Stage secondStage = new Stage();
-        FXMLLoader secondLoader = new FXMLLoader(getClass().getResource(ViewHandler.APP_LOGIN));
+        FXMLLoader secondLoader = new FXMLLoader(getClass().getResource(ViewConstants.APP_LOGIN));
         Scene secondScene = new Scene(secondLoader.load());
         secondStage.setScene(secondScene);
         // removes the header of the window

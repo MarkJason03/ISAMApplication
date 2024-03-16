@@ -52,7 +52,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Requests">
+            <Button mnemonicParsing="false" text="Requests" onAction="#openRequestDashboard">
                <graphic>
                   <FontAwesomeIconView glyphName="COPY" size="30" />
                </graphic>

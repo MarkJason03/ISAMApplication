@@ -3,6 +3,7 @@ package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.*;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -79,14 +80,13 @@ public class ModifiedAddUserController implements Initializable {
     @FXML
     private TextField userWorkPhone_TF;
 
-    AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
     UserRoleDAO USER_ROLE_DAO = new UserRoleDAO();
 
     DepartmentDAO DEPARTMENT_DAO = new DepartmentDAO();
     private static final String DEFAULT_EMAIL = "projecthandler51@gmail.com";
 
     //Default photo for the user profile
-    private static final String DEFAULT_PHOTO= "/Assets/defaultUser.png";
+    private static final String DEFAULT_USER_PLACEHOLDER_PHOTO = "/Assets/defaultUser.png";
 
     @FXML
     private void cancelCreateUserAction(){
@@ -94,9 +94,9 @@ public class ModifiedAddUserController implements Initializable {
         cancel_btn.getScene().getWindow().hide();
     }
 
-    @FXML
+/*
     private void addUser(){
-        //TODO: Implement this method
+        // check if the phone number is valid
 
         if (userWorkPhone_TF.getText().length() < 11) {
             ALERT_HANDLER.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
@@ -135,10 +135,72 @@ public class ModifiedAddUserController implements Initializable {
 
             Platform.runLater(cancel_btn.getScene().getWindow()::hide);
         }
+    }*/
+
+    @FXML
+    private void addUser() {
+        // check if the phone number is valid
+        if (userWorkPhone_TF.getText().length() < 11) {
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
+            return; // Stop execution if validation fails
+        }
+
+        // check if any field is empty
+        if (isEmptyFields()) {
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+        } else {
+            UserDAO.addUser(
+                    accountRole_CB.getValue().getUserRoleID(),
+                    userDept_CB.getValue().getDeptID(),
+                    userFirstName_TF.getText(),
+                    userLastName_TF.getText(),
+                    userGender_TF.getValue(),
+                    DateTimeHandler.setSQLiteDateFormat(dob_DP.getValue()),
+                    userEmail_TF.getText(),
+                    userName_TF.getText(),
+                    PasswordHashHandler.hashPassword(password_TF.getText()),
+                    userWorkPhone_TF.getText(),
+                    accountStatus_CB.getValue(),
+                    DEFAULT_USER_PLACEHOLDER_PHOTO,
+                    DateTimeHandler.setSQLiteDateFormat(createdOn_DP.getValue()),
+                    DateTimeHandler.setSQLiteDateFormat(expiresAt_DP.getValue())
+            );
+            AlertNotificationHandler.showInformationMessageAlert("Success", "User added successfully");
+
+            Task<Void> emailTask = getEmailAsync();
+
+            new Thread(emailTask).start(); // Run the task in its own thread
+
+            Platform.runLater(cancel_btn.getScene().getWindow()::hide);
+        }
     }
 
+    private Task<Void> getEmailAsync() {
+        Task<Void> emailTask = new Task<>() {
+            @Override
+            protected Void call() {
+                try {
+                    sendAccountDetailEmail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
 
+        emailTask.setOnSucceeded(event -> {
+            // UI update after email sent can go here, executed on JavaFX Application Thread
+            AlertNotificationHandler.showInformationMessageAlert("Email sent", "Account details emailed successfully");
+            System.out.println("Email sent");
+        });
 
+        emailTask.setOnFailed(event -> {
+            // UI update after email sending failure can go here
+            System.out.println("Email failed");
+            AlertNotificationHandler.showErrorMessageAlert("Email failed", "Failed to send account details");
+        });
+        return emailTask;
+    }
 
 
     @FXML
@@ -186,12 +248,14 @@ public class ModifiedAddUserController implements Initializable {
     @FXML
     private void sendAccountDetailEmail() throws Exception {
 
+        // Check if the username and password fields are empty
         if (userName_TF.getText().isEmpty() || password_TF.getText().isEmpty()) {
-            ALERT_HANDLER.showErrorMessageAlert("Empty Fields", "Cannot send details without a username and password");
+
+            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Cannot send details without a username and password");
         } else {
-            GMailHandler gMailHandler = new GMailHandler();
-            gMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
-                    gMailHandler.generateEmailBody(
+            // Send the email
+            GMailHandler.sendEmailTo(userEmail_TF.getText(),"User Account Details",
+                    GMailHandler.generateAccountCreationEmailBody(
                             userFirstName_TF.getText(),
                             userName_TF.getText(),
                             password_TF.getText()));
@@ -215,6 +279,7 @@ public class ModifiedAddUserController implements Initializable {
 
 
 
+        // Listen for changes in the first name field
         userFirstName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() >= 2 && userLastName_TF.getText().length() >= 2) {
                 userName_TF.setText(InformationGeneratorHandler.generateUsername(userFirstName_TF.getText(), userLastName_TF.getText()));
@@ -223,7 +288,7 @@ public class ModifiedAddUserController implements Initializable {
             }
         });
 
-
+        // Listen for changes in the last name field
         userLastName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() >=2 && userFirstName_TF.getText().length() >= 2) {
                 userName_TF.setText(InformationGeneratorHandler.generateUsername(userFirstName_TF.getText(), userLastName_TF.getText()));
@@ -234,6 +299,7 @@ public class ModifiedAddUserController implements Initializable {
         });
 
 
+        // Listen for changes in the phone number field
         userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
 
             // Remove spaces from the new value and set it to the TextField.
@@ -268,7 +334,7 @@ public class ModifiedAddUserController implements Initializable {
 
 
         PauseTransition pause = new PauseTransition(Duration.seconds(1)); //
-
+        // Listen for changes in the username field
         userName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             // Stop any previously running pause transition
             pause.stop();
@@ -298,7 +364,7 @@ public class ModifiedAddUserController implements Initializable {
 
             if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
                 System.out.println("Invalid date: The date cannot be in the future.");
-                ALERT_HANDLER.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
                 dob_DP.setValue(null);  // Revert to the old value if new value is invalid
                 dob_DP.setStyle("-fx-border-color: red");
             } else {
@@ -312,7 +378,7 @@ public class ModifiedAddUserController implements Initializable {
         expiresAt_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.isBefore(LocalDate.now())) {
                 System.out.println("Invalid date: The date cannot be in the past.");
-                ALERT_HANDLER.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
                 expiresAt_DP.setValue(null);  // Revert to the old value if new value is invalid
                 expiresAt_DP.setStyle("-fx-border-color: red");
 

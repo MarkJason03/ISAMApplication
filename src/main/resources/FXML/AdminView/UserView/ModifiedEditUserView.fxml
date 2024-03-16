@@ -35,23 +35,23 @@
                         <Label layoutX="65.0" layoutY="164.0" text="First Name" AnchorPane.leftAnchor="65.0" />
                         <Label layoutX="469.0" layoutY="164.0" text="Last Name" AnchorPane.leftAnchor="469.0" />
                         <Label layoutX="466.0" layoutY="262.0" text="Gender" AnchorPane.leftAnchor="466.0" />
-                        <TextField fx:id="userFirstName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="250.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="531.0" />
-                        <TextField fx:id="userLastName_TF" layoutX="466.0" layoutY="191.0" prefHeight="40.0" prefWidth="250.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="466.0" />
+                        <TextField fx:id="userFirstName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="302.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="500.0" />
+                        <TextField fx:id="userLastName_TF" layoutX="466.0" layoutY="191.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="466.0" />
                         <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
                         <Label layoutX="461.0" layoutY="417.0" text="Work Phone" AnchorPane.leftAnchor="461.0" />
-                        <TextField fx:id="userPhone_TF" layoutX="461.0" layoutY="445.0" prefHeight="40.0" prefWidth="250.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="461.0" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="445.0" />
+                        <TextField fx:id="userPhone_TF" layoutX="461.0" layoutY="445.0" prefHeight="40.0" prefWidth="304.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="461.0" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="445.0" />
                         <Pane layoutX="44.0" layoutY="356.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="356.0" />
                         <Label layoutX="65.0" layoutY="978.0" prefHeight="27.0" prefWidth="182.0" text="New Password" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="635.0" AnchorPane.topAnchor="978.0" />
                         <FontAwesomeIconView glyphName="USER" layoutX="638.0" layoutY="1112.0" opacity="0.1" size="300" />
-                        <PasswordField fx:id="newPassword_TF1" layoutX="65.0" layoutY="1005.0" prefHeight="40.0" prefWidth="271.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="1005.0" />
-                        <ChoiceBox fx:id="userGender_CB" layoutX="466.0" layoutY="290.0" prefHeight="39.0" prefWidth="250.0" AnchorPane.leftAnchor="466.0" />
-                        <Circle fx:id="userProfilePhoto1" layoutX="137.0" layoutY="15.0" radius="84.0" stroke="BLACK" strokeType="INSIDE" />
+                        <PasswordField fx:id="newPassword_TF1" layoutX="65.0" layoutY="1005.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="1005.0" />
+                        <ChoiceBox fx:id="userGender_CB" layoutX="466.0" layoutY="290.0" prefHeight="39.0" prefWidth="300.0" AnchorPane.leftAnchor="466.0" />
+                        <Circle fx:id="userProfilePhoto1" fill="WHITE" layoutX="137.0" layoutY="15.0" radius="83.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" />
                         <Label fx:id="passwordChecker_lbl1" layoutX="466.0" layoutY="1058.0" prefHeight="40.0" prefWidth="310.0" textFill="RED" />
                         <Label layoutX="43.0" layoutY="128.0" text="Personal Information" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="128.0" />
                         <Pane layoutX="50.0" layoutY="650.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
                         <Label layoutX="42.0" layoutY="909.0" text="Change Password" AnchorPane.topAnchor="909.0" />
                         <Label layoutX="467.0" layoutY="978.0" text="Confirm Password" AnchorPane.topAnchor="978.0" />
-                        <PasswordField fx:id="confirmationPassword_TF1" layoutX="467.0" layoutY="1005.0" prefHeight="40.0" prefWidth="250.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="467.0" AnchorPane.topAnchor="1005.0" />
+                        <PasswordField fx:id="confirmationPassword_TF1" layoutX="467.0" layoutY="1005.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="467.0" AnchorPane.topAnchor="1005.0" />
                         <Button fx:id="updatePassword_btn1" layoutX="467.0" layoutY="902.0" mnemonicParsing="false" onAction="#sendPasswordResetEmail" prefHeight="42.0" prefWidth="250.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Send Password Reset">
                            <graphic>
                               <FontAwesomeIconView glyphName="SEND" size="30" />
@@ -63,18 +63,18 @@
                         <Pane layoutX="45.0" layoutY="514.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="45.0" />
                         <Label layoutX="39.0" layoutY="373.0" text="Department Information" AnchorPane.leftAnchor="44.0" />
                         <Label layoutX="65.0" layoutY="417.0" text="Department" />
-                        <ChoiceBox fx:id="dept_CB" layoutX="65.0" layoutY="445.0" prefHeight="39.0" prefWidth="271.0" />
+                        <ChoiceBox fx:id="dept_CB" layoutX="65.0" layoutY="445.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="45.0" layoutY="534.0" text="Account Settings" />
                         <Label layoutX="70.0" layoutY="668.0" prefHeight="27.0" prefWidth="182.0" text="Created on" />
                         <Label layoutX="467.0" layoutY="668.0" prefHeight="27.0" prefWidth="182.0" text="Account Status" />
-                        <ChoiceBox fx:id="accStatus_CB" layoutX="467.0" layoutY="697.0" prefHeight="39.0" prefWidth="250.0" />
-                        <DatePicker fx:id="createdDate_DP" disable="true" layoutX="66.0" layoutY="697.0" prefHeight="39.0" prefWidth="271.0" style="-fx-background-color: white; -fx-opacity: 1; -fx-text-fill: black;" />
+                        <ChoiceBox fx:id="accStatus_CB" layoutX="467.0" layoutY="697.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="createdDate_DP" disable="true" layoutX="66.0" layoutY="697.0" prefHeight="39.0" prefWidth="300.0" style="-fx-background-color: white; -fx-opacity: 1; -fx-text-fill: black;" />
                         <Label layoutX="66.0" layoutY="777.0" prefHeight="27.0" prefWidth="182.0" text="Expires At" />
-                        <DatePicker fx:id="expiryDate_DP" layoutX="67.0" layoutY="806.0" prefHeight="39.0" prefWidth="271.0" />
+                        <DatePicker fx:id="expiryDate_DP" layoutX="67.0" layoutY="806.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="464.0" layoutY="777.0" prefHeight="27.0" prefWidth="182.0" text="Account Role" />
-                        <ChoiceBox fx:id="accountRole_CB" layoutX="463.0" layoutY="806.0" prefHeight="39.0" prefWidth="250.0" />
+                        <ChoiceBox fx:id="accountRole_CB" layoutX="463.0" layoutY="806.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="65.0" layoutY="573.0" text="Username" />
-                        <TextField fx:id="username_TF" disable="true" editable="false" layoutX="65.0" layoutY="600.0" prefHeight="40.0" prefWidth="271.0" style="-fx-opacity: 1;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                        <TextField fx:id="username_TF" disable="true" editable="false" layoutX="65.0" layoutY="600.0" prefHeight="40.0" prefWidth="300.0" style="-fx-opacity: 1;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                         <Button fx:id="randomPassword_btn" layoutX="65.0" layoutY="1050.0" mnemonicParsing="false" onAction="#generateRandomPassword" prefHeight="42.0" prefWidth="250.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Generate Password">
                            <graphic>
                               <FontAwesomeIconView glyphName="LOCK" size="30" />
@@ -87,9 +87,9 @@
                            </tooltip>
                         </Button>
                         <Label layoutX="469.0" layoutY="573.0" text="Email" />
-                        <TextField fx:id="userEmail_TF" layoutX="467.0" layoutY="600.0" prefHeight="40.0" prefWidth="250.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                        <TextField fx:id="userEmail_TF" layoutX="467.0" layoutY="600.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                         <Label layoutX="70.0" layoutY="262.0" prefHeight="27.0" prefWidth="182.0" text="Date of Birth" />
-                        <DatePicker fx:id="dob_DP" disable="true" editable="false" layoutX="67.0" layoutY="290.0" prefHeight="39.0" prefWidth="271.0" showWeekNumbers="true" style="-fx-opacity: 1;" />
+                        <DatePicker fx:id="dob_DP" disable="true" editable="false" layoutX="67.0" layoutY="290.0" prefHeight="39.0" prefWidth="300.0" showWeekNumbers="true" style="-fx-opacity: 1;" />
                         <Circle fx:id="userProfileHolder1" fill="WHITE" layoutX="137.0" layoutY="15.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" />
                         <Pane layoutX="44.0" layoutY="879.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" />
                         <HBox layoutX="497.0" layoutY="57.0" prefHeight="2.0" prefWidth="327.0" spacing="10.0">

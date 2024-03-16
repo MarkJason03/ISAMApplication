@@ -48,13 +48,12 @@ public class ModifiedAddSupplierController implements Initializable{
     @FXML
     private TextArea supplierAddress_TA;
 
-    private static final AlertNotificationHandler ALERT_NOTIFICATION_HANDLER = new AlertNotificationHandler();
     private static final SupplierDAO SUPPLIER_DAO = new SupplierDAO();
     @FXML
     private void saveProfileChanges() {
 
         if(isEmptyFields()){
-            ALERT_NOTIFICATION_HANDLER.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
         } else{
             SUPPLIER_DAO.addSupplier(
                     supName_TF.getText(),
@@ -64,7 +63,7 @@ public class ModifiedAddSupplierController implements Initializable{
                     supplierAddress_TA.getText(),
                     DateTimeHandler.setSQLiteDateFormat(contractStart_DP.getValue()),
                     DateTimeHandler.setSQLiteDateFormat(expiryDate_DP.getValue()));
-            ALERT_NOTIFICATION_HANDLER.showInformationMessageAlert("Success", "Supplier added successfully");
+            AlertNotificationHandler.showInformationMessageAlert("Success", "Supplier added successfully");
             resetForm();
         }
     }

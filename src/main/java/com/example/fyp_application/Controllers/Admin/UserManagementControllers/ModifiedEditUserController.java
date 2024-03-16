@@ -98,7 +98,6 @@ public class ModifiedEditUserController implements Initializable{
     DepartmentDAO DEPARTMENT_DAO = new DepartmentDAO();
 
 
-    private static final AlertNotificationHandler ALERT_HANDLER = new AlertNotificationHandler();
 
 
     private int userID;
@@ -109,15 +108,16 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void saveProfileChanges() throws SQLException {
 
-        //TODO: Implement this method
+        // Show a confirmation alert before saving the changes
+        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
-        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
-
+        // Check if the user has confirmed the changes
         if (isEmptyField()){
-            ALERT_HANDLER.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+            AlertNotificationHandler.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
 
         } else {
+            // Proceed with saving the changes
             UserDAO.updateUserProfile(userID,
                     accountRole_CB.getValue().getUserRoleID(),
                     dept_CB.getValue().getDeptID(),
@@ -130,7 +130,7 @@ public class ModifiedEditUserController implements Initializable{
                     DateTimeHandler.setSQLiteDateFormat(expiryDate_DP.getValue())
                     );
 
-            ALERT_HANDLER.showInformationMessageAlert("Profile Updated", "User profile has been updated successfully.");
+            AlertNotificationHandler.showInformationMessageAlert("Profile Updated", "User profile has been updated successfully.");
             cancel_btn.getScene().getWindow().hide();
         }
     }
@@ -145,8 +145,10 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void generateRandomPassword() {
 
+        // Generate a random password and display it in the password fields - 12 string length
         String randomPassword = InformationGeneratorHandler.generatePassword(12);
 
+        // Display the generated password in the password fields
         newPassword_TF1.setText(randomPassword);
         confirmationPassword_TF1.setText(randomPassword);
         newPassword_TF1.setEditable(true);
@@ -156,36 +158,32 @@ public class ModifiedEditUserController implements Initializable{
 
 
     @FXML
-    private void sendPasswordResetEmail() throws Exception {
+    private void sendPasswordResetEmail() {
 
-        boolean confirmation = ALERT_HANDLER.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
+        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
 
         if (confirmation) {
             // Check if either of the password fields is empty
             if (newPassword_TF1.getText().isEmpty() || confirmationPassword_TF1.getText().isEmpty()) {
-                ALERT_HANDLER.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+                AlertNotificationHandler.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
                 return;
             }
 
             // Check if the passwords match
             if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText())) {
-
-
                 // Passwords match, proceed with sending email
-                GMailHandler gMailHandler = new GMailHandler();
-                gMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", gMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
-                ALERT_HANDLER.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
+                GMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", GMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
+
+                AlertNotificationHandler.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
 
 
                 UserDAO.updateUserPassword(userID, PasswordHashHandler.hashPassword(newPassword_TF1.getText()));
 
                  Platform.runLater(cancel_btn.getScene().getWindow()::hide);
 
-
-
             } else {
                 // Passwords do not match, show an error message
-                ALERT_HANDLER.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
+                AlertNotificationHandler.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
             }
         }
     }
@@ -283,7 +281,7 @@ public class ModifiedEditUserController implements Initializable{
             }
         };
 
-        // Add the listener to both password fields' text properties
+        // Add the listener to both password fields' text application.properties
         newPassword_TF1.textProperty().addListener(passwordChangeListener);
         confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
 
@@ -292,7 +290,7 @@ public class ModifiedEditUserController implements Initializable{
         expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.isBefore(LocalDate.now())) {
                 System.out.println("Invalid date: The date cannot be in the past.");
-                ALERT_HANDLER.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
                 expiryDate_DP.setValue(oldValue);  // Revert to the old value if new value is invalid
                 expiryDate_DP.setStyle("-fx-border-color: red");
 

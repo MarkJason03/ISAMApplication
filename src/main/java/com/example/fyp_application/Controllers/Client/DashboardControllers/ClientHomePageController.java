@@ -62,7 +62,7 @@ public class ClientHomePageController {
         try {
             //Load the supplier menu
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewHandler.ADMIN_EDIT_SUPPLIER_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_SUPPLIER_POP_UP));
             Parent root = modalViewLoader.load();
 
             ModifiedEditSupplierController editUserController = modalViewLoader.getController();

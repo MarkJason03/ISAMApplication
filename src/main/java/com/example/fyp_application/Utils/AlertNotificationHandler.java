@@ -8,11 +8,14 @@ import java.util.Optional;
 
 public class AlertNotificationHandler {
 
-    private Alert alert;
+    private static Alert alert;
 
+    private AlertNotificationHandler(){
+
+    }
 
     //Showing an error message to the user
-    public boolean showErrorMessageAlert(String title, String Message){
+    public static boolean showErrorMessageAlert(String title, String Message){
         alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -24,7 +27,7 @@ public class AlertNotificationHandler {
     }
 
     //Showing Alert with Confirmation
-    public boolean showInformationMessageAlert(String title, String Message) {
+    public static boolean showInformationMessageAlert(String title, String Message) {
         alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -36,7 +39,7 @@ public class AlertNotificationHandler {
 
 
     //Showing Alert with Confirmation
-    public boolean showConfirmationAlert(String title, String Message){
+    public static boolean showConfirmationAlert(String title, String Message){
         alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

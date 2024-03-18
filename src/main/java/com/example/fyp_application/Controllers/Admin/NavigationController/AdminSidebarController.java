@@ -1,5 +1,6 @@
 package com.example.fyp_application.Controllers.Admin.NavigationController;
 
+import com.example.fyp_application.Controllers.Admin.AssetManagementControllers.ManageAssetController;
 import com.example.fyp_application.Controllers.Admin.ProfileManagementController.EditAdminProfileController;
 import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
 import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController;
@@ -72,8 +73,9 @@ public class AdminSidebarController {
 
 
     @FXML
-    private void openManageAssets() {
+    private void openManageAssets() throws IOException {
         //TODO - write the manage assets page - perhaps a list of assets and their details
+        swapScene(ViewConstants.ADMIN_MANAGE_ASSET_VIEW, ManageAssetController.class);
     }
 
     @FXML

@@ -211,6 +211,7 @@ public class ModifiedEditUserController implements Initializable{
     }
     public void loadSelectedUserDetails(UserModel user) {
 
+
         this.userID = user.getUserID();
         username_TF.setText(user.getUsername());
         userFirstName_TF.setText(user.getFirstName());
@@ -228,33 +229,43 @@ public class ModifiedEditUserController implements Initializable{
         userGender_CB.setValue(user.getGender());
         accStatus_CB.setValue(user.getAccountStatus());
 
-        for (UserRoleModel role : accountRole_CB.getItems()) {
-            if (role.getUserRoleID() == user.getUserRoleID()) {
-                accountRole_CB.setValue(role);
-                break;
-            }}
 
-        for (DepartmentModel dept : dept_CB.getItems()) {
-            if (dept.getDeptID() == user.getDeptID()) {
-                dept_CB.setValue(dept);
-                break;
+
+        Platform.runLater(() -> {
+            for (UserRoleModel role : accountRole_CB.getItems()) {
+                System.out.println("Comparing Role ID: " + role.getUserRoleID() + " with User Role ID: " + user.getUserRoleID());
+                if (role.getUserRoleID() == user.getUserRoleID()) {
+                    System.out.println("Match found: " + role.getRoleName());
+                    accountRole_CB.setValue(role);
+                    break;
+                }
             }
-        }
+        });
 
-
+        Platform.runLater(() -> {
+            for (DepartmentModel dept : dept_CB.getItems()) {
+                if (dept.getDeptID() == user.getDeptID()) {
+                    dept_CB.setValue(dept);
+                    break;
+                }
+            }
+        });
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<DepartmentModel> departments = DEPARTMENT_DAO.getAllDepartments();
+        System.out.println("Departments are:" + departments);
         dept_CB.getItems().addAll(departments);
 
         List<UserRoleModel> roles = USER_ROLE_DAO.getAllRoles();
+        System.out.println("Roles are:" + roles);
         accountRole_CB.getItems().addAll(roles);
 
         userGender_CB.setItems(FXCollections.observableArrayList("Male","Female"));
-        accStatus_CB.setItems(FXCollections.observableArrayList("Active","Inactive"));
+        accStatus_CB.setItems(FXCollections.observableArrayList("Active","Inactive","Expired"));
+
 
 
 
@@ -286,7 +297,7 @@ public class ModifiedEditUserController implements Initializable{
         confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
 
 
-
+        Platform.runLater(() -> {
         expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.isBefore(LocalDate.now())) {
                 System.out.println("Invalid date: The date cannot be in the past.");
@@ -299,7 +310,7 @@ public class ModifiedEditUserController implements Initializable{
                 expiryDate_DP.setStyle("-fx-border-color: green");
                 System.out.println("Valid date selected: " + newValue);
             }
-        });
+        });});
 
 
         accStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

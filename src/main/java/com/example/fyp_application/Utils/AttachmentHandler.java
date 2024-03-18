@@ -23,22 +23,29 @@ public class AttachmentHandler {
     // Add the attachment
     public static void addAttachments(ObservableList<String> filePaths, ListView<String> attachmentList) {
 
-
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Select files to attach","*.*"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Select files to attach", "*.*"));
 
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null); // Let users select multiple files
 
-        if(selectedFiles != null && !selectedFiles.isEmpty()){
-            for(File file: selectedFiles){
-                filePaths.add(file.getAbsolutePath());
+        if (selectedFiles != null && !selectedFiles.isEmpty()) {
+            for (File file : selectedFiles) {
+                String absolutePath = file.getAbsolutePath();
+                // to the file from the project's resources directory
+                String base = File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+                System.out.println("Base: " + base);
+
+                int baseIndex = absolutePath.indexOf(base);
+                if (baseIndex != -1) {
+                    String relativePath = "/" + absolutePath.substring(baseIndex + base.length());
+                    filePaths.add(relativePath);
+                }
             }
             attachmentList.setItems(filePaths);
         } else {
             AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "No Files Selected");
         }
     }
-
 
     // Delete the attachment
     public static void deleteAttachments(ListView<String> attachmentList){
@@ -51,13 +58,34 @@ public class AttachmentHandler {
 
 
     // Open the attachment
-    public static void openAttachment(String filePath){
+    public static void openAttachment(String relativePath) {
+
+        if (relativePath == null) {
+            System.out.println("No file selected");
+            return;
+        }
+
         if (Desktop.isDesktopSupported()) {
             try {
-                File file = new File(filePath);
-                Desktop.getDesktop().open(file);
+                // Normalize the relativePath to replace any backslashes with forward slashes
+                String normalizedRelativePath = relativePath.replace('\\', '/');
+                if (normalizedRelativePath.startsWith("/")) {
+                    normalizedRelativePath = normalizedRelativePath.substring(1);
+                }
+
+                //
+                String basePath = new File("").getAbsolutePath();
+                String fullPath = basePath + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + normalizedRelativePath;
+
+                File file = new File(fullPath);
+                if (file.exists()) {
+                    Desktop.getDesktop().open(file);
+                } else {
+                    System.out.println("File does not exist: " + fullPath);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
+                // Handle exceptions
             }
         }
     }

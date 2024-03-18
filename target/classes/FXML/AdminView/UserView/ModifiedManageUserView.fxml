@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.UserManagementControllers.ModifiedManageUserController">
    <children>
@@ -26,11 +27,20 @@
             <Separator orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
             <AnchorPane layoutX="595.0" layoutY="168.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="358.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
-                        <Button fx:id="addUser_btn" mnemonicParsing="false" onAction="#addUser" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="editUser_btn" mnemonicParsing="false" onAction="#editUserDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="deleteUser_btn" mnemonicParsing="false" onAction="#deleteUser" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
+                        <Button fx:id="addUser_btn" mnemonicParsing="false" onAction="#addUser" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2a-account-plus" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="editUser_btn" mnemonicParsing="false" onAction="#editUserDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2a-account-edit" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="deleteUser_btn" mnemonicParsing="false" onAction="#deleteUser" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2a-account-minus" iconSize="25" />
+                           </graphic></Button>
                      </children>
                   </HBox>
                   <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
@@ -81,30 +91,48 @@
                <children>
                   <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Inactive Users">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Accounts">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="userInactiveCounter_lbl" layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                        <Label fx:id="activeUserCounter_lbl" layoutX="77.0" layoutY="69.0" prefHeight="28.0" prefWidth="93.0" text="Placeholder" AnchorPane.rightAnchor="48.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
+                        <FontIcon iconLiteral="mdi2a-account-group" iconSize="50" layoutX="14.0" layoutY="98.0" />
+
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo4">
+                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Users">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Inactive Accounts">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="userCounter_lbl" layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                        <Label fx:id="activeUserCounter_lbl1" layoutX="77.0" layoutY="69.0" prefHeight="28.0" prefWidth="93.0" text="Placeholder" AnchorPane.rightAnchor="48.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
+                        <FontIcon iconLiteral="mdi2a-account-multiple-outline" iconSize="50" layoutX="14.0" layoutY="98.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Expired Accounts">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="activeUserCounter_lbl2" layoutX="77.0" layoutY="69.0" prefHeight="28.0" prefWidth="93.0" text="Placeholder" AnchorPane.rightAnchor="48.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2a-account-off" iconSize="50" layoutX="14.0" layoutY="98.0" />
                      </children>
                   </AnchorPane>
                </children>

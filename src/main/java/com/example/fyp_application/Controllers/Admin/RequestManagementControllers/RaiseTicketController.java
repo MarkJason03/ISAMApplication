@@ -180,17 +180,11 @@ public class RaiseTicketController implements Initializable {
         // Implement the window closing logic here, e.g., get a handle to the stage and call close()
         cancelBtn.getScene().getWindow().hide();
     }
-    private void clearFields() {
-        ticketTitle.clear();
-        ticketDetails.clear();
-        userComboBox.getSelectionModel().clearSelection();
-        attachmentListView.getItems().clear();
-    }
 
 
     @FXML
     private boolean isEmptyFields() {
-
+            // Check if the ticket title, details, and user combo box are empty
         return ticketTitle.getText().isEmpty() || ticketDetails.getText().isEmpty() || userComboBox.getSelectionModel().isEmpty();
     }
 
@@ -206,7 +200,7 @@ public class RaiseTicketController implements Initializable {
     private final ObservableList<String> filePaths = FXCollections.observableArrayList();
     @FXML
     private void addAttachment() {
-        // Create a FileChooser object
+/*        // Create a FileChooser object
         FileChooser fileChooser = new FileChooser();
 
         // Set the title of the FileChooser and extension filters
@@ -228,7 +222,9 @@ public class RaiseTicketController implements Initializable {
         }
 
         // This will reset your ListView's items every time. If you want to accumulate files, you should update the list, not reset it.
-        attachmentListView.setItems(filePaths);
+        attachmentListView.setItems(filePaths);*/
+
+        AttachmentHandler.addAttachments(filePaths,attachmentListView);
     }
 
 
@@ -236,10 +232,15 @@ public class RaiseTicketController implements Initializable {
     @FXML
     private void deleteAttachment(){
 
-        attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
-
+        //attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
+        AttachmentHandler.deleteAttachments(attachmentListView);
     }
 
+
+    @FXML
+    private void openFile(String path) {
+        AttachmentHandler.openAttachment(path);
+    }
 
 
     private  ObservableList<UserModel> allUsers = FXCollections.observableArrayList();
@@ -318,10 +319,6 @@ public class RaiseTicketController implements Initializable {
             }
             userComboBox.setItems(filteredList);
         });
-    }
-
-    private void openFile(String path) {
-        AttachmentHandler.openAttachment(path);
     }
 
 

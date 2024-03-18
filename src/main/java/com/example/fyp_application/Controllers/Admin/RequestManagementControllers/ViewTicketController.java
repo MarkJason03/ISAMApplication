@@ -3,6 +3,7 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AttachmentHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Utils.GMailHandler;
 import com.example.fyp_application.Views.ViewConstants;
@@ -217,20 +218,6 @@ public class ViewTicketController implements Initializable {
     }
 
 
-    @FXML
-    private void openFilePath(String path) throws IOException {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File file = new File(path);
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exceptions (file not found, no application associated with the file type, etc.)
-            }
-        }
-    }
-
-
 
 
     private ObservableList<TicketAttachmentModel> attachmentList;
@@ -312,6 +299,13 @@ public class ViewTicketController implements Initializable {
 
 
     @FXML
+    private void openFilePath(String path) throws IOException {
+        AttachmentHandler.openAttachment(path);
+    }
+
+
+
+    @FXML
     private void assignTicketToCurrentAgent(){
 
         TicketDAO.assignTicketToCurrentLoggedAgent(ticketID, CurrentLoggedUserHandler.getCurrentLoggedAdminID());
@@ -387,6 +381,8 @@ public class ViewTicketController implements Initializable {
         });
 
         messageHistoryTable.setOnMouseClicked(mouseEvent -> {
+
+
             if (mouseEvent.getClickCount() == 2) {
                 int selectedItem = messageHistoryTable.getSelectionModel().getSelectedItem().getMessageID();
                 System.out.println(selectedItem);

@@ -69,7 +69,7 @@ public class ViewConstants {
 
 
     //managing assets
-    public static final String ADMIN_MANAGE_ASSET_VIEW = "";
+    public static final String ADMIN_MANAGE_ASSET_VIEW = "/FXML/AdminView/AssetView/AssetDashboardView.fxml";
 
     public static final String ADMIN_ADD_ASSET_POP_UP = "";
     public static final String ADMIN_EDIT_ASSET_POP_UP = "";

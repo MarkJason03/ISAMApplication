@@ -5,6 +5,7 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
 import com.example.fyp_application.Views.ViewConstants;
+import com.google.api.client.util.Strings;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -305,7 +306,7 @@ public class ModifiedManageUserController implements Initializable {
 
                 //personal info
                 fullNameHolder_lbl.setText(selectedUser.getFirstName() + " " + selectedUser.getLastName());
-                deptHolder_lbl.setText(selectedUser.getDeptName());
+                deptHolder_lbl.setText("Department: " + selectedUser.getDeptName());
                 email_TF.setText(selectedUser.getEmail());
                 username_TF.setText(selectedUser.getUsername());
                 firstName_TF.setText(selectedUser.getFirstName());
@@ -339,7 +340,39 @@ public class ModifiedManageUserController implements Initializable {
 
         DateTimeHandler.dateTimeUpdates(dateTimeHolder);
 
+        //Debugging
+        userTableView.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                String selectedItem = userTableView.getSelectionModel().getSelectedItem().getFirstName();
+                String selectedItem2 = userTableView.getSelectionModel().getSelectedItem().getLastName();
+                String selectedItem3 = userTableView.getSelectionModel().getSelectedItem().getUsername();
+                String selectedItem4 = userTableView.getSelectionModel().getSelectedItem().getEmail();
+                String selectedItem5 = userTableView.getSelectionModel().getSelectedItem().getDeptName();
+                String selectedItem6 = userTableView.getSelectionModel().getSelectedItem().getRoleName();
+                String selectedItem7 = userTableView.getSelectionModel().getSelectedItem().getAccountStatus();
+                String selectedItem8 = userTableView.getSelectionModel().getSelectedItem().getCreatedAt();
+                String selectedItem9 = userTableView.getSelectionModel().getSelectedItem().getExpiresAt();
+                String selectedItem10 = userTableView.getSelectionModel().getSelectedItem().getLastLogin();
+                String selectedItem11 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getUserRoleID());
+                String selectedItem12 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getDeptID());
 
+                System.out.println(selectedItem + " " +
+                        selectedItem2 + " " +
+                        selectedItem3 + " " +
+                        selectedItem4 + "\n " +
+                        "Department name :" + selectedItem5 + "\n " +
+                        "Role name" + selectedItem6 + "\n " +
+                        selectedItem7 + " " +
+                        selectedItem8 + " " +
+                        selectedItem9 + " " +
+                        selectedItem10 + "\n " +
+                        "Role id is "  + selectedItem11 + "\n " +
+                        "dept id is" + selectedItem12);
+            }
+        });
+
+
+/*
 
         TableColumn<UserModel, Void> actionCol = new TableColumn<>("Actions");
 
@@ -383,6 +416,7 @@ public class ModifiedManageUserController implements Initializable {
         actionCol.setCellFactory(cellFactory);
 
         userTableView.getColumns().add(actionCol);
+    }*/
     }
 }
 

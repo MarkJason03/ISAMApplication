@@ -92,12 +92,8 @@ public class EditAdminProfileController implements Initializable {
 
     private final int userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
 
-    private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-
-
-
     private void loadUserData(Integer userID) throws SQLException {
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
 
         if (userModel != null) {
             firstName_TF.setText(userModel.getFirstName());
@@ -126,7 +122,7 @@ public class EditAdminProfileController implements Initializable {
         Stage currentDashboardStage = (Stage) accountSettingsAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur);
 
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
@@ -169,7 +165,7 @@ public class EditAdminProfileController implements Initializable {
         if (selectedFile != null) {
 
             String filePath = selectedFile.getAbsolutePath();
-            String keyPath = "\\Assets"; // Use File.separator + "Assets" for more portability
+            String keyPath = File.separator + "Assets";
             int index = filePath.indexOf(keyPath);
             String relativePath = index >= 0 ? filePath.substring(index) : filePath; // Keeps original path if keyPath not found
             String newPath = relativePath.replaceAll("\\\\", "/");// Replace backslashes with forward slashes
@@ -190,7 +186,7 @@ public class EditAdminProfileController implements Initializable {
             Platform.runLater(() -> {
                 try {
                     loadUserData(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
-                    UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
+                    UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewAdminPhoto(userModel.getPhoto());
 
 

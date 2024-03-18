@@ -102,8 +102,8 @@ public class UserDAO {
                 while (resultSet.next()) {
                     userModel = new UserModel(
                             resultSet.getInt("UserID"),
-                            resultSet.getInt("deptID"),
                             resultSet.getInt("userRoleID"),
+                            resultSet.getInt("deptID"),
                             resultSet.getString("FirstName"),
                             resultSet.getString("LastName"),
                             resultSet.getString("Gender"),
@@ -236,20 +236,30 @@ public class UserDAO {
     }
 
 
-/*    public void loadCurrentLoggedUser(int userID, UserModel userModel){
 
-        String sql = "SELECT * FROM tbl_Users WHERE UserID = ?";
+    public  int countExpiredUsers(){
+        int count = 0;
+
+        String sql = "Select Count (UserID) FROM tbl_Users Where AccountStatus='Expired'; ";
 
         try {
+
             Connection connection = DatabaseConnectionHandler.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, userID);
-        } catch ( SQLException e){
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+            connection.close();
+
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }*/
-
+        return count;
+    }
     public int countInactiveUsers() {
 
         int count = 0;
@@ -274,6 +284,60 @@ public class UserDAO {
 
         return count;
     }
+
+
+    public static void checkAndUpdateExpiredAccountStatus(){
+
+        String sql = """
+                UPDATE tbl_Users
+                SET AccountStatus = 'Expired'
+                WHERE ExpiresOn < date('now');
+                """;
+
+
+        try( Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            System.out.println("Connection Established");
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                System.out.println("Prepared Statement Created");
+                preparedStatement.executeUpdate();
+                System.out.println("Prepared Statement Executed");
+                DatabaseConnectionHandler.closeConnection(connection);
+                System.out.println("Expired Account Status Updated");
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+
+    }
+
+    public static void checkAndUpdateInactiveAccountStatus(){
+
+
+        // Update the account status to "Inactive" if the user has not logged in for 7 days
+        String sql = """
+                UPDATE tbl_Users
+                SET AccountStatus = 'Inactive'
+                WHERE LastLogin IS NULL OR LastLogin < date('now', '-7 days');
+                """;
+
+
+        try( Connection connection = DatabaseConnectionHandler.getConnection()) {
+            assert connection != null;
+            System.out.println("Connection Established");
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                System.out.println("Prepared Statement Created");
+                preparedStatement.executeUpdate();
+                System.out.println("Prepared Statement Executed");
+                DatabaseConnectionHandler.closeConnection(connection);
+                System.out.println("Inactive Account Status Updated");
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+
+    }
+
 
 
     public static UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
@@ -320,15 +384,17 @@ public class UserDAO {
         }
     }
 
-    public void updateUserLastLoginTime(int userID, String lastLogin) {
-
-        String sql = "UPDATE tbl_Users SET LastLogin = ? WHERE UserID = ?";
+    public static void updateUserAccountStatusAndLastLoginTime(int userID, String lastLogin) {
+        String status = "Active";
+        String sql = "UPDATE tbl_Users SET LastLogin = ?, AccountStatus = ? WHERE UserID = ? ";
         try (Connection connection = DatabaseConnectionHandler.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, lastLogin);
-                preparedStatement.setInt(2, userID);
+                preparedStatement.setString(2, status);
+                preparedStatement.setInt(3, userID);
                 preparedStatement.executeUpdate();
+                System.out.println("Last Login Time Updated" + lastLogin);
             }
         } catch (SQLException e) {
             e.printStackTrace();

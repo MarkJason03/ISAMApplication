@@ -166,8 +166,8 @@ public class ClientDashboardController implements Initializable {
 
     public void setLastLoginTime(){
         String lastLoginTime = DateTimeHandler.getSQLiteDate();
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUserLastLoginTime(userID, lastLoginTime);
+
+        UserDAO.updateUserAccountStatusAndLastLoginTime(userID, lastLoginTime);
 
     }
 

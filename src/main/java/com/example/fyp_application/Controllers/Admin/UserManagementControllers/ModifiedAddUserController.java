@@ -69,7 +69,7 @@ public class ModifiedAddUserController implements Initializable {
     private TextField userFirstName_TF;
 
     @FXML
-    private ChoiceBox<String> userGender_TF;
+    private ChoiceBox<String> userGender_CB;
 
     @FXML
     private TextField userLastName_TF;
@@ -88,6 +88,12 @@ public class ModifiedAddUserController implements Initializable {
     //Default photo for the user profile
     private static final String DEFAULT_USER_PLACEHOLDER_PHOTO = "/Assets/defaultUser.png";
 
+
+    // Get the list of departments and user roles
+    private final List<DepartmentModel>departmentList = DEPARTMENT_DAO.getAllDepartments();
+
+    // Get the list of user roles
+    private final List<UserRoleModel> userRoleList = USER_ROLE_DAO.getAllRoles();
     @FXML
     private void cancelCreateUserAction(){
         // Close the window
@@ -139,22 +145,25 @@ public class ModifiedAddUserController implements Initializable {
 
     @FXML
     private void addUser() {
-        // check if the phone number is valid
-        if (userWorkPhone_TF.getText().length() < 11) {
-            AlertNotificationHandler.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
-            return; // Stop execution if validation fails
-        }
-
         // check if any field is empty
         if (isEmptyFields()) {
             AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+            return; // Stop execution if validation fails
+        }
+
+
+        // check if the phone number is valid
+
+        if (userWorkPhone_TF.getText().length() < 11) {
+            AlertNotificationHandler.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
+            return; // Stop execution if validation fails
         } else {
             UserDAO.addUser(
                     accountRole_CB.getValue().getUserRoleID(),
                     userDept_CB.getValue().getDeptID(),
                     userFirstName_TF.getText(),
                     userLastName_TF.getText(),
-                    userGender_TF.getValue(),
+                    userGender_CB.getValue(),
                     DateTimeHandler.setSQLiteDateFormat(dob_DP.getValue()),
                     userEmail_TF.getText(),
                     userName_TF.getText(),
@@ -210,7 +219,7 @@ public class ModifiedAddUserController implements Initializable {
                 || userLastName_TF.getText().isEmpty()
                 || userEmail_TF.getText().isEmpty()
                 || userWorkPhone_TF.getText().isEmpty()
-                || userGender_TF.getValue().isEmpty()
+                || userGender_CB.getValue().isEmpty()
                 || userDept_CB.getValue().toString().isEmpty()
                 || accountRole_CB.getValue().toString().isEmpty()
                 || accountStatus_CB.getValue().isEmpty()
@@ -226,7 +235,7 @@ public class ModifiedAddUserController implements Initializable {
         userLastName_TF.clear();
         userEmail_TF.clear();
         userWorkPhone_TF.clear();
-        userGender_TF.setValue(null);
+        userGender_CB.setValue(null);
         userDept_CB.setValue(null);
         accountRole_CB.setValue(null);
         accountStatus_CB.setValue(null);
@@ -263,20 +272,35 @@ public class ModifiedAddUserController implements Initializable {
     }
 
 
+    @FXML
+    private void utilityAccountSetup(){
+        dob_DP.setValue(LocalDate.now().minusYears(20));
+        userWorkPhone_TF.setText("12345678910");
+        expiresAt_DP.setValue(LocalDate.now().plusYears(5));
+        for (DepartmentModel department : departmentList) {
+            if (department.getDeptName().equals("IT")) {
+                //setting the default department to IT department for those assets in shared spaces/hotdesk
+                userDept_CB.setValue(department);
+            }
+        }
+        for (UserRoleModel role : userRoleList) {
+            if (role.getRoleName().equals("Utility")) {
+                //setting the default role to IT department for those assets in shared spaces/hotdesk
+                accountRole_CB.setValue(role);
+            }
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         createdOn_DP.setValue(LocalDate.now());
         userEmail_TF.setText(DEFAULT_EMAIL);
-        userGender_TF.setItems(FXCollections.observableArrayList("Male","Female"));
+        userGender_CB.setItems(FXCollections.observableArrayList("Male","Female", "Utility"));
         accountStatus_CB.setValue("Active");
         DateTimeHandler.dateTimeUpdates(dateTimeHolder);
 
-        List<DepartmentModel>departmentList = DEPARTMENT_DAO.getAllDepartments();
-        userDept_CB.setItems(FXCollections.observableArrayList(departmentList));
-
-        List<UserRoleModel> userRoleList = USER_ROLE_DAO.getAllRoles();
-        accountRole_CB.setItems(FXCollections.observableArrayList(userRoleList));
-
+        //
+        userDept_CB.setItems(FXCollections.observableArrayList(departmentList)); // Populate the department choice box
+        accountRole_CB.setItems(FXCollections.observableArrayList(userRoleList));// Populate the role choice box
 
 
         // Listen for changes in the first name field
@@ -298,6 +322,14 @@ public class ModifiedAddUserController implements Initializable {
             }
         });
 
+        userGender_CB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if (newValue.equals("Utility")) {
+                    // Set the default values for utility accounts
+                    utilityAccountSetup();
+                    }
+                }
+        });
 
         // Listen for changes in the phone number field
         userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
@@ -363,7 +395,7 @@ public class ModifiedAddUserController implements Initializable {
             LocalDate eighteenYearsAgo = currentDate.minusYears(18);
 
             if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
-                System.out.println("Invalid date: The date cannot be in the future.");
+                System.out.println("Invalid date: The date cannot be less than 18 years old.");
                 AlertNotificationHandler.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
                 dob_DP.setValue(null);  // Revert to the old value if new value is invalid
                 dob_DP.setStyle("-fx-border-color: red");

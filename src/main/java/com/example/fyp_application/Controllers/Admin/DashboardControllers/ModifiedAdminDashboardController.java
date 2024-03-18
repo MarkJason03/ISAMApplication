@@ -65,6 +65,8 @@ public class ModifiedAdminDashboardController implements Initializable {
     private Label username_lbl;
 
 
+    private final Object lock = new Object();
+
     public static AnchorPane swappableContentPane;
 
 
@@ -163,8 +165,8 @@ public class ModifiedAdminDashboardController implements Initializable {
     @FXML
     private void setLastLoginTime(){
         String lastLoginTime = DateTimeHandler.getSQLiteDate();
-        UserDAO userDAO = new UserDAO();
-        userDAO.updateUserLastLoginTime(userID, lastLoginTime);
+
+        UserDAO.updateUserAccountStatusAndLastLoginTime(userID, lastLoginTime);
 
     }
 
@@ -182,6 +184,12 @@ public class ModifiedAdminDashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // Set the swappable content pane to the main content anchor pane
@@ -189,5 +197,15 @@ public class ModifiedAdminDashboardController implements Initializable {
         loadHomeScreen();
         loadCurrentUser();
         Platform.runLater(this::setLastLoginTime);
+
+        // Ensures that each thread is synchronized and would run step by step
+        Thread accountUpdateThread = new Thread(() -> {
+            synchronized (lock) {
+                UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeHandler.getSQLiteDate());
+                UserDAO.checkAndUpdateInactiveAccountStatus();
+                UserDAO.checkAndUpdateExpiredAccountStatus();
+            }
+    });
+        accountUpdateThread.start();
     }
 }

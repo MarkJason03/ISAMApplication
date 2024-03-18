@@ -46,7 +46,7 @@
                         <Label layoutX="65.0" layoutY="878.0" prefHeight="27.0" prefWidth="182.0" text="Password" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="635.0" AnchorPane.topAnchor="878.0" />
                         <FontAwesomeIconView glyphName="USER" layoutX="630.0" layoutY="987.0" opacity="0.1" size="300" />
                         <PasswordField fx:id="password_TF" layoutX="65.0" layoutY="905.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="905.0" />
-                        <ChoiceBox fx:id="userGender_TF" layoutX="444.0" layoutY="289.0" prefHeight="39.0" prefWidth="300.0" AnchorPane.leftAnchor="444.0" />
+                        <ChoiceBox fx:id="userGender_CB" layoutX="444.0" layoutY="289.0" prefHeight="39.0" prefWidth="300.0" AnchorPane.leftAnchor="444.0" />
                         <Label fx:id="passwordChecker_lbl1" layoutX="422.0" layoutY="591.0" textFill="RED" />
                         <Label layoutX="43.0" layoutY="128.0" text="Personal Information" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="128.0" />
                         <Pane layoutX="50.0" layoutY="650.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />

@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -121,8 +123,15 @@
                               <NumberAxis side="LEFT" />
                            </yAxis>
                         </AreaChart>
-                        <Button fx:id="hello_btn" layoutX="1252.0" layoutY="152.0" mnemonicParsing="false" text="Button" />
-                        <ListView fx:id="sampleListView" layoutX="544.0" layoutY="52.0" prefHeight="391.0" prefWidth="391.0" />
+                        <ListView fx:id="sampleListView" layoutX="193.0" layoutY="94.0" prefHeight="391.0" prefWidth="391.0" />
+                        <TableView fx:id="sampleTable" layoutX="695.0" layoutY="108.0" prefHeight="393.0" prefWidth="747.0">
+                          <columns>
+                            <TableColumn fx:id="id_col" prefWidth="150.0" text="ID" />
+                            <TableColumn fx:id="image_col" minWidth="0.0" prefWidth="333.0" text="PhotoBlob" />
+                              <TableColumn fx:id="path_col" prefWidth="263.0" text="PhotoPath" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="hello_btn" layoutX="1442.0" layoutY="12.0" mnemonicParsing="false" onAction="#openAttachment" text="Button" />
                      </children>
                   </AnchorPane>
                </content>

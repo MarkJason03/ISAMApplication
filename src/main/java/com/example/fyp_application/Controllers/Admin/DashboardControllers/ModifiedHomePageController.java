@@ -1,37 +1,22 @@
 package com.example.fyp_application.Controllers.Admin.DashboardControllers;
 
-import com.example.fyp_application.Model.SampleDAO;
-import com.example.fyp_application.Model.SampleModel;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.google.api.client.util.Strings;
+import com.example.fyp_application.Model.UserDAO;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.*;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.io.File;
-import java.io.IOException;
-
-import javafx.scene.image.Image;
 
 
 public class ModifiedHomePageController implements Initializable {
 
-    @FXML
-    private TableColumn<SampleModel, ImageView> image_col;
+
 
     @FXML
     private AnchorPane contentAP;
@@ -40,126 +25,101 @@ public class ModifiedHomePageController implements Initializable {
     private AnchorPane dashboardStatAP;
 
     @FXML
-    private Button hello_btn;
+    private PieChart userPieChart;
 
     @FXML
-    private TableColumn<SampleModel, Integer> id_col;
+    private LineChart<String,Number> sampleLineChart;
+
 
     @FXML
-    private TableColumn<SampleModel, String> path_col;
-
- /*   @FXML
-    private TableColumn<SampleModel, ImageView> image_col;*/
+    private BarChart<String,Number> sampleBarChart;
     @FXML
-    private  ListView<String> sampleListView;
+    private void setUserPieChart() {
+        int activeUser = UserDAO.countActiveUsers();
+        int inactiveUser = UserDAO.countInactiveUsers();
+        int expiredUser = UserDAO.countExpiredUsers();
 
-    @FXML
-    private TableView<SampleModel> sampleTable;
+        // Creating the pie chart data
+        PieChart.Data activeData = new PieChart.Data("Active", activeUser);
+        PieChart.Data inactiveData = new PieChart.Data("Inactive", inactiveUser);
+        PieChart.Data expiredData = new PieChart.Data("Expired", expiredUser);
 
+        userPieChart.setTitle("User Status");
+        userPieChart.getData().addAll(activeData, inactiveData, expiredData);
 
-
-    private  ObservableList<String> filePaths = FXCollections.observableArrayList(
-
-            "/AttachmentDemo/SampleMacbook.jpg",
-            "/AttachmentDemo/sampleInvoice.pdf",
-            "/AttachmentDemo/sampleInvoice.docx"
-
-
-    );
-
-    private void openFile(String relativePath) {
-      AttachmentHandler.openAttachment(relativePath);
     }
-/*
-    public List<ImageModel> prepareImageData() {
-        String[] filePaths = {
-                "/CataloguePhotos/appleMagicKeyboard.PNG",
-                "/CataloguePhotos/applePen1stGen.PNG",
-                "/CataloguePhotos/applePen2ndGen.PNG",
-                "/CataloguePhotos/ipad.PNG",
-                "/CataloguePhotos/ipadPro.PNG",
-                "/CataloguePhotos/logiverticalMouse.PNG"
+
+    @FXML
+    private void setUserLineChart() {
+        // Assuming we're setting this up for three time points: T1, T2, and T3
+        // In your real application, these would be actual data points like months or years
+        String[] timePoints = {"T1", "T2", "T3"};
+
+        // Example user counts at three different time points
+        // For demonstration, using static data; replace these with your actual data retrieval
+        int[][] userCounts = {
+                {UserDAO.countActiveUsers(), 120, 130}, // Simulated counts for active users over time
+                {UserDAO.countInactiveUsers(), 80, 90}, // Simulated counts for inactive users
+                {UserDAO.countExpiredUsers(), 50, 60}   // And for expired users
         };
 
-        List<ImageModel> imageDataList = new ArrayList<>();
+        XYChart.Series<String, Number> seriesActive = new XYChart.Series<>();
+        seriesActive.setName("Active Users");
 
-        for (String filePath : filePaths) {
-            imageDataList.add(new ImageModel(filePath));
+        XYChart.Series<String, Number> seriesInactive = new XYChart.Series<>();
+        seriesInactive.setName("Inactive Users");
+
+        XYChart.Series<String, Number> seriesExpired = new XYChart.Series<>();
+        seriesExpired.setName("Expired Users");
+
+        for (int i = 0; i < timePoints.length; i++) {
+            seriesActive.getData().add(new XYChart.Data<>(timePoints[i], userCounts[0][i]));
+            seriesInactive.getData().add(new XYChart.Data<>(timePoints[i], userCounts[1][i]));
+            seriesExpired.getData().add(new XYChart.Data<>(timePoints[i], userCounts[2][i]));
         }
 
-        return imageDataList;
+        sampleLineChart.getData().addAll(seriesActive, seriesInactive, seriesExpired);
     }
-
-
-    public void insertAllImages() throws IOException {
-        List<ImageModel> images = prepareImageData();
-        int id = 1;  // Initialize ID, assuming it's managed here. Adjust based on your ID handling.
-
-        for (ImageModel imageData : images) {
-            SampleDAO.insertValues(id++, imageData.getImagePath());
-        }
-    }
-*/
-
 
 
     @FXML
-    private void openAttachment(){
-        AttachmentHandler.addAttachments(filePaths, sampleListView);
+    private void setUserBarChart() {
+        int activeUser = UserDAO.countActiveUsers();
+        int inactiveUser = UserDAO.countInactiveUsers();
+        int expiredUser = UserDAO.countExpiredUsers();
+
+        System.out.println("Active users: " + activeUser);
+        System.out.println("Inactive users: " + inactiveUser);
+        System.out.println("Expired users: " + expiredUser);
+
+        CategoryAxis xAxis = (CategoryAxis) sampleBarChart.getXAxis();
+        xAxis.setLabel("User Status");
+
+        NumberAxis yAxis = (NumberAxis) sampleBarChart.getYAxis();
+        yAxis.setLabel("User Count");
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Account Status");
+
+        series.getData().add(new XYChart.Data<>("Active", activeUser));
+        series.getData().add(new XYChart.Data<>("Inactive", inactiveUser));
+        series.getData().add(new XYChart.Data<>("Expired", expiredUser));
+        xAxis.getCategories().addAll("Active", "Inactive", "Expired");
+
+        sampleBarChart.getData().clear();
+        sampleBarChart.layout();
+        sampleBarChart.getData().add(series);
     }
 
-    private void loadData(){
-        id_col.setCellValueFactory(new PropertyValueFactory<>("sampleID"));
-        path_col.setCellValueFactory(new PropertyValueFactory<>("photoPath"));
-
-        image_col.setCellValueFactory(cellData -> {
-            String photoPath = cellData.getValue().getPhotoPath();
-            ImageView imageView = null;
-            if (photoPath != null && !photoPath.isEmpty()) {
-                Image image = new Image(getClass().getResourceAsStream(photoPath));
-                imageView = new ImageView(image);
-                imageView.setFitHeight(150);
-                imageView.setFitWidth(150);
-            }
-            return new SimpleObjectProperty<>(imageView);
-        });
-
-        ObservableList<SampleModel> sampleData = SampleDAO.getAllSamples();
-        sampleTable.setItems(sampleData);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //loadFlowPaneData();
+        Platform.runLater(this::setUserPieChart);
+        Platform.runLater(this::setUserLineChart);
+        setUserBarChart();
 
-
-        //insertAllImages();
-        Platform.runLater(this::loadData);
-
-
-
-
-
-        sampleTable.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getClickCount() == 2) {
-                String selectedItem = sampleTable.getSelectionModel().getSelectedItem().getPhotoPath();
-                openFile(selectedItem);
-                if (!Strings.isNullOrEmpty(selectedItem)) {
-                    System.out.println("Selected Item: " + selectedItem);
-                }
-            }
-        });
-
-
-        sampleListView.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getClickCount() == 2) {
-                String selectedItem = sampleListView.getSelectionModel().getSelectedItem();
-                openFile(selectedItem);
-                if (!Strings.isNullOrEmpty(selectedItem)) {
-                    System.out.println("Selected Item: " + selectedItem);
-                }
-            }
-        });
     }
+
 
 }

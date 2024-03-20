@@ -71,10 +71,10 @@ public class ViewConstants {
     //managing assets
     public static final String ADMIN_MANAGE_ASSET_VIEW = "/FXML/AdminView/AssetView/AssetDashboardView.fxml";
 
-    public static final String ADMIN_ADD_ASSET_POP_UP = "";
-    public static final String ADMIN_EDIT_ASSET_POP_UP = "";
+    public static final String ADMIN_ADD_ASSET_POP_UP = "/FXML/AdminView/AssetView/AddAssetView.fxml";
+    public static final String ADMIN_EDIT_ASSET_POP_UP = "/FXML/AdminView/AssetView/EditAssetView.fxml";
 
-    public static final String ADMIN_ALLOCATION_POP_UP = "";
+    public static final String ADMIN_ADD_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationForm.fxml";
 
     public  static  final String ADMIN_EDIT_MY_PROFILE_VIEW = "/FXML/AdminView/AdminProfileView/EditAdminProfileView.fxml";
 
@@ -105,6 +105,9 @@ public class ViewConstants {
 
     //Login Page
     public static final String APP_LOGIN = "/FXML/SharedView/LoginPage.fxml";
+
+    public static final String APP_SPLASH_SCREEN = "/FXML/SharedView/SplashScreen.fxml";
+    public static final String APP_ICON = "/Assets/app_icon.png";
 
     public static final String SHARED_MESSAGE_HISTORY_BOX_POP_UP = "/FXML/SharedView/MessageBoxView.fxml";
 }

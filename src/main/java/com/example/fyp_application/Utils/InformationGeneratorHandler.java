@@ -7,7 +7,8 @@ public class InformationGeneratorHandler {
 
 
     //define the final string of characters to be used in the password
-
+    //This class is just meant to generate random information to quickly populate the database
+    //It is not meant to be used in a production environment
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
     private static final String NUMBER = "0123456789";
@@ -18,6 +19,8 @@ public class InformationGeneratorHandler {
     private static final String PASSWORD_ALLOW = CHAR_LOWER + CHAR_UPPER + NUMBER + OTHER_CHAR;
 
     private static final String EMAIL_ALLOW = CHAR_LOWER + CHAR_UPPER + NUMBER;
+
+    private static final String SERIAL_NUMBER = CHAR_UPPER + NUMBER;
 
     private static final SecureRandom random = new SecureRandom();
 
@@ -69,5 +72,25 @@ public class InformationGeneratorHandler {
 
         return (supplierName + "@" + SAMPLE_DOMAIN).toLowerCase();
     }
+
+
+    public static String generateSerialNumber(int length) {
+
+        if (length < 8) {
+            throw new IllegalArgumentException();
+        }
+
+        StringBuilder serialNumber = new StringBuilder(length);
+
+        // build the serial number
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(SERIAL_NUMBER.length());
+            serialNumber.append(SERIAL_NUMBER.charAt(index));
+        }
+
+        return new String(serialNumber);
+    }
+
+
 }
 

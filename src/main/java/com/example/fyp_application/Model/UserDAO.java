@@ -38,22 +38,31 @@ public class UserDAO {
 
 
     public boolean validateLoginCredentials(String username, String password) {
-        String sql = "SELECT Password FROM tbl_Users WHERE Username = ?";
-        boolean isValidAccount = false;
+        String sql = "SELECT AccountStatus, Password FROM tbl_Users WHERE Username = ?";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+
+        try (Connection connection = DatabaseConnectionHandler.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     String hashedPassword = resultSet.getString("Password");
-                    isValidAccount = PasswordHashHandler.verifyPassword(hashedPassword, password);
+                    boolean isValidAccount = PasswordHashHandler.verifyPassword(hashedPassword, password);
+
+                    return isValidAccount && validateAccountStatus(resultSet.getString("AccountStatus"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return isValidAccount;
+        return false;
+    }
+
+
+    private boolean validateAccountStatus(String accountStatus) {
+        return accountStatus.equals("Active");
     }
 
 
@@ -209,7 +218,7 @@ public class UserDAO {
         */
     }
 
-    public int countActiveUsers() {
+    public static int countActiveUsers() {
 
         int count = 0;
 
@@ -237,7 +246,7 @@ public class UserDAO {
 
 
 
-    public  int countExpiredUsers(){
+    public static int countExpiredUsers(){
         int count = 0;
 
         String sql = "Select Count (UserID) FROM tbl_Users Where AccountStatus='Expired'; ";
@@ -260,7 +269,7 @@ public class UserDAO {
 
         return count;
     }
-    public int countInactiveUsers() {
+    public static int countInactiveUsers() {
 
         int count = 0;
 
@@ -297,13 +306,13 @@ public class UserDAO {
 
         try( Connection connection = DatabaseConnectionHandler.getConnection()) {
             assert connection != null;
-            System.out.println("Connection Established");
+
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                System.out.println("Prepared Statement Created");
+
                 preparedStatement.executeUpdate();
-                System.out.println("Prepared Statement Executed");
+                System.out.println("\nPrepared Statement Executed");
                 DatabaseConnectionHandler.closeConnection(connection);
-                System.out.println("Expired Account Status Updated");
+                System.out.println("Expired Account Status Updated\n");
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -324,13 +333,13 @@ public class UserDAO {
 
         try( Connection connection = DatabaseConnectionHandler.getConnection()) {
             assert connection != null;
-            System.out.println("Connection Established");
+
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                System.out.println("Prepared Statement Created");
+
                 preparedStatement.executeUpdate();
-                System.out.println("Prepared Statement Executed");
+                System.out.println("\nPrepared Statement Executed");
                 DatabaseConnectionHandler.closeConnection(connection);
-                System.out.println("Inactive Account Status Updated");
+                System.out.println("Inactive Account Status Updated\n");
             }
         } catch (SQLException error) {
             error.printStackTrace();

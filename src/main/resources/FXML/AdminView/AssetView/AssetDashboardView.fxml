@@ -187,8 +187,8 @@
                                  <children>
                                     <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                        <children>
-                                          <Button fx:id="newRequest" mnemonicParsing="false" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add Asset" />
-                                          <Button fx:id="viewRequest" mnemonicParsing="false" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="View Details" />
+                                          <Button fx:id="newRequest" mnemonicParsing="false" onAction="#insertNewAsset" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add Asset" />
+                                          <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewAssetInformation" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="View Details" />
                                        </children>
                                     </HBox>
                                     <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
@@ -227,6 +227,7 @@
                                           <Button fx:id="reload_btn" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                                        </children>
                                     </Pane>
+                                    <Button fx:id="test" layoutX="438.0" layoutY="544.0" mnemonicParsing="false" onAction="#insertAssetAllocation" text="Button" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="treeTableContainer" />

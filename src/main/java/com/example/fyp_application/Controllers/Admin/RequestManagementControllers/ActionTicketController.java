@@ -250,29 +250,6 @@ public class ActionTicketController implements Initializable {
 
         ticketInfolist = TICKET_DAO.getShortenedTicketInformation(ticketID);
 
- /*       //this.ticketID = ViewTicketController.ticketID;
-
-        this.ticketID = ticketInfolist.get(0).getTicketID();
-        System.out.println(ticketID);
-
-        ticketInfolist.forEach(System.out::println);
-
-        System.out.println(ticketInfolist.get(0).getTicketStatus());
-        ticketStatus_CB.setValue(ticketInfolist.get(0).getTicketStatus());
-        targetResolution_lbl.setText(DateTimeHandler.dateParser(ticketInfolist.get(0).getDateCreated()));
-        ticketPriority_CB.setValue(ticketInfolist.get(0).getTicketPriority());
-        ticketTitle.setText(ticketInfolist.get(0).getTicketTitle());
-
-
-
-
-        for (TicketCategoryModel category : ticketCategory_CB.getItems()) {
-            if (category.getCategoryID() == ticketInfolist.get(0).getCategoryID()) {
-                ticketCategory_CB.setValue(category);
-                break;
-            }}
-
-*/
         if(!ticketInfolist.isEmpty()){
             this.ticketID = ticketInfolist.get(0).getTicketID();
             System.out.println(ticketID);

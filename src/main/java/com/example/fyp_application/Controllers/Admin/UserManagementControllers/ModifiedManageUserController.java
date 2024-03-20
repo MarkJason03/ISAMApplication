@@ -4,27 +4,22 @@ import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.TableSearchHandler;
 import com.example.fyp_application.Views.ViewConstants;
-import com.google.api.client.util.Strings;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -283,7 +278,7 @@ public class ModifiedManageUserController implements Initializable {
 
     @FXML
     private void searchUserDetails(){
-        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
+/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 userTableView.setItems(userListData); // Reset to show all data
                 return;
@@ -296,7 +291,14 @@ public class ModifiedManageUserController implements Initializable {
 
             }
             userTableView.setItems(filteredList);
-        });
+        });*/
+
+        TableSearchHandler.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
+                userDetails.getFirstName().toLowerCase().contains(searchDetail.toLowerCase()) ||
+                        userDetails.getLastName().toLowerCase().contains(searchDetail.toLowerCase()) ||
+                        userDetails.getUsername().toLowerCase().contains(searchDetail.toLowerCase()));
+
+
     }
     private void tableListener(){
         userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -326,7 +328,7 @@ public class ModifiedManageUserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(this::loadTableData);
+        loadTableData();
 
         searchUserDetails();
         tableListener();

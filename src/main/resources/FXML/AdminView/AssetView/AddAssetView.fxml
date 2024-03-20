@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="mainAnchorPaneBody" prefHeight="905.0" prefWidth="961.0" scaleShape="false" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.AssetManagementControllers.AddAssetController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="932.0" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="51.0" layoutY="39.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Asset Manager" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="dateTimeHolder" layoutX="51.0" layoutY="94.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
+      <ScrollPane hbarPolicy="NEVER" layoutX="30.0" layoutY="111.0" prefHeight="780.0" prefWidth="906.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1100.0" prefWidth="900.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+               <children>
+                  <AnchorPane pickOnBounds="false" prefHeight="1045.0" prefWidth="867.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="30.0">
+                     <children>
+                        <Label layoutX="65.0" layoutY="175.0" text="Asset Name" AnchorPane.leftAnchor="65.0" />
+                        <Label layoutX="445.0" layoutY="168.0" text="Serial No" AnchorPane.leftAnchor="445.0" />
+                        <Label layoutX="445.0" layoutY="345.0" text="Ram Spec" AnchorPane.leftAnchor="445.0" />
+                        <TextField fx:id="assetName_TF" layoutX="65.0" layoutY="202.0" prefHeight="40.0" prefWidth="300.0" promptText="Asset Name / Model..." stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="502.0" />
+                        <TextField fx:id="serialNo_TF" layoutX="444.0" layoutY="200.0" prefHeight="40.0" prefWidth="300.0" promptText="Serial No / Asset Tag" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="444.0" />
+                        <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
+                        <Pane layoutX="44.0" layoutY="528.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="528.0" />
+                        <FontAwesomeIconView glyphName="LAPTOP" layoutX="560.0" layoutY="1000.0" opacity="0.1" size="250" />
+                        <ChoiceBox fx:id="ramSpec_CB" layoutX="444.0" layoutY="374.0" prefHeight="39.0" prefWidth="300.0" AnchorPane.leftAnchor="444.0" />
+                        <Label layoutX="44.0" layoutY="132.0" text="Hardware Information" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="132.0" />
+                        <Pane layoutX="43.0" layoutY="970.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
+                        <Pane layoutX="44.0" layoutY="688.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" />
+                        <Label layoutX="44.0" layoutY="541.0" text="Asset State " AnchorPane.leftAnchor="44.0" />
+                        <Label layoutX="44.0" layoutY="704.0" text="Warranty Information" AnchorPane.leftAnchor="44.0" />
+                        <Label layoutX="42.0" layoutY="48.0" prefHeight="55.0" prefWidth="376.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Add New Asset">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <HBox layoutX="559.0" layoutY="55.0" prefHeight="42.0" prefWidth="271.0" spacing="20.0">
+                           <children>
+                              <Button fx:id="createAsset_btn" mnemonicParsing="false" onAction="#addAsset" prefHeight="42.0" prefWidth="143.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Create">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="PASTE" size="30" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="148.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="EDIT" size="30" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <Label layoutX="66.0" layoutY="345.0" text="Storage Spec" />
+                        <ChoiceBox fx:id="storageSpec_CB" layoutX="65.0" layoutY="374.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="66.0" layoutY="437.0" text="Operating System" />
+                        <ChoiceBox fx:id="osSpec_CB" layoutX="65.0" layoutY="466.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="451.0" layoutY="434.0" text="Photo Path" />
+                        <TextField fx:id="photoPath_TF" editable="false" layoutX="446.0" layoutY="465.0" prefHeight="40.0" prefWidth="300.0" promptText="Serial No / Asset Tag" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                        <Button fx:id="randomSerialNo_btn" layoutX="757.0" layoutY="200.0" mnemonicParsing="false" onAction="#setSerialNumber" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="REFRESH" size="30" />
+                           </graphic>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Generates 8 Character SerialNumber" />
+                           </tooltip>
+                        </Button>
+                        <Button fx:id="addPhoto_btn" layoutX="754.0" layoutY="464.0" mnemonicParsing="false" onAction="#setPhotoPath" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="PHOTO" size="30" />
+                           </graphic>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Generates 8 Character SerialNumber" />
+                           </tooltip>
+                        </Button>
+                        <Label layoutX="66.0" layoutY="584.0" text="Asset Condition" />
+                        <ChoiceBox fx:id="assetCondition_CB" layoutX="65.0" layoutY="613.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="442.0" layoutY="584.0" text="Asset Status" />
+                        <ChoiceBox fx:id="assetStatus_CB" layoutX="441.0" layoutY="613.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="66.0" layoutY="748.0" text="Purchase Date" />
+                        <DatePicker fx:id="purchaseDate_DP" layoutX="65.0" layoutY="776.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="443.0" layoutY="748.0" text="Estimated EoL Date" />
+                        <DatePicker fx:id="estimatedEOL_DP" layoutX="442.0" layoutY="776.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="443.0" layoutY="860.0" text="Warranty End Date" />
+                        <DatePicker fx:id="warrantyEnd_DP" layoutX="442.0" layoutY="888.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="66.0" layoutY="859.0" text="Warranty Start Date" />
+                        <DatePicker fx:id="warrantyStart_DP" layoutX="65.0" layoutY="887.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="445.0" layoutY="257.0" text="Category" />
+                        <ChoiceBox fx:id="category_CB" layoutX="444.0" layoutY="286.0" prefHeight="39.0" prefWidth="300.0" />
+                        <Label layoutX="66.0" layoutY="257.0" text="Manufacturer" />
+                        <ChoiceBox fx:id="manufacturer_CB" layoutX="65.0" layoutY="286.0" prefHeight="39.0" prefWidth="300.0" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="shadow" />
+                        <String fx:value="editInformationContainer" />
+                     </styleClass>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <HBox fillHeight="false" layoutX="842.0" layoutY="15.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+         <children>
+            <AnchorPane prefHeight="48.0" prefWidth="46.0">
+               <children>
+                  <Button fx:id="resetFormBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#resetForm" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="REFRESH" size="35" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="5.0" prefWidth="0.0">
+               <children>
+                  <Button fx:id="exitWindowBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

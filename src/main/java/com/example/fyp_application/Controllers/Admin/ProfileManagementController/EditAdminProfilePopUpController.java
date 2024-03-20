@@ -151,6 +151,12 @@ public class EditAdminProfilePopUpController implements Initializable {
     }
 
     @FXML
+    private void refreshInformation(){
+        //Todo reload the information from the database
+    }
+
+
+    @FXML
     private boolean isValidFields(){
         return firstName_TF.getText().isEmpty()
                 || lastName_TF.getText().isEmpty()

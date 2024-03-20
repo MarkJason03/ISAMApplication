@@ -27,7 +27,7 @@
          <children>
             <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Assets/17636963371641122584-128.png" />
+                  <Image url="@../../../Assets/app_icon.png" />
                </image>
             </ImageView>
             <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">
@@ -75,7 +75,7 @@
             <Label fx:id="lastUpdateTime_lbl" layoutX="1333.0" layoutY="73.0" prefHeight="17.0" prefWidth="258.0" text="Last Updated:" />
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenuCopy" prefHeight="60.0" prefWidth="60.0">
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="" size="50" />
                      </graphic>

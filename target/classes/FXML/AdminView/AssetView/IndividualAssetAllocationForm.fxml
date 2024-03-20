@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="mainAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.AssetManagementControllers.AllocateAssetController">
+   <children>
+      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1600.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/app_icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="username_lbl" layoutX="1333.0" layoutY="38.0" prefHeight="24.0" prefWidth="227.0" text="User" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="40.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Circle fx:id="loggedUserImage" fill="DODGERBLUE" layoutX="1289.0" layoutY="57.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="5.0" />
+            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
+                     <children>
+                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
+                     <children>
+                        <Button fx:id="minimizeApp_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="minimizeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="MINUS" size="40" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
+                     <children>
+                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeMenu" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <Label fx:id="lastUpdateTime_lbl" layoutX="1333.0" layoutY="73.0" prefHeight="17.0" prefWidth="258.0" text="Last Updated:" />
+            <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
+               <children>
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <graphic>
+                        <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="40" />
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+         </children>
+         <styleClass>
+            <String fx:value="adminHeaderBar" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
+      <AnchorPane fx:id="mainContentAnchorPane" layoutX="-1.0" layoutY="94.0" prefHeight="830.0" prefWidth="1600.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="830.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1586.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" stroke="BLACK" strokeType="INSIDE" width="1586.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="4.0" />
+                        <VBox layoutX="1046.0" layoutY="36.0" spacing="10.0">
+                           <children>
+                              <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User Information">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox layoutX="32.0" layoutY="201.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                                       <children>
+                                          <TitledPane prefWidth="459.0" text="User Summary">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="457.0">
+                                                   <children>
+                                                      <GridPane layoutX="36.0" layoutY="6.0" prefHeight="228.0" prefWidth="412.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        </columnConstraints>
+                                                        <rowConstraints>
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                        </rowConstraints>
+                                                         <children>
+                                                            <Label text="First Name">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="firstName_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <Label text="Department" GridPane.rowIndex="2">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="department_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" GridPane.rowIndex="3">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <Label text="Last Name" GridPane.columnIndex="1">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="lastName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <Label text="Account Status" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="accountStatus_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <Label text="Email" GridPane.rowIndex="4">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label text="Work Phone" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                               <font>
+                                                                  <Font name="System Bold" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="email_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" GridPane.rowIndex="5">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <TextField fx:id="phone_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </TextField>
+                                                         </children>
+                                                      </GridPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="ID_CARD" size="30" />
+                                             </graphic>
+                                          </TitledPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="30.0" />
+                                       </padding>
+                                    </VBox>
+                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+                                    <HBox layoutX="31.0" layoutY="103.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
+                                       <children>
+                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Search User">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="searchBar_TF" prefHeight="40.0" prefWidth="276.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="31.0" layoutY="151.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
+                                       <children>
+                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Set User">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="userComboBox" prefHeight="40.0" prefWidth="275.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="shadow" />
+                                    <String fx:value="personalInformationContainer" />
+                                 </styleClass>
+                              </AnchorPane>
+                              <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Building Information">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox layoutX="32.0" layoutY="201.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                                       <children>
+                                          <TitledPane prefWidth="459.0" text="Building Information">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="457.0">
+                                                   <children>
+                                                      <Label layoutX="32.0" layoutY="35.0" prefHeight="27.0" prefWidth="141.0" text="Building Name">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="buildingName_TF" layoutX="31.0" layoutY="68.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </TextField>
+                                                      <Label layoutX="247.0" layoutY="35.0" prefHeight="27.0" prefWidth="124.0" text="Office Name">
+                                                         <font>
+                                                            <Font name="System Bold" size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="officeName_TF" layoutX="247.0" layoutY="68.0" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: transparent;">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </TextField>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="ID_CARD" size="30" />
+                                             </graphic>
+                                          </TitledPane>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="30.0" />
+                                       </padding>
+                                    </VBox>
+                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+                                    <HBox layoutX="31.0" layoutY="151.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
+                                       <children>
+                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Set Office">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="office_CB" prefHeight="40.0" prefWidth="275.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="32.0" layoutY="100.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
+                                       <children>
+                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Set Building">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="building_CB" prefHeight="40.0" prefWidth="275.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="shadow" />
+                                    <String fx:value="personalInformationContainer" />
+                                 </styleClass>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                        <AnchorPane layoutX="51.0" layoutY="36.0" pickOnBounds="false" prefHeight="1045.0" prefWidth="947.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <children>
+                              <Label layoutX="86.0" layoutY="167.0" text="Asset Name" AnchorPane.leftAnchor="86.0" />
+                              <Label layoutX="495.0" layoutY="167.0" text="Serial No" AnchorPane.leftAnchor="495.0" />
+                              <Label layoutX="496.0" layoutY="345.0" text="Ram Spec" AnchorPane.leftAnchor="496.0" />
+                              <TextField fx:id="assetName_TF" editable="false" layoutX="86.0" layoutY="194.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="561.0" />
+                              <TextField fx:id="serialNo_TF" editable="false" layoutX="495.0" layoutY="194.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="495.0" />
+                              <Pane layoutX="43.0" layoutY="99.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="99.0" />
+                              <Pane layoutX="44.0" layoutY="534.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="534.0" />
+                              <Label layoutX="44.0" layoutY="118.0" text="Hardware Information - View Only" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="118.0" />
+                              <Pane layoutX="43.0" layoutY="995.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
+                              <Label layoutX="44.0" layoutY="557.0" text="Loan Information" AnchorPane.leftAnchor="44.0" />
+                              <Label layoutX="42.0" layoutY="30.0" prefHeight="55.0" prefWidth="376.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Asset Details">
+                                 <font>
+                                    <Font name="System Bold" size="36.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="87.0" layoutY="345.0" text="Storage Spec" />
+                              <Label layoutX="91.0" layoutY="438.0" text="Asset Condition" />
+                              <Label layoutX="496.0" layoutY="438.0" text="Asset Status" />
+                              <Label layoutX="499.0" layoutY="257.0" text="Category" />
+                              <Label layoutX="87.0" layoutY="257.0" text="Manufacturer" />
+                              <Label layoutX="83.0" layoutY="632.0" text="Loan Condition" />
+                              <ChoiceBox fx:id="loanStatus_CB" layoutX="77.0" layoutY="661.0" prefHeight="39.0" prefWidth="300.0" />
+                              <Label layoutX="503.0" layoutY="632.0" text="Asset Status" />
+                              <ChoiceBox fx:id="returnAssetStatus_CB" layoutX="500.0" layoutY="661.0" prefHeight="39.0" prefWidth="300.0" />
+                              <DatePicker fx:id="loanStart_DP" layoutX="76.0" layoutY="766.0" prefHeight="39.0" prefWidth="300.0" />
+                              <TextArea fx:id="comment_TA" layoutX="54.0" layoutY="877.0" prefHeight="77.0" prefWidth="841.0" />
+                              <Label layoutX="54.0" layoutY="840.0" text="Additional Comment" />
+                              <Label layoutX="76.0" layoutY="737.0" text="Loan Start" />
+                              <DatePicker fx:id="loanDue_DP" layoutX="500.0" layoutY="766.0" prefHeight="39.0" prefWidth="300.0" />
+                              <Label layoutX="500.0" layoutY="737.0" text="Due Date" />
+                              <TextField fx:id="manufacturer_TF" editable="false" layoutX="87.0" layoutY="288.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <TextField fx:id="category_TF" editable="false" layoutX="496.0" layoutY="288.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <TextField fx:id="storageSpec_TF" editable="false" layoutX="87.0" layoutY="376.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <TextField fx:id="ramSpec_TF" editable="false" layoutX="496.0" layoutY="376.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <TextField fx:id="assetStatus_TF" editable="false" layoutX="498.0" layoutY="469.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <TextField fx:id="assetCondition_TF" editable="false" layoutX="91.0" layoutY="469.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <ProgressBar fx:id="progressIndicator_PB" layoutX="297.0" layoutY="46.0" prefHeight="28.0" prefWidth="470.0" progress="0.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <Button fx:id="submitForm_btn" disable="true" layoutX="782.0" layoutY="37.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="123.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="PASTE" size="30" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="editInformationContainer" />
+                           </styleClass>
+                        </AnchorPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" />
+                     </padding>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

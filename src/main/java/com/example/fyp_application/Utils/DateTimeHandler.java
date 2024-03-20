@@ -3,6 +3,8 @@ package com.example.fyp_application.Utils;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.scene.control.DatePicker;
 import javafx.util.Duration;
 
 import javafx.scene.control.Label;
@@ -87,5 +89,82 @@ public class DateTimeHandler {
         LocalDateTime twoWeeksDateTime = dateTime.plusDays(14);
 
         return twoWeeksDateTime.format(SQLITE_DATE_FORMAT);
+    }
+
+
+
+
+    public static void dateValidator(DatePicker datePicker){
+
+        Platform.runLater(() -> {
+            datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && newValue.isBefore(LocalDate.now())) {
+
+                    System.out.println("Date is before current date");
+
+                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                            "The date selected is before the current date. Please select a valid date.");
+
+                    datePicker.setValue(null);
+                    datePicker.setStyle("-fx-border-color: red");
+
+                } else{
+
+                    datePicker.setStyle("-fx-border-color: green");
+                    System.out.println("Date is valid" + newValue);
+
+                }
+            });
+        });
+    }
+
+
+    public static void endOfLifeValidator(DatePicker purchaseDate, DatePicker eolDate){
+
+        Platform.runLater(() -> {
+            eolDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && newValue.isBefore(purchaseDate.getValue())) {
+
+                    System.out.println("Date is before current date");
+
+                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                            "The date selected is before the current date. Please select a valid date.");
+
+                    eolDate.setValue(null);
+                    eolDate.setStyle("-fx-border-color: red");
+
+                } else{
+
+                    eolDate.setStyle("-fx-border-color: green");
+                    System.out.println("Date is valid" + newValue);
+
+                }
+            });
+        });
+    }
+
+
+    public static void warrantyEndDateValidator(DatePicker warrantyStartDate, DatePicker warrantyEndDate){
+
+        Platform.runLater(() -> {
+            warrantyEndDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null && newValue.isBefore(warrantyStartDate.getValue())) {
+
+                    System.out.println("Date is before current date");
+
+                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                            "The date selected is before the current date. Please select a valid date.");
+
+                    warrantyEndDate.setValue(null);
+                    warrantyEndDate.setStyle("-fx-border-color: red");
+
+                } else{
+
+                    warrantyEndDate.setStyle("-fx-border-color: green");
+                    System.out.println("Date is valid" + newValue);
+
+                }
+            });
+        });
     }
 }

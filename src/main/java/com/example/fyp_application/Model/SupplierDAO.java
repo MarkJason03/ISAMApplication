@@ -135,7 +135,7 @@ public class SupplierDAO {
     }
 
 
-    public void checkAndUpdateContractStatus() throws SQLException {
+    public static void checkAndUpdateContractStatus() {
 
         String sql = """
                 UPDATE tbl_Suppliers
@@ -147,8 +147,10 @@ public class SupplierDAO {
         try( Connection connection = DatabaseConnectionHandler.getConnection()) {
             assert connection != null;
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                System.out.println("\nChecking and updating contract status");
                 preparedStatement.executeUpdate();
                 DatabaseConnectionHandler.closeConnection(connection);
+                System.out.println("Contract status updated\n");
             }
         } catch (SQLException error) {
             error.printStackTrace();

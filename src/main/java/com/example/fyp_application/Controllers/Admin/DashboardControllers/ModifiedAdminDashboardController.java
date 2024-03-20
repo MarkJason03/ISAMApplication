@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -118,7 +119,7 @@ public class ModifiedAdminDashboardController implements Initializable {
     }
 
     @FXML
-    private void closeMenuCopy() {
+    private void closeMenu() {
         // Make the drawer visible
         closeMenu_btn.setVisible(false); // Hide the close menu button
         openMenu_btn.setVisible(true);
@@ -198,14 +199,18 @@ public class ModifiedAdminDashboardController implements Initializable {
         loadCurrentUser();
         Platform.runLater(this::setLastLoginTime);
 
+
+
         // Ensures that each thread is synchronized and would run step by step
         Thread accountUpdateThread = new Thread(() -> {
             synchronized (lock) {
                 UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeHandler.getSQLiteDate());
-                UserDAO.checkAndUpdateInactiveAccountStatus();
-                UserDAO.checkAndUpdateExpiredAccountStatus();
+/*                UserDAO.checkAndUpdateInactiveAccountStatus();
+                UserDAO.checkAndUpdateExpiredAccountStatus();*/
             }
     });
         accountUpdateThread.start();
     }
+
+
 }

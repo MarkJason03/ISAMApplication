@@ -17,6 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -57,6 +59,7 @@ public class LoginPageController implements Initializable {
     private final UserDAO USER_DAO = new UserDAO();
 
 
+    //private final Object lock = new Object();
     private double x= 0 ;
     private double y= 0;
 
@@ -86,22 +89,30 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void exitApplication() {
-
-        if (AlertNotificationHandler.showConfirmationAlert("Exit Confirmation","Are you sure you want to exit?")){
-            System.exit(0);
-        }
+        SharedButtonUtils.exitApplication(exit_btn,
+                AlertNotificationHandler.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
     }
 
 
-    public boolean isValidTextFields(){
+    @FXML
+    private boolean isValidTextFields(){
         // Check if username and password fields are empty
         return !username_TF.getText().isEmpty() && !password_PF.getText().isEmpty();
     }
 
-    public void loginFailed(){
+    @FXML
+    private void loginFailedWarning(){
         AlertNotificationHandler.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
         error_lbl.setText("");
     }
+
+    @FXML
+    private void expiredAccountWarning(){
+        AlertNotificationHandler.showInformationMessageAlert("Account Expired", "Your account has expired. Please contact the administrator to renew your account.");
+        username_TF.clear();
+        password_PF.clear();
+    }
+
 
     public void handleLogin() {
 
@@ -118,14 +129,12 @@ public class LoginPageController implements Initializable {
         contentAP.getChildren().add(progressBar);
         contentAP.getChildren().add(tempLabel);
 
-        Task<Boolean> task = new Task<>() {
+        Task<Boolean> loginValidationTask = new Task<>() {
             @Override
             protected Boolean call() throws Exception {
 
-
-
-                for (int counter = 0; counter < 10; counter++) {
-                    updateProgress(counter + 1, 10);
+                for (int stepCounter = 0; stepCounter < 10; stepCounter++) {
+                    updateProgress(stepCounter + 1, 10);
                     Thread.sleep(100); // Simulate some work being done
 
                     login_btn.setDisable(true);
@@ -153,34 +162,42 @@ public class LoginPageController implements Initializable {
             }
         };
 
-        progressBar.progressProperty().bind(task.progressProperty());
-        task.messageProperty().addListener((obs, oldMessage, newMessage) -> {
-            // Update UI with the task's current message, e.g., updating a status label
-            // statusLabel.setText(newMessage); // Assuming you have a status label
-        });
+        progressBar.progressProperty().bind(loginValidationTask.progressProperty());
 
-        task.setOnSucceeded(e -> {
-            boolean result = task.getValue();
+        loginValidationTask.setOnSucceeded(e -> {
+            // Get the result of the task
+            boolean isValidLogin = loginValidationTask.getValue();
+
+            // Enable the login button and exit button - releasing the lock
             login_btn.setDisable(false);
             exit_btn.setDisable(false);
+
+            // Remove the progress bar from the UI
             contentAP.getChildren().remove(progressBar); // Remove the progress bar from UI
             contentAP.getChildren().remove(tempLabel);
-            if (!result) {
-                loginFailed();
+
+            // If the login is not valid, show an error message
+            if(!isValidLogin) {
+                expiredAccountWarning();
             }
         });
 
-        task.setOnFailed(e -> {
+        loginValidationTask.setOnFailed(e -> {
+            // Enable the login button and exit button - releasing the lock
             login_btn.setDisable(false);
             exit_btn.setDisable(false);
+
+            // Remove the progress bar from the UI
             contentAP.getChildren().remove(progressBar); // Ensure progress bar is removed
             contentAP.getChildren().remove(tempLabel);
+
+            // Print the exception stack trace
             e.getSource().getException().printStackTrace();
-            loginFailed();
+            expiredAccountWarning();
         });
 
         // No need to manually start a thread; JavaFX does this when executing the task
-        new Thread(task).start();
+        new Thread(loginValidationTask).start();
     }
 
     private void handleSuccessfulLogin(UserModel userDetails) throws IOException {
@@ -239,7 +256,7 @@ public class LoginPageController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
-
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(ViewConstants.APP_ICON)));
 
     }
 
@@ -274,7 +291,7 @@ public class LoginPageController implements Initializable {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
-
+        stage.getIcons().add(new Image(getClass().getResourceAsStream(ViewConstants.APP_ICON)));
 
 
     }
@@ -306,5 +323,23 @@ public class LoginPageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //check if the database is connected
         checkDatabaseConnection();
+
+
+        contentAP.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                loginButtonAction();
+            }
+        });
+
+
+/*        Thread accountUpdateThread = new Thread(() -> {
+            synchronized (lock) {
+                UserDAO.checkAndUpdateInactiveAccountStatus();
+                UserDAO.checkAndUpdateExpiredAccountStatus();
+            }
+        });
+        accountUpdateThread.start();
+    }*/
     }
 }
+

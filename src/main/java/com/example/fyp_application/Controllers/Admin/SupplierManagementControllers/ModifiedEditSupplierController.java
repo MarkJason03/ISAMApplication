@@ -111,6 +111,11 @@ public class ModifiedEditSupplierController implements Initializable {
 
     }
 
+    @FXML
+    private void refreshInformation(){
+        //Todo reload the information from the database
+    }
+
     private boolean checkForm(){
         return isValidDate() && !isEmptyFields();
     }

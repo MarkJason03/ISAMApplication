@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
 
@@ -114,4 +115,26 @@ public class AttachmentHandler {
         });
     }
 
+
+    public static String addIndividualAttachment() {
+        String relativePath = null;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            String filePath = selectedFile.getAbsolutePath().replace("\\", "/");
+            String keyPath = "/CataloguePhotos";
+            int index = filePath.indexOf(keyPath);
+            if (index >= 0) {
+                relativePath = filePath.substring(index);
+                System.out.println("Relative Path: " + relativePath);
+            } else {
+                AlertNotificationHandler.showInformationMessageAlert("Invalid Path", "The selected file is not in the expected directory");
+            }
+        } else {
+            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+        }
+        return relativePath;
+    }
 }

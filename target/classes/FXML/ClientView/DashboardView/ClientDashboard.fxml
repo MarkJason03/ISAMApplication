@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Assets/17636963371641122584-128.png" />
+                  <Image url="@../../../Assets/app_icon.png" />
                </image>
             </ImageView>
             <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">

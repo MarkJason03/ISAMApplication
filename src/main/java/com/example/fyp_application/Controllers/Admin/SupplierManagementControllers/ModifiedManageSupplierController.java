@@ -4,9 +4,9 @@ import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.TableSearchHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -151,7 +151,7 @@ public class ModifiedManageSupplierController implements Initializable {
 
     @FXML
     private void searchSupplierDetails(){
-        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
+/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 supTableView.setItems(supplierListData); // Reset to show all data
                 return;
@@ -163,7 +163,10 @@ public class ModifiedManageSupplierController implements Initializable {
                 }
             }
             supTableView.setItems(filteredList);
-        });
+        });*/
+
+        TableSearchHandler.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
+                supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
     }
     private void tableListener(){
         supTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -223,7 +226,7 @@ public class ModifiedManageSupplierController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
 
-            Platform.runLater(this::runContractStatusUpdate);
+
             Platform.runLater(this::loadSupplierTableData);
 
 
@@ -279,7 +282,7 @@ public class ModifiedManageSupplierController implements Initializable {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
 
-                Platform.runLater(this::runContractStatusUpdate);
+
                 Platform.runLater(this::loadSupplierTableData);
 
 
@@ -314,17 +317,6 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
 
-    private void runContractStatusUpdate() {
-
-        try {
-            System.out.println("Running Contract Status Update");
-            supplierDAO.checkAndUpdateContractStatus();
-            System.out.println("Contract Status Updated");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
     @FXML
     private void countActiveSuppliers(){
 
@@ -344,8 +336,7 @@ public class ModifiedManageSupplierController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Platform.runLater(this::runContractStatusUpdate);
-        Platform.runLater(this::loadSupplierTableData);
+
 
 
         Platform.runLater(this::countActiveSuppliers);
@@ -353,6 +344,7 @@ public class ModifiedManageSupplierController implements Initializable {
 
         DateTimeHandler.dateTimeUpdates(dateTimeHolder);
 
+        loadSupplierTableData();
         refreshTimer();
         searchSupplierDetails();
         tableListener();

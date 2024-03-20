@@ -62,7 +62,9 @@ public class UserDAO {
 
 
     private boolean validateAccountStatus(String accountStatus) {
-        return accountStatus.equals("Active");
+        // Check if the account status is either "Active" or "Inactive"
+        // Inactive accounts are those that have not been logged in for 7 days
+        return accountStatus.equals("Active") || accountStatus.equals("Inactive");
     }
 
 

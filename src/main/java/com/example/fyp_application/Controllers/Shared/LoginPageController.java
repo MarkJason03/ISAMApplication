@@ -329,6 +329,10 @@ public class LoginPageController implements Initializable {
             if (event.getCode() == KeyCode.ENTER) {
                 loginButtonAction();
             }
+            if (event.getCode() == KeyCode.ESCAPE)
+            {
+                exitApplication();
+            }
         });
 
 

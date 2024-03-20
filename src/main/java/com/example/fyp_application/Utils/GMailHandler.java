@@ -146,6 +146,20 @@ public class GMailHandler {
     }
 
 
+    public static String generateAssetAllocationBody(Integer allocationID, String fullName, String assetName, String assetSerial, String loanType, String startDate, String dueDate) {
+        return "Hello " + fullName + "," + "\n\n\n"
+                + "An asset has been allocated to you . Please see the information below " + "\n\n\n"
+                + "Asset Name: " + assetName + "\n\n"
+                + "Asset Serial: " + assetSerial + "\n\n"
+                + "Loan Type: " + loanType + "\n\n"
+                + "Start Date: " + startDate + "\n\n"
+                + "Due Date: " + dueDate + "\n\n\n"
+                + "To follow up with this request, please contact 020 1234 5678 quoting this Allocation ID " + allocationID + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+
+    }
+
     public static void main(String[] args) throws Exception {
         //System.out.println("Sending email...");
         test();

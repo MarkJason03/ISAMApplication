@@ -11,6 +11,7 @@ public class AssetModel {
 
     private String serialNumber;
 
+    private int assetPrice;
     private String storageSpec;
     private String ramSpec;
 
@@ -47,6 +48,7 @@ public class AssetModel {
             int manufacturerID,
             String assetName,
             String serialNumber,
+            int assetPrice,
             String storageSpec,
             String ramSpec,
             String osSpec,
@@ -65,6 +67,7 @@ public class AssetModel {
         this.manufacturerID = manufacturerID;
         this.assetName = assetName;
         this.serialNumber = serialNumber;
+        this.assetPrice = assetPrice;
         this.storageSpec = storageSpec;
         this.ramSpec = ramSpec;
         this.osSpec = osSpec;
@@ -104,6 +107,9 @@ public class AssetModel {
         return serialNumber;
     }
 
+    public int getAssetPrice() {
+        return assetPrice;
+    }
     public String getRamSpec() {
         return ramSpec;
     }
@@ -174,6 +180,9 @@ public class AssetModel {
         this.serialNumber = serialNumber;
     }
 
+    public void setAssetPrice(int assetPrice) {
+        this.assetPrice = assetPrice;
+    }
     public void setStorageSpec(String storageSpec) {
         this.storageSpec = storageSpec;
     }

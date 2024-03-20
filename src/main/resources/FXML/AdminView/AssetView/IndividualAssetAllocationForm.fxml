@@ -337,7 +337,7 @@
                               <Label layoutX="83.0" layoutY="632.0" text="Loan Condition" />
                               <ChoiceBox fx:id="loanStatus_CB" layoutX="77.0" layoutY="661.0" prefHeight="39.0" prefWidth="300.0" />
                               <Label layoutX="503.0" layoutY="632.0" text="Asset Status" />
-                              <ChoiceBox fx:id="returnAssetStatus_CB" layoutX="500.0" layoutY="661.0" prefHeight="39.0" prefWidth="300.0" />
+                              <ChoiceBox fx:id="AssetStatus_CB" layoutX="500.0" layoutY="661.0" prefHeight="39.0" prefWidth="300.0" />
                               <DatePicker fx:id="loanStart_DP" layoutX="76.0" layoutY="766.0" prefHeight="39.0" prefWidth="300.0" />
                               <TextArea fx:id="comment_TA" layoutX="54.0" layoutY="877.0" prefHeight="77.0" prefWidth="841.0" />
                               <Label layoutX="54.0" layoutY="840.0" text="Additional Comment" />
@@ -351,7 +351,7 @@
                               <TextField fx:id="assetStatus_TF" editable="false" layoutX="498.0" layoutY="469.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="assetCondition_TF" editable="false" layoutX="91.0" layoutY="469.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <ProgressBar fx:id="progressIndicator_PB" layoutX="297.0" layoutY="46.0" prefHeight="28.0" prefWidth="470.0" progress="0.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
-                              <Button fx:id="submitForm_btn" disable="true" layoutX="782.0" layoutY="37.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="123.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
+                              <Button fx:id="submitForm_btn" layoutX="782.0" layoutY="37.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="123.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="PASTE" size="30" />
                                  </graphic>

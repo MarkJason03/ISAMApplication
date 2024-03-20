@@ -1,11 +1,14 @@
 package com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
 
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.GMailHandler;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,8 +17,8 @@ import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AllocateAssetController implements Initializable {
@@ -111,7 +114,7 @@ public class AllocateAssetController implements Initializable {
     private ChoiceBox<String> returnAssetCondition_CB;
 
     @FXML
-    private ChoiceBox<String> returnAssetStatus_CB;
+    private ChoiceBox<String> AssetStatus_CB;
 
     @FXML
     private TextField accountStatus_TF;
@@ -143,6 +146,156 @@ public class AllocateAssetController implements Initializable {
 
 
     private ObservableList<UserModel> allUsers = FXCollections.observableArrayList();
+
+/*
+    @FXML
+    private void insertAssetAllocation() {
+
+
+
+        UserModel selectedUser = userComboBox.getSelectionModel().getSelectedItem();
+        BuildingOfficesModel selectedOffice = office_CB.getSelectionModel().getSelectedItem();
+        BuildingModel selectedBuilding = building_CB.getSelectionModel().getSelectedItem();
+
+        AssetAllocationModel newAllocation = new AssetAllocationModel();
+        newAllocation.setAssetID(assetID);
+        newAllocation.setUserID(selectedUser.getUserID());
+        newAllocation.setOfficeID(selectedOffice.getOfficeID());
+        newAllocation.setBuildingID(selectedBuilding.getBuildingID());
+        newAllocation.setLoanType(loanStatus_CB.getValue());
+        newAllocation.setStartDate(loanStart_DP.getValue().toString());
+        newAllocation.setDueDate(loanDue_DP.getValue().toString());
+        newAllocation.setEndDate(loanReturn_DP.getValue().toString());
+        newAllocation.setAllocationStatus("Active");
+        newAllocation.setAssetConditionBefore(assetCondition_TF.getText());
+        newAllocation.setAssetConditionAfter(returnAssetCondition_CB.getValue());
+        newAllocation.setAdditionalComments(comment_TA.getText());
+
+        AssetAllocationDAO.insertAssetAllocation(newAllocation);
+
+    }*/
+
+/*
+
+    @FXML
+    private void handleTicketUpdate() {
+
+        Task<Void> updateTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitTicketDetailChanges();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                submitResponseAsync(); // Call the next step when succeeded
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+            }
+        };
+
+        new Thread(updateTask).start();
+    }
+
+    private void submitResponseAsync() {
+        Task<Void> responseTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitResponse(); // This method now just contains the DB operation, no FX handling
+                sendUpdateEmail();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                submitAttachmentsAsync(); // Proceed to attachments after response
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+            }
+        };
+
+        new Thread(responseTask).start();
+    }
+
+    private void submitAttachmentsAsync() {
+        Task<Void> attachmentTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                submitAttachment();
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                // Close the window or do other UI stuff as needed
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                // Handle failure
+            }
+        };
+
+        new Thread(attachmentTask).start();
+    }
+
+    @FXML
+    private void submitTicketDetailChanges(){
+        TicketDAO.updateTicketDetails(ticketID,
+                ticketCategory_CB.getValue().getCategoryID(),
+                ticketStatus_CB.getValue(),
+                ticketPriority_CB.getValue(),
+                targetResolution_lbl.getText()
+        );
+    }
+
+    @FXML
+    private void submitResponse() throws SQLException {
+        MessageHistoryDAO.recordMessage(ticketID,
+                responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
+                DateTimeHandler.getCurrentDateTime());
+    }
+
+
+
+    @FXML
+    private void submitAttachment(){
+
+        if (attachmentListView != null){
+            for (String filePath : filePaths) {
+                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeHandler.getSQLiteDate());
+            }
+        }
+    }
+
+
+    @FXML
+    private void sendUpdateEmail() {
+        GMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+                "Call In Progress: SD" +  ticketID,
+                GMailHandler.generateResponseEmailBody(ticketID,
+                        ticketInfolist.get(0).getUserFullName(),
+                        ticketInfolist.get(0).getTicketTitle(),
+                        responseDetails.getText()
+                )
+        );
+    }
+
+
+    */
+
+
 
     @FXML
     private void closeMenu() {
@@ -242,8 +395,8 @@ public class AllocateAssetController implements Initializable {
         loanStatus_CB.getItems().addAll("In Use", "Extended");*/
 
 
-        returnAssetStatus_CB.setValue("In Use");
-        loanStatus_CB.setValue("In Use");
+        AssetStatus_CB.setValue("In Use");
+        loanStatus_CB.setItems(FXCollections.observableArrayList("Loan", "Staff Issue"));
     }
 
 
@@ -274,6 +427,10 @@ public class AllocateAssetController implements Initializable {
             double progress = filledCount / 5.0; // Assuming 2 combo boxes
             progressIndicator_PB.setProgress(progress);
             System.out.println(progress);
+
+/*
+            //ensuring dynamic lock if the form is not complete
+            submitForm_btn.setDisable(progress == 1.0);*/
         };
 
         loanStart_DP.valueProperty().addListener(progressBarListener);
@@ -293,10 +450,12 @@ public class AllocateAssetController implements Initializable {
         setUserComboBox();
         userInformationListener();
 
+
+        DateTimeHandler.dateValidator(loanStart_DP);
+        DateTimeHandler.dateValidator(loanDue_DP);
+
         Platform.runLater(this::setupLocationListener);
         Platform.runLater(this::setupProgressBarListener);
 
-        double progress = progressIndicator_PB.getProgress();
-        submitForm_btn.setDisable(!(progress > 0.99) && progress <= 1.0);
     }
 }

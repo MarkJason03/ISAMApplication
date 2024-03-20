@@ -39,6 +39,7 @@ public class AssetDAO {
                         resultSet.getInt("ManufacturerID"),
                         resultSet.getString("AssetName"),
                         resultSet.getString("SerialNo"),
+                        resultSet.getInt("AssetPrice"),
                         resultSet.getString("StorageSpec"),
                         resultSet.getString("RamSpec"),
                         resultSet.getString("OperatingSystem"),
@@ -86,6 +87,7 @@ public class AssetDAO {
                             resultSet.getInt("ManufacturerID"),
                             resultSet.getString("AssetName"),
                             resultSet.getString("SerialNo"),
+                            resultSet.getInt("AssetPrice"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
                             resultSet.getString("OperatingSystem"),
@@ -114,6 +116,7 @@ public class AssetDAO {
                                           int manufacturerID,
                                           String assetName,
                                           String serialNo,
+                                          int assetPrice,
                                           String storageSpec,
                                           String ramSpec,
                                           String operatingSystem,
@@ -132,6 +135,7 @@ public class AssetDAO {
                     ManufacturerID = ?,
                     AssetName = ?,
                     SerialNo = ?,
+                    AssetPrice = ?,
                     StorageSpec = ?,
                     RamSpec = ?,
                     OperatingSystem = ?,
@@ -152,17 +156,18 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setString(5, storageSpec);
-                preparedStatement.setString(6, ramSpec);
-                preparedStatement.setString(7, operatingSystem);
-                preparedStatement.setString(8, purchaseDate);
-                preparedStatement.setString(9, eolDate);
-                preparedStatement.setString(10, warrantyStartDate);
-                preparedStatement.setString(11, warrantyEndDate);
-                preparedStatement.setString(12, assetCondition);
-                preparedStatement.setString(13, assetStatus);
-                preparedStatement.setString(14, photoPath);
-                preparedStatement.setInt(15, assetID);
+                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setString(6, storageSpec);
+                preparedStatement.setString(7, ramSpec);
+                preparedStatement.setString(8, operatingSystem);
+                preparedStatement.setString(9, purchaseDate);
+                preparedStatement.setString(10, eolDate);
+                preparedStatement.setString(11, warrantyStartDate);
+                preparedStatement.setString(12, warrantyEndDate);
+                preparedStatement.setString(13, assetCondition);
+                preparedStatement.setString(14, assetStatus);
+                preparedStatement.setString(15, photoPath);
+                preparedStatement.setInt(16, assetID);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException error) {
@@ -176,6 +181,7 @@ public class AssetDAO {
             int manufacturerID,
             String assetName,
             String serialNo,
+            int assetPrice,
             String storageSpec,
             String ramSpec,
             String operatingSystem,
@@ -194,6 +200,7 @@ public class AssetDAO {
                 ManufacturerID,
                 AssetName,
                 SerialNo,
+                AssetPrice,
                 StorageSpec,
                 RamSpec,
                 OperatingSystem,
@@ -203,7 +210,7 @@ public class AssetDAO {
                 WarrantyEndDate,
                 AssetCondition,
                 AssetStatus,
-                PhotoPath) Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+                PhotoPath) Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
                 """;
 
         try (Connection connection = DatabaseConnectionHandler.getConnection()) {
@@ -213,16 +220,17 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setString(5, storageSpec);
-                preparedStatement.setString(6, ramSpec);
-                preparedStatement.setString(7, operatingSystem);
-                preparedStatement.setString(8, purchaseDate);
-                preparedStatement.setString(9, eolDate);
-                preparedStatement.setString(10, warrantyStartDate);
-                preparedStatement.setString(11, warrantyEndDate);
-                preparedStatement.setString(12, assetCondition);
-                preparedStatement.setString(13, assetStatus);
-                preparedStatement.setString(14, photoPath);
+                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setString(6, storageSpec);
+                preparedStatement.setString(7, ramSpec);
+                preparedStatement.setString(8, operatingSystem);
+                preparedStatement.setString(9, purchaseDate);
+                preparedStatement.setString(10, eolDate);
+                preparedStatement.setString(11, warrantyStartDate);
+                preparedStatement.setString(12, warrantyEndDate);
+                preparedStatement.setString(13, assetCondition);
+                preparedStatement.setString(14, assetStatus);
+                preparedStatement.setString(15, photoPath);
 
                 System.out.println("Executing update statement \n");
                 preparedStatement.executeUpdate();

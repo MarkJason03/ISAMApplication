@@ -77,6 +77,9 @@ public class EditAssetController implements Initializable {
     private DatePicker warrantyStart_DP;
 
     @FXML
+    private TextField assetPrice_TF;
+
+    @FXML
     private ChoiceBox<AssetManufacturerModel> manufacturer_CB;
 
     @FXML
@@ -94,7 +97,7 @@ public class EditAssetController implements Initializable {
         //Asset information
         assetName_TF.setText(selectedItem.getAssetName());
         serialNo_TF.setText(selectedItem.getSerialNumber());
-
+        assetPrice_TF.setText(String.valueOf(selectedItem.getAssetPrice()));
 
         for (AssetCategoryModel assetCategoryModel : category_CB.getItems()) {
             if (assetCategoryModel.getAssetCategoryID() == selectedItem.getAssetCategoryID()) {
@@ -142,6 +145,7 @@ public class EditAssetController implements Initializable {
                     manufacturer_CB.getValue().getManufacturerID(),
                     assetName_TF.getText(),
                     serialNo_TF.getText(),
+                    Integer.parseInt(assetPrice_TF.getText()),
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),
@@ -160,22 +164,23 @@ public class EditAssetController implements Initializable {
 
 
     @FXML
+
     private boolean isFormValid() {
-
-        return  assetName_TF.getText().isEmpty() ||
-                serialNo_TF.getText().isEmpty() ||
-                osSpec_CB.getValue().isEmpty() ||
-                ramSpec_CB.getValue().isEmpty() ||
-                storageSpec_CB.getValue().isEmpty() ||
-                photoPath_TF.getText().isEmpty() ||
-                assetCondition_CB.getValue().isEmpty() ||
-                assetStatus_CB.getValue().isEmpty() ||
-                purchaseDate_DP.getValue() == null ||
-                estimatedEOL_DP.getValue() == null ||
-                warrantyStart_DP.getValue() == null ||
-                warrantyEnd_DP.getValue() == null;
-
+        // check if all fields are filled
+        return !assetName_TF.getText().isEmpty() &&
+                !serialNo_TF.getText().isEmpty() &&
+                osSpec_CB.getValue() != null && !osSpec_CB.getValue().isEmpty() &&
+                ramSpec_CB.getValue() != null && !ramSpec_CB.getValue().isEmpty() &&
+                storageSpec_CB.getValue() != null && !storageSpec_CB.getValue().isEmpty() &&
+                !photoPath_TF.getText().isEmpty() &&
+                assetCondition_CB.getValue() != null && !assetCondition_CB.getValue().isEmpty() &&
+                assetStatus_CB.getValue() != null && !assetStatus_CB.getValue().isEmpty() &&
+                purchaseDate_DP.getValue() != null &&
+                estimatedEOL_DP.getValue() != null &&
+                warrantyStart_DP.getValue() != null &&
+                warrantyEnd_DP.getValue() != null;
     }
+
 
 
     @FXML
@@ -193,6 +198,7 @@ public class EditAssetController implements Initializable {
             //Asset information
             assetName_TF.setText(assetDetails.get(0).getAssetName());
             serialNo_TF.setText(assetDetails.get(0).getSerialNumber());
+            assetPrice_TF.setText(String.valueOf(assetDetails.get(0).getAssetPrice()));
             osSpec_CB.setValue(assetDetails.get(0).getOsSpec());
             ramSpec_CB.setValue(assetDetails.get(0).getRamSpec());
             storageSpec_CB.setValue(assetDetails.get(0).getStorageSpec());
@@ -229,6 +235,7 @@ public class EditAssetController implements Initializable {
         category_CB.getItems().addAll(assetCategoryList);
         List<AssetManufacturerModel> assetManufacturerList = AssetManufacturerDAO.getAllAssetManufacturers();
         manufacturer_CB.getItems().addAll(assetManufacturerList);
+
 
         assetCondition_CB.getItems().addAll("Excellent", "Good", "Fair", "Poor");
         assetStatus_CB.getItems().addAll("Available", "In Use", "In Repair", "Retired", "Disposed");

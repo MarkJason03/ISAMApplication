@@ -46,6 +46,10 @@ public class AddAssetController implements Initializable {
     private DatePicker estimatedEOL_DP;
 
     @FXML
+    private TextField assetPrice_TF;
+
+
+    @FXML
     private Button exitWindowBtn;
 
     @FXML
@@ -94,6 +98,7 @@ public class AddAssetController implements Initializable {
                     manufacturer_CB.getValue().getManufacturerID(),
                     assetName_TF.getText(),
                     serialNo_TF.getText(),
+                    Integer.parseInt(assetPrice_TF.getText()),
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),
@@ -115,6 +120,7 @@ public class AddAssetController implements Initializable {
     private void resetForm() {
         assetName_TF.clear();
         serialNo_TF.clear();
+        assetPrice_TF.clear();
         purchaseDate_DP.getEditor().clear();
         warrantyStart_DP.getEditor().clear();
         warrantyEnd_DP.getEditor().clear();
@@ -174,21 +180,30 @@ public class AddAssetController implements Initializable {
         osSpec_CB.setValue("N/A");
         storageSpec_CB.setValue("N/A");
         ramSpec_CB.setValue("N/A");
+
+        PropertyListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        List<AssetCategoryModel> assetCategoryList = AssetCategoryDAO.getAllAssetCategories();
-        category_CB.getItems().addAll(assetCategoryList);
-        List<AssetManufacturerModel> assetManufacturerList = AssetManufacturerDAO.getAllAssetManufacturers();
-        manufacturer_CB.getItems().addAll(assetManufacturerList);
-
+    @FXML
+    private void initializeComboBoxes(){
         assetStatus_CB.getItems().addAll("Available","In Use", "In Repair", "Retired", "Disposed");
         assetCondition_CB.getItems().addAll("Excellent", "Good", "Fair", "Poor");
         osSpec_CB.getItems().addAll("N/A","Windows", "iOS", "MacOS", "Android", "Linux");
         ramSpec_CB.getItems().addAll("N/A","8GB", "16GB", "32GB", "64GB");
         storageSpec_CB.getItems().addAll("N/A","128GB", "256GB", "512GB", "1TB", "2TB");
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //initialize queried combo boxes
+        List<AssetCategoryModel> assetCategoryList = AssetCategoryDAO.getAllAssetCategories();
+        category_CB.getItems().addAll(assetCategoryList);
+        List<AssetManufacturerModel> assetManufacturerList = AssetManufacturerDAO.getAllAssetManufacturers();
+        manufacturer_CB.getItems().addAll(assetManufacturerList);
+
+        initializeComboBoxes();
+
 
         DateTimeHandler.dateValidator(purchaseDate_DP);
         DateTimeHandler.dateValidator(warrantyStart_DP);

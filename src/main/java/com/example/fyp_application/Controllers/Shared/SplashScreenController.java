@@ -43,7 +43,7 @@ public class SplashScreenController {
 
         // Check if the database is connected
         if (DatabaseConnectionHandler.isDbConnected(Objects.requireNonNull(DatabaseConnectionHandler.getConnection()))){
-            dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
+            dbStatusCheck_lbl.setText("Updating Back-end");
         } else {
             // If the database is not connected, display an error message and exit the application
             System.out.println("Database Connection Failed");
@@ -55,8 +55,9 @@ public class SplashScreenController {
     public void startDatabaseUpdates() {
         Thread accountUpdateThread = new Thread(() -> {
             synchronized (lock) {
-                // Here you would split your database tasks into discrete steps
-                // For illustration, assume these methods can be split or report progress
+
+
+
                 // Updating for inactive accounts
                 updateDatabaseStep(UserDAO::checkAndUpdateInactiveAccountStatus, 0.5);
 

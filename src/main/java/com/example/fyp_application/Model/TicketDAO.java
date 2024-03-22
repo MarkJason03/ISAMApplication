@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +15,7 @@ public class TicketDAO {
         String sql = "INSERT INTO ticket (userID, categoryID, ticketTitle, ticketDescription, dateCreated) VALUES (?, ?, ?, ?, ?)";
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, userID);
@@ -38,7 +38,7 @@ public class TicketDAO {
         // Initialize ticketID with a value indicating that no ID has been created.
         int ticketID = -1;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             // Update the statement to return the generated keys.
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -49,6 +49,7 @@ public class TicketDAO {
                 preparedStatement.setString(5,ticketPriority);
                 preparedStatement.setInt(6,categoryID);
                 preparedStatement.setString(7, dateCreated);
+
                 preparedStatement.executeUpdate();
 
                 // Retrieve the generated ticket ID.
@@ -77,27 +78,30 @@ public class TicketDAO {
         TicketModel ticketModel;
 
         String sql = """
-                SELECT\s
-                    request.TicketID,
-                    user.FirstName || ' ' || user.LastName AS User,
-                    request.Title,
-                    request.Status,
-                    request.Priority,
+                SELECT
+                	request.TicketID,
+                	user.FirstName || ' ' || user.LastName AS User,
+                	agent.FirstName || ' ' || agent.LastName As Agent,
+                	request.Title,
+                	request.Status,
+                	request.Priority,
                 	reqcat.categoryName as Category,
-                    request.DateCreated,
+                	request.DateCreated,
                 	request.DateClosed
-                FROM\s
-                    tbl_tickets AS request
+                FROM
+                	tbl_tickets AS request
                 JOIN
-                	tbl_ticketCategory as reqcat on reqcat.ticketCategoryID = request.categoryID
-                JOIN\s
-                    tbl_Users AS user ON user.UserID = request.UserID;
+                	tbl_ticketCategory as reqcat on reqcat.ticketCategoryID = request.categoryID  
+                LEFT JOIN
+                	tbl_Users as agent on agent.UserID = request.AgentID -- Listing all tickets with or without an agent
+                JOIN
+                	tbl_Users AS user ON user.UserID = request.UserID;
                 """;
 
 
         TicketModel ticket;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -105,6 +109,7 @@ public class TicketDAO {
                     ticket = new TicketModel(
                             resultSet.getInt("TicketID"),
                             resultSet.getString("User"),
+                            resultSet.getString("Agent"),
                             resultSet.getString("Title"),
                             resultSet.getString("Status"),
                             resultSet.getString("Priority"),
@@ -139,12 +144,12 @@ public class TicketDAO {
                 JOIN
                     tbl_Users as user ON user.UserID = requests.UserID
                 LEFT JOIN
-                    tbl_Users as agent ON agent.UserID = requests.AgentID  -- Assuming the agents are also in tbl_Users
+                    tbl_Users as agent ON agent.UserID = requests.AgentID  
                 WHERE
                     requests.UserID = ?;
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, userID);
@@ -170,7 +175,7 @@ public class TicketDAO {
     }
 
 /*
-    public void loadTicketInformation(int ticketID) {
+    public void displayTicketInformation(int ticketID) {
         String sql = """
                 SELECT\s
                     request.TicketID,
@@ -201,7 +206,7 @@ public class TicketDAO {
                 Where request.TicketID = ?;
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, ticketID);
@@ -230,7 +235,7 @@ public class TicketDAO {
     }*/
 
 
-    public ObservableList<TicketModel>getTicketDetails(int ticketID){
+    public ObservableList<TicketModel> getFullTicketDetails(int ticketID){
         ObservableList<TicketModel> ticketDetails = FXCollections.observableArrayList();
         String sql = """
                     SELECT
@@ -263,7 +268,7 @@ public class TicketDAO {
                     Where request.TicketID = ?;
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, ticketID);
@@ -317,7 +322,7 @@ public class TicketDAO {
                 Where TicketID = ?;
                  """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, ticketID);
@@ -353,7 +358,7 @@ public class TicketDAO {
         // todo update these to quick close a ticket then update put message history too
 
         String sql = "UPDATE tbl_tickets set  categoryID=?, Status=?, Priority = ? , TargetResolution = ? , DateClosed = ? where TicketID = ?";
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1,categoryID);
@@ -371,11 +376,11 @@ public class TicketDAO {
 
 
 
-    public static void updateTicketDetails(int ticketID, int categoryID, String status, String priority, String targetResDate ){
+    public static void updateTicketDetailsByAdmin(int ticketID, int categoryID, String status, String priority, String targetResDate ){
         // todo update these to quick close a ticket then update put message history too
 
         String sql = "UPDATE tbl_tickets set  categoryID=?, Status=?, Priority = ? , TargetResolution = ? where TicketID = ?";
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1,categoryID);
@@ -391,11 +396,36 @@ public class TicketDAO {
     }
 
 
+    public static void updateTicketClosingDetailsByAdmin(
+            int ticketID,
+            int categoryID,
+            String status,
+            String priority,
+            String dateClosed
+    ){
+        String sql = "UPDATE tbl_tickets set categoryID = ?, Status = ?, Priority = ?, DateClosed =? where TicketID = ?";
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, categoryID);
+                preparedStatement.setString(2, status);
+                preparedStatement.setString(3, priority);
+                preparedStatement.setString(4, dateClosed);
+                preparedStatement.setInt(5, ticketID);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-    public static void updateTicketStatus(int ticketID, String status){
+    }
+
+
+
+    public static void updateTicketStatusByUser(int ticketID, String status){
         String sql = "UPDATE tbl_tickets set Status = ? where TicketID = ?";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()){
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
             assert connection != null;
             try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)){
                 preparedStatement.setString(1,status);
@@ -407,10 +437,10 @@ public class TicketDAO {
         }
     }
 
-    public static void assignTicketToCurrentLoggedAgent(int ticketID, int agentID){
+    public static void assignTicketToAgent(int ticketID, int agentID){
         String sql = "UPDATE tbl_tickets set AgentID = ? where TicketID = ?";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()){
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
             assert connection != null;
             try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)){
                 preparedStatement.setInt(1,agentID);
@@ -421,4 +451,35 @@ public class TicketDAO {
             e.printStackTrace();
         }
     }
+
+    public static void  recategorizeTicketDetails(
+            int userID,
+            int agentID,
+            int categoryID,
+            String title,
+            String status,
+            String priority,
+            int ticketID
+    ){
+        // todo update these to quick close a ticket then update put message history too
+
+        String sql = "UPDATE tbl_tickets set UserID=?, AgentID=?, CategoryID=?, Title=?, Status=?, Priority=? Where TicketID = ?";
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1,userID);
+                preparedStatement.setInt(2,agentID);
+                preparedStatement.setInt(3,categoryID);
+                preparedStatement.setString(4,title);
+                preparedStatement.setString(5,status);
+                preparedStatement.setString(6, priority);
+                preparedStatement.setInt(7,ticketID);
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

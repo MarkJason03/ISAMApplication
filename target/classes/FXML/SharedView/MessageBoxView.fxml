@@ -29,7 +29,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="ticketTitle" disable="true" editable="false" prefHeight="40.0" prefWidth="790.0" style="-fx-opacity: 1; -fx-background-color: transparent;" text="test">
+                  <TextField fx:id="ticketTitle" disable="true" editable="false" prefHeight="40.0" prefWidth="790.0" promptText="Placeholder" style="-fx-opacity: 1; -fx-background-color: transparent;">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -70,7 +70,7 @@
             </AnchorPane>
          </children>
       </HBox>
-      <Label fx:id="messageTimestamp_lbl" layoutX="582.0" layoutY="38.0" prefHeight="35.0" prefWidth="239.0" style="-fx-font-size: 24;" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="Response Message">
+      <Label fx:id="messageTimestamp_lbl" layoutX="567.0" layoutY="38.0" prefHeight="35.0" prefWidth="435.0" style="-fx-font-size: 16;" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" text="time placeholder">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

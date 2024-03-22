@@ -52,15 +52,15 @@
                         </Label>
                         <HBox layoutX="519.0" layoutY="55.0" prefHeight="17.0" prefWidth="311.0" spacing="20.0">
                            <children>
-                              <Button fx:id="createAsset_btn" mnemonicParsing="false" onAction="#updateAssetDetails" prefHeight="42.0" prefWidth="183.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save Changes">
+                              <Button fx:id="createAsset_btn" mnemonicParsing="false" onAction="#addAsset" prefHeight="42.0" prefWidth="183.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Add Asset">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="SAVE" size="30" />
+                                    <FontAwesomeIconView glyphName="PASTE" size="30" />
                                  </graphic>
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#cancelUpdate" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
+                              <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="EDIT" size="30" />
                                  </graphic>
@@ -79,7 +79,7 @@
                         <ChoiceBox fx:id="osSpec_CB" layoutX="442.0" layoutY="467.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="70.0" layoutY="523.0" text="Photo Path" />
                         <TextField fx:id="photoPath_TF" layoutX="65.0" layoutY="554.0" prefHeight="40.0" prefWidth="677.0" promptText="Path" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
-                        <Button fx:id="randomSerialNo_btn" layoutX="757.0" layoutY="200.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                        <Button fx:id="randomSerialNo_btn" layoutX="757.0" layoutY="200.0" mnemonicParsing="false" onAction="#setSerialNumber" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <graphic>
                               <FontAwesomeIconView glyphName="REFRESH" size="30" />
                            </graphic>
@@ -90,7 +90,7 @@
                               <Tooltip text="Generates 8 Character SerialNumber" />
                            </tooltip>
                         </Button>
-                        <Button fx:id="addPhoto_btn" layoutX="754.0" layoutY="553.0" mnemonicParsing="false" onAction="#updatePhotoPath" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                        <Button fx:id="addPhoto_btn" layoutX="754.0" layoutY="553.0" mnemonicParsing="false" onAction="#setPhotoPath" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <graphic>
                               <FontAwesomeIconView glyphName="PHOTO" size="30" />
                            </graphic>
@@ -98,7 +98,7 @@
                               <Font size="18.0" />
                            </font>
                            <tooltip>
-                              <Tooltip text="Generates 8 Character SerialNumber" />
+                              <Tooltip text="Opens file selector to choose photo path" />
                            </tooltip>
                         </Button>
                         <Label layoutX="68.0" layoutY="659.0" text="Asset Condition" />

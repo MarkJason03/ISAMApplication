@@ -6,11 +6,11 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-public class AlertNotificationHandler {
+public class AlertNotificationUtils {
 
     private static Alert alert;
 
-    private AlertNotificationHandler(){
+    private AlertNotificationUtils(){
 
     }
 

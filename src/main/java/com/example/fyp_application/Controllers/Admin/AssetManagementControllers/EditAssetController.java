@@ -1,11 +1,10 @@
 package com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.AttachmentUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -137,7 +136,7 @@ public class EditAssetController implements Initializable {
     private void updateAssetDetails() {
 
         if(isFormValid()) {
-            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         } else {
             AssetDAO.updateAssetDetails(
                     assetID,
@@ -149,15 +148,15 @@ public class EditAssetController implements Initializable {
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),
-                    DateTimeHandler.setSQLiteDateFormat(purchaseDate_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(estimatedEOL_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(warrantyStart_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(warrantyEnd_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(purchaseDate_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(estimatedEOL_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(warrantyStart_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(warrantyEnd_DP.getValue()),
                     assetCondition_CB.getValue(),
                     assetStatus_CB.getValue(),
                     photoPath_TF.getText()
             );
-            AlertNotificationHandler.showInformationMessageAlert("Update Completed", "Asset information updated successfully");
+            AlertNotificationUtils.showInformationMessageAlert("Update Completed", "Asset information updated successfully");
             cancel_btn.getScene().getWindow().hide();
         }
     }
@@ -185,8 +184,9 @@ public class EditAssetController implements Initializable {
 
     @FXML
     private void updatePhotoPath() {
-        //Todo update the photo path
-        photoPath_TF.setText(AttachmentHandler.addIndividualAttachment());
+
+        // Uploads the photo path
+        photoPath_TF.setText(AttachmentUtils.addIndividualAttachment());
     }
 
 
@@ -219,6 +219,10 @@ public class EditAssetController implements Initializable {
     }
 
 
+/*
+    @FXML
+    private static void ()
+*/
 
 
     @FXML
@@ -243,13 +247,15 @@ public class EditAssetController implements Initializable {
         ramSpec_CB.getItems().addAll("N/A", "8GB", "16GB", "32GB", "64GB");
         storageSpec_CB.getItems().addAll("N/A", "128GB", "256GB", "512GB", "1TB", "2TB");
 
-        DateTimeHandler.dateValidator(purchaseDate_DP);
-        DateTimeHandler.dateValidator(warrantyStart_DP);
-        DateTimeHandler.warrantyEndDateValidator(warrantyStart_DP, warrantyEnd_DP);
-        DateTimeHandler.endOfLifeValidator(purchaseDate_DP, estimatedEOL_DP);
 
+        //date validator to ensure that date entered are not past dates
+        DateTimeUtils.dateValidator(purchaseDate_DP);
+        DateTimeUtils.dateValidator(warrantyStart_DP);
+        DateTimeUtils.warrantyEndDateValidator(warrantyStart_DP, warrantyEnd_DP);
+        DateTimeUtils.endOfLifeValidator(purchaseDate_DP, estimatedEOL_DP);
 
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        //Live time update of the date and time
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
     }
 

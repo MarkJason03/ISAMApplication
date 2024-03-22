@@ -1,10 +1,9 @@
 package com.example.fyp_application.Controllers.Client.ClientRequestControllers;
 
-import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ViewTicketController;
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -181,7 +180,7 @@ public class ClientRequestDashboardController implements Initializable {
         TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
 
         if (selectedTicket == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
+            AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         }
         else {

@@ -2,8 +2,8 @@ package com.example.fyp_application.Controllers.Client.DashboardControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
@@ -138,7 +138,7 @@ public class ClientDashboardController implements Initializable {
         username_lbl.setText(name);
         Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
         loggedUserImage.setFill(new ImagePattern(curPhoto));
-        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeHandler.getCurrentTime());
+        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
 
@@ -146,7 +146,7 @@ public class ClientDashboardController implements Initializable {
     private void closeApplication(){
         Stage stage = (Stage) exitApp_btn.getScene().getWindow();
 
-        if (AlertNotificationHandler.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+        if (AlertNotificationUtils.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
             stage.close();
         }
     }
@@ -165,7 +165,7 @@ public class ClientDashboardController implements Initializable {
     }
 
     public void setLastLoginTime(){
-        String lastLoginTime = DateTimeHandler.getSQLiteDate();
+        String lastLoginTime = DateTimeUtils.getYearMonthDayFormat();
 
         UserDAO.updateUserAccountStatusAndLastLoginTime(userID, lastLoginTime);
 

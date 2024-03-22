@@ -66,6 +66,9 @@ public class ViewConstants {
 
     public static final String ADMIN_ACTION_TICKET_POP_UP = "/FXML/AdminView/RequestView/ResponseView.fxml";
 
+    public static final String ASSIGN_TICKET_POP_UP = "/FXML/AdminView/RequestView/AssignTicketPopUpView.fxml";
+
+    public static final String MODIFY_TICKET_DETAILS_POP_UP = "/FXML/AdminView/RequestView/ModifyCallDetailsView.fxml";
 
 
     //managing assets

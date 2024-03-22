@@ -32,13 +32,18 @@
                   <Font name="Franklin Gothic Demi Cond" size="18.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="progressBar" layoutX="341.0" layoutY="402.0" prefHeight="30.0" prefWidth="460.0" progress="0.0" styleClass="splash_progress-bar" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" />
+            <ProgressBar fx:id="progressBar" layoutX="332.0" layoutY="402.0" prefHeight="30.0" prefWidth="460.0" progress="0.0" styleClass="splash_progress-bar" stylesheets="@../../Styles/ClientStyleSheet/ClientPages.css" />
             <Label fx:id="dbStatusCheck_lbl" layoutX="80.0" layoutY="511.0" textFill="#39944c">
                <font>
                   <Font name="Franklin Gothic Demi Cond" size="18.0" />
                </font>
             </Label>
             <Label fx:id="progressbarInfo_lbl" layoutX="526.0" layoutY="438.0" text="Initializing" textFill="#241f6b">
+               <font>
+                  <Font name="Franklin Gothic Demi Cond" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="403.0" layoutY="584.0" text="Final Year Project - Mark Galicia - University of Greenwich" textFill="#241f6b">
                <font>
                   <Font name="Franklin Gothic Demi Cond" size="18.0" />
                </font>

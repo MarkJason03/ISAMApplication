@@ -5,8 +5,8 @@ import com.example.fyp_application.Controllers.Client.DashboardControllers.Clien
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
@@ -20,14 +20,17 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginPageController implements Initializable {
 
@@ -53,8 +56,14 @@ public class LoginPageController implements Initializable {
     @FXML
     private Label dbStatusCheck_lbl;
 
+    @FXML
+    private ProgressBar progressBar;
 
-    private final ProgressBar progressBar = new ProgressBar();
+    @FXML
+    private StackPane progressBar_SP;
+
+
+    private final AtomicBoolean isLoginActionRunning = new AtomicBoolean(false);
 
     private final UserDAO USER_DAO = new UserDAO();
 
@@ -68,7 +77,7 @@ public class LoginPageController implements Initializable {
     public void checkDatabaseConnection() {
 
         // Check if the database is connected
-        if (DatabaseConnectionHandler.isDbConnected(Objects.requireNonNull(DatabaseConnectionHandler.getConnection()))){
+        if (DatabaseConnectionUtils.isDbConnected(Objects.requireNonNull(DatabaseConnectionUtils.getConnection()))){
             dbStatusCheck_lbl.setText("Back-end Status: Database Connected");
         } else {
             // If the database is not connected, display an error message and exit the application
@@ -80,6 +89,8 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void loginButtonAction() {
+
+
         if (isValidTextFields()) {
             handleLogin();
         } else {
@@ -90,7 +101,7 @@ public class LoginPageController implements Initializable {
     @FXML
     private void exitApplication() {
         SharedButtonUtils.exitApplication(exit_btn,
-                AlertNotificationHandler.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
+                AlertNotificationUtils.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
     }
 
 
@@ -102,13 +113,13 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void loginFailedWarning(){
-        AlertNotificationHandler.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
+        AlertNotificationUtils.showErrorMessageAlert("Login Failed", "Invalid Username or Password");
         error_lbl.setText("");
     }
 
     @FXML
     private void expiredAccountWarning(){
-        AlertNotificationHandler.showInformationMessageAlert("Account Expired", "Your account has expired. Please contact the administrator to renew your account.");
+        AlertNotificationUtils.showInformationMessageAlert("Account Expired", "Your account has expired. Please contact the administrator to renew your account.");
         username_TF.clear();
         password_PF.clear();
     }
@@ -116,22 +127,14 @@ public class LoginPageController implements Initializable {
 
     public void handleLogin() {
 
-        Label tempLabel = new Label("Validating Credentials...");
 
-        progressBar.setPrefWidth(200);
-        progressBar.setPrefHeight(20);
-        progressBar.setLayoutX(715);
-        progressBar.setLayoutY(442);
 
-        tempLabel.setLayoutX(720);
-        tempLabel.setLayoutY(442);
-
-        contentAP.getChildren().add(progressBar);
-        contentAP.getChildren().add(tempLabel);
-
-        Task<Boolean> loginValidationTask = new Task<>() {
+        Task<Pair<Boolean,String>> loginValidationTask = new Task<>() {
             @Override
-            protected Boolean call() throws Exception {
+            protected Pair<Boolean, String> call() throws Exception {
+
+                progressBar_SP.setVisible(true);
+                isLoginActionRunning.set(true);
 
                 for (int stepCounter = 0; stepCounter < 10; stepCounter++) {
                     updateProgress(stepCounter + 1, 10);
@@ -142,13 +145,17 @@ public class LoginPageController implements Initializable {
                 }
 
                 // Perform the actual validation on the background thread
-                boolean isValidLogin = USER_DAO.validateLoginCredentials(username_TF.getText(), password_PF.getText());
+                // Take the username and password from the text fields
+                // Validate the login credentials and return boolean value for account and string for account status
+                Pair<Boolean, String> accountValidationAndStatus = USER_DAO.validateLoginCredentials(username_TF.getText(), password_PF.getText());
 
-                if (isValidLogin) {
+                if (accountValidationAndStatus.getKey()) {
 
                     //
                     UserModel userDetails = USER_DAO.cacheUserLoginID(username_TF.getText()); //
-                    if (userDetails != null) {
+                    // If the user details are not null and the account is not expired
+                    System.out.println("account status returned: " + accountValidationAndStatus.getValue());
+                    if (userDetails != null &&  !accountValidationAndStatus.getValue().equals("Expired")) {
                         Platform.runLater(() -> {
                             try {
                                 handleSuccessfulLogin(userDetails); //
@@ -158,7 +165,7 @@ public class LoginPageController implements Initializable {
                         });
                     }
                 }
-                return isValidLogin;
+                return accountValidationAndStatus;
             }
         };
 
@@ -166,19 +173,25 @@ public class LoginPageController implements Initializable {
 
         loginValidationTask.setOnSucceeded(e -> {
             // Get the result of the task
-            boolean isValidLogin = loginValidationTask.getValue();
+            Pair<Boolean, String> isValidLogin = loginValidationTask.getValue();
 
             // Enable the login button and exit button - releasing the lock
             login_btn.setDisable(false);
             exit_btn.setDisable(false);
 
             // Remove the progress bar from the UI
-            contentAP.getChildren().remove(progressBar); // Remove the progress bar from UI
-            contentAP.getChildren().remove(tempLabel);
+            progressBar_SP.setVisible(false);
 
-            // If the login is not valid, show an error message
-            if(!isValidLogin) {
+            // If the login is not valid
+            if(!isValidLogin.getKey()) {
+                System.out.println("Invalid Login");
+                loginFailedWarning();
+                isLoginActionRunning.set(false);
+                // If the login is valid but the account is expired
+            } else if (isValidLogin.getKey() && "Expired".equals(isValidLogin.getValue())) {
+
                 expiredAccountWarning();
+                isLoginActionRunning.set(false);
             }
         });
 
@@ -188,12 +201,12 @@ public class LoginPageController implements Initializable {
             exit_btn.setDisable(false);
 
             // Remove the progress bar from the UI
-            contentAP.getChildren().remove(progressBar); // Ensure progress bar is removed
-            contentAP.getChildren().remove(tempLabel);
+            progressBar_SP.setVisible(false);
 
             // Print the exception stack trace
             e.getSource().getException().printStackTrace();
-            expiredAccountWarning();
+            isLoginActionRunning.set(false);
+
         });
 
         // No need to manually start a thread; JavaFX does this when executing the task
@@ -215,12 +228,12 @@ public class LoginPageController implements Initializable {
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
-                AlertNotificationHandler.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
+                AlertNotificationUtils.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
                 openAdminView(userID, firstName, photoPath);
             }
             case "User" ->{
                 // Logic for user
-                AlertNotificationHandler.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
+                AlertNotificationUtils.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
                 openClientView(userID, firstName, photoPath);
             }
         }
@@ -310,12 +323,12 @@ public class LoginPageController implements Initializable {
 /*
         Stage stage = (Stage) exit_btn.getScene().getWindow();
 
-        if (AlertNotificationHandler.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
+        if (AlertNotificationUtils.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
             stage.close();
         }*/
 
         SharedButtonUtils.exitApplication(exit_btn,
-                AlertNotificationHandler.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
+                AlertNotificationUtils.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
     }
 
 
@@ -324,7 +337,7 @@ public class LoginPageController implements Initializable {
         //check if the database is connected
         checkDatabaseConnection();
 
-
+/*
         contentAP.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 loginButtonAction();
@@ -333,8 +346,23 @@ public class LoginPageController implements Initializable {
             {
                 exitApplication();
             }
-        });
+        });*/
 
+        // Atomic boolean to prevent multiple login actions
+
+
+        contentAP.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (!isLoginActionRunning.get()) {
+                    isLoginActionRunning.set(true);
+                    loginButtonAction();
+                    isLoginActionRunning.set(false);
+                }
+            }
+            if (event.getCode() == KeyCode.ESCAPE) {
+                exitApplication();
+            }
+        });
 
 /*        Thread accountUpdateThread = new Thread(() -> {
             synchronized (lock) {

@@ -2,13 +2,12 @@ package com.example.fyp_application.Controllers.Admin.DashboardControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -146,7 +144,7 @@ public class ModifiedAdminDashboardController implements Initializable {
         //Close the application and exit
         SharedButtonUtils.exitApplication(
                 exitApp_btn,
-                AlertNotificationHandler.showConfirmationAlert("Exit Application?",
+                AlertNotificationUtils.showConfirmationAlert("Exit Application?",
                         "Are you sure you want to exit the application"));
     }
 
@@ -160,12 +158,12 @@ public class ModifiedAdminDashboardController implements Initializable {
         username_lbl.setText(name);
         Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
         loggedUserImage.setFill(new ImagePattern(curPhoto));
-        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeHandler.getCurrentTime());
+        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
     @FXML
     private void setLastLoginTime(){
-        String lastLoginTime = DateTimeHandler.getSQLiteDate();
+        String lastLoginTime = DateTimeUtils.getYearMonthDayFormat();
 
         UserDAO.updateUserAccountStatusAndLastLoginTime(userID, lastLoginTime);
 
@@ -197,14 +195,14 @@ public class ModifiedAdminDashboardController implements Initializable {
         swappableContentPane = mainContentAnchorPane;
         loadHomeScreen();
         loadCurrentUser();
-        Platform.runLater(this::setLastLoginTime);
+
 
 
 
         // Ensures that each thread is synchronized and would run step by step
         Thread accountUpdateThread = new Thread(() -> {
             synchronized (lock) {
-                UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeHandler.getSQLiteDate());
+                UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeUtils.getYearMonthDayFormat());
 /*                UserDAO.checkAndUpdateInactiveAccountStatus();
                 UserDAO.checkAndUpdateExpiredAccountStatus();*/
             }

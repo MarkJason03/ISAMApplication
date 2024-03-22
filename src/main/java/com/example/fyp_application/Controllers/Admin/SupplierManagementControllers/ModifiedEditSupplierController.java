@@ -2,11 +2,8 @@ package com.example.fyp_application.Controllers.Admin.SupplierManagementControll
 
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,7 +11,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -62,20 +58,20 @@ public class ModifiedEditSupplierController implements Initializable {
     private void saveProfileChanges () {
 
         LocalDate currentSelectedDate = expiryDate_DP.getValue();
-        DateTimeHandler.setSQLiteDateFormat(currentSelectedDate);
+        DateTimeUtils.setYearMonthDayFormat(currentSelectedDate);
 
         System.out.println(currentSelectedDate);
 
         if(checkForm()){
 
-            SUPPLIER_DAO.updateSupplier(supplierID, supName_TF.getText(), supAddress_TF.getText(), supPhone_TF.getText(), supEmail_TF.getText(), supStatus_CB.getValue(), DateTimeHandler.setSQLiteDateFormat(currentSelectedDate));
-            AlertNotificationHandler.showInformationMessageAlert("Success", "Supplier edited successfully");
+            SUPPLIER_DAO.updateSupplier(supplierID, supName_TF.getText(), supAddress_TF.getText(), supPhone_TF.getText(), supEmail_TF.getText(), supStatus_CB.getValue(), DateTimeUtils.setYearMonthDayFormat(currentSelectedDate));
+            AlertNotificationUtils.showInformationMessageAlert("Success", "Supplier edited successfully");
             cancel_btn.getScene().getWindow().hide();
 
 
 
         } else {
-            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         }
 
     }
@@ -151,6 +147,6 @@ public class ModifiedEditSupplierController implements Initializable {
         @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         supStatus_CB.getItems().addAll("Active", "Inactive");
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
     }
 }

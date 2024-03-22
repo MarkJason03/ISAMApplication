@@ -90,7 +90,7 @@ public class ClientRaiseRequestController implements Initializable {
  /*   @FXML
     private void raiseNewTicket() {
         if (validateFields()) {
-            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
             return;
         }
         Task<Void> task = new Task<>() {
@@ -101,12 +101,12 @@ public class ClientRaiseRequestController implements Initializable {
                 String details = ticketDetails.getText();
 
                 int ticketID = TICKET_DAO.openUserTicketRequest(
-                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeHandler.getCurrentDateTime()
+                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeUtils.getCurrentDateTime()
                 );
 
                 if (attachmentListView != null && !attachmentListView.getItems().isEmpty()) {
                     for (String filePath : attachmentListView.getItems()) {
-                        TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getSQLiteDate());
+                        TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeUtils.getYearMonthDayFormat());
                     }
                 }
 
@@ -116,14 +116,14 @@ public class ClientRaiseRequestController implements Initializable {
         };
 
         task.setOnSucceeded(e -> {
-            AlertNotificationHandler.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
+            AlertNotificationUtils.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
             closeWindow();
         });
 
         task.setOnFailed(e -> {
             // Handle any exceptions, possibly show an error alert
             Throwable problem = task.getException();
-            AlertNotificationHandler.showErrorMessageAlert("Error", "An error occurred: " + problem.getMessage());
+            AlertNotificationUtils.showErrorMessageAlert("Error", "An error occurred: " + problem.getMessage());
         });
 
         new Thread(task).start();
@@ -133,8 +133,8 @@ public class ClientRaiseRequestController implements Initializable {
     @FXML
     private void sendEmailNotificationAsync(int ticketID,String firstname, String title, String details) {
 
-        GMailHandler.sendEmailTo(userEmail, "Call Logged SD " + ticketID ,
-                GMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
+        GMailUtils.sendEmailTo(userEmail, "Call Logged SD " + ticketID ,
+                GMailUtils.generateTicketRequestEmailBody(ticketID, firstname, title, details));
 
 
     }*/
@@ -144,7 +144,7 @@ public class ClientRaiseRequestController implements Initializable {
     private void raiseNewTicket(){
         //validate the fields
         if(validateFields()){
-            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
             return;
         }
         //create a new task to handle the ticket creation
@@ -167,7 +167,7 @@ public class ClientRaiseRequestController implements Initializable {
                 userEmail = user.getEmail();
                 //open a new ticket request which returns the created ticket ID after database insertion
                 int ticketID = TICKET_DAO.openUserTicketRequest(
-                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeHandler.getCurrentDateTime()
+                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeUtils.getCurrentDateTime()
                 );
                 //upload the attachment and send the email notification
                 uploadAttachmentAsync(ticketID);
@@ -180,8 +180,8 @@ public class ClientRaiseRequestController implements Initializable {
     @FXML
     private void sendEmailNotificationAsync(int ticketID, String firstname, String title, String details) {
         //send the email notification to the user
-        GMailHandler.sendEmailTo(userEmail, "Call Logged SD " + ticketID,
-                GMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
+        GMailUtils.sendEmailTo(userEmail, "Call Logged SD " + ticketID,
+                GMailUtils.generateTicketRequestEmailBody(ticketID, firstname, title, details));
     }
 
     @FXML
@@ -189,21 +189,21 @@ public class ClientRaiseRequestController implements Initializable {
         //upload the attachment to the database if the attachment list is not empty
         if (attachmentListView != null && !attachmentListView.getItems().isEmpty()) {
             for (String filePath : attachmentListView.getItems()) {
-                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getSQLiteDate());
+                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeUtils.getYearMonthDayFormat());
             }
         }
     }
 
     private void handleTaskActions(Task<Void> task){
         task.setOnSucceeded(e -> {
-            AlertNotificationHandler.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
+            AlertNotificationUtils.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
             closeWindow();
         });
 
         task.setOnFailed(e -> {
             // Handle any exceptions, possibly show an error alert
             Throwable problem = task.getException();
-            AlertNotificationHandler.showErrorMessageAlert("Error", "An error occurred: ");
+            AlertNotificationUtils.showErrorMessageAlert("Error", "An error occurred: ");
             System.out.println(problem.getMessage());
         });
     }
@@ -220,12 +220,12 @@ public class ClientRaiseRequestController implements Initializable {
 
     @FXML
     private void addAttachment(){
-        AttachmentHandler.addAttachments(attachments,attachmentListView);
+        AttachmentUtils.addAttachments(attachments,attachmentListView);
     }
 
     @FXML
     private void deleteAttachment(){
-        AttachmentHandler.deleteAttachments(attachmentListView);
+        AttachmentUtils.deleteAttachments(attachmentListView);
     }
 
 
@@ -261,8 +261,8 @@ public class ClientRaiseRequestController implements Initializable {
         });
     }*/
 
-        AttachmentHandler.setAttachmentListState(attachmentCheckbox, attachmentTitlePane);
-        AttachmentHandler.setAttachmentListListener(attachmentListView);
+        AttachmentUtils.setAttachmentListState(attachmentCheckbox, attachmentTitlePane);
+        AttachmentUtils.setAttachmentListListener(attachmentListView);
 
     }
 

@@ -3,9 +3,9 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.GMailHandler;
+import com.example.fyp_application.Utils.AttachmentUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.GMailUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import com.google.api.client.util.Strings;
 import javafx.application.Platform;
@@ -29,8 +29,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -40,25 +38,41 @@ public class ViewTicketController implements Initializable {
 
 
     @FXML
+    private TextField ticketStatus_TF;
+    @FXML
+    private TextField ticketCategory_TF;
+    @FXML
+    private TextField ticketPriority_TF;
+    @FXML
+    private TextField agentName_TF;
+    @FXML
+    private TextField createdDate_TF;
+    @FXML
+    private TextField targetResolution_TF;
+    @FXML
+    private TextField lastName_TF;
+    @FXML
+    private TextField firstName_TF;
+    @FXML
+    private TextField username_TF;
+    @FXML
+    private TextField email_TF;
+    @FXML
+    private TextField phone_TF;
+    @FXML
+    private TextField department_TF;
+    @FXML
+    private Button assignToMyself_btn;
+    @FXML
     private Button closeMenu_btn;
 
     @FXML
     private Button editProfile_btn11;
 
-    @FXML
-    private TextField email_TF1;
-
-    @FXML
-    private TextField email_TF11;
 
     @FXML
     private Button exitApp_btn;
 
-    @FXML
-    private TextField firstName_TF1;
-
-    @FXML
-    private TextField firstName_TF11;
 
     @FXML
     private Label fullNameHolder_lbl1;
@@ -75,11 +89,6 @@ public class ViewTicketController implements Initializable {
     @FXML
     private Label knowledgeBaseTitleHolder_lbl;
 
-    @FXML
-    private TextField lastName_TF1;
-
-    @FXML
-    private TextField lastName_TF11;
 
     @FXML
     private Label lastUpdateTime_lbl;
@@ -122,11 +131,6 @@ public class ViewTicketController implements Initializable {
     @FXML
     private Label ticketTitleHolder_lbl;
 
-    @FXML
-    private TextField username_TF1;
-
-    @FXML
-    private TextField username_TF11;
 
     @FXML
     private Label username_lbl;
@@ -173,21 +177,39 @@ public class ViewTicketController implements Initializable {
     private ObservableList<TicketModel> ticketInformationArray;
 
     @FXML
-    public void loadTicketInfo(int ticketID){
+    public void loadTicketInfo(int ticketID) throws SQLException {
         TicketDAO ticketDAO = new TicketDAO();
-        ticketInformationArray = ticketDAO.getTicketDetails(ticketID);
+        ticketInformationArray = ticketDAO.getFullTicketDetails(ticketID);
 
         this.ticketID = ticketInformationArray.get(0).getTicketID();
         this.agentID = ticketInformationArray.get(0).getAgentID();
-        System.out.println(agentID);
+        System.out.println("Current Agent ID: "+ agentID);
         this.requesterID = ticketInformationArray.get(0).getUserID();
 
+        UserModel userInformationArray = UserDAO.loadCurrentLoggedUser(requesterID);
         ticketTitleHolder_lbl.setText("Subject:" + ticketInformationArray.get(0).getTicketTitle());
         ticketDescriptionHolder_TA.setText(ticketInformationArray.get(0).getTicketDescription());
         knowledgeBaseTitleHolder_lbl.setText("Category: " + ticketInformationArray.get(0).getCategoryName());
         knowledgeBaseDescriptionHolder_TA.setText(ticketInformationArray.get(0).getKnowledgeBaseInfo());
 
-        System.out.println(ticketID);
+        System.out.println("Current Ticket ID: " + ticketID);
+
+        ticketStatus_TF.setText(ticketInformationArray.get(0).getTicketStatus());
+        ticketCategory_TF.setText(ticketInformationArray.get(0).getCategoryName());
+        ticketPriority_TF.setText(ticketInformationArray.get(0).getTicketPriority());
+        agentName_TF.setText(ticketInformationArray.get(0).getAgentFullName());
+        createdDate_TF.setText(ticketInformationArray.get(0).getDateCreated());
+        targetResolution_TF.setText(ticketInformationArray.get(0).getTargetResolutionDate());
+
+
+        firstName_TF.setText(userInformationArray.getFirstName());
+        lastName_TF.setText(userInformationArray.getLastName());
+        email_TF.setText(userInformationArray.getEmail());
+        phone_TF.setText(userInformationArray.getPhone());
+        username_TF.setText(userInformationArray.getUsername());
+        department_TF.setText(userInformationArray.getDeptName());
+
+
 
     }
 
@@ -199,13 +221,13 @@ public class ViewTicketController implements Initializable {
                 ticketInformationArray.get(0).getCategoryID(),
                 "Closed",
                 "Low",
-                DateTimeHandler.dateParser(ticketInformationArray.get(0).getDateCreated()),
-                DateTimeHandler.getSQLiteDate()
+                DateTimeUtils.setTargetResolutionDate(ticketInformationArray.get(0).getDateCreated()),
+                DateTimeUtils.getYearMonthDayFormat()
         );
 
-        GMailHandler.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
+        GMailUtils.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
                 "Call Closed: SD" +  ticketID,
-                GMailHandler.generateAutoCloseEmailBody(ticketID,
+                GMailUtils.generateAutoCloseEmailBody(ticketID,
                         ticketInformationArray.get(0).getUserFullName(),
                         ticketInformationArray.get(0).getTicketTitle(),
                         "Auto Resolution"
@@ -252,12 +274,17 @@ public class ViewTicketController implements Initializable {
 
     }
     @FXML
-    private void actionTicket(){
+    private void actionTicket() throws SQLException {
         GaussianBlur blur = new GaussianBlur(10);
         Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
 
+
+        if(agentID == 0){
+            System.out.println("Assigning Ticket to Current Logged Agent");
+            assignTicketToCurrentAgent();
+        }
 
 
         try {
@@ -299,8 +326,59 @@ public class ViewTicketController implements Initializable {
 
 
     @FXML
+    private void editTicketDetails() throws SQLException {
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+
+        if(agentID == 0){
+            System.out.println("Assigning Ticket to Current Logged Agent");
+            assignTicketToCurrentAgent();
+        }
+
+
+        try {
+            //modal pop-up dialogue box
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.MODIFY_TICKET_DETAILS_POP_UP));
+            Parent root = modalViewLoader.load();
+
+
+            ModifyCallDetailsController modifyCallDetailsController = modalViewLoader.getController();
+            modifyCallDetailsController.loadTicketDetails(ticketID);
+
+
+            // New window setup as modal
+            Stage editTicketDetailsModalWindow = new Stage();
+            editTicketDetailsModalWindow.initOwner(currentDashboardStage);
+            editTicketDetailsModalWindow.initModality(Modality.WINDOW_MODAL);
+            editTicketDetailsModalWindow.initStyle(StageStyle.TRANSPARENT);
+
+
+            Scene scene = new Scene(root);
+            editTicketDetailsModalWindow.setScene(scene);
+
+            editTicketDetailsModalWindow.showAndWait(); // Blocks interaction with the main stage
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            loadTicketInfo(ticketID);
+
+            Platform.runLater(this::loadAttachmentTable);
+            Platform.runLater(this::loadMessageHistory);
+
+        }
+
+
+
+    };
+
+    @FXML
     private void openFilePath(String path) throws IOException {
-        AttachmentHandler.openAttachment(path);
+        AttachmentUtils.openAttachment(path);
     }
 
 
@@ -308,7 +386,7 @@ public class ViewTicketController implements Initializable {
     @FXML
     private void assignTicketToCurrentAgent(){
 
-        TicketDAO.assignTicketToCurrentLoggedAgent(ticketID, CurrentLoggedUserHandler.getCurrentLoggedAdminID());
+        TicketDAO.assignTicketToAgent(ticketID, CurrentLoggedUserHandler.getCurrentLoggedAdminID());
 
 
         Platform.runLater(this::loadAttachmentTable);
@@ -317,7 +395,7 @@ public class ViewTicketController implements Initializable {
     }
 
     @FXML
-    private void openMessageBox(int messageID){
+    private void openMessageBox(int messageID) throws SQLException {
         GaussianBlur blur = new GaussianBlur(10);
         Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
@@ -386,7 +464,11 @@ public class ViewTicketController implements Initializable {
             if (mouseEvent.getClickCount() == 2) {
                 int selectedItem = messageHistoryTable.getSelectionModel().getSelectedItem().getMessageID();
                 System.out.println(selectedItem);
-                openMessageBox(selectedItem);
+                try {
+                    openMessageBox(selectedItem);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

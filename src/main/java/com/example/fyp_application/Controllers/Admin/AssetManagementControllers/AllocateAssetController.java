@@ -1,14 +1,12 @@
 package com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.GMailHandler;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,7 +15,6 @@ import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -252,7 +249,7 @@ public class AllocateAssetController implements Initializable {
 
     @FXML
     private void submitTicketDetailChanges(){
-        TicketDAO.updateTicketDetails(ticketID,
+        TicketDAO.updateTicketDetailsByAdmin(ticketID,
                 ticketCategory_CB.getValue().getCategoryID(),
                 ticketStatus_CB.getValue(),
                 ticketPriority_CB.getValue(),
@@ -264,7 +261,7 @@ public class AllocateAssetController implements Initializable {
     private void submitResponse() throws SQLException {
         MessageHistoryDAO.recordMessage(ticketID,
                 responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
-                DateTimeHandler.getCurrentDateTime());
+                DateTimeUtils.getCurrentDateTime());
     }
 
 
@@ -274,7 +271,7 @@ public class AllocateAssetController implements Initializable {
 
         if (attachmentListView != null){
             for (String filePath : filePaths) {
-                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeHandler.getSQLiteDate());
+                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeUtils.getYearMonthDayFormat());
             }
         }
     }
@@ -282,9 +279,9 @@ public class AllocateAssetController implements Initializable {
 
     @FXML
     private void sendUpdateEmail() {
-        GMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+        GMailUtils.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
                 "Call In Progress: SD" +  ticketID,
-                GMailHandler.generateResponseEmailBody(ticketID,
+                GMailUtils.generateResponseEmailBody(ticketID,
                         ticketInfolist.get(0).getUserFullName(),
                         ticketInfolist.get(0).getTicketTitle(),
                         responseDetails.getText()
@@ -451,8 +448,8 @@ public class AllocateAssetController implements Initializable {
         userInformationListener();
 
 
-        DateTimeHandler.dateValidator(loanStart_DP);
-        DateTimeHandler.dateValidator(loanDue_DP);
+        DateTimeUtils.dateValidator(loanStart_DP);
+        DateTimeUtils.dateValidator(loanDue_DP);
 
         Platform.runLater(this::setupLocationListener);
         Platform.runLater(this::setupProgressBarListener);

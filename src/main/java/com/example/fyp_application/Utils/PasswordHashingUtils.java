@@ -3,9 +3,9 @@ package com.example.fyp_application.Utils;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
-public class PasswordHashHandler {
+public class PasswordHashingUtils {
 
-    private PasswordHashHandler(){}
+    private PasswordHashingUtils(){}
     public static String hashPassword(String password) {
         Argon2 argon2 = Argon2Factory.create();
         try {

@@ -1,11 +1,8 @@
 package com.example.fyp_application.Utils;
 
-import com.example.fyp_application.Model.MessageHistoryModel;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
 
@@ -14,10 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class AttachmentHandler {
+public class AttachmentUtils {
 
 
-    private AttachmentHandler(){
+    private AttachmentUtils(){
 
     }
 
@@ -44,7 +41,7 @@ public class AttachmentHandler {
             }
             attachmentList.setItems(filePaths);
         } else {
-            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "No Files Selected");
+            AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "No Files Selected");
         }
     }
 
@@ -130,10 +127,10 @@ public class AttachmentHandler {
                 relativePath = filePath.substring(index);
                 System.out.println("Relative Path: " + relativePath);
             } else {
-                AlertNotificationHandler.showInformationMessageAlert("Invalid Path", "The selected file is not in the expected directory");
+                AlertNotificationUtils.showInformationMessageAlert("Invalid Path", "The selected file is not in the expected directory");
             }
         } else {
-            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationUtils.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
         return relativePath;
     }

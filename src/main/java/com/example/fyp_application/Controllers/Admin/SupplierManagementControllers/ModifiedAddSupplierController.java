@@ -1,9 +1,9 @@
 package com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
 
 import com.example.fyp_application.Model.SupplierDAO;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.InformationGeneratorHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.InformationGeneratorUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +53,7 @@ public class ModifiedAddSupplierController implements Initializable{
     private void saveProfileChanges() {
 
         if(isEmptyFields()){
-            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
         } else{
             SUPPLIER_DAO.addSupplier(
                     supName_TF.getText(),
@@ -61,9 +61,9 @@ public class ModifiedAddSupplierController implements Initializable{
                     supPhone_TF.getText(),
                     supStatus_CB.getValue(),
                     supplierAddress_TA.getText(),
-                    DateTimeHandler.setSQLiteDateFormat(contractStart_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(expiryDate_DP.getValue()));
-            AlertNotificationHandler.showInformationMessageAlert("Success", "Supplier added successfully");
+                    DateTimeUtils.setYearMonthDayFormat(contractStart_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(expiryDate_DP.getValue()));
+            AlertNotificationUtils.showInformationMessageAlert("Success", "Supplier added successfully");
             resetForm();
         }
     }
@@ -112,7 +112,7 @@ public class ModifiedAddSupplierController implements Initializable{
         // Set the date and combo box values
         supStatus_CB.setItems(FXCollections.observableArrayList("Active", "Inactive"));
         contractStart_DP.setValue(LocalDate.now());
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
         supPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
 
@@ -143,7 +143,7 @@ public class ModifiedAddSupplierController implements Initializable{
             }
 
             // Update the email TextField using the sanitized value.
-            supEmail_TF.setText(InformationGeneratorHandler.generateSupplierEmail(sanitizedValue));
+            supEmail_TF.setText(InformationGeneratorUtils.generateSupplierEmail(sanitizedValue));
         });
 
 

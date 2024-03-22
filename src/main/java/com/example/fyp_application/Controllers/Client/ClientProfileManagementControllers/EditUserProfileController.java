@@ -3,8 +3,8 @@ package com.example.fyp_application.Controllers.Client.ClientProfileManagementCo
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -180,14 +180,14 @@ public class EditUserProfileController implements Initializable {
             runProfileChanges(newPath);
 
         } else {
-            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationUtils.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
 
     }
 
     private void runProfileChanges(String newPath){
         new Thread(() -> {
-            String  timeStamp = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
+            String  timeStamp = DateTimeUtils.getCurrentDateFormat() + " " + DateTimeUtils.getCurrentTimeFormat();
             UserDAO userDAO = new UserDAO();
             userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedUserID(), newPath, timeStamp);
             Platform.runLater(() -> {
@@ -206,7 +206,7 @@ public class EditUserProfileController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
         try {
             loadUserData(userID);
         } catch (SQLException e) {

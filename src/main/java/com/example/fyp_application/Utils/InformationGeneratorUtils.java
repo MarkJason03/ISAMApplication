@@ -3,7 +3,7 @@ package com.example.fyp_application.Utils;
 
 import java.security.SecureRandom;
 
-public class InformationGeneratorHandler {
+public class InformationGeneratorUtils {
 
 
     //define the final string of characters to be used in the password
@@ -24,7 +24,7 @@ public class InformationGeneratorHandler {
 
     private static final SecureRandom random = new SecureRandom();
 
-    private InformationGeneratorHandler(){}
+    private InformationGeneratorUtils(){}
     public static String generatePassword(int length) {
         if (length < 4) {
             throw new IllegalArgumentException();

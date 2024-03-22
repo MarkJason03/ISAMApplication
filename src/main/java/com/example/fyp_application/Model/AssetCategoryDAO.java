@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class AssetCategoryDAO {
         String sql = "select * from tbl_assetCategory";
 
         //Try with resources to close the connection after the operation is done
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             //prepared statement to execute the query
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);

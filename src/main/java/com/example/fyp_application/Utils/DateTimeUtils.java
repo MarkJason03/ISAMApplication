@@ -13,29 +13,35 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class DateTimeHandler {
+public class DateTimeUtils {
 
 
+    // Format the time format of "12:00 PM"
     private static final DateTimeFormatter CURRENT_TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm a");
-    private static final DateTimeFormatter CURRENT_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    // Format the date format of "01/01/2021"
+    private static final DateTimeFormatter UK_CURRENT_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    // Format the date format of "Jan 01, 2021"
     private static  final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("LLL dd, yyyy");
 
-    private static final DateTimeFormatter SQLITE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    // Format the date format of "2021-01-01"
+    private static final DateTimeFormatter CURRENT_YEAR_MONTH_DAY_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
-    private static final DateTimeFormatter DATE_CREATED_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
+    private static final DateTimeFormatter CURRENT_YEAR_MONTH_DAY_HOURS_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm a");
 
 
-    private DateTimeHandler (){}
-    public static String getCurrentTime(){
+    private DateTimeUtils(){}
+    public static String getCurrentTimeFormat(){
 
         return LocalTime.now().format(CURRENT_TIME_FORMAT);
     }
 
 
-    public static String getCurrentDate(){
+    public static String getCurrentDateFormat(){
 
-        return LocalDate.now().format(CURRENT_DATE_FORMAT);
+        return LocalDate.now().format(UK_CURRENT_DATE_FORMAT);
     }
 
 
@@ -44,21 +50,21 @@ public class DateTimeHandler {
     }
 
 
-    public  static String getSQLiteDate(){
+    public  static String getYearMonthDayFormat(){
 
-        return LocalDate.now().format(SQLITE_DATE_FORMAT);
+        return LocalDate.now().format(CURRENT_YEAR_MONTH_DAY_FORMAT);
     }
 
 
-    public static String setSQLiteDateFormat(LocalDate date){
-        return date.format(SQLITE_DATE_FORMAT);
+    public static String setYearMonthDayFormat(LocalDate date){
+        return date.format(CURRENT_YEAR_MONTH_DAY_FORMAT);
     }
 
 
     public static void dateTimeUpdates(Label timeHolder){
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, event -> {
-            String currentTime = getCurrentTime();
+            String currentTime = getCurrentTimeFormat();
             String currentDate = getMonthDayYearFormat();
 
             timeHolder.setText("Today " + currentDate + " | " + currentTime);
@@ -74,21 +80,21 @@ public class DateTimeHandler {
     }
 
     public static String getCurrentDateTime() {
-        return getSQLiteDate() + " " + getCurrentTime();
+        return getYearMonthDayFormat() + " " + getCurrentTimeFormat();
     }
 
 
 
-    public static String dateParser(String dateCreated){
+    public static String setTargetResolutionDate(String dateCreated){
 
 
 
         // parse the date
-        LocalDateTime dateTime = LocalDateTime.parse(dateCreated,DATE_CREATED_DATE_FORMAT);
+        LocalDateTime dateTime = LocalDateTime.parse(dateCreated, CURRENT_YEAR_MONTH_DAY_HOURS_FORMAT);
 
         LocalDateTime twoWeeksDateTime = dateTime.plusDays(14);
 
-        return twoWeeksDateTime.format(SQLITE_DATE_FORMAT);
+        return twoWeeksDateTime.format(CURRENT_YEAR_MONTH_DAY_FORMAT);
     }
 
 
@@ -102,7 +108,7 @@ public class DateTimeHandler {
 
                     System.out.println("Date is before current date");
 
-                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                    AlertNotificationUtils.showInformationMessageAlert("Invalid date",
                             "The date selected is before the current date. Please select a valid date.");
 
                     datePicker.setValue(null);
@@ -127,7 +133,7 @@ public class DateTimeHandler {
 
                     System.out.println("Date is before current date");
 
-                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                    AlertNotificationUtils.showInformationMessageAlert("Invalid date",
                             "The date selected is before the current date. Please select a valid date.");
 
                     eolDate.setValue(null);
@@ -152,7 +158,7 @@ public class DateTimeHandler {
 
                     System.out.println("Date is before current date");
 
-                    AlertNotificationHandler.showInformationMessageAlert("Invalid date",
+                    AlertNotificationUtils.showInformationMessageAlert("Invalid date",
                             "The date selected is before the current date. Please select a valid date.");
 
                     warrantyEndDate.setValue(null);

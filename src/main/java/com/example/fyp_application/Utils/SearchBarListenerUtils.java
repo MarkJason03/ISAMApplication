@@ -1,26 +1,12 @@
 package com.example.fyp_application.Utils;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.*;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.animation.PauseTransition;
-import javafx.util.Duration;
-import javafx.application.Platform;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ResourceBundle;
+import javafx.scene.control.*;
 
-public class PropertyListenerUtils {
+import java.util.List;
+
+public class SearchBarListenerUtils {
 
   /*  // Listen for changes in the phone number field
         userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
@@ -72,7 +58,7 @@ public class PropertyListenerUtils {
        public static void assetPriceTextFieldListener(TextField assetPriceTextField) {
             assetPriceTextField.textProperty().addListener((observable, oldValue, newInput) -> {
 
-                // Remove spaces from the new value and set it to the TextField.
+                // Removes non digit numbers from the input
                 String numberOnlyValue = newInput.replaceAll("\\D", "");
 
                 // Assuming arbitrary value - 1_000_000
@@ -81,6 +67,25 @@ public class PropertyListenerUtils {
                     // stop the user from entering more than 7 characters
                     assetPriceTextField.setText(numberOnlyValue.substring(0, 6));
                 }
+
+                if(!newInput.equals(numberOnlyValue)){
+                    assetPriceTextField.setText(numberOnlyValue);
+                }
+            });
+       }
+
+
+       public static void userSearchBarListener(TextField searchBar, ComboBox<UserModel> userList_CB, List<UserModel> userList) {
+            searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+                // Filter the list of users based on the search query
+                List<UserModel> filteredList = userList.stream()
+                        .filter(user -> user.getFirstName().toLowerCase().contains(newValue.toLowerCase()) ||
+                                user.getLastName().toLowerCase().contains(newValue.toLowerCase()) ||
+                                user.getUsername().toLowerCase().contains(newValue.toLowerCase()))
+                        .toList();
+
+                // Update the list of users in the ComboBox
+                userList_CB.setItems(FXCollections.observableArrayList(filteredList));
             });
        }
 }

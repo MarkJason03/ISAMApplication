@@ -71,6 +71,7 @@ public class TicketModel {
     // Constructor for viewing ticket - agent side // table view
     public TicketModel(int ticketID,
                        String userFullName,
+                       String agentFullName,
                        String ticketTitle,
                        String status,
                        String priority,
@@ -79,11 +80,11 @@ public class TicketModel {
                        String dateClosed) {
         this.ticketID = ticketID;
         this.userFullName = userFullName;
+        this.agentFullName = agentFullName;
         this.ticketTitle = ticketTitle;
         this.ticketStatus = status;
         this.ticketPriority = priority;
         this.categoryName = category;
-
         this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
     }

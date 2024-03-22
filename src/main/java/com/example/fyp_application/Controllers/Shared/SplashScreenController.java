@@ -2,22 +2,13 @@ package com.example.fyp_application.Controllers.Shared;
 
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.UserDAO;
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import com.example.fyp_application.Views.ViewConstants;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.application.Platform;
-import javafx.application.Preloader;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.sql.SQLException;
 import java.util.Objects;
 public class SplashScreenController {
 
@@ -42,7 +33,7 @@ public class SplashScreenController {
     public void checkDatabaseConnection() {
 
         // Check if the database is connected
-        if (DatabaseConnectionHandler.isDbConnected(Objects.requireNonNull(DatabaseConnectionHandler.getConnection()))){
+        if (DatabaseConnectionUtils.isDbConnected(Objects.requireNonNull(DatabaseConnectionUtils.getConnection()))){
             dbStatusCheck_lbl.setText("Updating Back-end");
         } else {
             // If the database is not connected, display an error message and exit the application

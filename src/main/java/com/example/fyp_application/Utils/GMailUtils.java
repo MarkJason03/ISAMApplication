@@ -6,24 +6,23 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
-public class GMailHandler {
+public class GMailUtils {
 
 
     //The structure of this class is taken from Google Gmail API Developer Guides
 
 
     // Set the default email and password from config file
-    private static final String DEFAULT_EMAIL = ConfigPropertiesHandler.getValue("EMAIL");
-    private static final String DEFAULT_PASSWORD = ConfigPropertiesHandler.getValue("PASSWORD");
+    private static final String DEFAULT_EMAIL = ConfigPropertiesUtils.getValue("EMAIL");
+    private static final String DEFAULT_PASSWORD = ConfigPropertiesUtils.getValue("PASSWORD");
 
 
-    private static final Logger LOGGER = Logger.getLogger(GMailHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GMailUtils.class.getName());
 
 
     // Private constructor to prevent instantiation
-    private GMailHandler() {
+    private GMailUtils() {
     }
 
     // Getters for the default email and password
@@ -45,7 +44,9 @@ public class GMailHandler {
             @Override
             // Authenticate the email address and password given from the config file - this is the email address and password of the sender (Created for the application via MFA)
             protected PasswordAuthentication getPasswordAuthentication() {
+                System.out.println("Authenticating email...");
                 return new PasswordAuthentication(DEFAULT_EMAIL, DEFAULT_PASSWORD);
+
             }
         });
 
@@ -77,7 +78,7 @@ public class GMailHandler {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");// Enable authentication
         props.put("mail.smtp.port", "465"); // Port for SSL
-        props.put("mail.debug", "true");  // Enables debug output, useful for troubleshooting
+        //props.put("mail.debug", "true");  // Enables debug output, useful for troubleshooting
         return props;
     }
 
@@ -129,7 +130,7 @@ public class GMailHandler {
                 + "Your ticket request has been submitted closed. Please find your ticket details below: " + "\n\n\n"
                 + "Ticket Title: " + ticketTitle + "\n\n"
                 + "\n\n" + responseDescription + "\n\n\n"
-                + "If you wish to re-open this request, please respond to this email or contact 020 1234 5678 quoting this SD Number " + ticketID + "\n\n\n"
+                + "If you wish to re-open this request, please respond to this using your account or contact 020 1234 5678 quoting this SD Number " + ticketID + "\n\n\n"
                 + "Best Regards," + "\n\n"
                 + "ISAM Team";
     }
@@ -160,16 +161,34 @@ public class GMailHandler {
 
     }
 
+
+    public static String generateCloseTicketEmailBody(int ticketID, String userFullName, String ticketTitle, String ticketActionDescription) {
+
+        return "Hello " + userFullName + "," + "\n\n\n"
+                + "Your ticket request has been submitted closed. Please find your ticket details below: " + "\n\n\n"
+                + "Ticket Title: " + ticketTitle + "\n\n"
+                + "\n\n" + ticketActionDescription + "\n\n\n"
+                + "If you wish to re-open this request, please respond to this email or contact 020 1234 5678 quoting this SD Number " + ticketID + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+    }
+
+    public static String generateAssignTicketEmailBody(int ticketID, String agentName, String ticketTitle, String messageDescription ,String currentUser) {
+
+        return "Hello " + agentName + "," + "\n\n\n"
+                + "This ticket has been assigned to you" + "\n\n\n"
+                + "Ticket ID: " + ticketID + "\n\n"
+                + "Ticket Title: " + ticketTitle + "\n\n"
+                + "Reason for assignment" + "\n\n\n" + messageDescription + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + currentUser;
+    }
+
+
     public static void main(String[] args) throws Exception {
         //System.out.println("Sending email...");
-        test();
-         GMailHandler.sendEmailTo(DEFAULT_EMAIL, "Test Subject", "Hello, this is a test email.");
+        GMailUtils.sendEmailTo(DEFAULT_EMAIL, "Test Subject", "Hello, this is a test email.");
         // System.out.println("Email sent.");
     }
 
-    public static void test(){
-
-        System.out.println(DEFAULT_EMAIL);
-        System.out.println(DEFAULT_PASSWORD);
-    }
 }

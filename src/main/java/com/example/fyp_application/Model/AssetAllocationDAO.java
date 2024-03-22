@@ -1,7 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import javafx.collections.ObservableList;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,7 +35,7 @@ public class AssetAllocationDAO {
         //sql query to insert data into the table
         String sql = "insert into tbl_assetAllocation (AssetID, UserID, AgentID, OfficeID, LoanType, StartDate, DueDate, EndDate, AllocationStatus, AssetConditionBefore, AssetConditionAfter, AdditionalComments) values (?,?,?,?,?,?,?,?,?,?,?,?)";
         //Try with resources to close the connection after the operation is done
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             //prepared statement to execute the query
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

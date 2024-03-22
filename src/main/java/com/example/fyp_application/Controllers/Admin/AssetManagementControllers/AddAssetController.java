@@ -90,7 +90,7 @@ public class AddAssetController implements Initializable {
     @FXML
     private void addAsset(){
         if(isEmptyFields()){
-            AlertNotificationHandler.showErrorMessageAlert("Invalid Entry", "Please fill in all fields");
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields");
         }else{
             // Add Asset
             AssetDAO.addAsset(
@@ -102,15 +102,15 @@ public class AddAssetController implements Initializable {
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),
-                    DateTimeHandler.setSQLiteDateFormat(purchaseDate_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(estimatedEOL_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(warrantyStart_DP.getValue()),
-                    DateTimeHandler.setSQLiteDateFormat(warrantyEnd_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(purchaseDate_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(estimatedEOL_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(warrantyStart_DP.getValue()),
+                    DateTimeUtils.setYearMonthDayFormat(warrantyEnd_DP.getValue()),
                     assetCondition_CB.getValue(),
                     assetStatus_CB.getValue(),
                     photoPath_TF.getText()
             );
-            AlertNotificationHandler.showInformationMessageAlert("Success", "Asset added successfully");
+            AlertNotificationUtils.showInformationMessageAlert("Success", "Asset added successfully");
             resetForm();
         }
     }
@@ -144,13 +144,13 @@ public class AddAssetController implements Initializable {
 
     @FXML
     private void setPhotoPath(){
-        photoPath_TF.setText(AttachmentHandler.addIndividualAttachment());
+        photoPath_TF.setText(AttachmentUtils.addIndividualAttachment());
 
     }
 
     @FXML
     private void setSerialNumber(){
-        serialNo_TF.setText(InformationGeneratorHandler.generateSerialNumber(8));
+        serialNo_TF.setText(InformationGeneratorUtils.generateSerialNumber(8));
     }
 
     @FXML
@@ -181,7 +181,7 @@ public class AddAssetController implements Initializable {
         storageSpec_CB.setValue("N/A");
         ramSpec_CB.setValue("N/A");
 
-        PropertyListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
+        SearchBarListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
     }
 
 
@@ -205,13 +205,13 @@ public class AddAssetController implements Initializable {
         initializeComboBoxes();
 
 
-        DateTimeHandler.dateValidator(purchaseDate_DP);
-        DateTimeHandler.dateValidator(warrantyStart_DP);
-        DateTimeHandler.warrantyEndDateValidator(warrantyStart_DP, warrantyEnd_DP);
-        DateTimeHandler.endOfLifeValidator(purchaseDate_DP, estimatedEOL_DP);
+        DateTimeUtils.dateValidator(purchaseDate_DP);
+        DateTimeUtils.dateValidator(warrantyStart_DP);
+        DateTimeUtils.warrantyEndDateValidator(warrantyStart_DP, warrantyEnd_DP);
+        DateTimeUtils.endOfLifeValidator(purchaseDate_DP, estimatedEOL_DP);
 
 
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
 
         Platform.runLater(this::initialFormSetup);

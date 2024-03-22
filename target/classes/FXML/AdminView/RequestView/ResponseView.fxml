@@ -68,7 +68,7 @@
             </HBox>
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#cancelAction" prefHeight="60.0" prefWidth="60.0">
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="60.0" prefWidth="60.0">
                      <graphic>
                         <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="50" />
                      </graphic>
@@ -121,12 +121,12 @@
                                                    </font>
                                                 </Label>
                                                 <ComboBox fx:id="ticketCategory_CB" prefHeight="40.0" prefWidth="200.0" />
-                                                <Label prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Target Resolution">
+                                                <Label fx:id="ticketDateTitle_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Target Resolution">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="targetResolution_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                                <Label fx:id="ticketDateHolder_lbl" prefHeight="35.0" prefWidth="219.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
@@ -191,26 +191,27 @@
                                        </font>
                                     </Label>
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="980.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="20.0" />
-                                    <HBox fillHeight="false" layoutX="699.0" layoutY="373.0" prefHeight="46.0" prefWidth="301.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+                                    <HBox fillHeight="false" layoutX="817.0" layoutY="373.0" prefHeight="46.0" prefWidth="183.0" spacing="30.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                        <children>
                                           <AnchorPane>
                                              <children>
-                                                <Button fx:id="sendBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#handleTicketUpdate" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Response" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
-                                                   <graphic>
-                                                      <FontAwesomeIconView glyphName="EDIT" size="35" />
-                                                   </graphic>
-                                                </Button>
+                                                <StackPane layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                                   <children>
+                                                      <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#handleTicketChanges" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Response">
+                                                         <graphic>
+                                                            <FontAwesomeIconView glyphName="SEND" size="35" />
+                                                         </graphic>
+                                                      </Button>
+                                                      <Button fx:id="closeResponse_btn" mnemonicParsing="false" onAction="#handleTicketChanges" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Close Response" visible="false">
+                                                         <graphic>
+                                                            <FontAwesomeIconView glyphName="SEND" size="35" />
+                                                         </graphic>
+                                                      </Button>
+                                                   </children>
+                                                </StackPane>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane>
-                                             <children>
-                                                <Button fx:id="quickClose_btn" layoutY="-2.0" mnemonicParsing="false" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Clear Page?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                                                   <graphic>
-                                                      <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                                                   </graphic>
-                                                </Button>
-                                             </children>
-                                          </AnchorPane>
+                                          <AnchorPane />
                                        </children>
                                     </HBox>
                                  </children>

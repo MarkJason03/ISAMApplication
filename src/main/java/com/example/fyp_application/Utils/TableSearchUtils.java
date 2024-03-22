@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import java.util.function.BiPredicate;
 
 
-public class TableSearchHandler {
+public class TableSearchUtils {
 
     // Search for asset details
     // Using a BiPredicate to compare the asset details with the search bar input

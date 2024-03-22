@@ -2,9 +2,9 @@ package com.example.fyp_application.Controllers.Admin.SupplierManagementControll
 
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.TableSearchHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TableSearchUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -30,7 +30,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ModifiedManageSupplierController implements Initializable {
@@ -125,7 +124,7 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
     private void refreshTimer(){
-        String currentTime = DateTimeHandler.getCurrentTime();
+        String currentTime = DateTimeUtils.getCurrentTimeFormat();
         lastUpdate_lbl.setText("Last Updated : " + currentTime);
     }
 
@@ -165,7 +164,7 @@ public class ModifiedManageSupplierController implements Initializable {
             supTableView.setItems(filteredList);
         });*/
 
-        TableSearchHandler.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
+        TableSearchUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
                 supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
     }
     private void tableListener(){
@@ -251,7 +250,7 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if (selectedSupplier == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -303,15 +302,15 @@ public class ModifiedManageSupplierController implements Initializable {
         SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
 
         if(selectedSupplier == null){
-            AlertNotificationHandler.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
+            AlertNotificationUtils.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
             return;
         }
-        if(AlertNotificationHandler.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
+        if(AlertNotificationUtils.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
             int supplierID = selectedSupplier.getSupplierID();
             supplierDAO.deleteSupplier(supplierID);
             loadSupplierTableData();
         } else{
-            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
+            AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
         }
     }
 
@@ -342,7 +341,7 @@ public class ModifiedManageSupplierController implements Initializable {
         Platform.runLater(this::countActiveSuppliers);
         Platform.runLater(this::countInactiveSuppliers);
 
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
         loadSupplierTableData();
         refreshTimer();

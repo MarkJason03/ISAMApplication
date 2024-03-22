@@ -2,8 +2,8 @@ package com.example.fyp_application.Controllers.Client.ClientProfileManagementCo
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.PasswordHashHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.PasswordHashingUtils;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -109,20 +109,20 @@ public class EditProfilePopUpController implements Initializable {
     @FXML
     private void saveProfileChanges(){
 /*        String password = password_TF.getText();
-        String hashedPassword = PasswordHashHandler.hashPassword(password);
+        String hashedPassword = PasswordHashingUtils.hashPassword(password);
 
         System.out.println(password);
         System.out.println(hashedPassword);
 
-        System.out.println(PasswordHashHandler.verifyPassword(hashedPassword, password));*/
+        System.out.println(PasswordHashingUtils.verifyPassword(hashedPassword, password));*/
 
 
         if(isValidFields()){
-            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
         }
         else{
             UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
-            AlertNotificationHandler.showInformationMessageAlert("Update Completed", "Details updated successfully.");
+            AlertNotificationUtils.showInformationMessageAlert("Update Completed", "Details updated successfully.");
             saveProfileChanges_btn.getScene().getWindow().hide();
         }
 
@@ -133,28 +133,28 @@ public class EditProfilePopUpController implements Initializable {
 
     private void savePasswordChange() {
         // First, confirm if the user wants to update the password.
-        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
+        boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
 
         // If the user confirmed, proceed with further checks.
         if (confirmation) {
             // Check if either password field is empty.
             if (newPassword_TF.getText().isEmpty() || confirmationPassword_TF.getText().isEmpty()) {
-                AlertNotificationHandler.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
+                AlertNotificationUtils.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
                 return;
             }
 
             // Check if the passwords match.
             if (newPassword_TF.getText().equals(confirmationPassword_TF.getText())) {
                 // Hash the password and update it in the database.
-                String hashedPassword = PasswordHashHandler.hashPassword(confirmationPassword_TF.getText());
+                String hashedPassword = PasswordHashingUtils.hashPassword(confirmationPassword_TF.getText());
                 UserDAO.updateUserPassword(this.userID, hashedPassword);
 
                 // Show success message and close the window.
-                AlertNotificationHandler.showInformationMessageAlert("Password Updated", "Password updated successfully.");
+                AlertNotificationUtils.showInformationMessageAlert("Password Updated", "Password updated successfully.");
                 //updatePassword_btn.getScene().getWindow().hide();
             } else {
                 // Indicate that the passwords do not match.
-                AlertNotificationHandler.showInformationMessageAlert("Action aborted", "Password has not been updated. Please check your fields.");
+                AlertNotificationUtils.showInformationMessageAlert("Action aborted", "Password has not been updated. Please check your fields.");
                 newPassword_TF.setStyle("-fx-border-color: red");
                 confirmationPassword_TF.setStyle("-fx-border-color: red");
                 passwordChecker_lbl.setStyle("-fx-text-fill: red");

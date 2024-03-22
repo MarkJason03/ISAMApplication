@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class BuildingOfficesDAO {
         String sql = "select * from tbl_BuildingOffices";
 
         //Try with resources to close the connection after the operation is done
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             //prepared statement to execute the query
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class BuildingOfficesDAO {
         String sql = "select * from tbl_BuildingOffices where BuildingID = ?";
 
         //Try with resources to close the connection after the operation is done
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             //prepared statement to execute the query
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

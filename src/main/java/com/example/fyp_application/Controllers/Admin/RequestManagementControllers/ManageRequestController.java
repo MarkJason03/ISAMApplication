@@ -2,8 +2,8 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -26,6 +26,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManageRequestController implements Initializable {
@@ -42,7 +43,7 @@ public class ManageRequestController implements Initializable {
     private Label dateTimeHolder;
 
     @FXML
-    private Button deleteUser_btn;
+    private Button assignTicket_btn;
 
     @FXML
     private Label deptHolder_lbl;
@@ -176,7 +177,7 @@ public class ManageRequestController implements Initializable {
     private void reloadTable() {
 
         Platform.runLater(this::loadTicketsTable);
-        dateTimeHolder.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+        dateTimeHolder.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
 
@@ -208,7 +209,7 @@ public class ManageRequestController implements Initializable {
         TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
 
         if (selectedTicket == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
+            AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         }
         else {
@@ -235,12 +236,13 @@ public class ManageRequestController implements Initializable {
 
                 supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
                 //Platform.runLater(this::loadTicketsTable);
 
+                loadTicketsTable();
                 Platform.runLater(this::countCreatedRequests);
                 Platform.runLater(this::countOnProgressRequests);
                 Platform.runLater(this::countClosedCalls);
@@ -250,6 +252,58 @@ public class ManageRequestController implements Initializable {
 
     }
 
+    @FXML
+    private void assignTicket(){
+
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) requestTableView.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+        TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedTicket == null) {
+            AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
+        }
+        else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ASSIGN_TICKET_POP_UP));
+                Parent root = modalViewLoader.load();
+
+
+                AssignCallController assignCallController = modalViewLoader.getController();
+                assignCallController.loadTicketDetails(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
+
+                // New window setup as modal
+                Stage assignTicketModalWidow = new Stage();
+                assignTicketModalWidow.initOwner(currentDashboardStage);
+                assignTicketModalWidow.initModality(Modality.WINDOW_MODAL);
+                assignTicketModalWidow.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                assignTicketModalWidow.setScene(scene);
+
+                assignTicketModalWidow.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+                //Platform.runLater(this::loadTicketsTable);
+
+                loadTicketsTable();
+                Platform.runLater(this::countCreatedRequests);
+                Platform.runLater(this::countOnProgressRequests);
+                Platform.runLater(this::countClosedCalls);
+
+            }
+        }
+
+    }
 
     @FXML
     private ObservableList<TicketModel> ticketList;
@@ -260,6 +314,7 @@ public class ManageRequestController implements Initializable {
 
         ticketID_col.setCellValueFactory(new PropertyValueFactory<>("ticketID"));
         userFullname_col.setCellValueFactory(new PropertyValueFactory<>("userFullName"));
+        agentName_col.setCellValueFactory(new PropertyValueFactory<>("agentFullName"));
         ticketTitle_col.setCellValueFactory(new PropertyValueFactory<>("ticketTitle"));
         ticketStatus_col.setCellValueFactory(new PropertyValueFactory<>("ticketStatus"));
         ticketPriority_col.setCellValueFactory(new PropertyValueFactory<>("ticketPriority"));

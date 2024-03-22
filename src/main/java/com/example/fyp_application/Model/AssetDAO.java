@@ -1,9 +1,8 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +28,7 @@ public class AssetDAO {
                 """;
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection();
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -76,7 +75,7 @@ public class AssetDAO {
                 where asset.AssetID = ?;
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection();
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, assetID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -149,7 +148,7 @@ public class AssetDAO {
                 WHERE AssetID = ?;
                 """;
 
-        try(Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, assetCategoryID);
@@ -213,7 +212,7 @@ public class AssetDAO {
                 PhotoPath) Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, assetCategoryID);

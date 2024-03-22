@@ -60,7 +60,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#cancelUpdate" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
+                              <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="EDIT" size="30" />
                                  </graphic>

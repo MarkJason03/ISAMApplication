@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,7 +21,7 @@ public class SupplierDAO {
         String sql = "SELECT * FROM tbl_Suppliers";
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection();
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -48,7 +48,7 @@ public class SupplierDAO {
     public void addSupplier(String supplierName, String supplierEmail, String supplierPhone, String contractStatus, String supplierAddress, String contractStartDate, String contractEndDate){
         String sql  = "INSERT INTO tbl_Suppliers (supplierName, supplierAddress, supplierEmail, supplierPhone, supplierContractStatus, contractStartDate, contractEndDate) VALUES (?,?,?,?,?,?,?)";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, supplierName);
@@ -59,7 +59,7 @@ public class SupplierDAO {
                 preparedStatement.setString(6, contractStartDate);
                 preparedStatement.setString(7, contractEndDate);
                 preparedStatement.executeUpdate();
-                DatabaseConnectionHandler.closeConnection(connection);
+                DatabaseConnectionUtils.closeConnection(connection);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -78,7 +78,7 @@ public class SupplierDAO {
                 """;
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, supplierName);
@@ -89,7 +89,7 @@ public class SupplierDAO {
                 preparedStatement.setString(6, contractEndDate);
                 preparedStatement.setInt(7, supplierID);
                 preparedStatement.executeUpdate();
-                DatabaseConnectionHandler.closeConnection(connection);
+                DatabaseConnectionUtils.closeConnection(connection);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -97,7 +97,7 @@ public class SupplierDAO {
 
 
         try {
-            Connection connection = DatabaseConnectionHandler.getConnection();
+            Connection connection = DatabaseConnectionUtils.getConnection();
             assert connection != null;
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -108,7 +108,7 @@ public class SupplierDAO {
             preparedStatement.setInt(5, supplierID);
             preparedStatement.executeUpdate();
 
-            DatabaseConnectionHandler.closeConnection(connection);
+            DatabaseConnectionUtils.closeConnection(connection);
 
         } catch (SQLException error) {
             error.printStackTrace();
@@ -123,7 +123,7 @@ public class SupplierDAO {
         String sql = "delete from tbl_Suppliers where supplierID = ?";
         try{
 
-            Connection connection = DatabaseConnectionHandler.getConnection();
+            Connection connection = DatabaseConnectionUtils.getConnection();
             assert connection != null;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, supplierID );
@@ -144,12 +144,12 @@ public class SupplierDAO {
                 """;
 
 
-        try( Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try( Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 System.out.println("\nChecking and updating contract status");
                 preparedStatement.executeUpdate();
-                DatabaseConnectionHandler.closeConnection(connection);
+                DatabaseConnectionUtils.closeConnection(connection);
                 System.out.println("Contract status updated\n");
             }
         } catch (SQLException error) {
@@ -166,7 +166,7 @@ public class SupplierDAO {
         String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Active'";
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -188,7 +188,7 @@ public class SupplierDAO {
         String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Inactive'";
 
 
-        try(Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 ResultSet resultSet = preparedStatement.executeQuery())

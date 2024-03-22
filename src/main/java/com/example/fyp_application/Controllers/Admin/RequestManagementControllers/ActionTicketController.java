@@ -1,9 +1,11 @@
 package com.example.fyp_application.Controllers.Admin.RequestManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.GMailHandler;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.AttachmentUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.GMailUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -69,7 +71,10 @@ public class ActionTicketController implements Initializable {
     private Button sendBtn;
 
     @FXML
-    private Label targetResolution_lbl;
+    private Label ticketDateHolder_lbl;
+
+    @FXML
+    private Label ticketDateTitle_lbl;
 
     @FXML
     private ComboBox<TicketCategoryModel> ticketCategory_CB;
@@ -85,6 +90,9 @@ public class ActionTicketController implements Initializable {
 
     @FXML
     private TextField ticketTitle;
+
+    @FXML
+    private Button closeResponse_btn;
 
     private static final TicketDAO TICKET_DAO = new TicketDAO();
 
@@ -102,20 +110,44 @@ public class ActionTicketController implements Initializable {
 
 
 
+
+
     @FXML
-    private void handleTicketUpdate() {
+
+    private void handleTicketChanges(){
+
+
+        if (!responseDetails.getText().isEmpty()){
+
+            if (ticketStatus_CB.getValue().equals("Closed")){
+                startClosingTicketThread();
+            } else {
+                startOngoingTicketThread();
+            }
+        } else {
+            AlertNotificationUtils.showErrorMessageAlert("Empty Response", "Please enter a response");
+        }
+    }
+
+    @FXML
+    private void startOngoingTicketThread() {
+
 
         Task<Void> updateTask = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                submitTicketDetailChanges();
+                // Insert the ticket details changes to the database
+                System.out.println("Running the update ticket thread");
+                insertOngoingTicketDetailChanges();
                 return null;
             }
 
             @Override
             protected void succeeded() {
                 super.succeeded();
-                submitResponseAsync(); // Call the next step when succeeded
+                System.out.println("Ticket updated successfully");
+                System.out.println("Inserting response\n");
+                insertingResponseTask(); // proceed to insert the message response to the message history table
             }
 
             @Override
@@ -127,19 +159,25 @@ public class ActionTicketController implements Initializable {
         new Thread(updateTask).start();
     }
 
-    private void submitResponseAsync() {
-        Task<Void> responseTask = new Task<Void>() {
+    //thread for closing the ticket
+    @FXML
+    private void startClosingTicketThread(){
+        Task<Void> closeTask = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                submitResponse(); // This method now just contains the DB operation, no FX handling
-                sendUpdateEmail();
+                // Insert the ticket details changes to the database
+
+                System.out.println("Running the close ticket thread");
+                insertClosedTicketDetailChanges();
                 return null;
             }
 
             @Override
             protected void succeeded() {
                 super.succeeded();
-                submitAttachmentsAsync(); // Proceed to attachments after response
+                System.out.println("Ticket closed successfully");
+                System.out.println("Inserting response\n");
+                insertingResponseTask(); // proceed to insert the last message response to the message history table
             }
 
             @Override
@@ -148,68 +186,155 @@ public class ActionTicketController implements Initializable {
             }
         };
 
-        new Thread(responseTask).start();
+        new Thread(closeTask).start();
     }
 
-    private void submitAttachmentsAsync() {
-        Task<Void> attachmentTask = new Task<Void>() {
+    //thread for inserting the response to the message history table
+    private void insertingResponseTask() {
+
+        // Check if the ticket cb value is not closed
+        if (!ticketStatus_CB.getValue().equals("Closed")) {
+            Task<Void> ongoingTicketTask = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    System.out.println("Inserting response\n");
+                    insertMessageToHistory(); // Store the message response to the message history table
+                    System.out.println("Sending email\n");
+                    sendTicketUpdateEmail(); // send the email with the response recorded
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    System.out.println("Response recorded\n");
+                    insertingAttachmentTask(); //Once the response is saved, proceed to insert attachments
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                }
+            };
+
+            new Thread(ongoingTicketTask).start();
+
+        } else {
+            Task<Void> closeTicketTask = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    System.out.println("Inserting response\n");
+                    insertMessageToHistory(); // Store the message response to the message history table
+                    System.out.println("Sending email\n");
+                    sendCloseTicketEmail(); // send the close email with the response recorded
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+
+                    System.out.println("Inserting attachment\n");
+                    insertingAttachmentTask(); //Once the response is saved, proceed to insert attachments after the response if there is any
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                }
+            };
+
+            new Thread(closeTicketTask).start();
+        }
+
+    }
+
+    private void insertingAttachmentTask() {
+        Task<Void> attachmentInsertionTask = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                submitAttachment();
+                System.out.println("Inserting attachment\n");
+                insertAttachmentToHistory(); // Insert the attachments to the attachment table
                 return null;
             }
 
             @Override
             protected void succeeded() {
                 super.succeeded();
+                System.out.println("Closing window\n");
                 // Close the window or do other UI stuff as needed
+                closeWindow();
             }
 
             @Override
             protected void failed() {
                 super.failed();
-                // Handle failure
             }
         };
 
-        new Thread(attachmentTask).start();
+        new Thread(attachmentInsertionTask).start();
     }
 
     @FXML
-    private void submitTicketDetailChanges(){
-        TicketDAO.updateTicketDetails(ticketID,
+    private void insertOngoingTicketDetailChanges(){
+        // Update the ticket details to ongoing or awaiting response
+        TicketDAO.updateTicketDetailsByAdmin(ticketID,
                 ticketCategory_CB.getValue().getCategoryID(),
                 ticketStatus_CB.getValue(),
                 ticketPriority_CB.getValue(),
-                targetResolution_lbl.getText()
+                ticketDateHolder_lbl.getText()
                 );
     }
 
     @FXML
-    private void submitResponse() throws SQLException {
-        MessageHistoryDAO.recordMessage(ticketID,
-                responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
-                DateTimeHandler.getCurrentDateTime());
+    private void insertClosedTicketDetailChanges(){
+        // Update the ticket details to closed with the current day as closing date stamp
+        TicketDAO.updateTicketClosingDetailsByAdmin(
+                ticketID,
+                ticketCategory_CB.getValue().getCategoryID(),
+                ticketStatus_CB.getValue(),
+                ticketPriority_CB.getValue(),
+                DateTimeUtils.getYearMonthDayFormat()
+        );
+
+    }
+
+    @FXML
+    private void insertMessageToHistory() throws SQLException {
+        //record the message response to the message history table and append the agent name who responded to it
+
+        //Incase an agent forgets to assign the to themselves it will automatically assume the the name of the agent who is logged in
+        //To help the user know who responded to the ticket and help responding agent to know who responded to the ticket
+        if (ticketInfolist.get(0).getAgentFullName() != null){
+            MessageHistoryDAO.recordMessage(ticketID,
+                    responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
+                    DateTimeUtils.getCurrentDateTime());
+        } else{
+            MessageHistoryDAO.recordMessage(ticketID,
+                    responseDetails.getText().concat( "\n\n" + CurrentLoggedUserHandler.getCurrentLoggedAdminName()),
+                    DateTimeUtils.getCurrentDateTime());
         }
+
+    }
 
 
 
     @FXML
-    private void submitAttachment(){
+    private void insertAttachmentToHistory(){
 
         if (attachmentListView != null){
             for (String filePath : filePaths) {
-                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeHandler.getSQLiteDate());
+                TicketAttachmentDAO.insertAttachment(ticketID,filePath, DateTimeUtils.getYearMonthDayFormat());
             }
         }
     }
 
 
     @FXML
-    private void sendUpdateEmail() {
-        GMailHandler.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+    private void sendTicketUpdateEmail() {
+        GMailUtils.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
                 "Call In Progress: SD" +  ticketID,
-                GMailHandler.generateResponseEmailBody(ticketID,
+                GMailUtils.generateResponseEmailBody(ticketID,
                         ticketInfolist.get(0).getUserFullName(),
                         ticketInfolist.get(0).getTicketTitle(),
                         responseDetails.getText()
@@ -218,8 +343,22 @@ public class ActionTicketController implements Initializable {
     }
 
 
+
+
+
     @FXML
-    private void cancelAction(){
+    private void sendCloseTicketEmail(){
+        GMailUtils.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
+                "Ticket Closed: SD" +  ticketID,
+                GMailUtils.generateCloseTicketEmailBody(ticketID,
+                        ticketInfolist.get(0).getUserFullName(),
+                        ticketInfolist.get(0).getTicketTitle(),
+                        responseDetails.getText()
+                ));
+    }
+
+    @FXML
+    private void closeWindow(){
         backBtn.getScene().getWindow().hide();
     }
 
@@ -227,14 +366,14 @@ public class ActionTicketController implements Initializable {
     @FXML
     private void addAttachment(){
         // Instantiate the attachment handler
-        AttachmentHandler.addAttachments(filePaths,attachmentListView);
+        AttachmentUtils.addAttachments(filePaths,attachmentListView);
     }
 
 
     @FXML
     private void deleteAttachment(){
         // Instantiate the attachment handler
-        AttachmentHandler.deleteAttachments(attachmentListView);
+        AttachmentUtils.deleteAttachments(attachmentListView);
     }
 
     @FXML
@@ -252,12 +391,19 @@ public class ActionTicketController implements Initializable {
 
         if(!ticketInfolist.isEmpty()){
             this.ticketID = ticketInfolist.get(0).getTicketID();
-            System.out.println(ticketID);
+            System.out.println("This is the ticket ID " + ticketID);
 
-            ticketStatus_CB.setValue(ticketInfolist.get(0).getTicketStatus());
-            targetResolution_lbl.setText(DateTimeHandler.dateParser(ticketInfolist.get(0).getDateCreated()));
+            if (ticketInfolist.get(0).getTicketStatus().equals("Created")){
+                ticketStatus_CB.setValue("In Progress");
+            } else {
+                ticketStatus_CB.setValue(ticketInfolist.get(0).getTicketStatus());
+            }
+            ticketDateHolder_lbl.setText(DateTimeUtils.setTargetResolutionDate(ticketInfolist.get(0).getDateCreated()));
             ticketPriority_CB.setValue(ticketInfolist.get(0).getTicketPriority());
             ticketTitle.setText(ticketInfolist.get(0).getTicketTitle());
+
+
+
 
             for (TicketCategoryModel category : ticketCategory_CB.getItems()) {
                 if (category.getCategoryID() == ticketInfolist.get(0).getCategoryID()) {
@@ -272,7 +418,7 @@ public class ActionTicketController implements Initializable {
 
     @FXML
     private void openFile(String path) {
-        AttachmentHandler.openAttachment(path);
+        AttachmentUtils.openAttachment(path);
     }
 
 
@@ -285,8 +431,9 @@ public class ActionTicketController implements Initializable {
         ticketCategory_CB.getItems().addAll(categoryModelList);
 
 
-        ticketStatus_CB.setItems(FXCollections.observableArrayList("Created", "In Progress", "Awaiting Response", "Closed"));
+        ticketStatus_CB.setItems(FXCollections.observableArrayList("In Progress", "Awaiting Response", "Closed"));
         ticketPriority_CB.setItems(FXCollections.observableArrayList("Low", "Medium", "High"));
+
 
 
 
@@ -301,6 +448,20 @@ public class ActionTicketController implements Initializable {
 
 
             };
+        });
+
+        ticketStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if ("Closed".equals(newValue)) {
+                closeResponse_btn.setVisible(true);
+                ticketDateTitle_lbl.setText("Closing Date");
+                ticketDateHolder_lbl.setText(DateTimeUtils.getYearMonthDayFormat());
+                sendBtn.setVisible(false);
+            } else {
+                sendBtn.setVisible(true);
+                ticketDateTitle_lbl.setText("Target Resolution");
+                ticketDateHolder_lbl.setText(DateTimeUtils.setTargetResolutionDate(ticketInfolist.get(0).getDateCreated()));
+                closeResponse_btn.setVisible(false);
+            }
         });
 
         attachmentListView.setOnMouseClicked(mouseEvent -> {

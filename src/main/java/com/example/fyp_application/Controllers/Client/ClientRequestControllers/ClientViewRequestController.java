@@ -2,7 +2,6 @@ package com.example.fyp_application.Controllers.Client.ClientRequestControllers;
 
 import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
@@ -97,7 +96,7 @@ public class ClientViewRequestController implements Initializable {
 
     @FXML
     public void loadTicketInformation(int ticketID){
-        ObservableList<TicketModel> ticketInformationArray = TICKET_DAO.getTicketDetails(ticketID);
+        ObservableList<TicketModel> ticketInformationArray = TICKET_DAO.getFullTicketDetails(ticketID);
 
         if (!ticketInformationArray.isEmpty()) {
             this.ticketID = ticketInformationArray.get(0).getTicketID();

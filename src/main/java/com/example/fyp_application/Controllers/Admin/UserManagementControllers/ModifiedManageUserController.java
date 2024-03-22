@@ -2,9 +2,9 @@ package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.TableSearchHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TableSearchUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -164,7 +164,7 @@ public class ModifiedManageUserController implements Initializable {
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
 
         if (selectedUser == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -252,18 +252,18 @@ public class ModifiedManageUserController implements Initializable {
     private void deleteUser(){
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
+            AlertNotificationUtils.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
             return;
         }
 
-        if(AlertNotificationHandler.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
+        if(AlertNotificationUtils.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
             int userID = selectedUser.getUserID();
             USER_DAO.deleteUser(userID);
             loadTableData();
 
         } else {
 
-             AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "User has not been deleted");
+             AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "User has not been deleted");
 
             }
     }
@@ -271,7 +271,7 @@ public class ModifiedManageUserController implements Initializable {
     @FXML
     private void reloadTable(){
         Platform.runLater(this::loadTableData);
-        lastUpdate_lbl.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+        lastUpdate_lbl.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
 
@@ -293,7 +293,7 @@ public class ModifiedManageUserController implements Initializable {
             userTableView.setItems(filteredList);
         });*/
 
-        TableSearchHandler.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
+        TableSearchUtils.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
                 userDetails.getFirstName().toLowerCase().contains(searchDetail.toLowerCase()) ||
                         userDetails.getLastName().toLowerCase().contains(searchDetail.toLowerCase()) ||
                         userDetails.getUsername().toLowerCase().contains(searchDetail.toLowerCase()));
@@ -340,7 +340,7 @@ public class ModifiedManageUserController implements Initializable {
                 Platform.runLater(this::countActiveSuppliers);
                 Platform.runLater(this::countInactiveSuppliers);*/
 
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
         //Debugging
         userTableView.setOnMouseClicked(mouseEvent -> {

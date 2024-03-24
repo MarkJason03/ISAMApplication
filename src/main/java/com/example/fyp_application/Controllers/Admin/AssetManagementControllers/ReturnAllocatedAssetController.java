@@ -1,22 +1,32 @@
 package com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
 
-import javafx.event.ActionEvent;
+import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.GMailUtils;
+import com.example.fyp_application.Utils.SharedButtonUtils;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
-public class ReturnAllocatedAssetController {
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ResourceBundle;
 
+public class ReturnAllocatedAssetController implements Initializable {
     @FXML
-    private TextField accountStatus_TF;
+    private ChoiceBox<String> allocationStatus_CB;
 
     @FXML
     private TextField assetCondition_TF;
@@ -31,7 +41,7 @@ public class ReturnAllocatedAssetController {
     private TextField buildingName_TF;
 
     @FXML
-    private ComboBox<?> building_CB;
+    private ComboBox<BuildingModel> building_CB;
 
     @FXML
     private TextField category_TF;
@@ -73,9 +83,6 @@ public class ReturnAllocatedAssetController {
     private DatePicker loanStart_DP;
 
     @FXML
-    private ChoiceBox<?> loanStatus_CB;
-
-    @FXML
     private Circle loggedUserImage;
 
     @FXML
@@ -94,13 +101,10 @@ public class ReturnAllocatedAssetController {
     private TextField officeName_TF;
 
     @FXML
-    private ComboBox<?> office_CB;
+    private ComboBox<BuildingOfficesModel> office_CB;
 
     @FXML
     private TextField phone_TF;
-
-    @FXML
-    private ProgressBar progressIndicator_PB;
 
     @FXML
     private TextField ramSpec_TF;
@@ -109,13 +113,10 @@ public class ReturnAllocatedAssetController {
     private Button refreshHeader_btn;
 
     @FXML
-    private ChoiceBox<?> returnAssetCondition_CB;
+    private ChoiceBox<String> returnAssetCondition_CB;
 
     @FXML
-    private ChoiceBox<?> returnAssetStatus_CB;
-
-    @FXML
-    private TextField searchBar_TF;
+    private ChoiceBox<String> returnAssetStatus_CB;
 
     @FXML
     private TextField serialNo_TF;
@@ -127,14 +128,259 @@ public class ReturnAllocatedAssetController {
     private Button submitForm_btn;
 
     @FXML
-    private ComboBox<?> userComboBox;
+    private TextField username_TF;
 
     @FXML
     private Label username_lbl;
 
+
+    private boolean viewOnly ;
+
     @FXML
-    void closeMenu(ActionEvent event) {
+    private int assetID;
+
+    @FXML
+    private int allocationID;
+
+    @FXML
+    public void loadAllocationInformation(AssetAllocationModel assetAllocationModel, boolean viewOnly){
+
+        this.viewOnly = viewOnly;
+        allocationID = assetAllocationModel.getAllocationID();
+        assetID = assetAllocationModel.getAssetID();
+        System.out.println("Asset ID: "+assetID);
+        System.out.println("Allocation ID: "+allocationID);
+        assetName_TF.setText(assetAllocationModel.getAssetName());
+        serialNo_TF.setText(assetAllocationModel.getSerialNumber());
+        manufacturer_TF.setText(assetAllocationModel.getManufacturer());
+        category_TF.setText(assetAllocationModel.getCategory());
+        storageSpec_TF.setText(assetAllocationModel.getStorageSpec());
+        ramSpec_TF.setText(assetAllocationModel.getRamSpec());
+        assetCondition_TF.setText(assetAllocationModel.getAssetCondition());
+        assetStatus_TF.setText(assetAllocationModel.getAssetStatus());
+        firstName_TF.setText(assetAllocationModel.getFirstName());
+        lastName_TF.setText(assetAllocationModel.getLastName());
+        department_TF.setText(assetAllocationModel.getDepartment());
+        username_TF.setText(assetAllocationModel.getUsername());
+        email_TF.setText(assetAllocationModel.getEmail());
+        phone_TF.setText(assetAllocationModel.getPhone());
+        buildingName_TF.setText(assetAllocationModel.getBuildingName());
+        officeName_TF.setText(assetAllocationModel.getOfficeName());
+        loanStart_DP.setValue(LocalDate.parse(assetAllocationModel.getStartDate()));
+        loanDue_DP.setValue(LocalDate.parse(assetAllocationModel.getDueDate()));
+        comment_TA.setText(assetAllocationModel.getAdditionalComments());
+        returnAssetCondition_CB.setValue(assetAllocationModel.getAssetCondition());
+        returnAssetStatus_CB.setValue(assetAllocationModel.getAssetStatus());
+        allocationStatus_CB.setValue(assetAllocationModel.getAllocationStatus());
+
+        for (BuildingModel buildingModel : building_CB.getItems()) {
+            if (buildingModel.getBuildingName().equals(assetAllocationModel.getBuildingName())) {
+                building_CB.setValue(buildingModel);
+            }
+        }
+
+        for (BuildingOfficesModel buildingOfficesModel : office_CB.getItems()) {
+            if (buildingOfficesModel.getOfficeName().equals(assetAllocationModel.getOfficeName())) {
+                office_CB.setValue(buildingOfficesModel);
+            }
+        }
+
+        setViewOnly();
+    }
+
+
+    @FXML
+    private void setViewOnly(){
+        if (viewOnly || CurrentLoggedUserHandler.getCurrentLoggedAdminID() == null){
+            assetName_TF.setEditable(false);
+            serialNo_TF.setEditable(false);
+            manufacturer_TF.setEditable(false);
+            category_TF.setEditable(false);
+            storageSpec_TF.setEditable(false);
+            ramSpec_TF.setEditable(false);
+            assetCondition_TF.setEditable(false);
+            assetStatus_TF.setEditable(false);
+            firstName_TF.setEditable(false);
+            lastName_TF.setEditable(false);
+            department_TF.setEditable(false);
+            username_TF.setEditable(false);
+            email_TF.setEditable(false);
+            phone_TF.setEditable(false);
+            buildingName_TF.setEditable(false);
+            officeName_TF.setEditable(false);
+            loanStart_DP.setEditable(false);
+            loanStart_DP.setDisable(true);
+            loanDue_DP.setEditable(false);
+            loanDue_DP.setDisable(true);
+            loanReturn_DP.setEditable(false);
+            loanReturn_DP.setDisable(true);
+            comment_TA.setEditable(false);
+            returnAssetCondition_CB.setDisable(true);
+            returnAssetStatus_CB.setDisable(true);
+            submitForm_btn.setDisable(true);
+            submitForm_btn.setVisible(false);
+            allocationStatus_CB.setDisable(true);
+            office_CB.setDisable(true);
+            building_CB.setDisable(true);
+        } else {
+            assetName_TF.setEditable(true);
+            serialNo_TF.setEditable(true);
+            manufacturer_TF.setEditable(true);
+            category_TF.setEditable(true);
+            storageSpec_TF.setEditable(true);
+            ramSpec_TF.setEditable(true);
+            assetCondition_TF.setEditable(true);
+            assetStatus_TF.setEditable(true);
+            firstName_TF.setEditable(true);
+            lastName_TF.setEditable(true);
+            department_TF.setEditable(true);
+            username_TF.setEditable(true);
+            email_TF.setEditable(true);
+            phone_TF.setEditable(true);
+            buildingName_TF.setEditable(true);
+            officeName_TF.setEditable(true);
+            loanStart_DP.setEditable(true);
+            loanStart_DP.setDisable(false);
+            loanDue_DP.setEditable(true);
+            loanDue_DP.setDisable(false);
+            loanReturn_DP.setEditable(true);
+            loanReturn_DP.setDisable(false);
+            comment_TA.setEditable(true);
+            returnAssetCondition_CB.setDisable(false);
+            returnAssetStatus_CB.setDisable(false);
+            submitForm_btn.setDisable(false);
+            allocationStatus_CB.setDisable(false);
+            office_CB.setDisable(false);
+            building_CB.setDisable(false);
+
+        }
+    }
+
+    @FXML
+    private void setupComboBoxes() {
+        List<BuildingModel> allBuildings = BuildingDAO.getAllBuildings();
+        building_CB.getItems().addAll(allBuildings);
+
+        building_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                BuildingModel selectedBuilding = building_CB.getSelectionModel().getSelectedItem();
+                List<BuildingOfficesModel> allOffices = BuildingOfficesDAO.getSelectedBuildingOffices(selectedBuilding.getBuildingID());
+                office_CB.getItems().clear();
+                buildingName_TF.setText(selectedBuilding.getBuildingName());
+                office_CB.getItems().addAll(allOffices);
+                officeName_TF.setText(allOffices.get(0).getOfficeName());
+            }
+        });
+
+        returnAssetCondition_CB.getItems().addAll("Excellent", "Good", "Fair", "Poor");
+        returnAssetStatus_CB.getItems().addAll("Available", "In Repair", "Retired", "Disposed");
+        allocationStatus_CB.getItems().addAll("In Use", "Returned");
+
 
     }
 
+
+    @FXML
+    private void startReturnAllocationThread() {
+
+        if (isFormValid()) {
+            Task<Void> closeTask = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    // Insert the ticket details changes to the database
+
+                    System.out.println("Running the insertion of allocation thread");
+                    updateAllocationHistory();
+                    System.out.println("Allocation inserted successfully");
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    System.out.println("Updating asset status");
+                    updateAssetStatus(); // proceed to insert the last message response to the message history table
+                    System.out.println("Asset status updated successfully");
+                    AlertNotificationUtils.showInformationMessageAlert("Success", "Return form has been updated successfully");
+                    closeMenu();
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                }
+            };
+            new Thread(closeTask).start();
+        } else {
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields");
+        }
+
+    }
+
+
+    private void updateAllocationHistory() {
+        // Insert the asset allocation details into the database
+        AssetAllocationDAO.updateAllocation(
+                allocationID, // Asset ID
+                DateTimeUtils.setYearMonthDayFormat(loanDue_DP.getValue()), // Due Date
+                DateTimeUtils.setYearMonthDayFormat(loanReturn_DP.getValue()), // End Date
+                allocationStatus_CB.getValue(), // Allocation Status
+                returnAssetCondition_CB.getValue(),//Return Asset condition
+                comment_TA.getText());
+
+        // Update the asset status to the selected status
+        sendEmail();
+    }
+
+
+    private void sendEmail(){
+        GMailUtils.sendEmailTo(email_TF.getText(),
+                "Return Form Receipt",
+                GMailUtils.generateReturnAllocationBody(
+                        firstName_TF.getText()+" "+lastName_TF.getText(),
+                        assetName_TF.getText(),
+                        serialNo_TF.getText(),
+                        returnAssetCondition_CB.getValue(),
+                        allocationStatus_CB.getValue(),
+                        loanDue_DP.getValue().toString(),
+                        comment_TA.getText()
+                ));
+    }
+
+    private void updateAssetStatus(){
+        // Update the asset status to the selected status
+        AssetDAO.updateAssetStatus(assetID, returnAssetStatus_CB.getValue());
+    }
+
+
+    @FXML
+    private boolean isFormValid() {
+        return returnAssetCondition_CB.getValue() != null
+                && returnAssetStatus_CB.getValue() != null
+                && loanReturn_DP.getValue() != null
+                && loanDue_DP.getValue() != null
+                && office_CB.getValue() != null
+                && building_CB.getValue() != null;
+    }
+
+
+
+
+
+    @FXML
+    private void closeMenu() {
+        viewOnly = false;
+        SharedButtonUtils.closeMenu(closeMenu_btn);
+        SharedButtonUtils.closeMenu(exitApp_btn);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setupComboBoxes();
+
+
+
+
+    }
 }

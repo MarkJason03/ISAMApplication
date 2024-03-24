@@ -2,6 +2,7 @@ package com.example.fyp_application.Utils;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -72,8 +73,6 @@ public class UserDetailsUtils {
             }
         });
     }
-
-
     public static void setUserDetails(ComboBox<UserModel> userComboBox, TextField firstName_TF, TextField lastName_TF, TextField email_TF, TextField phone_TF, TextField username_TF, TextField dept_TF) {
         userComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

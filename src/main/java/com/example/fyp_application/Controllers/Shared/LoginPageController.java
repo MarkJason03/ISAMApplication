@@ -1,7 +1,7 @@
 package com.example.fyp_application.Controllers.Shared;
 
-import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController;
-import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController;
+import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardWindowController;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
@@ -215,7 +215,7 @@ public class LoginPageController implements Initializable {
 
     private void handleSuccessfulLogin(UserModel userDetails) throws IOException {
             // Get the first name and role of the user
-            String first_name = userDetails.getFirstName();
+            String first_name = userDetails.getUserFullName();
             String role = userDetails.getRoleName(); // Assuming 'userRoleName' holds the role name
             Integer userID = userDetails.getUserID();
             String photoPath = userDetails.getPhoto();
@@ -250,7 +250,7 @@ public class LoginPageController implements Initializable {
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
-        ClientDashboardController controller = loader.getController(); // Get the controller instance
+        ClientDashboardWindowController controller = loader.getController(); // Get the controller instance
 
         Stage stage = new Stage();
         Scene scene = new Scene(parent);
@@ -285,7 +285,7 @@ public class LoginPageController implements Initializable {
         Parent parent = loader.load(); // Load the FXML and get the root node
 
 
-        ModifiedAdminDashboardController controller = loader.getController(); // Get the controller instance
+        AdminDashboardWindowController controller = loader.getController(); // Get the controller instance
 
         Stage stage = new Stage();
         Scene scene = new Scene(parent);

@@ -2,18 +2,18 @@ package com.example.fyp_application.Service;
 
 public class CurrentLoggedUserHandler {
     private static Integer userID;
-    private static String userFirstName;
+    private static String userFullName;
     private static String imagePath;
 
 
     private static Integer adminID;
-    private static String adminFirstName;
+    private static String adminFullName;
     private static String adminImagePath;
 
 
-    public static void setCurrentUser(Integer userID, String firstName, String imagePath) {
+    public static void setCurrentUser(Integer userID, String userFullName, String imagePath) {
         CurrentLoggedUserHandler.userID = userID;
-        CurrentLoggedUserHandler.userFirstName = firstName;
+        CurrentLoggedUserHandler.userFullName = userFullName;
         CurrentLoggedUserHandler.imagePath = imagePath;
     }
 
@@ -21,16 +21,19 @@ public class CurrentLoggedUserHandler {
         CurrentLoggedUserHandler.imagePath = newPhotoPath;
     }
 
-    public static void setNewName(String newFirstName) {
-        CurrentLoggedUserHandler.userFirstName = newFirstName;
+    public static void setUserFullName(String userFullName) {
+        CurrentLoggedUserHandler.userFullName = userFullName;
     }
 
+    public static void setUserID(Integer userID) {
+        CurrentLoggedUserHandler.userID = userID;
+    }
     public static Integer getCurrentLoggedUserID() {
         return userID;
     }
 
-    public static String getCurrentLoggedUserFirstName() {
-        return userFirstName;
+    public static String getCurrentLoggedUserFullName() {
+        return userFullName;
     }
 
     public static String getCurrentLoggedUserImagePath() {
@@ -40,7 +43,7 @@ public class CurrentLoggedUserHandler {
 
     public static void setCurrentAdmin(Integer adminID, String adminName, String adminImagePath) {
         CurrentLoggedUserHandler.adminID = adminID;
-        CurrentLoggedUserHandler.adminFirstName = adminName;
+        CurrentLoggedUserHandler.adminFullName = adminName;
         CurrentLoggedUserHandler.adminImagePath = adminImagePath;
     }
 
@@ -48,16 +51,19 @@ public class CurrentLoggedUserHandler {
         CurrentLoggedUserHandler.adminImagePath = newPhotoPath;
     }
 
-    public static void setNewAdminName(String newFirstName) {
-        CurrentLoggedUserHandler.adminFirstName = newFirstName;
+    public static void setNewAdminName(String newFullName) {
+        CurrentLoggedUserHandler.adminFullName = newFullName;
     }
 
+    public static void setAdminID(Integer adminID) {
+        CurrentLoggedUserHandler.adminID = adminID;
+    }
     public static Integer getCurrentLoggedAdminID() {
         return adminID;
     }
 
-    public static String getCurrentLoggedAdminName() {
-        return adminFirstName;
+    public static String getCurrentLoggedAdminFullName() {
+        return adminFullName;
     }
 
     public static String getCurrentLoggedAdminImagePath() {

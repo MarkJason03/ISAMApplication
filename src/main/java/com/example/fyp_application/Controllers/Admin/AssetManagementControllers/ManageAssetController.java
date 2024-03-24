@@ -7,16 +7,13 @@ import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -33,29 +30,14 @@ import java.util.ResourceBundle;
 
 public class ManageAssetController implements Initializable {
 
+    @FXML
+    private TableColumn<?, ?> allocAssetName_col;
 
     @FXML
-    private TextField storageSpec_TF;
+    private Label allocAssetName_lbl;
 
     @FXML
-    private TextField manufacturer_TF;
-
-    @FXML
-    private TextField warrantStartDate_TF;
-
-    @FXML
-    private TextField warrantEndDate_TF;
-
-    @FXML
-    private TextField ramSpec_TF;
-
-    @FXML
-    private TextField opSystem_TF;
-    @FXML
-    private TableColumn<?, ?> allocHistoryAssetID_col;
-
-    @FXML
-    private TableColumn<?, ?> allocHistoryComment_col;
+    private TableColumn<?, ?> allocCurrentStatus_col;
 
     @FXML
     private TableColumn<?, ?> allocHistoryDueDate_col;
@@ -70,57 +52,58 @@ public class ManageAssetController implements Initializable {
     private TableColumn<?, ?> allocHistoryStartDate_col;
 
     @FXML
-    private TableColumn<?, ?> allocHistoryStatus_col;
+    private TableView<AssetAllocationModel> allocHistoryTable;
 
     @FXML
-    private TableView<?> allocHistoryTable;
+    private TableColumn<?, ?> allocLoanType_col;
 
     @FXML
-    private TableColumn<?, ?> allocHistoryType_col;
+    private TableColumn<?, ?> allocOverdueInfo_col;
 
     @FXML
-    private TableColumn<?, ?> allocHistoryUserID_col;
-    @FXML
-    private AnchorPane contentAP;
+    private TextField allocSearchBar_TF;
 
     @FXML
-    private Label dateTimeHolder;
+    private ComboBox<String> allocationStatusFilter_CB;
 
     @FXML
-    private Label serialNumber_lbl;
+    private TableColumn<?, ?> assetCategory_col;
 
     @FXML
-    private Label deptHolder_lbl1;
-
-    @FXML
-    private Button editProfile_btn1;
-
-    @FXML
-    private Button editProfile_btn11;
-
-    @FXML
-    private TextField email_TF;
-
-    @FXML
-    private TextField email_TF1;
-
-    @FXML
-    private TextField firstName_TF;
-
-    @FXML
-    private TextField firstName_TF1;
+    private TableColumn<?, ?> assetCondition_col;
 
     @FXML
     private Label assetFullname_lbl;
 
     @FXML
-    private Label fullNameHolder_lbl1;
+    private TableColumn<?, ?> assetID_Col;
 
     @FXML
-    private TextField lastName_TF;
+    private TableColumn<?, ?> assetName_col;
 
     @FXML
-    private TextField lastName_TF1;
+    private ComboBox<String> assetStatusFilter_CB;
+
+    @FXML
+    private TableColumn<?, ?> assetStatus_col;
+
+    @FXML
+    private TableView<AssetModel> assetTable;
+
+    @FXML
+    private TextField building_TF;
+
+    @FXML
+    private AnchorPane contentAP;
+
+    @FXML
+    private Label currentStatus_lbl;
+
+    @FXML
+    private Label dateTimeHolder;
+
+    @FXML
+    private Button editProfile_btn11;
 
     @FXML
     private Label lastUpdate_lbl;
@@ -129,11 +112,25 @@ public class ManageAssetController implements Initializable {
     private Label lastUpdate_lbl1;
 
     @FXML
+    private TextField manufacturer_TF;
+
+    @FXML
     private Button newRequest;
 
     @FXML
-    private Button newRequest1;
+    private TextField office_TF;
 
+    @FXML
+    private TextField opSystem_TF;
+
+    @FXML
+    private TableColumn<AssetModel, ImageView> photoDisplay_col;
+
+    @FXML
+    private TableColumn<?, ?> photoPath_col;
+
+    @FXML
+    private TextField ramSpec_TF;
 
     @FXML
     private Button reload_btn;
@@ -145,8 +142,19 @@ public class ManageAssetController implements Initializable {
     private TextField searchBar_TF;
 
     @FXML
-    private TextField searchBar_TF1;
+    private TableColumn<?, ?> serialNo_col;
 
+    @FXML
+    private Label serialNumber_lbl;
+
+    @FXML
+    private TextField storageSpec_TF;
+
+    @FXML
+    private Button test;
+
+    @FXML
+    private Button updateAllocation_TF;
 
     @FXML
     private Label userCounter_lbl;
@@ -155,50 +163,47 @@ public class ManageAssetController implements Initializable {
     private Label userCounter_lbl1;
 
     @FXML
+    private TextField userDept_TF;
+
+    @FXML
+    private TextField userEmail_TF;
+
+    @FXML
+    private TextField userFullname_TF;
+
+    @FXML
     private Label userInactiveCounter_lbl;
 
     @FXML
-    private TextField username_TF;
+    private TextField userPhone_TF;
 
     @FXML
-    private TextField username_TF1;
+    private Button viewAllocation_btn;
 
     @FXML
     private Button viewRequest;
 
     @FXML
-    private Button viewRequest1;
+    private TextField warrantEndDate_TF;
 
     @FXML
-    private Button test;
+    private TextField warrantStartDate_TF;
 
     @FXML
-    private TableColumn<?, ?> assetCategory_col;
+    private TabPane tabPane;
 
     @FXML
-    private TableColumn<?, ?> assetCondition_col;
+    private Tab assetManager_tab;
 
     @FXML
-    private TableColumn<?, ?> assetID_Col;
+    private Tab assetAllocation_tab;
 
     @FXML
-    private TableColumn<?, ?> assetName_col;
-
-    @FXML
-    private TableColumn<?, ?> assetStatus_col;
-
-    @FXML
-    private TableView<AssetModel> assetTable;
-
-    @FXML
-    private TableColumn<?, ?> photoPath_col;
-    @FXML
-    private TableColumn<?, ?> serialNo_col;
-    @FXML
-    private TableColumn<AssetModel, ImageView> photoDisplay_col;
+    private TableColumn<?, ?> allocOverDueDays;
 
     private ObservableList<AssetModel> assetList;
 
+    private ObservableList<AssetAllocationModel> allocationList;
     private static final String DEFAULT_PHOTO_PATH = "/CataloguePhotos/DefaultPlaceholder.PNG";
     @FXML
     private void loadAssetTable() {
@@ -242,7 +247,99 @@ public class ManageAssetController implements Initializable {
     }
 
 
-    private void tableListener(){
+
+    @FXML
+    private void loadFilteredAssetTable(String status) {
+
+        assetList = AssetDAO.getFilteredAsset(status);
+
+        assetID_Col.setCellValueFactory(new PropertyValueFactory<>("assetID"));
+        photoDisplay_col.setCellValueFactory(cellData -> {
+            AssetModel asset = cellData.getValue();
+            String photoPath = asset.getAssetPhotoPath();
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(150); // Set the desired height
+            imageView.setFitWidth(150); // Set the desired width
+
+            if (photoPath != null && !photoPath.isEmpty()) {
+                try {
+                    // Load the image from the photo path -Relative Folder:  CataloguePhotos
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
+                    imageView.setImage(image);
+                } catch (NullPointerException e) {
+
+                    System.err.println("Image not found: " + photoPath);
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                    imageView.setImage(image);
+                }
+            } else {
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                imageView.setImage(image);
+            }
+            return new SimpleObjectProperty<>(imageView);
+        });
+
+        assetName_col.setCellValueFactory(new PropertyValueFactory<>("assetName"));
+        serialNo_col.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        assetCategory_col.setCellValueFactory(new PropertyValueFactory<>("assetCategoryName"));
+        assetStatus_col.setCellValueFactory(new PropertyValueFactory<>("assetStatus"));
+        assetCondition_col.setCellValueFactory(new PropertyValueFactory<>("assetCondition"));
+        photoPath_col.setCellValueFactory(new PropertyValueFactory<>("assetPhotoPath"));
+
+        assetTable.setItems(assetList);
+    }
+
+
+
+    private void loadAssetAllocationTable() {
+        allocationList = AssetAllocationDAO.getAssetAllocations();
+
+        allocHistoryID_col.setCellValueFactory(new PropertyValueFactory<>("allocationID"));
+        allocAssetName_col.setCellValueFactory(new PropertyValueFactory<>("assetName"));
+        allocLoanType_col.setCellValueFactory(new PropertyValueFactory<>("loanType"));
+        allocCurrentStatus_col.setCellValueFactory(new PropertyValueFactory<>("allocationStatus"));
+        allocHistoryStartDate_col.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        allocHistoryDueDate_col.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
+        allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
+        allocHistoryTable.setItems(allocationList);
+    }
+
+    @FXML
+    private void loadFilteredAllocationTable(String status) {
+
+        allocationList = AssetAllocationDAO.getFilteredAllocations(status);
+
+        allocHistoryID_col.setCellValueFactory(new PropertyValueFactory<>("allocationID"));
+        allocAssetName_col.setCellValueFactory(new PropertyValueFactory<>("assetName"));
+        allocLoanType_col.setCellValueFactory(new PropertyValueFactory<>("loanType"));
+        allocCurrentStatus_col.setCellValueFactory(new PropertyValueFactory<>("allocationStatus"));
+        allocHistoryStartDate_col.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        allocHistoryDueDate_col.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
+        allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
+        allocHistoryTable.setItems(allocationList);
+    }
+    /*@FXML
+    private void loadAllocationTable(){
+
+            ObservableList<AssetAllocationModel> allocationList = AssetAllocationDAO.getAssetAllocations();
+
+            allocHistoryID_col.setCellValueFactory(new PropertyValueFactory<>("allocationID"));
+            allocHistoryAssetID_col.setCellValueFactory(new PropertyValueFactory<>("assetID"));
+            allocHistoryUserID_col.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            allocHistoryStartDate_col.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+            allocHistoryDueDate_col.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+            allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+            allocHistoryStatus_col.setCellValueFactory(new PropertyValueFactory<>("status"));
+            allocHistoryType_col.setCellValueFactory(new PropertyValueFactory<>("allocationType"));
+            allocHistoryComment_col.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+            allocHistoryTable.setItems(allocationList);
+    }*/
+    private void assetTableListener(){
         assetTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 AssetModel selectedItem = assetTable.getSelectionModel().getSelectedItem();
@@ -261,6 +358,23 @@ public class ManageAssetController implements Initializable {
         });
     }
 
+    private void allocationTableListener(){
+        allocHistoryTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                AssetAllocationModel selectedItem = allocHistoryTable.getSelectionModel().getSelectedItem();
+
+                //asset info
+                allocAssetName_lbl.setText(selectedItem.getAssetName());
+                currentStatus_lbl.setText(selectedItem.getAllocationStatus());
+                building_TF.setText(selectedItem.getBuildingName());
+                office_TF.setText(selectedItem.getOfficeName());
+                userFullname_TF.setText(selectedItem.getFirstName() + " " + selectedItem.getLastName());
+                userDept_TF.setText(selectedItem.getDepartment());
+                userEmail_TF.setText(selectedItem.getEmail());
+                userPhone_TF.setText(selectedItem.getPhone());
+            }
+        });
+    }
     @FXML
     private void searchAssetDetails(){
 /*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -389,7 +503,7 @@ public class ManageAssetController implements Initializable {
 
 
     @FXML
-    private void insertAssetAllocation(){
+    private void recordNewAllocationRequest(){
 
         GaussianBlur blur = new GaussianBlur(10);
         Stage currentDashboardStage = (Stage) assetTable.getScene().getWindow();
@@ -444,10 +558,189 @@ public class ManageAssetController implements Initializable {
     }
 
 
+    @FXML
+    private void viewAllocationDetails(){
+
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) allocHistoryTable.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+        AssetAllocationModel selectedItem = allocHistoryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Allocation Information", "Please select an allocation history to view");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
+        } else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_ALLOCATION_POP_UP));
+                Parent root = modalViewLoader.load();
+
+                ReturnAllocatedAssetController returnAllocatedAssetController = modalViewLoader.getController();
+                returnAllocatedAssetController.loadAllocationInformation(selectedItem,true);
+
+
+                // New window setup as modal
+                Stage viewAllocationForm = new Stage();
+                viewAllocationForm.initOwner(currentDashboardStage);
+                viewAllocationForm.initModality(Modality.WINDOW_MODAL);
+                viewAllocationForm.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                viewAllocationForm.setScene(scene);
+
+                viewAllocationForm.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            }
+
+        }
+
+
+
+    }
+
+
+
+    @FXML
+    private void updateAllocationDetails(){
+
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) allocHistoryTable.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+        AssetAllocationModel selectedItem = allocHistoryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Allocation Information", "Please select an allocation history to view");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
+        } else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_ALLOCATION_POP_UP));
+                Parent root = modalViewLoader.load();
+
+                ReturnAllocatedAssetController returnAllocatedAssetController = modalViewLoader.getController();
+                returnAllocatedAssetController.loadAllocationInformation(selectedItem,false);
+
+
+                // New window setup as modal
+                Stage viewAllocationForm = new Stage();
+                viewAllocationForm.initOwner(currentDashboardStage);
+                viewAllocationForm.initModality(Modality.WINDOW_MODAL);
+                viewAllocationForm.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                viewAllocationForm.setScene(scene);
+
+                viewAllocationForm.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+
+                Task<Void>initTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        setupAllocationFilterComboBox();
+                        assetTableListener();
+                        searchAssetDetails();
+
+                        loadAssetTable();
+
+                        loadAssetAllocationTable();
+                        setupAssetFilterComboBox();
+                        allocationTableListener();
+                        return null;
+                    }
+                };
+                new Thread(initTask).start();
+
+            }
+
+        }
+    }
+
+    @FXML
+    private void setupAssetFilterComboBox(){
+        assetStatusFilter_CB.getItems().addAll("All","Available", "In Use", "In Repair", "Retired", "Disposed");
+        assetStatusFilter_CB.setValue("All");
+
+        assetStatusFilter_CB.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection.equals("All")) {
+                test.setDisable(true);
+                loadAssetTable();
+                }
+            else if(newSelection.equals("In Use")) {
+                test.setDisable(true);
+                loadFilteredAssetTable(newSelection);
+            }else {
+                test.setDisable(false);
+                loadFilteredAssetTable(newSelection);
+            }
+        });
+    }
+
+    @FXML
+    private void setupAllocationFilterComboBox(){
+        allocationStatusFilter_CB.getItems().addAll("All", "In Use", "Return");
+        allocationStatusFilter_CB.setValue("All");
+
+
+        allocationStatusFilter_CB.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection.equals("All")) {
+
+                loadAssetAllocationTable();
+            }
+            else if(newSelection.equals("In Use")) {
+
+                loadFilteredAllocationTable(newSelection);
+            }else {
+
+                loadFilteredAllocationTable(newSelection);
+            }
+        });
+    }
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadAssetTable();
-        tableListener();
-        searchAssetDetails();
+
+        Task<Void>initTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                setupAllocationFilterComboBox();
+                assetTableListener();
+                searchAssetDetails();
+
+                loadAssetTable();
+
+                loadAssetAllocationTable();
+                        setupAssetFilterComboBox();
+                allocationTableListener();
+                return null;
+            }
+        };
+        new Thread(initTask).start();
+
+
+
+/*
+        Platform.runLater(this::loadAssetAllocationTable);
+        Platform.runLater(this::setupAssetFilterComboBox);
+        Platform.runLater(this::allocationTableListener);*/
     }
 }

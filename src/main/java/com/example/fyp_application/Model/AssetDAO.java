@@ -60,6 +60,56 @@ public class AssetDAO {
         return assetList;
     }
 
+    public static ObservableList<AssetModel> getFilteredAsset(String filter) {
+        //List to store supplier data
+        ObservableList<AssetModel> assetList = FXCollections.observableArrayList();
+        //Instance of the class
+        AssetModel assetModel;
+
+        String sql = """
+                SELECT asset.*,
+                       assetCategory.assetCategoryName as Category,
+                       manufacturer.ManufacturerName as Manufacturer
+                FROM tbl_Assets AS asset
+                JOIN tbl_assetCategory AS assetCategory ON asset.assetCategoryID = assetCategory.assetCategoryID
+                JOIN tbl_assetManufacturer AS manufacturer ON asset.ManufacturerID = manufacturer.ManufacturerID
+                Where asset.AssetStatus = ?;
+                """;
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, filter);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    assetModel = new AssetModel(
+                            resultSet.getInt("AssetID"),
+                            resultSet.getInt("assetCategoryID"),
+                            resultSet.getInt("ManufacturerID"),
+                            resultSet.getString("AssetName"),
+                            resultSet.getString("SerialNo"),
+                            resultSet.getInt("AssetPrice"),
+                            resultSet.getString("StorageSpec"),
+                            resultSet.getString("RamSpec"),
+                            resultSet.getString("OperatingSystem"),
+                            resultSet.getString("PurchaseDate"),
+                            resultSet.getString("EoLDate"),
+                            resultSet.getString("WarrantyStartDate"),
+                            resultSet.getString("WarrantyEndDate"),
+                            resultSet.getString("AssetStatus"),
+                            resultSet.getString("AssetCondition"),
+                            resultSet.getString("PhotoPath"),
+                            resultSet.getString("Category"),
+                            resultSet.getString("Manufacturer")
+                    );
+                    assetList.add(assetModel);
+                }
+            } catch (SQLException error) {
+                error.printStackTrace();
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return assetList;
+    }
 
     public static ObservableList<AssetModel>getSelectedAsset(int assetID) throws SQLException {
         ObservableList<AssetModel> assetSet = FXCollections.observableArrayList();
@@ -234,6 +284,26 @@ public class AssetDAO {
                 System.out.println("Executing update statement \n");
                 preparedStatement.executeUpdate();
                 System.out.println("Asset added \n");
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+    }
+
+    public static void updateAssetStatus(int assetID, String value) {
+        //Update the asset status
+        String sql = """
+                UPDATE tbl_Assets
+                SET AssetStatus = ?
+                WHERE AssetID = ?;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, value);
+                preparedStatement.setInt(2, assetID);
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException error) {
             error.printStackTrace();

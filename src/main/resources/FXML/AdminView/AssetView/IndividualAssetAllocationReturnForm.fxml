@@ -8,7 +8,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -102,133 +101,92 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1586.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" stroke="BLACK" strokeType="INSIDE" width="1586.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="4.0" />
-                        <VBox layoutX="1046.0" layoutY="36.0" spacing="10.0">
+                        <VBox layoutX="1046.0" layoutY="36.0" spacing="20.0">
                            <children>
-                              <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                              <AnchorPane prefHeight="409.0" prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <children>
                                     <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User Information">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
-                                    <VBox layoutX="32.0" layoutY="201.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
-                                       <children>
-                                          <TitledPane prefWidth="459.0" text="User Summary">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="457.0">
-                                                   <children>
-                                                      <GridPane layoutX="36.0" layoutY="6.0" prefHeight="228.0" prefWidth="412.0">
-                                                        <columnConstraints>
-                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                        </columnConstraints>
-                                                        <rowConstraints>
-                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                        </rowConstraints>
-                                                         <children>
-                                                            <Label text="First Name">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <TextField fx:id="firstName_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="FirstName" GridPane.rowIndex="1">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                            <Label text="Department" GridPane.rowIndex="2">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <TextField fx:id="department_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Department" GridPane.rowIndex="3">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                            <Label text="Last Name" GridPane.columnIndex="1">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <TextField fx:id="lastName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="LastName" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                            <Label text="Account Status" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <TextField fx:id="accountStatus_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Role" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                            <Label text="Email" GridPane.rowIndex="4">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <Label text="Work Phone" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                                               <font>
-                                                                  <Font name="System Bold" size="18.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <TextField fx:id="email_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Department" GridPane.rowIndex="5">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                            <TextField fx:id="phone_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Department" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                            </TextField>
-                                                         </children>
-                                                      </GridPane>
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="ID_CARD" size="30" />
-                                             </graphic>
-                                          </TitledPane>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="30.0" />
-                                       </padding>
-                                    </VBox>
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
-                                    <HBox layoutX="31.0" layoutY="103.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
+                                    <GridPane layoutX="56.0" layoutY="93.0" prefHeight="274.0" prefWidth="438.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="230.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="182.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
                                        <children>
-                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Search User">
+                                          <Label text="First Name">
                                              <font>
-                                                <Font name="System Bold" size="24.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="searchBar_TF" prefHeight="40.0" prefWidth="276.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="31.0" layoutY="151.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
-                                       <children>
-                                          <Label prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Set User">
+                                          <TextField fx:id="firstName_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="FirstName" GridPane.rowIndex="1">
                                              <font>
-                                                <Font name="System Bold" size="24.0" />
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label text="Department" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="userComboBox" prefHeight="40.0" prefWidth="275.0" />
+                                          <TextField fx:id="department_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Department" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label text="Last Name" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="lastName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="LastName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="username_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Username" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                          <Label text="Email" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Work Phone" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="email_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Email" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                          <TextField fx:id="phone_TF" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Phone" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
                                        </children>
-                                    </HBox>
+                                    </GridPane>
                                  </children>
                                  <styleClass>
                                     <String fx:value="shadow" />
@@ -237,14 +195,14 @@
                               </AnchorPane>
                               <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <children>
-                                    <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Building Information">
+                                    <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="345.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Return Location Information">
                                        <font>
                                           <Font name="System Bold" size="24.0" />
                                        </font>
                                     </Label>
                                     <VBox layoutX="32.0" layoutY="201.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
                                        <children>
-                                          <TitledPane prefWidth="459.0" text="Building Information">
+                                          <TitledPane collapsible="false" prefWidth="459.0" text="Building Information">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="457.0">
                                                    <children>
@@ -291,7 +249,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="office_CB" prefHeight="40.0" prefWidth="275.0" />
+                                          <ComboBox fx:id="office_CB" prefHeight="40.0" prefWidth="275.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                                        </children>
                                     </HBox>
                                     <HBox layoutX="32.0" layoutY="100.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
@@ -301,7 +259,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="building_CB" prefHeight="40.0" prefWidth="275.0" />
+                                          <ComboBox fx:id="building_CB" prefHeight="40.0" prefWidth="275.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -321,12 +279,12 @@
                               <TextField fx:id="serialNo_TF" editable="false" layoutX="501.0" layoutY="161.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="501.0" />
                               <Pane layoutX="43.0" layoutY="91.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="91.0" />
                               <Pane layoutX="44.0" layoutY="499.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="499.0" />
-                              <Label layoutX="44.0" layoutY="98.0" text="Hardware Information - View Only" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="98.0" />
+                              <Label layoutX="44.0" layoutY="98.0" text="Hardware Information" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="98.0" />
                               <Pane layoutX="43.0" layoutY="1001.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
                               <Pane layoutX="44.0" layoutY="636.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="42.0" />
-                              <Label layoutX="44.0" layoutY="510.0" text="Asset Return State - Fill upon return" AnchorPane.leftAnchor="44.0" />
+                              <Label layoutX="44.0" layoutY="510.0" prefHeight="27.0" prefWidth="535.0" text="Asset Return State - Admin Use Only. Fill Update upon return." AnchorPane.leftAnchor="44.0" />
                               <Label layoutX="44.0" layoutY="649.0" text="Loan Information" AnchorPane.leftAnchor="44.0" />
-                              <Label layoutX="42.0" layoutY="30.0" prefHeight="55.0" prefWidth="376.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Asset Details">
+                              <Label layoutX="42.0" layoutY="30.0" prefHeight="55.0" prefWidth="376.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Staff Issue Form">
                                  <font>
                                     <Font name="System Bold" size="36.0" />
                                  </font>
@@ -337,18 +295,18 @@
                               <Label layoutX="505.0" layoutY="224.0" text="Category" />
                               <Label layoutX="93.0" layoutY="224.0" text="Manufacturer" />
                               <Label layoutX="88.0" layoutY="550.0" text="Asset Condition" />
-                              <ChoiceBox fx:id="returnAssetCondition_CB" layoutX="82.0" layoutY="579.0" prefHeight="39.0" prefWidth="300.0" />
+                              <ChoiceBox fx:id="returnAssetCondition_CB" layoutX="82.0" layoutY="579.0" prefHeight="39.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <Label layoutX="508.0" layoutY="550.0" text="Asset Status" />
-                              <ChoiceBox fx:id="returnAssetStatus_CB" layoutX="505.0" layoutY="579.0" prefHeight="39.0" prefWidth="300.0" />
-                              <Label layoutX="86.0" layoutY="689.0" text="Loan Condition" />
-                              <ChoiceBox fx:id="loanStatus_CB" layoutX="81.0" layoutY="718.0" prefHeight="39.0" prefWidth="300.0" />
-                              <DatePicker fx:id="loanStart_DP" layoutX="504.0" layoutY="718.0" prefHeight="39.0" prefWidth="300.0" />
+                              <ChoiceBox fx:id="returnAssetStatus_CB" layoutX="505.0" layoutY="579.0" prefHeight="39.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <Label layoutX="86.0" layoutY="689.0" text="Allocation Status" />
+                              <ChoiceBox fx:id="allocationStatus_CB" layoutX="81.0" layoutY="718.0" prefHeight="39.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                              <DatePicker fx:id="loanStart_DP" layoutX="504.0" layoutY="718.0" prefHeight="39.0" prefWidth="300.0" style="-fx-opacity: 1;" />
                               <TextArea fx:id="comment_TA" layoutX="59.0" layoutY="898.0" prefHeight="77.0" prefWidth="841.0" />
                               <Label layoutX="59.0" layoutY="861.0" text="Additional Comment" />
                               <Label layoutX="504.0" layoutY="689.0" text="Loan Start" />
-                              <DatePicker fx:id="loanDue_DP" layoutX="81.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" />
+                              <DatePicker fx:id="loanDue_DP" layoutX="81.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" style="-fx-opacity: 1;" />
                               <Label layoutX="81.0" layoutY="778.0" text="Due Date" />
-                              <DatePicker fx:id="loanReturn_DP" layoutX="506.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" />
+                              <DatePicker fx:id="loanReturn_DP" layoutX="506.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" style="-fx-opacity: 1;" />
                               <Label layoutX="506.0" layoutY="778.0" text="Return Date" />
                               <TextField fx:id="manufacturer_TF" editable="false" layoutX="93.0" layoutY="255.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="category_TF" editable="false" layoutX="502.0" layoutY="255.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
@@ -356,8 +314,7 @@
                               <TextField fx:id="ramSpec_TF" editable="false" layoutX="502.0" layoutY="343.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="assetStatus_TF" editable="false" layoutX="504.0" layoutY="436.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="assetCondition_TF" editable="false" layoutX="97.0" layoutY="436.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
-                              <ProgressBar fx:id="progressIndicator_PB" layoutX="297.0" layoutY="46.0" prefHeight="23.0" prefWidth="444.0" progress="0.0" />
-                              <Button fx:id="submitForm_btn" layoutX="762.0" layoutY="37.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="143.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
+                              <Button fx:id="submitForm_btn" layoutX="762.0" layoutY="37.0" mnemonicParsing="false" onAction="#startReturnAllocationThread" prefHeight="42.0" prefWidth="143.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="PASTE" size="30" />
                                  </graphic>

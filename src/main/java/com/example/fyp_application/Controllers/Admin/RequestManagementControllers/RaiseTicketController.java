@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.photoPath;
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.userID;
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.name;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.photoPath;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.userID;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.name;
 
 public class RaiseTicketController implements Initializable {
 
@@ -290,7 +290,7 @@ public class RaiseTicketController implements Initializable {
     @FXML
     private void loadCurrentUser() {
         userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
-        name = CurrentLoggedUserHandler.getCurrentLoggedAdminName();
+        name = CurrentLoggedUserHandler.getCurrentLoggedAdminFullName();
         photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
 
 

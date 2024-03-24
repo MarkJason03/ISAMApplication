@@ -3,9 +3,7 @@ package com.example.fyp_application.Utils;
 import com.example.fyp_application.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 
 import java.util.List;
 
@@ -93,6 +91,22 @@ public class TicketDetailsUtils {
 
     public static void setTicketPriorityComboBox(ComboBox<String> ticketPriority_CB){
         ticketPriority_CB.setItems(FXCollections.observableArrayList("Low", "Medium", "High"));
+    }
+
+
+
+    public static void setupTableListeners(TableView<TicketModel> tableView, TextField ticketID_TF, TextField raisedBy_TF, TextField category_TF, TextField priority_TF, TextField escalationStatus_TF, TextField agentName_TF) {
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                TicketModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
+                ticketID_TF.setText(String.valueOf(selectedTicket.getTicketID()));
+                raisedBy_TF.setText(selectedTicket.getUserFullName());
+                category_TF.setText(selectedTicket.getCategoryName());
+                priority_TF.setText(selectedTicket.getTicketPriority());
+                escalationStatus_TF.setText(selectedTicket.getEscalationStatus());
+                agentName_TF.setText(selectedTicket.getAgentFullName());
+            }
+        });
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TicketDetailsUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -32,9 +33,17 @@ import java.util.ResourceBundle;
 public class ManageRequestController implements Initializable {
 
 
-    
+    @FXML
+    private TextField agentName_TF;
+
     @FXML
     private TableColumn<?, ?> agentName_col;
+
+    @FXML
+    private Button assignTicket_btn;
+
+    @FXML
+    private TextField category_TF;
 
     @FXML
     private AnchorPane contentAP;
@@ -43,31 +52,22 @@ public class ManageRequestController implements Initializable {
     private Label dateTimeHolder;
 
     @FXML
-    private Button assignTicket_btn;
-
-    @FXML
-    private Label deptHolder_lbl;
-
-    @FXML
-    private Button editProfile_btn1;
-
-    @FXML
-    private TextField email_TF;
-
-    @FXML
-    private TextField firstName_TF;
+    private TextField escalationStatus_TF;
 
     @FXML
     private Label fullNameHolder_lbl;
-
-    @FXML
-    private TextField lastName_TF;
 
     @FXML
     private Label lastUpdate_lbl;
 
     @FXML
     private Button newRequest;
+
+    @FXML
+    private TextField priority_TF;
+
+    @FXML
+    private TextField raisedBy_TF;
 
     @FXML
     private Button reload_btn;
@@ -79,13 +79,16 @@ public class ManageRequestController implements Initializable {
     private TextField searchBar_TF;
 
     @FXML
-    private TableColumn<?, ?> ticketCategory_col;
-
-    @FXML
     private TableColumn<?, ?> ticketDateClosed_col;
 
     @FXML
     private TableColumn<?, ?> ticketDateCreated_col;
+
+    @FXML
+    private TableColumn<?, ?> ticketEscalation_col;
+
+    @FXML
+    private TextField ticketID_TF;
 
     @FXML
     private TableColumn<?, ?> ticketID_col;
@@ -112,10 +115,8 @@ public class ManageRequestController implements Initializable {
     private Label userInactiveCounter_lbl;
 
     @FXML
-    private TextField username_TF;
-
-    @FXML
     private Button viewRequest;
+
 
     private static final TicketDAO TICKET_DAO = new TicketDAO();
 
@@ -318,7 +319,7 @@ public class ManageRequestController implements Initializable {
         ticketTitle_col.setCellValueFactory(new PropertyValueFactory<>("ticketTitle"));
         ticketStatus_col.setCellValueFactory(new PropertyValueFactory<>("ticketStatus"));
         ticketPriority_col.setCellValueFactory(new PropertyValueFactory<>("ticketPriority"));
-        ticketCategory_col.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+        ticketEscalation_col.setCellValueFactory(new PropertyValueFactory<>("escalationStatus"));
         ticketDateCreated_col.setCellValueFactory(new PropertyValueFactory<>("dateCreated"));
         ticketDateClosed_col.setCellValueFactory(new PropertyValueFactory<>("dateClosed"));
 
@@ -327,9 +328,12 @@ public class ManageRequestController implements Initializable {
 
 
     }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadTicketsTable();
 
+        TicketDetailsUtils.setupTableListeners(requestTableView, ticketID_TF, raisedBy_TF, category_TF, priority_TF, escalationStatus_TF, agentName_TF);
     }
 }

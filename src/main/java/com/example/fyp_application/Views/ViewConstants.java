@@ -79,6 +79,9 @@ public class ViewConstants {
 
     public static final String ADMIN_ADD_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationForm.fxml";
 
+    public static final String ADMIN_VIEW_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
+
+    public static final String ADMIN_EDIT_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
     public  static  final String ADMIN_EDIT_MY_PROFILE_VIEW = "/FXML/AdminView/AdminProfileView/EditAdminProfileView.fxml";
 
     public static final String ADMIN_EDIT_MY_PROFILE_POP_UP = "/FXML/AdminView/AdminProfileView/EditAdminProfilePopUpView.fxml";

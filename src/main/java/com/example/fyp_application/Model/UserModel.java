@@ -28,6 +28,8 @@ public class UserModel {
     private String lastLogin;
     private String lastUpdated;
 
+    private String userFullName;
+
 
     //for admin table view
     public UserModel(int userID,
@@ -89,13 +91,19 @@ public class UserModel {
     }
 
 
-    public UserModel (Integer userID, String firstName, String roleName, String photo){
+    public UserModel (Integer userID, String userFullName, String roleName, String photo){
         this.userID = userID;
-        this.firstName = firstName;
+        this.userFullName = userFullName;
         this.roleName = roleName;
         this.photo = photo;
     }
 
+
+    public UserModel(Integer userID, String userFullName, String photoPath){
+        this.userID = userID;
+        this.userFullName = userFullName;
+        this.photo = photoPath;
+    }
 
 
 
@@ -182,6 +190,10 @@ public class UserModel {
     }
 
 
+    public String getUserFullName() {
+        return userFullName;
+    }
+
 
     //Setter Methods
     public void setUserID(int userID) {
@@ -259,5 +271,10 @@ public class UserModel {
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
+
+    public void setFullName(String userFullName) {
+        this.userFullName =userFullName;
+    }
+
 }
 

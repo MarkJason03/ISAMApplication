@@ -74,19 +74,22 @@ public class UserDAO {
 
     public UserModel cacheUserLoginID(String username) {
         String sql = """
-                SELECT UserID, FirstName, Photo, tbl_userRoles.userRoleName
-                        FROM tbl_Users\s
-                        JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID\s
-                        WHERE tbl_Users.Username = ?
+                SELECT UserID,
+                		FirstName || ' ' || LastName as FullName,
+                		Photo,
+                		tbl_userRoles.userRoleName
+                FROM tbl_Users
+                JOIN tbl_userRoles ON tbl_Users.userRoleID = tbl_userRoles.userRoleID
+                WHERE tbl_Users.Username = ?;
                      """;
 
-        try (Connection connection = DatabaseConnectionUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return new UserModel(resultSet.getInt("UserID"),
-                            resultSet.getString("FirstName"),
+                            resultSet.getString("FullName"),
                             resultSet.getString("userRoleName"),
                             resultSet.getString("Photo"));
                 }

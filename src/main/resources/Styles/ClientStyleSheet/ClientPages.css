@@ -241,3 +241,16 @@
     -fx-border-width: 2;
     -fx-background-color: transparent;
 }
+
+
+.combo-box .cell,
+.combo-box .list-cell {
+    -fx-text-fill: black; /* Change this to your desired color */
+}
+
+.combo-box:disabled .text {
+    -fx-fill: black; /* Change this to your desired color */
+}
+.combo-box .text {
+    -fx-text-fill: black;/* Change this to your desired color */
+}

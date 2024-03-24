@@ -94,19 +94,13 @@ public class EditAdminProfilePopUpController implements Initializable {
 
     @FXML
     private void saveProfileChanges(){
-/*        String password = password_TF.getText();
-        String hashedPassword = PasswordHashingUtils.hashPassword(password);
 
-        System.out.println(password);
-        System.out.println(hashedPassword);
-
-        System.out.println(PasswordHashingUtils.verifyPassword(hashedPassword, password));*/
-
-
+        //Check if the fields are empty
         if(isValidFields()){
             AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all fields");
         }
         else{
+            //Update the user profile
             UserDAO.updateCurrentLoggedUserProfile(this.userID, firstName_TF.getText(), lastName_TF.getText(), email_TF.getText(), phone_TF.getText(),gender_CB.getValue());
             AlertNotificationUtils.showInformationMessageAlert("Update Completed", "Account information updated successfully");
             saveProfileChanges_btn.getScene().getWindow().hide();
@@ -147,11 +141,6 @@ public class EditAdminProfilePopUpController implements Initializable {
                 passwordChecker_lbl.setText("Passwords do not match");
             }
         }
-    }
-
-    @FXML
-    private void refreshInformation(){
-        //Todo reload the information from the database
     }
 
 

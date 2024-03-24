@@ -147,20 +147,40 @@ public class GMailUtils {
     }
 
 
-    public static String generateAssetAllocationBody(Integer allocationID, String fullName, String assetName, String assetSerial, String loanType, String startDate, String dueDate) {
+    public static String generateAssetAllocationBody(Integer allocationID, String fullName, String assetName, String assetSerial, String loanType, String status, String description, String startDate, String dueDate) {
         return "Hello " + fullName + "," + "\n\n\n"
                 + "An asset has been allocated to you . Please see the information below " + "\n\n\n"
                 + "Asset Name: " + assetName + "\n\n"
                 + "Asset Serial: " + assetSerial + "\n\n"
                 + "Loan Type: " + loanType + "\n\n"
+                + "Current Status: " + status + "\n\n"
+                + "Comments:\n" + description + "\n\n"
                 + "Start Date: " + startDate + "\n\n"
                 + "Due Date: " + dueDate + "\n\n\n"
-                + "To follow up with this request, please contact 020 1234 5678 quoting this Allocation ID " + allocationID + "\n\n\n"
+                + "When opening a service request, please this Allocation ID " + allocationID +  " as reference."
+                + "\n\n\n"
                 + "Best Regards," + "\n\n"
                 + "ISAM Team";
 
     }
 
+
+
+    public static String generateReturnAllocationBody(String fullName, String assetName, String assetSerial, String returnCondition, String allocationStatus, String returnDate, String description) {
+        return "Hello " + fullName + "," + "\n\n\n"
+                + "The asset below has been returned to us" + "\n\n\n"
+                + "Asset Name: " + assetName + "\n\n"
+                + "Asset Serial: " + assetSerial + "\n\n"
+                + "Returned Condition: " + returnCondition + "\n\n"
+                + "Allocation Status: " + allocationStatus + "\n\n"
+                + "Returned Date: " + returnDate + "\n\n"
+                + "Comments:\n" + description + "\n\n\n"
+                + "This email proves as reference of confirmation of the return of the asset."
+                + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+
+    }
 
     public static String generateCloseTicketEmailBody(int ticketID, String userFullName, String ticketTitle, String ticketActionDescription) {
 

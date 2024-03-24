@@ -76,11 +76,11 @@
                </font>
             </Label>
             <Label fx:id="dateTimeHolder" layoutX="29.0" layoutY="72.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
-            <AnchorPane layoutX="615.0" layoutY="201.0" prefHeight="585.0" prefWidth="946.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+            <AnchorPane layoutX="615.0" layoutY="188.0" prefHeight="598.0" prefWidth="946.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <AnchorPane prefHeight="418.0" prefWidth="767.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
+                  <AnchorPane prefHeight="452.0" prefWidth="908.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
                      <children>
-                        <TableView fx:id="supTableView" prefHeight="432.0" prefWidth="908.0">
+                        <TableView fx:id="supTableView" prefHeight="452.0" prefWidth="908.0">
                            <columns>
                               <TableColumn fx:id="supTable_col_ID" prefWidth="34.0" text="ID" />
                               <TableColumn fx:id="supTable_col_supName" prefWidth="238.0" text="SupplierName" />
@@ -95,9 +95,9 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <HBox layoutX="18.0" layoutY="516.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
-                        <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction= "#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
+                        <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction="#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
                         <Button fx:id="editSupplier_btn" mnemonicParsing="false" onAction="#editSupplierDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
                         <Button fx:id="deleteSupplier_btn" mnemonicParsing="false" onAction="#deleteSupplier" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
                      </children>
@@ -122,33 +122,34 @@
                   <String fx:value="shadow" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane layoutX="29.0" layoutY="128.0" prefHeight="658.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+            <AnchorPane layoutX="29.0" layoutY="188.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
-                  <Label fx:id="supNameHolder_lbl" layoutX="32.0" layoutY="82.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Name">
+                  <Label fx:id="supNameHolder_lbl" layoutX="32.0" layoutY="41.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Name">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="editProfile_btn1" layoutX="335.0" layoutY="21.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="156.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Edit Profile">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="ID_CARD" size="30" />
-                     </graphic>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-                  <VBox layoutX="32.0" layoutY="131.0" prefHeight="452.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                  <VBox layoutX="32.0" layoutY="97.0" prefHeight="452.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
                      <children>
                         <TitledPane text="Supplier Info">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Label layoutX="31.0" layoutY="25.0" text="Supplier Address" />
-                                    <Label layoutX="276.0" layoutY="89.0" text="Supplier Email" />
-                                    <TextField fx:id="supEmail_TF" layoutX="275.0" layoutY="109.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="276.0" layoutY="25.0" text="Phone Number" />
-                                    <TextField fx:id="supPhone_TF" layoutX="275.0" layoutY="45.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <TextArea fx:id="supAddress_TA" editable="false" layoutX="38.0" layoutY="48.0" prefHeight="116.0" prefWidth="204.0" style="-fx-background-color: transparent;" wrapText="true" />
+                                    <Label layoutX="18.0" layoutY="20.0" text="Supplier Address">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="263.0" layoutY="84.0" text="Supplier Email">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="supEmail_TF" layoutX="262.0" layoutY="104.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
+                                    <Label layoutX="263.0" layoutY="20.0" text="Phone Number">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="supPhone_TF" layoutX="262.0" layoutY="40.0" prefHeight="40.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="test" />
+                                    <TextArea fx:id="supAddress_TA" editable="false" layoutX="25.0" layoutY="43.0" prefHeight="116.0" prefWidth="204.0" style="-fx-background-color: transparent;" wrapText="true" />
                                  </children>
                               </AnchorPane>
                            </content>
@@ -160,14 +161,26 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="173.0" prefWidth="457.0">
                                  <children>
-                                    <Label layoutX="231.0" layoutY="14.0" prefHeight="17.0" prefWidth="81.0" text="Created On" />
-                                    <TextField fx:id="supContractStartDate_TF" layoutX="230.0" layoutY="34.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="231.0" layoutY="97.0" text="Expires At" />
-                                    <TextField fx:id="supContractEndDate_TF" layoutX="230.0" layoutY="117.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="31.0" layoutY="99.0" text="Contract Status" />
-                                    <TextField fx:id="supContractStatus_TF" layoutX="31.0" layoutY="127.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <TextField fx:id="supID_TF" layoutX="31.0" layoutY="31.0" prefHeight="40.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="31.0" layoutY="14.0" prefHeight="17.0" prefWidth="81.0" text="SupplierID" />
+                                    <Label layoutX="251.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="Created On">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="supContractStartDate_TF" layoutX="250.0" layoutY="36.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
+                                    <Label layoutX="251.0" layoutY="99.0" text="Expires At">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="supContractEndDate_TF" layoutX="248.0" layoutY="129.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
+                                    <Label layoutX="31.0" layoutY="99.0" text="Contract Status">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="supContractStatus_TF" layoutX="31.0" layoutY="127.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
+                                    <TextField fx:id="supID_TF" layoutX="30.0" layoutY="36.0" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: transparent;" text="test" />
+                                    <Label layoutX="30.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="SupplierID">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
                                  </children>
                               </AnchorPane>
                            </content>
@@ -177,7 +190,7 @@
                         </TitledPane>
                      </children>
                   </VBox>
-                  <Pane layoutX="26.0" layoutY="123.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+                  <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
                </children>
                <styleClass>
                   <String fx:value="shadow" />

@@ -1,12 +1,16 @@
 package com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
 
 import com.example.fyp_application.Model.*;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.GMailUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,6 +19,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -71,14 +76,12 @@ public class AllocateAssetController implements Initializable {
     @FXML
     private DatePicker loanDue_DP;
 
-    @FXML
-    private DatePicker loanReturn_DP;
 
     @FXML
     private DatePicker loanStart_DP;
 
     @FXML
-    private ChoiceBox<String> loanStatus_CB;
+    private ChoiceBox<String> loanIssueType_CB;
 
     @FXML
     private Circle loggedUserImage;
@@ -107,11 +110,9 @@ public class AllocateAssetController implements Initializable {
     @FXML
     private Button refreshHeader_btn;
 
-    @FXML
-    private ChoiceBox<String> returnAssetCondition_CB;
 
     @FXML
-    private ChoiceBox<String> AssetStatus_CB;
+    private ChoiceBox<String> currentStatus_CB;
 
     @FXML
     private TextField accountStatus_TF;
@@ -172,126 +173,95 @@ public class AllocateAssetController implements Initializable {
 
     }*/
 
-/*
 
     @FXML
-    private void handleTicketUpdate() {
+    private void startAllocationThread() {
 
-        Task<Void> updateTask = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                submitTicketDetailChanges();
-                return null;
-            }
+        if (isFormValid()) {
+            Task<Void> closeTask = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    // Insert the ticket details changes to the database
 
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                submitResponseAsync(); // Call the next step when succeeded
-            }
+                    System.out.println("Running the insertion of allocation thread");
+                    insertAssetAllocation();
+                    System.out.println("Allocation inserted successfully");
+                    return null;
+                }
 
-            @Override
-            protected void failed() {
-                super.failed();
-            }
-        };
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    System.out.println("Updating asset status");
+                    updateAssetStatus(); // proceed to insert the last message response to the message history table
+                    System.out.println("Asset status updated successfully");
+                    AlertNotificationUtils.showInformationMessageAlert("Success", "Asset Allocated Successfully");
+                    closeMenu();
+                }
 
-        new Thread(updateTask).start();
-    }
-
-    private void submitResponseAsync() {
-        Task<Void> responseTask = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                submitResponse(); // This method now just contains the DB operation, no FX handling
-                sendUpdateEmail();
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                submitAttachmentsAsync(); // Proceed to attachments after response
-            }
-
-            @Override
-            protected void failed() {
-                super.failed();
-            }
-        };
-
-        new Thread(responseTask).start();
-    }
-
-    private void submitAttachmentsAsync() {
-        Task<Void> attachmentTask = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                submitAttachment();
-                return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                // Close the window or do other UI stuff as needed
-            }
-
-            @Override
-            protected void failed() {
-                super.failed();
-                // Handle failure
-            }
-        };
-
-        new Thread(attachmentTask).start();
-    }
-
-    @FXML
-    private void submitTicketDetailChanges(){
-        TicketDAO.updateTicketDetailsByAdmin(ticketID,
-                ticketCategory_CB.getValue().getCategoryID(),
-                ticketStatus_CB.getValue(),
-                ticketPriority_CB.getValue(),
-                targetResolution_lbl.getText()
-        );
-    }
-
-    @FXML
-    private void submitResponse() throws SQLException {
-        MessageHistoryDAO.recordMessage(ticketID,
-                responseDetails.getText().concat( "\n\n" + ticketInfolist.get(0).getAgentFullName()),
-                DateTimeUtils.getCurrentDateTime());
-    }
-
-
-
-    @FXML
-    private void submitAttachment(){
-
-        if (attachmentListView != null){
-            for (String filePath : filePaths) {
-                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeUtils.getYearMonthDayFormat());
-            }
+                @Override
+                protected void failed() {
+                    super.failed();
+                }
+            };
+        new Thread(closeTask).start();
+        } else {
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields");
         }
+
     }
+
+
+    private void insertAssetAllocation() {
+        // Insert the asset allocation details into the database
+        int allocationID = AssetAllocationDAO.insertAssetAllocation(
+                assetID, // Asset ID
+                userComboBox.getValue().getUserID(), // User ID
+                CurrentLoggedUserHandler.getCurrentLoggedAdminID(), // Agent ID
+                office_CB.getValue().getOfficeID(), // Office ID
+                loanIssueType_CB.getValue(), // Loan Type
+                DateTimeUtils.setYearMonthDayFormat(loanStart_DP.getValue()), // Start Date
+                DateTimeUtils.setYearMonthDayFormat(loanDue_DP.getValue()), // Due Date
+                currentStatus_CB.getValue(),// Allocation Status
+                assetCondition_TF.getText(),
+                comment_TA.getText());
+
+        // Update the asset status to the selected status
+        sendEmail(allocationID);
+    }
+
+
+    private void sendEmail(int allocationID){
+        GMailUtils.sendEmailTo(userComboBox.getValue().getEmail(),
+                "Allocation Form Receipt",
+                GMailUtils.generateAssetAllocationBody(allocationID,
+                        userComboBox.getValue().getFullName(),
+                        assetName_TF.getText(),
+                        serialNo_TF.getText(),
+                        loanIssueType_CB.getValue(),
+                        currentStatus_CB.getValue(),
+                        comment_TA.getText(),
+                        loanStart_DP.getValue().toString(),
+                        loanDue_DP.getValue().toString()
+                ));
+    }
+
+    private void updateAssetStatus(){
+        // Update the asset status to the selected status
+        AssetDAO.updateAssetStatus(assetID, currentStatus_CB.getValue());
+    }
+
 
 
     @FXML
-    private void sendUpdateEmail() {
-        GMailUtils.sendEmailTo(ticketInfolist.get(0).getUserEmail(),
-                "Call In Progress: SD" +  ticketID,
-                GMailUtils.generateResponseEmailBody(ticketID,
-                        ticketInfolist.get(0).getUserFullName(),
-                        ticketInfolist.get(0).getTicketTitle(),
-                        responseDetails.getText()
-                )
-        );
+    private boolean isFormValid() {
+        return loanIssueType_CB.getValue() != null
+                && loanStart_DP.getValue() != null
+                && loanDue_DP.getValue() != null
+                && userComboBox.getValue() != null
+                && office_CB.getValue() != null
+                && building_CB.getValue() != null;
     }
-
-
-    */
-
 
 
     @FXML
@@ -337,7 +307,7 @@ public class AllocateAssetController implements Initializable {
         userComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 UserModel selectedUser = userComboBox.getSelectionModel().getSelectedItem();
-                firstName_TF.setText(selectedUser.getUsername());
+                firstName_TF.setText(selectedUser.getFirstName());
                 email_TF.setText(selectedUser.getEmail());
                 phone_TF.setText(selectedUser.getPhone());
                 accountStatus_TF.setText(selectedUser.getAccountStatus());
@@ -386,14 +356,9 @@ public class AllocateAssetController implements Initializable {
                 office_CB.getItems().addAll(allOffices);
             }
         });
-
-/*        returnAssetStatus_CB.getItems().addAll("N/A","Available","In Use", "In Repair", "Retired", "Disposed");
-
-        loanStatus_CB.getItems().addAll("In Use", "Extended");*/
-
-
-        AssetStatus_CB.setValue("In Use");
-        loanStatus_CB.setItems(FXCollections.observableArrayList("Loan", "Staff Issue"));
+        currentStatus_CB.setValue("In Use");
+        loanIssueType_CB.setItems(FXCollections.observableArrayList("Loan", "Staff Issue"));
+        loanStart_DP.setValue(LocalDate.now());
     }
 
 
@@ -416,7 +381,7 @@ public class AllocateAssetController implements Initializable {
 
         ChangeListener<Object> progressBarListener = (observable, oldValue, newValue) -> {
             int filledCount = 0;
-            if (loanStart_DP.getValue() != null) filledCount++;
+            if (loanIssueType_CB.getValue() != null) filledCount++;
             if (loanDue_DP.getValue() != null) filledCount++;
             if (userComboBox.getValue() != null) filledCount++;
             if (office_CB.getValue() != null) filledCount++;
@@ -425,34 +390,40 @@ public class AllocateAssetController implements Initializable {
             progressIndicator_PB.setProgress(progress);
             System.out.println(progress);
 
-/*
             //ensuring dynamic lock if the form is not complete
-            submitForm_btn.setDisable(progress == 1.0);*/
+
         };
 
-        loanStart_DP.valueProperty().addListener(progressBarListener);
+        loanIssueType_CB.valueProperty().addListener(progressBarListener);
         loanDue_DP.valueProperty().addListener(progressBarListener);
-
         userComboBox.valueProperty().addListener(progressBarListener);
         office_CB.valueProperty().addListener(progressBarListener);
         building_CB.valueProperty().addListener(progressBarListener);
 
+        //
+        submitForm_btn.disableProperty().bind(progressIndicator_PB.progressProperty().isNotEqualTo((long) 1.0));
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                setupLocationComboBox();
+                setUserComboBox();
+                userInformationListener();
 
-        setupLocationComboBox();
-        setUserComboBox();
-        userInformationListener();
+                DateTimeUtils.dateValidator(loanStart_DP);
+                DateTimeUtils.dateValidator(loanDue_DP);
 
+                setupLocationListener();
+                setupProgressBarListener();
 
-        DateTimeUtils.dateValidator(loanStart_DP);
-        DateTimeUtils.dateValidator(loanDue_DP);
+                return null;
+            }
+        };
 
-        Platform.runLater(this::setupLocationListener);
-        Platform.runLater(this::setupProgressBarListener);
-
+        new Thread(task).start();
     }
 }

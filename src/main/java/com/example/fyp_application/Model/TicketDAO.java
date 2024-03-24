@@ -78,24 +78,30 @@ public class TicketDAO {
         TicketModel ticketModel;
 
         String sql = """
-                SELECT
-                	request.TicketID,
-                	user.FirstName || ' ' || user.LastName AS User,
-                	agent.FirstName || ' ' || agent.LastName As Agent,
-                	request.Title,
-                	request.Status,
-                	request.Priority,
-                	reqcat.categoryName as Category,
-                	request.DateCreated,
-                	request.DateClosed
-                FROM
-                	tbl_tickets AS request
-                JOIN
-                	tbl_ticketCategory as reqcat on reqcat.ticketCategoryID = request.categoryID  
-                LEFT JOIN
-                	tbl_Users as agent on agent.UserID = request.AgentID -- Listing all tickets with or without an agent
-                JOIN
-                	tbl_Users AS user ON user.UserID = request.UserID;
+                    SELECT
+                        request.TicketID,
+                        user.FirstName || ' ' || user.LastName AS User,
+                        COALESCE(agent.FirstName || ' ' || agent.LastName, 'No Agent Assigned') AS Agent,
+                        request.Title,
+                        request.Status,
+                        request.Priority,
+                        reqcat.categoryName as Category,
+                        request.DateCreated,
+                        request.DateClosed,
+                        CASE
+                            WHEN request.Status != 'Closed' AND date(request.TargetResolution) < date('now')
+                                 AND (request.Status = 'In Progress' OR request.Status = 'Awaiting Response') THEN 'Breached'
+                            WHEN request.Status != 'Closed' THEN 'Normal'
+                            ELSE 'Ignored'
+                        END AS EscalationStatus
+                    FROM
+                        tbl_tickets AS request
+                    JOIN
+                        tbl_ticketCategory as reqcat ON reqcat.ticketCategoryID = request.categoryID
+                    LEFT JOIN
+                        tbl_Users as agent ON agent.UserID = request.AgentID -- Listing all tickets with or without an agent
+                    JOIN
+                        tbl_Users AS user ON user.UserID = request.UserID;
                 """;
 
 
@@ -115,7 +121,8 @@ public class TicketDAO {
                             resultSet.getString("Priority"),
                             resultSet.getString("Category"),
                             resultSet.getString("DateCreated"),
-                            resultSet.getString("DateClosed")
+                            resultSet.getString("DateClosed"),
+                            resultSet.getString("EscalationStatus")
                     );
                     ticketList.add(ticket);
                 }
@@ -253,7 +260,14 @@ public class TicketDAO {
                         info.knowledgeInformation,
                         agent.FirstName || ' ' || agent.LastName AS Agent,
                         request.DateCreated,
-                        request.DateClosed
+                        request.TargetResolution,
+                        request.DateClosed,
+                        CASE
+                            WHEN request.Status != 'Closed' AND date(request.TargetResolution) < date('now')
+                                 AND (request.Status = 'In Progress' OR request.Status = 'Awaiting Response') THEN 'Breached'
+                            WHEN request.Status != 'Closed' THEN 'Normal'
+                            ELSE 'Ignored'
+                        END AS EscalationStatus
                     FROM
                         tbl_tickets AS request
                     JOIN
@@ -262,10 +276,9 @@ public class TicketDAO {
                         tbl_knowledgeBase AS info on reqcat.knowledgeID = info.knowledgeID
                     JOIN
                         tbl_Users AS user ON user.UserID = request.UserID
-                        
                     LEFT JOIN
                         tbl_Users AS agent ON agent.UserID = request.AgentID
-                    Where request.TicketID = ?;
+                    WHERE request.TicketID = ?;
                 """;
 
         try (Connection connection = DatabaseConnectionUtils.getConnection()) {
@@ -289,7 +302,9 @@ public class TicketDAO {
                                 resultSet.getString("knowledgeInformation"),
                                 resultSet.getString("Agent"),
                                 resultSet.getString("DateCreated"),
-                                resultSet.getString("DateClosed")
+                                resultSet.getString("TargetResolution"),
+                                resultSet.getString("DateClosed"),
+                                resultSet.getString("EscalationStatus")
                         );
                         ticketDetails.add(ticket);
                     }
@@ -423,7 +438,7 @@ public class TicketDAO {
 
 
     public static void updateTicketStatusByUser(int ticketID, String status){
-        String sql = "UPDATE tbl_tickets set Status = ? where TicketID = ?";
+        String sql = "UPDATE tbl_tickets SET Status = ?, DateClosed = NULL WHERE TicketID = ?";
 
         try (Connection connection = DatabaseConnectionUtils.getConnection()){
             assert connection != null;

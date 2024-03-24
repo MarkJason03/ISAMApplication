@@ -25,7 +25,7 @@
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="527.0" layoutY="47.0" stroke="BLACK" strokeType="INSIDE" width="1590.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0" />
             <Separator orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
-            <AnchorPane layoutX="595.0" layoutY="168.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+            <AnchorPane layoutX="594.0" layoutY="188.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                <children>
                   <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="358.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
@@ -87,7 +87,109 @@
                   <String fx:value="shadow" />
                </styleClass>
             </AnchorPane>
-            <HBox layoutX="615.0" layoutY="35.0" prefHeight="116.0" prefWidth="437.0" spacing="10.0">
+            <AnchorPane layoutX="29.0" layoutY="128.0" prefHeight="658.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+               <children>
+                  <Label fx:id="fullNameHolder_lbl" layoutX="30.0" layoutY="63.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="32.0" layoutY="131.0" prefHeight="504.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                     <children>
+                        <TitledPane collapsible="false" text="Profile Summary">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="25.0" text="First Name">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="firstName_TF" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="31.0" layoutY="90.0" text="Username">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="username_TF" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="167.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="230.0" layoutY="27.0" text="Last Name">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="lastName_TF" layoutX="228.0" layoutY="47.0" prefHeight="40.0" prefWidth="181.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="230.0" layoutY="92.0" text="Email">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="email_TF" layoutX="229.0" layoutY="112.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="USER" size="30" />
+                           </graphic>
+                        </TitledPane>
+                        <TitledPane collapsible="false" layoutX="10.0" layoutY="22.0" text="Account Summary">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="457.0">
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="81.0" text="Created On">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="createdOn_TF" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="166.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="31.0" layoutY="90.0" text="Expires At">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="expiresOn_TF" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="156.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="229.0" layoutY="23.0" text="Account Status">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="accStatus_TF" layoutX="229.0" layoutY="44.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="31.0" layoutY="150.0" text="Last Login">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="lastLogin_TF" layoutX="30.0" layoutY="170.0" prefHeight="40.0" prefWidth="156.0" style="-fx-background-color: transparent;" />
+                                    <Label layoutX="229.0" layoutY="88.0" text="Account Role">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <TextField fx:id="accRole_TF" layoutX="229.0" layoutY="109.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="ID_CARD" size="30" />
+                           </graphic>
+                        </TitledPane>
+                     </children>
+                  </VBox>
+                  <Label fx:id="deptHolder_lbl" layoutX="30.0" layoutY="96.0" prefHeight="28.0" prefWidth="178.0" style="-fx-font-size: 14;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Department ">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="26.0" layoutY="123.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+               </children>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="personalInformationContainer" />
+               </styleClass>
+            </AnchorPane>
+            <Label layoutX="29.0" layoutY="25.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User Management" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateTimeHolder" layoutX="29.0" layoutY="72.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
+            <HBox layoutX="594.0" layoutY="43.0" prefHeight="120.0" prefWidth="674.0" spacing="10.0">
                <children>
                   <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
                      <children>
@@ -102,7 +204,6 @@
                            </font>
                         </Label>
                         <FontIcon iconLiteral="mdi2a-account-group" iconSize="50" layoutX="14.0" layoutY="98.0" />
-
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
@@ -137,83 +238,6 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <AnchorPane layoutX="29.0" layoutY="108.0" prefHeight="658.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-               <children>
-                  <Label fx:id="fullNameHolder_lbl" layoutX="30.0" layoutY="63.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="editProfile_btn1" layoutX="335.0" layoutY="21.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="156.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Edit Profile">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="ID_CARD" size="30" />
-                     </graphic>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-                  <VBox layoutX="32.0" layoutY="131.0" prefHeight="504.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
-                     <children>
-                        <TitledPane text="Profile Summary">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="31.0" layoutY="25.0" text="First Name" />
-                                    <TextField fx:id="firstName_TF" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="31.0" layoutY="90.0" text="Username" />
-                                    <TextField fx:id="username_TF" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="230.0" layoutY="27.0" text="Last Name" />
-                                    <TextField fx:id="lastName_TF" layoutX="228.0" layoutY="47.0" prefHeight="40.0" prefWidth="181.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="230.0" layoutY="92.0" text="Email" />
-                                    <TextField fx:id="email_TF" layoutX="229.0" layoutY="112.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane layoutX="10.0" layoutY="22.0" text="Account Summary">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="457.0">
-                                 <children>
-                                    <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="81.0" text="Created On" />
-                                    <TextField fx:id="createdOn_TF" layoutX="30.0" layoutY="45.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="31.0" layoutY="90.0" text="Expires At" />
-                                    <TextField fx:id="expiresOn_TF" layoutX="30.0" layoutY="110.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="229.0" layoutY="23.0" text="Account Status" />
-                                    <TextField fx:id="accStatus_TF" layoutX="229.0" layoutY="44.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="31.0" layoutY="150.0" text="Last Login" />
-                                    <TextField fx:id="lastLogin_TF" layoutX="30.0" layoutY="170.0" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: transparent;" />
-                                    <Label layoutX="229.0" layoutY="88.0" text="Account Role" />
-                                    <TextField fx:id="accRole_TF" layoutX="229.0" layoutY="109.0" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </TitledPane>
-                     </children>
-                  </VBox>
-                  <Label fx:id="deptHolder_lbl" layoutX="30.0" layoutY="96.0" prefHeight="28.0" prefWidth="178.0" style="-fx-font-size: 14;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Department ">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutX="26.0" layoutY="123.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
-               </children>
-               <styleClass>
-                  <String fx:value="shadow" />
-                  <String fx:value="personalInformationContainer" />
-               </styleClass>
-            </AnchorPane>
-            <Label layoutX="29.0" layoutY="25.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User Management" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="dateTimeHolder" layoutX="29.0" layoutY="72.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>

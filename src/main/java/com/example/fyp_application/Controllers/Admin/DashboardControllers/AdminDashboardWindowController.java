@@ -1,13 +1,13 @@
-package com.example.fyp_application.Controllers.Client.DashboardControllers;
+package com.example.fyp_application.Controllers.Admin.DashboardControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.SharedButtonUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,8 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
-public class ClientDashboardController implements Initializable {
+public class AdminDashboardWindowController implements Initializable {
 
     @FXML
     private Button closeMenu_btn;
@@ -65,23 +64,34 @@ public class ClientDashboardController implements Initializable {
     private Label username_lbl;
 
 
+    private final Object lock = new Object();
 
     public static AnchorPane swappableContentPane;
 
-/*
-    private   int userID;
-    private   String firstName;
-    private   String photo;*/
 
+    //
     public static Integer userID;
     public static String name;
     public static String photoPath;
 
+
     @FXML
-    private void initializeSideMenu(){
+    private void refreshInformationHeader() {
+        // refresh the information header
+        loadCurrentUser();
+    }
+
+
+
+
+
+
+    @FXML
+    private void initializeSideMenu() {
+        //initialize the side menu navigation
         try {
 
-            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.CLIENT_SIDEBAR_MENU)));
+            VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.ADMIN_SIDEBAR_MENU)));
             drawerContainer.setSidePane(sideMenu);
             openMenu_btn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> openMenu() );
         } catch (IOException e) {
@@ -107,8 +117,8 @@ public class ClientDashboardController implements Initializable {
     }
 
     @FXML
-    private void closeMenuCopy() {
-   // Make the drawer visible
+    private void closeMenu() {
+        // Make the drawer visible
         closeMenu_btn.setVisible(false); // Hide the close menu button
         openMenu_btn.setVisible(true);
         drawerContainer.setDefaultDrawerSize(230); // Example width in pixels
@@ -122,17 +132,27 @@ public class ClientDashboardController implements Initializable {
     }
 
     @FXML
-    private void helloworld(){
-        System.out.println("Hello World");
+    private void minimizeApplication() {
+        //Minimize the application
+        Stage stage = (Stage) minimizeApp_btn.getScene().getWindow();
+        stage.setIconified(true);
     }
 
 
+    @FXML
+    private void closeApplication() {
+        //Close the application and exit
+        SharedButtonUtils.exitApplication(
+                exitApp_btn,
+                AlertNotificationUtils.showConfirmationAlert("Exit Application?",
+                        "Are you sure you want to exit the application"));
+    }
 
-
-    public void loadCurrentUser() {
-        userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
-        name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
-        photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
+    @FXML
+    private void loadCurrentUser() {
+        userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
+        name = CurrentLoggedUserHandler.getCurrentLoggedAdminFullName();
+        photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
 
 
         username_lbl.setText(name);
@@ -141,41 +161,11 @@ public class ClientDashboardController implements Initializable {
         lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
-
-    @FXML
-    private void closeApplication(){
-        Stage stage = (Stage) exitApp_btn.getScene().getWindow();
-
-        if (AlertNotificationUtils.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
-            stage.close();
-        }
-    }
-
-    @FXML
-    private void minimizeApplication(){
-        Stage stage = (Stage) minimizeApp_btn.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    private void refreshInformationHeader(){
-        System.out.println("Refreshing Information");
-        loadCurrentUser();
-
-    }
-
-    public void setLastLoginTime(){
-        String lastLoginTime = DateTimeUtils.getYearMonthDayFormat();
-
-        UserDAO.updateUserAccountStatusAndLastLoginTime(userID, lastLoginTime);
-
-    }
-
     @FXML
     private void loadHomeScreen(){
         try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.CLIENT_HOME_PAGE_VIEW));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_HOME_PAGE_VIEW));
             StackPane stackPane = fxmlLoader.load();
 
             swappableContentPane.getChildren().setAll(stackPane);/*
@@ -186,22 +176,31 @@ public class ClientDashboardController implements Initializable {
         }
     }
 
+
+
+
+
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Set the swappable content pane to the main content anchor pane
         swappableContentPane = mainContentAnchorPane;
-        /*initializeSideMenu();*/
-        // Use the CurrentUserService to access the logged-in user's information
-/*         userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
-         name = CurrentLoggedUserHandler.getCurrentLoggedUserFirstName();
-         photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
-
-
-        username_lbl.setText(name);
-        Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
-        loggedUserImage.setFill(new ImagePattern(curPhoto));*/
         loadHomeScreen();
         loadCurrentUser();
 
-        Platform.runLater(this::setLastLoginTime);
+
+
+
+        // Ensures that each thread is synchronized and would run step by step
+        Thread accountUpdateThread = new Thread(() -> {
+            synchronized (lock) {
+                UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeUtils.getYearMonthDayFormat());
+/*                UserDAO.checkAndUpdateInactiveAccountStatus();
+                UserDAO.checkAndUpdateExpiredAccountStatus();*/
+            }
+    });
+        accountUpdateThread.start();
     }
+
 
 }

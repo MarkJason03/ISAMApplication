@@ -311,7 +311,7 @@ public class ActionTicketController implements Initializable {
                     DateTimeUtils.getCurrentDateTime());
         } else{
             MessageHistoryDAO.recordMessage(ticketID,
-                    responseDetails.getText().concat( "\n\n" + CurrentLoggedUserHandler.getCurrentLoggedAdminName()),
+                    responseDetails.getText().concat( "\n\n" + CurrentLoggedUserHandler.getCurrentLoggedAdminFullName()),
                     DateTimeUtils.getCurrentDateTime());
         }
 

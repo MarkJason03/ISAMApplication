@@ -157,7 +157,7 @@ public class EditUserProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
-                CurrentLoggedUserHandler.setNewName(userModel.getFirstName());
+                CurrentLoggedUserHandler.setUserFullName(userModel.getFirstName());
 
         }
 

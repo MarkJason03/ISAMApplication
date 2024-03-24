@@ -228,22 +228,22 @@
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                    </rowConstraints>
                                                    <children>
-                                                      <Label text="Fullname">
+                                                      <Label text="First Name">
                                                          <font>
                                                             <Font name="System Bold" size="16.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="Role" GridPane.columnIndex="2">
+                                                      <Label text="Last Name" GridPane.columnIndex="2">
                                                          <font>
                                                             <Font name="System Bold" size="16.0" />
                                                          </font>
                                                       </Label>
-                                                      <TextField fx:id="lastName_TF" disable="true" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="role" style="-fx-background-color: transparent; -fx-opacity: 1;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                      <TextField fx:id="lastName_TF" disable="true" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="lastname" style="-fx-background-color: transparent; -fx-opacity: 1;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                          <font>
                                                             <Font size="14.0" />
                                                          </font>
                                                       </TextField>
-                                                      <TextField fx:id="firstName_TF" disable="true" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="fullname" style="-fx-background-color: transparent; -fx-opacity: 1;" GridPane.rowIndex="1">
+                                                      <TextField fx:id="firstName_TF" disable="true" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="firstname" style="-fx-background-color: transparent; -fx-opacity: 1;" GridPane.rowIndex="1">
                                                          <font>
                                                             <Font size="14.0" />
                                                          </font>

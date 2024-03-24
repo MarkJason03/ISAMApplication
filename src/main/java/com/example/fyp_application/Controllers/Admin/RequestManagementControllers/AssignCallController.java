@@ -142,7 +142,7 @@ public class AssignCallController implements Initializable {
                         ticketInfo.get(0).getAgentFullName(),
                         ticketInfo.get(0).getTicketTitle(),
                         messageDetails.getText(),
-                        CurrentLoggedUserHandler.getCurrentLoggedAdminName())
+                        CurrentLoggedUserHandler.getCurrentLoggedAdminFullName())
                 );
     }
 

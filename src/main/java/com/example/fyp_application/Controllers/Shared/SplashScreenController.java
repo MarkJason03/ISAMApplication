@@ -1,5 +1,6 @@
 package com.example.fyp_application.Controllers.Shared;
 
+import com.example.fyp_application.Model.AssetAllocationDAO;
 import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Utils.DatabaseConnectionUtils;
@@ -50,15 +51,16 @@ public class SplashScreenController {
 
 
                 // Updating for inactive accounts
-                updateDatabaseStep(UserDAO::checkAndUpdateInactiveAccountStatus, 0.5);
+                updateDatabaseStep(UserDAO::checkAndUpdateInactiveAccountStatus, 0.2);
 
                 // Updating for expired accounts
-                updateDatabaseStep(UserDAO::checkAndUpdateExpiredAccountStatus, 1.0);
+                updateDatabaseStep(UserDAO::checkAndUpdateExpiredAccountStatus, 0.4);
 
 
                 // Updating for contract status
-                updateDatabaseStep(SupplierDAO::checkAndUpdateContractStatus, 1.0);
+                updateDatabaseStep(SupplierDAO::checkAndUpdateContractStatus, 0.6);
 
+                updateDatabaseStep(AssetAllocationDAO::checkAndUpdateOverdueAllocation, 0.8);
             }
 
             // Complete the process and possibly transition to the main app

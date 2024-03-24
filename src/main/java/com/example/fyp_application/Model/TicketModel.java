@@ -36,6 +36,8 @@ public class TicketModel {
 
     private String userEmail;
 
+    private String escalationStatus;
+
 
 
 
@@ -77,7 +79,8 @@ public class TicketModel {
                        String priority,
                        String category,
                        String dateCreated,
-                       String dateClosed) {
+                       String dateClosed,
+                       String escalationStatus) {
         this.ticketID = ticketID;
         this.userFullName = userFullName;
         this.agentFullName = agentFullName;
@@ -87,6 +90,7 @@ public class TicketModel {
         this.categoryName = category;
         this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
+        this.escalationStatus = escalationStatus;
     }
 
 
@@ -124,7 +128,9 @@ public class TicketModel {
                        String knowledgeInfo,
                        String agentFullName,
                        String dateCreated,
-                       String dateClosed) {
+                       String targetResolutionDate,
+                       String dateClosed,
+                       String escalationStatus){
 
         this.ticketID = ticketID;
         this.userID = userID;
@@ -140,7 +146,10 @@ public class TicketModel {
         this.knowledgeBaseInfo = knowledgeInfo;
         this.agentFullName = agentFullName;
         this.dateCreated = dateCreated;
+        this.targetResolutionDate = targetResolutionDate;
         this.dateClosed = dateClosed;
+        this.escalationStatus = escalationStatus;
+
     }
 
 
@@ -300,4 +309,12 @@ public class TicketModel {
     }
 
     public void setUserEmail(String userEmail){this.userEmail = userEmail;}
+
+    public String getEscalationStatus() {
+        return escalationStatus;
+    }
+
+    public void setEscalationStatus(String escalationStatus) {
+        this.escalationStatus = escalationStatus;
+    }
 }

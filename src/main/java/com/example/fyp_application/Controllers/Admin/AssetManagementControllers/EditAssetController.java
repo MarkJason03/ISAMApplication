@@ -242,7 +242,7 @@ public class EditAssetController implements Initializable {
 
 
         assetCondition_CB.getItems().addAll("Excellent", "Good", "Fair", "Poor");
-        assetStatus_CB.getItems().addAll("Available", "In Use", "In Repair", "Retired", "Disposed");
+        assetStatus_CB.getItems().addAll("Available", "In Repair", "Retired", "Disposed");
         osSpec_CB.getItems().addAll("N/A", "Windows", "iOS", "MacOS", "Android", "Linux");
         ramSpec_CB.getItems().addAll("N/A", "8GB", "16GB", "32GB", "64GB");
         storageSpec_CB.getItems().addAll("N/A", "128GB", "256GB", "512GB", "1TB", "2TB");

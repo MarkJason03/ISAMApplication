@@ -58,18 +58,6 @@ public class TicketModel {
         this.dateCreated = dateCreated;
     }
 
-    // Constructor for viewing ticket - user side
-
-
-    // Constructor for creating ticket - agent side
-
-
-
-
-
-
-
-
     // Constructor for viewing ticket - agent side // table view
     public TicketModel(int ticketID,
                        String userFullName,
@@ -166,7 +154,6 @@ public class TicketModel {
             String agentName,
             String email
     ){
-
         this.ticketID = ticketID;
         this.categoryID = categoryID;
         this.ticketTitle = title;

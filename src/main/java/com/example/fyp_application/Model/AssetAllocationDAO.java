@@ -9,18 +9,6 @@ import java.sql.*;
 public class AssetAllocationDAO {
 
 
-/*    public <ObservableList> ObservableList<AssetAllocationModel> getAssetAllocations() {
-        return null;
-    }
-    */
-/*
-
-    public static ObservableList<AssetAllocationModel> getAssetAllocations() {
-        String
-    }
-*/
-
-
     public static int insertAssetAllocation(int assetID,
                                             int userID,
                                             int agentID,
@@ -328,6 +316,109 @@ public class AssetAllocationDAO {
     }
 
 
+    public static ObservableList<AssetAllocationModel> getAllocationDetailsByUser(int userID){
+        ObservableList<AssetAllocationModel> assetAllocationsByUser = FXCollections.observableArrayList();
+        String sql = """
+                SELECT
+                	-- Allocation Information
+                	allocation.AllocationHistoryID, -- ID
+                	allocation.AssetID,
+                	allocation.AllocationStatus, -- Allocation Status
+                	allocation.OverdueStatus,
+                	-- Calculate Overdue Days
+                	CASE
+                		WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
+                		AND allocation.AllocationStatus = 'In Use'
+                		THEN ROUND(julianday(date('now')) - julianday(date(allocation.DueDate)))
+                		ELSE 0
+                	END AS OverdueDays,
+                	allocation.LoanType,
+                	allocation.StartDate, -- Allocation Start Date
+                	allocation.DueDate, -- Allocation Due Date
+                	allocation.EndDate, -- Allocation End Date
+                	allocation.AdditionalComments, -- Additional Comments
+                                
+                                
+                	-- Asset Information
+                	asset.AssetName,
+                	asset.SerialNo,
+                	manu.ManufacturerName as Manufacturer,
+                	cat.assetCategoryName as Category,
+                	asset.StorageSpec,
+                	asset.PhotoPath,
+                	asset.RamSpec,
+                	asset.AssetCondition,
+                	asset.AssetStatus,
+                  \s
+                	-- User Information
+                	user.FirstName,
+                	user.LastName,
+                	dept.deptName as Department,
+                	user.Username,
+                	user.Email,
+                	user.Phone,
+                                
+                	-- Building Information
+                	building.BuildingName,
+                	office.OfficeName
+                FROM
+                	tbl_AllocationHistory as allocation
+                	JOIN tbl_Assets as asset ON asset.AssetID = allocation.AssetID
+                	JOIN tbl_assetCategory as cat ON cat.assetCategoryID = asset.assetCategoryID
+                	JOIN tbl_assetManufacturer as manu ON manu.ManufacturerID = asset.ManufacturerID
+                	JOIN tbl_BuildingOffices as office ON office.OfficeID = allocation.OfficeID
+                	JOIN tbl_Buildings as building ON building.BuildingID = office.BuildingID
+                	JOIN tbl_Users as user ON user.UserID = allocation.UserID
+                	JOIN tbl_Departments as dept ON dept.deptID = user.deptID
+                                
+                WHERE allocation.AllocationStatus != 'Returned' AND allocation.UserID = ?;
+                """;
+        try(Connection connection = DatabaseConnectionUtils.getConnection()){
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1, userID);
+                try(ResultSet resultSet = preparedStatement.executeQuery()){
+                    while(resultSet.next()){
+                        AssetAllocationModel assetAllocation = new AssetAllocationModel(
+                                resultSet.getInt("AllocationHistoryID"),
+                                resultSet.getInt("AssetID"),
+                                resultSet.getString("AllocationStatus"),
+                                resultSet.getString("OverdueStatus"), // Overdue Status
+                                resultSet.getString("OverdueDays"),
+                                resultSet.getString("LoanType"),
+                                resultSet.getString("StartDate"),
+                                resultSet.getString("DueDate"),
+                                resultSet.getString("EndDate"),
+                                resultSet.getString("AdditionalComments"),
+                                resultSet.getString("AssetName"),
+                                resultSet.getString("SerialNo"),
+                                resultSet.getString("Manufacturer"),
+                                resultSet.getString("Category"),
+                                resultSet.getString("StorageSpec"),
+                                resultSet.getString("PhotoPath"),
+                                resultSet.getString("RamSpec"),
+                                resultSet.getString("AssetCondition"),
+                                resultSet.getString("AssetStatus"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+                                resultSet.getString("Department"),
+                                resultSet.getString("Username"),
+                                resultSet.getString("Email"),
+                                resultSet.getString("Phone"),
+                                resultSet.getString("BuildingName"),
+                                resultSet.getString("OfficeName")
+                        );
+                        assetAllocationsByUser.add(assetAllocation);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+
+        return assetAllocationsByUser;
+    }
+
 
     public static void checkAndUpdateOverdueAllocation(){
 
@@ -359,4 +450,56 @@ public class AssetAllocationDAO {
 
     }
 
+    public static int countAssetsByUserID(int currentLoggedUserID) {
+
+        int assetCounter = 0;
+        String sql = """
+                SELECT COUNT(*) FROM tbl_AllocationHistory
+                 WHERE UserID = ? AND AllocationStatus != 'Returned';
+                """;
+
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, currentLoggedUserID);
+                try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if(resultSet.next()) {
+                        assetCounter = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return assetCounter;
+    }
+
+    public static int calculateTotalAssetCostByUserID(int currentLoggedUserID) {
+        int totalAssetCost = 0;
+
+        String sql = """
+                SELECT
+                    SUM(asset.AssetPrice)
+                FROM
+                    tbl_AllocationHistory as allocation
+                JOIN
+                    tbl_Assets as asset on asset.AssetID = allocation.AssetID
+                WHERE
+                    allocation.UserID = ? AND AllocationStatus != 'Returned';
+                """;
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, currentLoggedUserID);
+                try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if(resultSet.next()) {
+                        totalAssetCost = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return totalAssetCost;
+    }
 }

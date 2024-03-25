@@ -95,7 +95,7 @@ public class TicketDetailsUtils {
 
 
 
-    public static void setupTableListeners(TableView<TicketModel> tableView, TextField ticketID_TF, TextField raisedBy_TF, TextField category_TF, TextField priority_TF, TextField escalationStatus_TF, TextField agentName_TF) {
+    public static void setupTicketDetailsTableListner(TableView<TicketModel> tableView, TextField ticketID_TF, TextField raisedBy_TF, TextField category_TF, TextField priority_TF, TextField escalationStatus_TF, TextField agentName_TF) {
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 TicketModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
@@ -104,6 +104,20 @@ public class TicketDetailsUtils {
                 category_TF.setText(selectedTicket.getCategoryName());
                 priority_TF.setText(selectedTicket.getTicketPriority());
                 escalationStatus_TF.setText(selectedTicket.getEscalationStatus());
+                agentName_TF.setText(selectedTicket.getAgentFullName());
+            }
+        });
+    }
+
+
+    public static void setupUserRequestTableListener(TableView<TicketModel> tableView, TextField ticketID_TF, TextField status_TF, TextField dateCreated_TF, TextField dateClosed_TF, TextField agentName_TF) {
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                TicketModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
+                ticketID_TF.setText(String.valueOf(selectedTicket.getTicketID()));
+                status_TF.setText(selectedTicket.getTicketStatus());
+                dateCreated_TF.setText(selectedTicket.getDateCreated());
+                dateClosed_TF.setText(selectedTicket.getDateClosed());
                 agentName_TF.setText(selectedTicket.getAgentFullName());
             }
         });

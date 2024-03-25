@@ -34,6 +34,9 @@ public class AssetAllocationModel {
 
     private String additionalComments;
 
+
+    private String photoPath;
+
     //Additional fields from FK
 
     //Buildings
@@ -112,6 +115,69 @@ public class AssetAllocationModel {
         this.manufacturer = manufacturer;
         this.category = category;
         this.storageSpec = storageSpec;
+        this.ramSpec = ramSpec;
+        this.assetCondition = assetCondition;
+        this.assetStatus = assetStatus;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+        this.buildingName = buildingName;
+        this.officeName = officeName;
+
+    }
+
+
+
+    public AssetAllocationModel(
+            int allocationID,
+            int assetID,
+            String allocationStatus,
+            String overdueStatus,
+            String overdueDays,
+            String loanType,
+            String startDate,
+            String dueDate,
+            String endDate,
+            String additionalComments,
+            String assetName,
+            String serialNumber,
+            String manufacturer,
+            String category,
+            String storageSpec,
+            String photoPath,
+            String ramSpec,
+            String assetCondition,
+            String assetStatus,
+            String firstName,
+            String lastName,
+            String department,
+            String username,
+            String email,
+            String phone,
+            String buildingName,
+            String officeName
+    )
+    {
+
+        this.allocationID = allocationID;
+        this.assetID = assetID;
+        this.allocationStatus = allocationStatus;
+        this.overdueStatus = overdueStatus;
+        this.overdueDays = overdueDays;
+        this.loanType = loanType;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.endDate = endDate;
+        this.additionalComments = additionalComments;
+        this.assetName = assetName;
+        this.serialNumber = serialNumber;
+        this.manufacturer = manufacturer;
+        this.category = category;
+        this.storageSpec = storageSpec;
+        this.photoPath = photoPath;
         this.ramSpec = ramSpec;
         this.assetCondition = assetCondition;
         this.assetStatus = assetStatus;
@@ -381,5 +447,15 @@ public class AssetAllocationModel {
 
     public void setOverdueDays(String overdueDays) {
         this.overdueDays = overdueDays;
+    }
+
+
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

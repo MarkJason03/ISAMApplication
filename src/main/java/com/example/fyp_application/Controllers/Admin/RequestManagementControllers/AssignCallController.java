@@ -77,7 +77,7 @@ public class AssignCallController implements Initializable {
     private void searchUser() {
         // Search for the user in the database
 
-        SearchBarListenerUtils.userSearchBarListener(userSearchBar_TF, userComboBox, UserDAO.getAllAgents());
+        TextFieldListenerUtils.userSearchBarListener(userSearchBar_TF, userComboBox, UserDAO.getAllAgents());
     }
 
 

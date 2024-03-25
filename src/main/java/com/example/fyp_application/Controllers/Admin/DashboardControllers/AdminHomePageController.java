@@ -111,7 +111,7 @@ public class AdminHomePageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //loadFlowPaneData();
+        //loadAssetListFlowPane();
         Platform.runLater(this::setUserPieChart);
         Platform.runLater(this::setUserLineChart);
         setUserBarChart();

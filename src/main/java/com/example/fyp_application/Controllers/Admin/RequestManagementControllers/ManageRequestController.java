@@ -334,6 +334,6 @@ public class ManageRequestController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadTicketsTable();
 
-        TicketDetailsUtils.setupTableListeners(requestTableView, ticketID_TF, raisedBy_TF, category_TF, priority_TF, escalationStatus_TF, agentName_TF);
+        TicketDetailsUtils.setupTicketDetailsTableListner(requestTableView, ticketID_TF, raisedBy_TF, category_TF, priority_TF, escalationStatus_TF, agentName_TF);
     }
 }

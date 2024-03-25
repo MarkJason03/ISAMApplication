@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
-import com.example.fyp_application.Utils.TableSearchUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -164,7 +164,7 @@ public class ModifiedManageSupplierController implements Initializable {
             supTableView.setItems(filteredList);
         });*/
 
-        TableSearchUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
+        TableListenerUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
                 supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
     }
     private void tableListener(){

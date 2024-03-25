@@ -99,7 +99,7 @@ public class EditUserProfileController implements Initializable {
 
 
     private void loadUserData(Integer userID) throws SQLException {
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
 
         if (userModel != null) {
             firstName_TF.setText(userModel.getFirstName());
@@ -116,6 +116,7 @@ public class EditUserProfileController implements Initializable {
             usernameMainHolder_lbl.setText(userModel.getFirstName());
             Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(userModel.getPhoto())));
             userProfileHolder.setFill(new ImagePattern(curPhoto));
+            CurrentLoggedUserHandler.setUserFullName(userModel.getFullName());
         } else {
             System.out.println("User not found with ID: " + userID);
         }
@@ -128,7 +129,7 @@ public class EditUserProfileController implements Initializable {
         Stage currentDashboardStage = (Stage) accountSettingsAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur);
 
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
@@ -157,7 +158,7 @@ public class EditUserProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
-                CurrentLoggedUserHandler.setUserFullName(userModel.getFirstName());
+
 
         }
 
@@ -193,7 +194,7 @@ public class EditUserProfileController implements Initializable {
             Platform.runLater(() -> {
                 try {
                     loadUserData(CurrentLoggedUserHandler.getCurrentLoggedUserID());
-                    UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
+                    UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
 
 

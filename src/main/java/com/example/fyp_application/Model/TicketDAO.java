@@ -181,6 +181,36 @@ public class TicketDAO {
         return ticketDetailsPerUserID;
     }
 
+    public static int countOngoingTicketByUserID(int userID){
+        int ticketCount = 0;
+        String sql = """
+                SELECT
+                	COUNT(requests.Status)
+                FROM
+                	tbl_tickets as requests
+                JOIN
+                	tbl_Users as user ON user.UserID = requests.UserID
+                LEFT JOIN
+                	tbl_Users as agent ON agent.UserID = requests.AgentID
+                WHERE
+                	requests.UserID = ? AND requests.Status != 'Closed';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1,userID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        ticketCount = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ticketCount;
+    }
 /*
     public void displayTicketInformation(int ticketID) {
         String sql = """

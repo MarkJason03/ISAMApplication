@@ -4,7 +4,7 @@ import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
-import com.example.fyp_application.Utils.TableSearchUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -293,7 +293,7 @@ public class ModifiedManageUserController implements Initializable {
             userTableView.setItems(filteredList);
         });*/
 
-        TableSearchUtils.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
+        TableListenerUtils.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
                 userDetails.getFirstName().toLowerCase().contains(searchDetail.toLowerCase()) ||
                         userDetails.getLastName().toLowerCase().contains(searchDetail.toLowerCase()) ||
                         userDetails.getUsername().toLowerCase().contains(searchDetail.toLowerCase()));

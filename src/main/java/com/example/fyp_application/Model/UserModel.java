@@ -72,7 +72,7 @@ public class UserModel {
     //For Loading and Editing User Profile on client's view
     public UserModel(Integer userID,String firstName, String lastName,
     String email, String gender, String photo, String phone,
-    String dob, String username, String createdAt,
+    String dob, String username, String createdAt, String expiresAt,
     String accountStatus, String deptName, String lastUpdated){
         this.userID = userID;
         this.firstName = firstName;
@@ -84,6 +84,7 @@ public class UserModel {
         this.dob = dob;
         this.username = username;
         this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
         this.accountStatus = accountStatus;
         this.deptName = deptName;
         this.lastUpdated = lastUpdated;

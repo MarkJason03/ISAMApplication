@@ -207,14 +207,7 @@ public class ClientResponseActionController implements Initializable {
     @FXML
     private void deleteAttachment() {
         // Delete the attachment
-        AttachmentUtils.addAttachments(filePaths, attachmentListView);
-    }
-
-
-    @FXML
-    private void sendResponse() {
-
-
+        AttachmentUtils.deleteAttachments(attachmentListView);
     }
 
 
@@ -224,13 +217,24 @@ public class ClientResponseActionController implements Initializable {
         SharedButtonUtils.closeMenu(backBtn);
     }
 
+    @FXML
+    private void refreshForm(){
+
+        // Refresh the form
+
+        responseDetails.clear();
+        attachmentListView.getItems().clear();
+        attachmentCheckbox.setSelected(false);
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Set the attachment list listener
+        // Set the attachment list listener to double click to open the attachment
         AttachmentUtils.setAttachmentListListener(attachmentListView);
+
+        // Set the attachment list state
         AttachmentUtils.setAttachmentListState(attachmentCheckbox, attachmentTitlePane);
 
     }

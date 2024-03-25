@@ -181,7 +181,7 @@ public class AddAssetController implements Initializable {
         storageSpec_CB.setValue("N/A");
         ramSpec_CB.setValue("N/A");
 
-        SearchBarListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
+        TextFieldListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
     }
 
 

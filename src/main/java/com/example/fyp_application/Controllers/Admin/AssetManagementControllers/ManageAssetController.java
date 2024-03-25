@@ -2,7 +2,7 @@ package com.example.fyp_application.Controllers.Admin.AssetManagementControllers
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
-import com.example.fyp_application.Utils.TableSearchUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -392,7 +392,7 @@ public class ManageAssetController implements Initializable {
             assetTable.setItems(filteredList);
         });*/
 
-        TableSearchUtils.searchTableDetails(searchBar_TF, assetTable, assetList, (asset, search) ->
+        TableListenerUtils.searchTableDetails(searchBar_TF, assetTable, assetList, (asset, search) ->
                 asset.getSerialNumber().toLowerCase().contains(search.toLowerCase()) ||
                         String.valueOf(asset.getAssetID()).contains(search));
     }

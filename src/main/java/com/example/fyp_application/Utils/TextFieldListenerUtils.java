@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 
 import java.util.List;
 
-public class SearchBarListenerUtils {
+public class TextFieldListenerUtils {
 
   /*  // Listen for changes in the phone number field
         userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
@@ -88,4 +88,29 @@ public class SearchBarListenerUtils {
                 userList_CB.setItems(FXCollections.observableArrayList(filteredList));
             });
        }
+
+
+
+    public static void ticketSearchBarListener(TextField searchBar, ComboBox<UserModel> userList_CB, List<UserModel> userList) {
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Filter the list of users based on the search query
+            List<UserModel> filteredList = userList.stream()
+                    .filter(user -> user.getFirstName().toLowerCase().contains(newValue.toLowerCase()) ||
+                            user.getLastName().toLowerCase().contains(newValue.toLowerCase()) ||
+                            user.getUsername().toLowerCase().contains(newValue.toLowerCase()))
+                    .toList();
+
+            // Update the list of users in the ComboBox
+            userList_CB.setItems(FXCollections.observableArrayList(filteredList));
+        });
+    }
+
+
+
+    public static void refreshUserTicketForm(TextField ticketTitle, TextArea ticketDetails, ListView<String> attachmentListView, CheckBox attachmentCheckbox) {
+        ticketTitle.clear();
+        ticketDetails.clear();
+        attachmentListView.getItems().clear();
+        attachmentCheckbox.setSelected(false);
+    }
 }

@@ -65,13 +65,6 @@ public class UserDAO {
     }
 
 
-    private boolean validateAccountStatus(String accountStatus) {
-        // Check if the account status is either "Active" or "Inactive"
-        // Inactive accounts are those that have not been logged in for 7 days
-        return accountStatus.equals("Active") || accountStatus.equals("Inactive");
-    }
-
-
     public UserModel cacheUserLoginID(String username) {
         String sql = """
                 SELECT UserID,
@@ -424,7 +417,7 @@ public class UserDAO {
 
     public static UserModel loadCurrentLoggedUser(Integer userID) throws SQLException {
         String sql = """
-                SELECT UserID, FirstName , LastName , Email, Gender,Photo, Phone, DOB, Username , CreatedAt, AccountStatus , LastLogin, tbl_Departments.deptName as Department
+                SELECT UserID, FirstName , LastName , Email, Gender,Photo, Phone, DOB, Username , CreatedAt, ExpiresOn, AccountStatus , LastLogin, tbl_Departments.deptName as Department
                 from tbl_Users
                 join tbl_Departments on tbl_Users.deptID = tbl_Departments.deptID
                 WHERE UserID = ?;
@@ -437,7 +430,19 @@ public class UserDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     userModel = new UserModel(resultSet.getInt("UserID"), // Include this if your UserModel constructor expects it
-                            resultSet.getString("FirstName"), resultSet.getString("LastName"), resultSet.getString("Email"), resultSet.getString("Gender"), resultSet.getString("Photo"), resultSet.getString("Phone"), resultSet.getString("DOB"), resultSet.getString("Username"), resultSet.getString("CreatedAt"), resultSet.getString("AccountStatus"), resultSet.getString("Department"), resultSet.getString("LastLogin"));
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("LastName"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Gender"),
+                            resultSet.getString("Photo"),
+                            resultSet.getString("Phone"),
+                            resultSet.getString("DOB"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("CreatedAt"),
+                            resultSet.getString("ExpiresOn"),
+                            resultSet.getString("AccountStatus"),
+                            resultSet.getString("Department"),
+                            resultSet.getString("LastLogin"));
                 }
             }
         } catch (SQLException e) {

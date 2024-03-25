@@ -107,7 +107,7 @@ public class ClientDashboardWindowController implements Initializable {
     }
 
     @FXML
-    private void closeMenuCopy() {
+    private void closeMenu() {
    // Make the drawer visible
         closeMenu_btn.setVisible(false); // Hide the close menu button
         openMenu_btn.setVisible(true);

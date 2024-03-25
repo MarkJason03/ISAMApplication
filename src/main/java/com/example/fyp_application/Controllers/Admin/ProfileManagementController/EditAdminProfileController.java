@@ -101,7 +101,7 @@ public class EditAdminProfileController implements Initializable {
             email_TF.setText(userModel.getEmail());
             gender_TF.setText(userModel.getGender());
             userName_TF.setText(userModel.getUsername());
-            //password_TF.setText(userModel.getPassword());
+
             createdAt_TF.setText(userModel.getCreatedAt());
             accountStatus_TF.setText(userModel.getAccountStatus());
             dept_TF.setText(userModel.getDeptName());
@@ -110,6 +110,7 @@ public class EditAdminProfileController implements Initializable {
             usernameMainHolder_lbl.setText(userModel.getFirstName());
             Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(userModel.getPhoto())));
             userProfileHolder.setFill(new ImagePattern(curPhoto));
+            CurrentLoggedUserHandler.setNewAdminName(userModel.getFullName());
         } else {
             System.out.println("User not found with ID: " + userID);
         }
@@ -151,7 +152,7 @@ public class EditAdminProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
-                CurrentLoggedUserHandler.setNewAdminName(userModel.getFirstName());
+
         }
 
     }

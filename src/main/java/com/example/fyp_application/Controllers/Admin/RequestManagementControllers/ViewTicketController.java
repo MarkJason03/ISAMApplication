@@ -216,7 +216,7 @@ public class ViewTicketController implements Initializable {
 
     @FXML
     private void quickClose() throws Exception {
-        //Todo - experimental to try and close the call and
+        // quick close the ticket
         TICKET_DAO.quickCloseTicket(ticketID,
                 ticketInformationArray.get(0).getCategoryID(),
                 "Closed",
@@ -225,6 +225,7 @@ public class ViewTicketController implements Initializable {
                 DateTimeUtils.getYearMonthDayFormat()
         );
 
+        // send email to requester
         GMailUtils.sendEmailTo(ticketInformationArray.get(0).getUserEmail(),
                 "Call Closed: SD" +  ticketID,
                 GMailUtils.generateAutoCloseEmailBody(ticketID,

@@ -112,7 +112,6 @@ public class ClientViewRequestController implements Initializable {
 
     @FXML
     private void loadAttachments(){
-        // TODO implement here
 
         ObservableList<TicketAttachmentModel> attachmentList;
         try {

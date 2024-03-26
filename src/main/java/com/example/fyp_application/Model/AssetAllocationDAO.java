@@ -502,4 +502,29 @@ public class AssetAllocationDAO {
         }
         return totalAssetCost;
     }
+
+
+    public static int countTotalOverdueAssets(){
+        int totalOverdueAssets = 0;
+
+        String sql = """
+                Select
+                	count (*) from tbl_AllocationHistory
+                WHERE OverdueStatus = 'Overdue';
+                """;
+
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if(resultSet.next()) {
+                        totalOverdueAssets = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return totalOverdueAssets;
+    }
 }

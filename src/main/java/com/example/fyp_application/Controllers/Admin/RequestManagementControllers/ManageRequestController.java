@@ -200,14 +200,15 @@ public class ManageRequestController implements Initializable {
 
 
     @FXML
-    private void actionTicket(){
+    public Stage  openTicketDetails(TableView<TicketModel> tableView, boolean isFromDashboard){
 
         GaussianBlur blur = new GaussianBlur(10);
-        Stage currentDashboardStage = (Stage) requestTableView.getScene().getWindow();
+        Stage currentDashboardStage = (Stage) tableView.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
 
-        TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
+        TicketModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
+        Stage ticketModalWindow = null;
 
         if (selectedTicket == null) {
             AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
@@ -222,20 +223,20 @@ public class ManageRequestController implements Initializable {
 
 
                 ViewTicketController viewTicketController = modalViewLoader.getController();
-                viewTicketController.loadTicketInfo(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
+                viewTicketController.loadTicketInfo(tableView.getSelectionModel().getSelectedItem().getTicketID());
 
 
                 // New window setup as modal
-                Stage supplierPopUpStage = new Stage();
-                supplierPopUpStage.initOwner(currentDashboardStage);
-                supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
-                supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
+                ticketModalWindow = new Stage();
+                ticketModalWindow.initOwner(currentDashboardStage);
+                ticketModalWindow.initModality(Modality.WINDOW_MODAL);
+                ticketModalWindow.initStyle(StageStyle.TRANSPARENT);
 
 
                 Scene scene = new Scene(root);
-                supplierPopUpStage.setScene(scene);
+                ticketModalWindow.setScene(scene);
 
-                supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
+                ticketModalWindow.showAndWait(); // Blocks interaction with the main stage
 
             } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
@@ -243,13 +244,23 @@ public class ManageRequestController implements Initializable {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
                 //Platform.runLater(this::loadTicketsTable);
 
-                loadTicketsTable();
-                Platform.runLater(this::countCreatedRequests);
-                Platform.runLater(this::countOnProgressRequests);
-                Platform.runLater(this::countClosedCalls);
+                if(!isFromDashboard){
+                    loadTicketsTable();
+                    Platform.runLater(this::countCreatedRequests);
+                    Platform.runLater(this::countOnProgressRequests);
+                    Platform.runLater(this::countClosedCalls);
+
+                }
 
             }
         }
+        return ticketModalWindow;
+    }
+
+
+    @FXML
+    private void viewTicketDetails(){
+        openTicketDetails(requestTableView, false);
 
     }
 

@@ -110,7 +110,7 @@ public class ModifiedAddSupplierController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Set the date and combo box values
-        supStatus_CB.setItems(FXCollections.observableArrayList("Active", "Inactive"));
+        supStatus_CB.setItems(FXCollections.observableArrayList("Active", "Expired"));
         contractStart_DP.setValue(LocalDate.now());
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
@@ -150,7 +150,7 @@ public class ModifiedAddSupplierController implements Initializable{
 
         supStatus_CB.valueProperty().addListener((observable, oldValue, newValue) -> {
 
-            if (supStatus_CB.getValue().equals("Inactive")) {
+            if (supStatus_CB.getValue().equals("Expired")) {
                 expiryDate_DP.setValue(LocalDate.now());
                 expiryDate_DP.setDisable(true);
             } else {

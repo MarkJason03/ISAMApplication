@@ -81,4 +81,6 @@ module com.example.fyp_application {
     exports com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
     opens com.example.fyp_application.Controllers.Admin.AssetManagementControllers to javafx.fxml;
 
+    exports com.example.fyp_application.Controllers.Admin.ProcurementManagementControllers;
+    opens com.example.fyp_application.Controllers.Admin.ProcurementManagementControllers to javafx.fxml;
 }

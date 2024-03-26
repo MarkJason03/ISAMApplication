@@ -157,7 +157,7 @@ public class GMailUtils {
                 + "Comments:\n" + description + "\n\n"
                 + "Start Date: " + startDate + "\n\n"
                 + "Due Date: " + dueDate + "\n\n\n"
-                + "When opening a service request, please this Allocation ID " + allocationID +  " as reference."
+                + "When opening a service request, please use this Allocation ID " + allocationID +  " as reference."
                 + "\n\n\n"
                 + "Best Regards," + "\n\n"
                 + "ISAM Team";

@@ -229,7 +229,7 @@
                                           <ComboBox fx:id="assetStatusFilter_CB" layoutX="447.0" layoutY="15.0" prefHeight="34.0" prefWidth="191.0" style="-fx-background-color: white;" />
                                        </children>
                                     </Pane>
-                                    <Button fx:id="test" layoutX="438.0" layoutY="544.0" mnemonicParsing="false" onAction="#recordNewAllocationRequest" text="Assign Asset" />
+                                    <Button fx:id="test" disable="true" layoutX="438.0" layoutY="544.0" mnemonicParsing="false" onAction="#recordNewAllocationRequest" text="Assign Asset" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="treeTableContainer" />
@@ -385,7 +385,7 @@
                                              </font>
                                           </Label>
                                           <FontAwesomeIconView glyphName="REFRESH" layoutX="921.0" layoutY="44.0" size="35" text="" />
-                                          <Button fx:id="reload_btn1" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                                          <Button fx:id="reload_btn1" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" onAction="#reloadAssetTable" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                                           <Label layoutX="364.0" layoutY="16.0" prefHeight="32.0" prefWidth="67.0" text="Sort by :">
                                              <font>
                                                 <Font name="System Bold" size="18.0" />

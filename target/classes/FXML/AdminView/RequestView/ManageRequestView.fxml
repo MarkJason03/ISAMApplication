@@ -32,7 +32,7 @@
                   <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
                         <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#actionTicket" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
+                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewTicketDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
                         <Button fx:id="assignTicket_btn" mnemonicParsing="false" onAction="#assignTicket" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to" />
                      </children>
                   </HBox>

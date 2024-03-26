@@ -127,6 +127,7 @@ public class ModifiedEditSupplierController implements Initializable {
 
 
     private boolean isValidDate() {
+        // todo rewrite this function
         LocalDate currentDate = LocalDate.now();
         LocalDate selectedDate = expiryDate_DP.getValue();
 
@@ -146,7 +147,7 @@ public class ModifiedEditSupplierController implements Initializable {
 
         @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        supStatus_CB.getItems().addAll("Active", "Inactive");
+        supStatus_CB.getItems().addAll("Active", "Expired");
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
     }
 }

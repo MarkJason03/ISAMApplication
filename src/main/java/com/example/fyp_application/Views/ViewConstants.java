@@ -25,7 +25,7 @@ public class ViewConstants {
 
     public static final String CLIENT_VIEW_TICKET_POP_UP = "/FXML/ClientView/RequestView/ClientSelfTicketView.fxml";
 
-    public static final String CLIENT_MY_ASSET_VIEW = "";
+
 
 
 
@@ -89,7 +89,7 @@ public class ViewConstants {
 
     //Admin procurement view
 
-    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "";
+    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "/FXML/AdminView/ProcurementView/RaiseRequest.fxml";
 
     public static final String ADMIN_RAISE_PROCUREMENT_TICKET_POP_UP = "";
 

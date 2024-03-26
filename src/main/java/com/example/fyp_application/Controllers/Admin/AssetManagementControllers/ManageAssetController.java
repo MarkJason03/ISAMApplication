@@ -650,6 +650,7 @@ public class ManageAssetController implements Initializable {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
 
+                // Reload the table
                 Task<Void>initTask = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
@@ -694,7 +695,7 @@ public class ManageAssetController implements Initializable {
 
     @FXML
     private void setupAllocationFilterComboBox(){
-        allocationStatusFilter_CB.getItems().addAll("All", "In Use", "Return");
+        allocationStatusFilter_CB.getItems().addAll("All", "In Use", "Returned");
         allocationStatusFilter_CB.setValue("All");
 
 
@@ -711,6 +712,11 @@ public class ManageAssetController implements Initializable {
                 loadFilteredAllocationTable(newSelection);
             }
         });
+    }
+
+    @FXML
+    private void reloadAssetTable(){
+        loadFilteredAllocationTable(allocationStatusFilter_CB.getValue());
     }
 
 

@@ -191,12 +191,10 @@ public class AdminDashboardWindowController implements Initializable {
 
 
 
-        // Ensures that each thread is synchronized and would run step by step
+        // Ensures that it will update the user account status and last login time withing a separate thread
         Thread accountUpdateThread = new Thread(() -> {
             synchronized (lock) {
                 UserDAO.updateUserAccountStatusAndLastLoginTime(userID, DateTimeUtils.getYearMonthDayFormat());
-/*                UserDAO.checkAndUpdateInactiveAccountStatus();
-                UserDAO.checkAndUpdateExpiredAccountStatus();*/
             }
     });
         accountUpdateThread.start();

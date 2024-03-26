@@ -5,10 +5,17 @@ import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 
+import java.awt.*;
+import java.sql.SQLException;
+import java.util.Objects;
 public class UserDetailsUtils {
 
     private static final UserDAO USER_DAO = new UserDAO();
@@ -86,5 +93,25 @@ public class UserDetailsUtils {
             }
         });
     }
-
+    public static void setupIDCard(UserModel userModel, Label fullName_lbl, Label deparment_lbl, Label expiresDate_lbl, Label email_lbl, Label phone_lbl, Circle imageHolder_shape) throws SQLException {
+        // If the user is not an admin
+        if( CurrentLoggedUserHandler.getCurrentLoggedUserID() != null){
+            fullName_lbl.setText(CurrentLoggedUserHandler.getCurrentLoggedUserFullName());
+            deparment_lbl.setText("Department: " + userModel.getDeptName());
+            expiresDate_lbl.setText("Expires: " + userModel.getExpiresAt());
+            email_lbl.setText(userModel.getEmail());
+            phone_lbl.setText(userModel.getPhone());
+            Image curPhoto = new Image(Objects.requireNonNull(UserDetailsUtils.class.getResourceAsStream(CurrentLoggedUserHandler.getCurrentLoggedUserImagePath())));
+            imageHolder_shape.setFill(new ImagePattern(curPhoto));
+        } else {
+            // If the user is an admin
+            fullName_lbl.setText(CurrentLoggedUserHandler.getCurrentLoggedAdminFullName());
+            deparment_lbl.setText("Department: " + userModel.getDeptName());
+            expiresDate_lbl.setText("Expires: " + userModel.getExpiresAt());
+            email_lbl.setText(userModel.getEmail());
+            phone_lbl.setText(userModel.getPhone());
+            Image curPhoto = new Image(Objects.requireNonNull(UserDetailsUtils.class.getResourceAsStream(CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath())));
+            imageHolder_shape.setFill(new ImagePattern(curPhoto));
+        }
+    }
 }

@@ -139,8 +139,8 @@ public class SupplierDAO {
 
         String sql = """
                 UPDATE tbl_Suppliers
-                SET supplierContractStatus = "Inactive"
-                WHERE contractEndDate < date("now") AND supplierContractStatus <> "Inactive";
+                SET supplierContractStatus = "Expired"
+                WHERE contractEndDate < date("now") AND supplierContractStatus <> "Expired";
                 """;
 
 
@@ -185,7 +185,7 @@ public class SupplierDAO {
     public int countInactiveSupplierContracts(){
 
         int counter = 0;
-        String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Inactive'";
+        String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Expired'";
 
 
         try(Connection connection = DatabaseConnectionUtils.getConnection()) {

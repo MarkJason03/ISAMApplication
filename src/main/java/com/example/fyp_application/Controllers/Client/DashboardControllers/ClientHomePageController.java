@@ -6,6 +6,7 @@ import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.ConfigPropertiesUtils;
+import com.example.fyp_application.Utils.UserDetailsUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
@@ -258,15 +259,15 @@ public class ClientHomePageController implements Initializable {
     @FXML
     private void setupIDCard() throws SQLException {
 
-        UserModel userModel = UserDAO.loadCurrentLoggedUser(CurrentLoggedUserHandler.getCurrentLoggedUserID());
-        fullName_lbl.setText(CurrentLoggedUserHandler.getCurrentLoggedUserFullName());
-        deparment_lbl.setText("Department: " + userModel.getDeptName());
-        expiresDate_lbl.setText("Expires: " + userModel.getExpiresAt());
-        email_lbl.setText(userModel.getEmail());
-        phone_lbl.setText(userModel.getPhone());
-        Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(CurrentLoggedUserHandler.getCurrentLoggedUserImagePath())));
-        imageHolder_shape.setFill(new ImagePattern(curPhoto));
+        try {
+            UserModel userModel = UserDAO.loadCurrentLoggedUser(CurrentLoggedUserHandler.getCurrentLoggedUserID());
+
+            UserDetailsUtils.setupIDCard(userModel, fullName_lbl, deparment_lbl, expiresDate_lbl, email_lbl, phone_lbl, imageHolder_shape);
+        } catch (SQLException e) {
+           e.printStackTrace();
+        }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -2,8 +2,9 @@ package com.example.fyp_application.Controllers.Client.ClientRequestControllers;
 
 import com.example.fyp_application.Controllers.Shared.MessageBoxController;
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.AttachmentUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -12,11 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
@@ -97,7 +94,7 @@ public class ClientViewRequestController implements Initializable {
 
     @FXML
     public void loadTicketInformation(int ticketID){
-        ObservableList<TicketModel> ticketInformationArray = TICKET_DAO.getTicketDetails(ticketID);
+        ObservableList<TicketModel> ticketInformationArray = TICKET_DAO.getFullTicketDetails(ticketID);
 
         if (!ticketInformationArray.isEmpty()) {
             this.ticketID = ticketInformationArray.get(0).getTicketID();
@@ -115,7 +112,6 @@ public class ClientViewRequestController implements Initializable {
 
     @FXML
     private void loadAttachments(){
-        // TODO implement here
 
         ObservableList<TicketAttachmentModel> attachmentList;
         try {
@@ -127,8 +123,6 @@ public class ClientViewRequestController implements Initializable {
 
         dateAdded_col.setCellValueFactory(new PropertyValueFactory<>("dateUploaded"));
         fileName_col.setCellValueFactory(new PropertyValueFactory<>("filePath"));
-
-
         attachmentTable.setItems(attachmentList);
     }
 
@@ -185,6 +179,11 @@ public class ClientViewRequestController implements Initializable {
     }
 
     @FXML
+    private void openAttachments(String path){
+        AttachmentUtils.openAttachment(path);
+    }
+
+    @FXML
     private void respondToTicket(){
         GaussianBlur blur = new GaussianBlur(10);
         Stage currentDashboardStage = (Stage) mainAP.getScene().getWindow();
@@ -231,15 +230,8 @@ public class ClientViewRequestController implements Initializable {
             loadAttachments();
         });
 
-        messageHistoryTable.setOnMouseClicked(mouseEvent -> {
-
-
-            if (mouseEvent.getClickCount() == 2) {
-                int selectedItem = messageHistoryTable.getSelectionModel().getSelectedItem().getMessageID();
-                System.out.println("the selected message id is " + selectedItem);
-                openMessageBox(selectedItem);
-            }
-        });
+        TableListenerUtils.addDoubleClickHandlerToAttachmentTable(attachmentTable, this::openAttachments);
+        TableListenerUtils.addDoubleClickHandlerToMessageHistoryTable(messageHistoryTable, this::openMessageBox);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.example.fyp_application.Controllers.Client.ClientRequestControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.AttachmentUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -79,7 +79,7 @@ public class ClientResponseActionController implements Initializable {
 
         if (responseDetails.getText().isEmpty()) {
             // Show error message
-            AlertNotificationHandler.showErrorMessageAlert("Response cannot be empty", "Please fill in the email body");
+            AlertNotificationUtils.showErrorMessageAlert("Response cannot be empty", "Please fill in the email body");
             return;
         }
 
@@ -162,7 +162,7 @@ public class ClientResponseActionController implements Initializable {
 
     @FXML
     private void submitTicketDetailChanges(){
-        TicketDAO.updateTicketStatus(ticketID,
+        TicketDAO.updateTicketStatusByUser(ticketID,
                 TICKET_STATUS);
     }
 
@@ -170,7 +170,7 @@ public class ClientResponseActionController implements Initializable {
     private void submitResponse() throws SQLException {
         MessageHistoryDAO.recordMessage(ticketID,
                 responseDetails.getText().concat( "\n\n" + ticketInfoList.get(0).getUserFullName()),
-                DateTimeHandler.getCurrentDateTime());
+                DateTimeUtils.getCurrentDateTime());
     }
 
     @FXML
@@ -178,7 +178,7 @@ public class ClientResponseActionController implements Initializable {
 
         if (attachmentListView != null){
             for (String filePath : filePaths) {
-                TicketAttachmentDAO.insertAttachment(ticketID,filePath,DateTimeHandler.getSQLiteDate());
+                TicketAttachmentDAO.insertAttachment(ticketID,filePath, DateTimeUtils.getYearMonthDayFormat());
             }
         }
     }
@@ -186,7 +186,7 @@ public class ClientResponseActionController implements Initializable {
     private ObservableList<TicketModel> ticketInfoList;
 
     public void loadTicketInfo(int ticketID){
-        ticketInfoList = TICKET_DAO.getTicketDetails(ticketID);
+        ticketInfoList = TICKET_DAO.getFullTicketDetails(ticketID);
 
         if (!ticketInfoList.isEmpty()) {
             this.ticketID = ticketInfoList.get(0).getTicketID();
@@ -200,21 +200,14 @@ public class ClientResponseActionController implements Initializable {
     @FXML
     private void addAttachment() {
         // Add the attachment
-        AttachmentHandler.addAttachments(filePaths, attachmentListView);
+        AttachmentUtils.addAttachments(filePaths, attachmentListView);
 
     }
     private final ObservableList<String> filePaths = FXCollections.observableArrayList();
     @FXML
     private void deleteAttachment() {
         // Delete the attachment
-        AttachmentHandler.addAttachments(filePaths, attachmentListView);
-    }
-
-
-    @FXML
-    private void sendResponse() {
-
-
+        AttachmentUtils.deleteAttachments(attachmentListView);
     }
 
 
@@ -224,14 +217,25 @@ public class ClientResponseActionController implements Initializable {
         SharedButtonUtils.closeMenu(backBtn);
     }
 
+    @FXML
+    private void refreshForm(){
+
+        // Refresh the form
+
+        responseDetails.clear();
+        attachmentListView.getItems().clear();
+        attachmentCheckbox.setSelected(false);
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Set the attachment list listener
-        AttachmentHandler.setAttachmentListListener(attachmentListView);
-        AttachmentHandler.setAttachmentListState(attachmentCheckbox, attachmentTitlePane);
+        // Set the attachment list listener to double click to open the attachment
+        AttachmentUtils.setAttachmentListListener(attachmentListView);
+
+        // Set the attachment list state
+        AttachmentUtils.setAttachmentListState(attachmentCheckbox, attachmentTitlePane);
 
     }
 }

@@ -109,12 +109,12 @@ public class ModifiedEditUserController implements Initializable{
     private void saveProfileChanges() throws SQLException {
 
         // Show a confirmation alert before saving the changes
-        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
+        boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
 
         // Check if the user has confirmed the changes
         if (isEmptyField()){
-            AlertNotificationHandler.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+            AlertNotificationUtils.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
 
         } else {
             // Proceed with saving the changes
@@ -127,10 +127,10 @@ public class ModifiedEditUserController implements Initializable{
                     userPhone_TF.getText(),
                     userEmail_TF.getText(),
                     accStatus_CB.getValue(),
-                    DateTimeHandler.setSQLiteDateFormat(expiryDate_DP.getValue())
+                    DateTimeUtils.setYearMonthDayFormat(expiryDate_DP.getValue())
                     );
 
-            AlertNotificationHandler.showInformationMessageAlert("Profile Updated", "User profile has been updated successfully.");
+            AlertNotificationUtils.showInformationMessageAlert("Profile Updated", "User profile has been updated successfully.");
             cancel_btn.getScene().getWindow().hide();
         }
     }
@@ -146,7 +146,7 @@ public class ModifiedEditUserController implements Initializable{
     private void generateRandomPassword() {
 
         // Generate a random password and display it in the password fields - 12 string length
-        String randomPassword = InformationGeneratorHandler.generatePassword(12);
+        String randomPassword = InformationGeneratorUtils.generatePassword(12);
 
         // Display the generated password in the password fields
         newPassword_TF1.setText(randomPassword);
@@ -160,30 +160,30 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void sendPasswordResetEmail() {
 
-        boolean confirmation = AlertNotificationHandler.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
+        boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
 
         if (confirmation) {
             // Check if either of the password fields is empty
             if (newPassword_TF1.getText().isEmpty() || confirmationPassword_TF1.getText().isEmpty()) {
-                AlertNotificationHandler.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
+                AlertNotificationUtils.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
                 return;
             }
 
             // Check if the passwords match
             if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText())) {
                 // Passwords match, proceed with sending email
-                GMailHandler.sendEmailTo(userEmail_TF.getText(), "Password Reset", GMailHandler.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
+                GMailUtils.sendEmailTo(userEmail_TF.getText(), "Password Reset", GMailUtils.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
 
-                AlertNotificationHandler.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
+                AlertNotificationUtils.showInformationMessageAlert("Email Sent", "Password reset email has been sent to the user.");
 
 
-                UserDAO.updateUserPassword(userID, PasswordHashHandler.hashPassword(newPassword_TF1.getText()));
+                UserDAO.updateUserPassword(userID, PasswordHashingUtils.hashPassword(newPassword_TF1.getText()));
 
                  Platform.runLater(cancel_btn.getScene().getWindow()::hide);
 
             } else {
                 // Passwords do not match, show an error message
-                AlertNotificationHandler.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
+                AlertNotificationUtils.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
             }
         }
     }
@@ -211,6 +211,7 @@ public class ModifiedEditUserController implements Initializable{
     }
     public void loadSelectedUserDetails(UserModel user) {
 
+
         this.userID = user.getUserID();
         username_TF.setText(user.getUsername());
         userFirstName_TF.setText(user.getFirstName());
@@ -228,33 +229,43 @@ public class ModifiedEditUserController implements Initializable{
         userGender_CB.setValue(user.getGender());
         accStatus_CB.setValue(user.getAccountStatus());
 
-        for (UserRoleModel role : accountRole_CB.getItems()) {
-            if (role.getUserRoleID() == user.getUserRoleID()) {
-                accountRole_CB.setValue(role);
-                break;
-            }}
 
-        for (DepartmentModel dept : dept_CB.getItems()) {
-            if (dept.getDeptID() == user.getDeptID()) {
-                dept_CB.setValue(dept);
-                break;
+
+        Platform.runLater(() -> {
+            for (UserRoleModel role : accountRole_CB.getItems()) {
+                System.out.println("Comparing Role ID: " + role.getUserRoleID() + " with User Role ID: " + user.getUserRoleID());
+                if (role.getUserRoleID() == user.getUserRoleID()) {
+                    System.out.println("Match found: " + role.getRoleName());
+                    accountRole_CB.setValue(role);
+                    break;
+                }
             }
-        }
+        });
 
-
+        Platform.runLater(() -> {
+            for (DepartmentModel dept : dept_CB.getItems()) {
+                if (dept.getDeptID() == user.getDeptID()) {
+                    dept_CB.setValue(dept);
+                    break;
+                }
+            }
+        });
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<DepartmentModel> departments = DEPARTMENT_DAO.getAllDepartments();
+        System.out.println("Departments are:" + departments);
         dept_CB.getItems().addAll(departments);
 
         List<UserRoleModel> roles = USER_ROLE_DAO.getAllRoles();
+        System.out.println("Roles are:" + roles);
         accountRole_CB.getItems().addAll(roles);
 
         userGender_CB.setItems(FXCollections.observableArrayList("Male","Female"));
-        accStatus_CB.setItems(FXCollections.observableArrayList("Active","Inactive"));
+        accStatus_CB.setItems(FXCollections.observableArrayList("Active","Inactive","Expired"));
+
 
 
 
@@ -286,11 +297,11 @@ public class ModifiedEditUserController implements Initializable{
         confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
 
 
-
+        Platform.runLater(() -> {
         expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && newValue.isBefore(LocalDate.now())) {
                 System.out.println("Invalid date: The date cannot be in the past.");
-                AlertNotificationHandler.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
+                AlertNotificationUtils.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
                 expiryDate_DP.setValue(oldValue);  // Revert to the old value if new value is invalid
                 expiryDate_DP.setStyle("-fx-border-color: red");
 
@@ -299,7 +310,7 @@ public class ModifiedEditUserController implements Initializable{
                 expiryDate_DP.setStyle("-fx-border-color: green");
                 System.out.println("Valid date selected: " + newValue);
             }
-        });
+        });});
 
 
         accStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

@@ -10,6 +10,15 @@ module com.example.fyp_application {
 
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.fontawesome5;
+    requires org.kordamp.ikonli.materialdesign2;
+
+    requires javafx.graphics;
+
+    requires javafx.base;
+
+
     requires eu.hansolo.tilesfx;
     requires com.google.api.client.auth;
     requires com.google.api.client.extensions.java6.auth;
@@ -69,5 +78,9 @@ module com.example.fyp_application {
     exports com.example.fyp_application.Controllers.Client.ClientRequestControllers;
     opens com.example.fyp_application.Controllers.Client.ClientRequestControllers to javafx.fxml;
 
+    exports com.example.fyp_application.Controllers.Admin.AssetManagementControllers;
+    opens com.example.fyp_application.Controllers.Admin.AssetManagementControllers to javafx.fxml;
 
+    exports com.example.fyp_application.Controllers.Admin.ProcurementManagementControllers;
+    opens com.example.fyp_application.Controllers.Admin.ProcurementManagementControllers to javafx.fxml;
 }

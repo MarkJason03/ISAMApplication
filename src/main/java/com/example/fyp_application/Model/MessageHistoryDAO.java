@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,7 +20,7 @@ public class MessageHistoryDAO {
                 Insert into tbl_messageHistory (TicketID, MessageBody,Timestamp) values (?,?,?);
                 """;
 
-        try(Connection connection = DatabaseConnectionHandler.getConnection()){
+        try(Connection connection = DatabaseConnectionUtils.getConnection()){
             assert  connection != null;
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
                 preparedStatement.setInt(1,ticketID);
@@ -59,7 +59,7 @@ public class MessageHistoryDAO {
                 """;
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 // Set the ticketID parameter in the prepared statement
@@ -104,7 +104,7 @@ public class MessageHistoryDAO {
                 """;
 
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 // Set the ticketID parameter in the prepared statement

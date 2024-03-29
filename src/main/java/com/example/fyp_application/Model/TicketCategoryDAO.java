@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public class TicketCategoryDAO {
         List<TicketCategoryModel> categories = new ArrayList<>();
         String sql = "select ticketCategoryID, categoryName from tbl_ticketCategory";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -38,8 +38,32 @@ public class TicketCategoryDAO {
     }
 
 
+    public List<TicketCategoryModel>getSelectedCategoryTitles(int categoryID){
+        List<TicketCategoryModel> categoryTitles = new ArrayList<>();
+        String sql = "select ticketCategoryID, TitleName from tbl_categoryTitlePresets where ticketCategoryID = ?";
 
-
+        //Try with resources to close the connection after the operation is done
+            try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+                assert connection != null;
+                //prepared statement to execute the query
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.setInt(1, categoryID);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        //loop through the result set and add the data to the list
+                        while (resultSet.next()) {
+                            TicketCategoryModel buildingOfficesModel = new TicketCategoryModel(
+                                    resultSet.getInt("ticketCategoryID"),
+                                    resultSet.getString("TitleName")
+                            );
+                        categoryTitles.add(buildingOfficesModel);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return categoryTitles;
+    }
 
 
 }

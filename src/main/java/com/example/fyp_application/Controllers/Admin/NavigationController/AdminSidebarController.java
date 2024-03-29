@@ -1,11 +1,13 @@
 package com.example.fyp_application.Controllers.Admin.NavigationController;
 
+import com.example.fyp_application.Controllers.Admin.AssetManagementControllers.ManageAssetController;
 import com.example.fyp_application.Controllers.Admin.ProfileManagementController.EditAdminProfileController;
 import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
 import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController;
-import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController;
-import com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedHomePageController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminHomePageController;
 import com.example.fyp_application.Controllers.Admin.UserManagementControllers.ModifiedManageUserController;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +52,7 @@ public class AdminSidebarController {
         //Opens the dashboard page / home page
 
 
-        swapScene(ViewConstants.ADMIN_HOME_PAGE_VIEW, ModifiedHomePageController.class);
+        swapScene(ViewConstants.ADMIN_HOME_PAGE_VIEW, AdminHomePageController.class);
     }
 
 
@@ -72,8 +74,9 @@ public class AdminSidebarController {
 
 
     @FXML
-    private void openManageAssets() {
+    private void openManageAssets() throws IOException {
         //TODO - write the manage assets page - perhaps a list of assets and their details
+        swapScene(ViewConstants.ADMIN_MANAGE_ASSET_VIEW, ManageAssetController.class);
     }
 
     @FXML
@@ -104,6 +107,10 @@ public class AdminSidebarController {
     private void logoutUser() throws IOException {
 
         //Swap stage to log in screen
+        System.out.println("Wiping admin id");
+        System.out.println("Current admin id: " + CurrentLoggedUserHandler.getCurrentLoggedAdminID());
+        CurrentLoggedUserHandler.setCurrentAdmin(null, null, null);
+        System.out.println("wiped admin id" + CurrentLoggedUserHandler.getCurrentLoggedAdminID());
         logout_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));
         Stage stage  = new Stage();
@@ -128,7 +135,7 @@ public class AdminSidebarController {
             // Check if the controller is the type you want
             if (controllerClass.isInstance(controller)) {
                 // Replace the current content with the new lo
-                ModifiedAdminDashboardController.swappableContentPane.getChildren().setAll(newLoadedPane);
+                AdminDashboardWindowController.swappableContentPane.getChildren().setAll(newLoadedPane);
             }
         } catch (IOException e) {
             e.printStackTrace();

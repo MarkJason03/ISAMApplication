@@ -50,7 +50,14 @@
 }
 
 
-/*Styling for dashboard view*/
+.personalInformationBorder{
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+}
+
+
+}
 
 /*custom button controls*/
 
@@ -162,6 +169,18 @@
 }
 
 
+.navigationButton{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+}
+
+.navigationButton:hover{
+    -fx-background-color: #f4f1f1;
+}
+
+.navigationButton:pressed{
+    -fx-background-color: #f4f1f1c8;
+}
 
 /*scroll pane styling*/
 
@@ -171,6 +190,7 @@
 
  .scroll-pane .viewport {
      -fx-background-color: transparent;
+     
  }
 
  .scroll-pane .content {
@@ -183,4 +203,63 @@
     -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-padding: 0;
+}
+
+
+/*Styling for mini dashboard on main home page*/
+
+.miniDashboardHeader{
+    -fx-background-radius: 20 0 20 0;
+    -fx-alignment: center;
+    -fx-padding: 10;
+
+}
+
+
+.miniDashboardHeader AnchorPane{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20 20 20 20;
+    -fx-pref-width: 300;
+    -fx-pref-height: 150;
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
+
+}
+
+
+.miniDashboardHeader HBox{
+    -fx-alignment: center;
+    -fx-spacing:30;
+
+}
+
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        -fx-accent 0%,
+        -fx-accent 49%,
+        derive(-fx-accent, 30%) 50%,
+        derive(-fx-accent, 30%) 99%
+    );
+}
+
+
+.splash_progress-bar .track {
+    -fx-border-color: #241f6b;
+    -fx-border-width: 2;
+    -fx-background-color: transparent;
+}
+
+
+.combo-box .cell,
+.combo-box .list-cell {
+    -fx-text-fill: black; /* Change this to your desired color */
+}
+
+.combo-box:disabled .text {
+    -fx-fill: black; /* Change this to your desired color */
+}
+.combo-box .text {
+    -fx-text-fill: black;/* Change this to your desired color */
 }

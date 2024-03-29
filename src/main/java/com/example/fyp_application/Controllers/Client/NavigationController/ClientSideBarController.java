@@ -3,7 +3,8 @@ package com.example.fyp_application.Controllers.Client.NavigationController;
 import com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRequestDashboardController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientHomePageController;
 import com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers.EditUserProfileController;
-import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardController;
+import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardWindowController;
+import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +57,9 @@ public class ClientSideBarController {
 
     @FXML
     private void logoutUser() throws IOException {
-
+        //Wiping the current user data
+        CurrentLoggedUserHandler.setCurrentUser(null, null, null);
+        // Logging out the user and redirecting to the login page
         logout_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));
         Stage stage  = new Stage();
@@ -76,14 +79,11 @@ public class ClientSideBarController {
             T controller = loader.getController();
             if (controllerClass.isInstance(controller)) {
                 // Assuming you want to replace all children of temporaryAP with those of newLoadedPane
-                ClientDashboardController.swappableContentPane.getChildren().setAll(newLoadedPane);
+                ClientDashboardWindowController.swappableContentPane.getChildren().setAll(newLoadedPane);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
-
-
 }

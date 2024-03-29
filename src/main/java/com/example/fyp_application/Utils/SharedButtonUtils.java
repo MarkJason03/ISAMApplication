@@ -39,7 +39,7 @@ public class SharedButtonUtils {
     @FXML
     private void reloadTable(){
         Platform.runLater(this::loadTableData);
-        lastUpdate_lbl.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+        lastUpdate_lbl.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
     }
 */
 

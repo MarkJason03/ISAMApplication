@@ -25,7 +25,7 @@ public class ViewConstants {
 
     public static final String CLIENT_VIEW_TICKET_POP_UP = "/FXML/ClientView/RequestView/ClientSelfTicketView.fxml";
 
-    public static final String CLIENT_MY_ASSET_VIEW = "";
+
 
 
 
@@ -66,16 +66,22 @@ public class ViewConstants {
 
     public static final String ADMIN_ACTION_TICKET_POP_UP = "/FXML/AdminView/RequestView/ResponseView.fxml";
 
+    public static final String ASSIGN_TICKET_POP_UP = "/FXML/AdminView/RequestView/AssignTicketPopUpView.fxml";
+
+    public static final String MODIFY_TICKET_DETAILS_POP_UP = "/FXML/AdminView/RequestView/ModifyCallDetailsView.fxml";
 
 
     //managing assets
-    public static final String ADMIN_MANAGE_ASSET_VIEW = "";
+    public static final String ADMIN_MANAGE_ASSET_VIEW = "/FXML/AdminView/AssetView/AssetDashboardView.fxml";
 
-    public static final String ADMIN_ADD_ASSET_POP_UP = "";
-    public static final String ADMIN_EDIT_ASSET_POP_UP = "";
+    public static final String ADMIN_ADD_ASSET_POP_UP = "/FXML/AdminView/AssetView/AddAssetView.fxml";
+    public static final String ADMIN_EDIT_ASSET_POP_UP = "/FXML/AdminView/AssetView/EditAssetView.fxml";
 
-    public static final String ADMIN_ALLOCATION_POP_UP = "";
+    public static final String ADMIN_ADD_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationForm.fxml";
 
+    public static final String ADMIN_VIEW_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
+
+    public static final String ADMIN_EDIT_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
     public  static  final String ADMIN_EDIT_MY_PROFILE_VIEW = "/FXML/AdminView/AdminProfileView/EditAdminProfileView.fxml";
 
     public static final String ADMIN_EDIT_MY_PROFILE_POP_UP = "/FXML/AdminView/AdminProfileView/EditAdminProfilePopUpView.fxml";
@@ -83,9 +89,8 @@ public class ViewConstants {
 
     //Admin procurement view
 
-    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "";
+    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "/FXML/AdminView/ProcurementView/RaiseRequest.fxml";
 
-    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_POP_UP = "";
 
     // Procurement Officer Views
 
@@ -99,12 +104,15 @@ public class ViewConstants {
 
     public static final String PROCUREMENT_OFFICER_RAISE_TICKET_POP_UP = "";
 
-    public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "";
+    public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "/FXML/AdminView/ProcurementView/ViewProcurementRequest.fxml";
 
     //Shared Views for admin and user
 
     //Login Page
     public static final String APP_LOGIN = "/FXML/SharedView/LoginPage.fxml";
+
+    public static final String APP_SPLASH_SCREEN = "/FXML/SharedView/SplashScreen.fxml";
+    public static final String APP_ICON = "/Assets/app_icon.png";
 
     public static final String SHARED_MESSAGE_HISTORY_BOX_POP_UP = "/FXML/SharedView/MessageBoxView.fxml";
 }

@@ -2,10 +2,10 @@ package com.example.fyp_application.Controllers.Admin.RequestManagementControlle
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.AttachmentHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
-import com.example.fyp_application.Utils.GMailHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.AttachmentUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.GMailUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,18 +20,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
-import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.photoPath;
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.userID;
-import static com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedAdminDashboardController.name;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.photoPath;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.userID;
+import static com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController.name;
 
 public class RaiseTicketController implements Initializable {
 
@@ -125,7 +122,7 @@ public class RaiseTicketController implements Initializable {
     @FXML
     private void raiseNewTicket() throws Exception {
         if (isEmptyFields()) {
-            AlertNotificationHandler.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
             return;
         }
 
@@ -144,7 +141,7 @@ public class RaiseTicketController implements Initializable {
                 details,
                 "Created",
                 "Low",
-                DateTimeHandler.getCurrentDateTime()
+                DateTimeUtils.getCurrentDateTime()
         );
 
         // Check if the attachments ListView is not null and has items
@@ -152,7 +149,7 @@ public class RaiseTicketController implements Initializable {
             // Iterate over the attachments and queue them for insertion
             for (String filePath : attachmentListView.getItems()) {
                 // Assuming you have a method to insert just the file path and ticket ID into the database
-                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeHandler.getSQLiteDate());
+                TicketAttachmentDAO.insertAttachment(ticketID, filePath, DateTimeUtils.getYearMonthDayFormat());
             }
 
         }
@@ -161,7 +158,7 @@ public class RaiseTicketController implements Initializable {
         sendEmailNotification(ticketID, firstName_TF.getText(), title, details);
 
         // Show a confirmation alert
-        AlertNotificationHandler.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
+        AlertNotificationUtils.showInformationMessageAlert("Ticket Raised", "Your ticket has been raised successfully");
 
         // Close the window
         closeWindow();
@@ -171,7 +168,7 @@ public class RaiseTicketController implements Initializable {
     private void sendEmailNotification(int ticketID,String firstname, String title, String details) throws Exception {
         // Implement the email sending logic here
 
-       GMailHandler.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , GMailHandler.generateTicketRequestEmailBody(ticketID, firstname, title, details));
+       GMailUtils.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , GMailUtils.generateTicketRequestEmailBody(ticketID, firstname, title, details));
 
     }
 
@@ -180,17 +177,11 @@ public class RaiseTicketController implements Initializable {
         // Implement the window closing logic here, e.g., get a handle to the stage and call close()
         cancelBtn.getScene().getWindow().hide();
     }
-    private void clearFields() {
-        ticketTitle.clear();
-        ticketDetails.clear();
-        userComboBox.getSelectionModel().clearSelection();
-        attachmentListView.getItems().clear();
-    }
 
 
     @FXML
     private boolean isEmptyFields() {
-
+            // Check if the ticket title, details, and user combo box are empty
         return ticketTitle.getText().isEmpty() || ticketDetails.getText().isEmpty() || userComboBox.getSelectionModel().isEmpty();
     }
 
@@ -206,7 +197,7 @@ public class RaiseTicketController implements Initializable {
     private final ObservableList<String> filePaths = FXCollections.observableArrayList();
     @FXML
     private void addAttachment() {
-        // Create a FileChooser object
+/*        // Create a FileChooser object
         FileChooser fileChooser = new FileChooser();
 
         // Set the title of the FileChooser and extension filters
@@ -224,11 +215,13 @@ public class RaiseTicketController implements Initializable {
 
         else {
             // Show an error message if no file was selected
-            AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "No file selected");
+            AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "No file selected");
         }
 
         // This will reset your ListView's items every time. If you want to accumulate files, you should update the list, not reset it.
-        attachmentListView.setItems(filePaths);
+        attachmentListView.setItems(filePaths);*/
+
+        AttachmentUtils.addAttachments(filePaths,attachmentListView);
     }
 
 
@@ -236,10 +229,15 @@ public class RaiseTicketController implements Initializable {
     @FXML
     private void deleteAttachment(){
 
-        attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
-
+        //attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
+        AttachmentUtils.deleteAttachments(attachmentListView);
     }
 
+
+    @FXML
+    private void openFile(String path) {
+        AttachmentUtils.openAttachment(path);
+    }
 
 
     private  ObservableList<UserModel> allUsers = FXCollections.observableArrayList();
@@ -292,14 +290,14 @@ public class RaiseTicketController implements Initializable {
     @FXML
     private void loadCurrentUser() {
         userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
-        name = CurrentLoggedUserHandler.getCurrentLoggedAdminName();
+        name = CurrentLoggedUserHandler.getCurrentLoggedAdminFullName();
         photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
 
 
         username_lbl.setText(name);
         javafx.scene.image.Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
         loggedUserImage.setFill(new ImagePattern(curPhoto));
-        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeHandler.getCurrentTime());
+        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
     @FXML
@@ -318,10 +316,6 @@ public class RaiseTicketController implements Initializable {
             }
             userComboBox.setItems(filteredList);
         });
-    }
-
-    private void openFile(String path) {
-        AttachmentHandler.openAttachment(path);
     }
 
 

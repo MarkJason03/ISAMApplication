@@ -49,7 +49,7 @@
                   <FontAwesomeIconView glyphName="TRUCK" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="manageAssets_btn" mnemonicParsing="false" text="Assets">
+            <Button fx:id="manageAssets_btn" onAction="#openManageAssets" mnemonicParsing="false" text="Assets">
                <graphic>
                   <FontAwesomeIconView glyphName="DESKTOP" size="30" />
                </graphic>

@@ -36,6 +36,8 @@ public class TicketModel {
 
     private String userEmail;
 
+    private String escalationStatus;
+
 
 
 
@@ -56,36 +58,27 @@ public class TicketModel {
         this.dateCreated = dateCreated;
     }
 
-    // Constructor for viewing ticket - user side
-
-
-    // Constructor for creating ticket - agent side
-
-
-
-
-
-
-
-
     // Constructor for viewing ticket - agent side // table view
     public TicketModel(int ticketID,
                        String userFullName,
+                       String agentFullName,
                        String ticketTitle,
                        String status,
                        String priority,
                        String category,
                        String dateCreated,
-                       String dateClosed) {
+                       String dateClosed,
+                       String escalationStatus) {
         this.ticketID = ticketID;
         this.userFullName = userFullName;
+        this.agentFullName = agentFullName;
         this.ticketTitle = ticketTitle;
         this.ticketStatus = status;
         this.ticketPriority = priority;
         this.categoryName = category;
-
         this.dateCreated = dateCreated;
         this.dateClosed = dateClosed;
+        this.escalationStatus = escalationStatus;
     }
 
 
@@ -123,7 +116,9 @@ public class TicketModel {
                        String knowledgeInfo,
                        String agentFullName,
                        String dateCreated,
-                       String dateClosed) {
+                       String targetResolutionDate,
+                       String dateClosed,
+                       String escalationStatus){
 
         this.ticketID = ticketID;
         this.userID = userID;
@@ -139,7 +134,10 @@ public class TicketModel {
         this.knowledgeBaseInfo = knowledgeInfo;
         this.agentFullName = agentFullName;
         this.dateCreated = dateCreated;
+        this.targetResolutionDate = targetResolutionDate;
         this.dateClosed = dateClosed;
+        this.escalationStatus = escalationStatus;
+
     }
 
 
@@ -156,7 +154,6 @@ public class TicketModel {
             String agentName,
             String email
     ){
-
         this.ticketID = ticketID;
         this.categoryID = categoryID;
         this.ticketTitle = title;
@@ -299,4 +296,12 @@ public class TicketModel {
     }
 
     public void setUserEmail(String userEmail){this.userEmail = userEmail;}
+
+    public String getEscalationStatus() {
+        return escalationStatus;
+    }
+
+    public void setEscalationStatus(String escalationStatus) {
+        this.escalationStatus = escalationStatus;
+    }
 }

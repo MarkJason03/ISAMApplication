@@ -1,128 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.DashboardControllers.ModifiedHomePageController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminHomePageController">
    <children>
       <AnchorPane fx:id="contentAP" prefHeight="800.0" prefWidth="1600.0">
          <children>
-            <AnchorPane fx:id="dashboardStatAP" layoutX="14.0" layoutY="18.0" prefHeight="213.0" prefWidth="1570.0" styleClass="miniDashboardHeader" stylesheets="@../../../Styles/AdminMenu.css">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="3.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" width="1590.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <AnchorPane fx:id="dashboardStatAP" layoutX="14.0" layoutY="18.0" prefHeight="300.0" prefWidth="1570.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <children>
-                  <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="437.0" text="Dashboard">
+                  <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="437.0" text="Dashboard" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="mdi2v-view-dashboard" iconSize="50" />
+                     </graphic>
                   </Label>
-                  <HBox layoutX="42.0" layoutY="67.0" prefHeight="126.0" prefWidth="1257.0">
+                  <HBox layoutX="481.0" layoutY="99.0" prefHeight="198.0" prefWidth="1076.0" spacing="20.0">
                      <children>
-                        <AnchorPane prefHeight="147.0" prefWidth="190.0" styleClass="miniDashboardInfo1">
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="198.0" prefWidth="350.0" style="-fx-background-color: #93f0d9;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <children>
-                              <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="204.0" text="Created Calls">
+                              <Label layoutX="113.0" layoutY="80.0" prefHeight="53.0" prefWidth="204.0" text="Newly Created Calls">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                              <Label fx:id="totalCreatedCallHolder_lbl" layoutX="113.0" layoutY="113.0" prefHeight="53.0" prefWidth="204.0" style="-fx-font-size: 22;" text="Placeholder">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
+                              <Label layoutX="22.0" layoutY="27.0" prefHeight="53.0" prefWidth="204.0" text="Created Calls">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="316.0" endY="79.0" startX="22.0" startY="79.0" />
+                              <FontIcon iconLiteral="mdi2b-book-alert" iconSize="70" layoutX="25.0" layoutY="155.0" />
                            </children>
+                           <styleClass>
+                              <String fx:value="personalInformationContainer" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </AnchorPane>
-                        <AnchorPane prefHeight="147.0" prefWidth="125.0" styleClass="miniDashboardInfo2">
+                        <AnchorPane prefHeight="198.0" prefWidth="350.0" style="-fx-background-color: #fbdf9d;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <children>
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Opened Calls">
+                              <Label layoutX="104.0" layoutY="80.0" prefHeight="53.0" prefWidth="210.0" text="Calls To Respond">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                              <Label fx:id="totalInProgressTicket_lbl" layoutX="104.0" layoutY="113.0" prefHeight="53.0" prefWidth="204.0" style="-fx-font-size: 22;" text="Placeholder">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
+                              <Label layoutX="22.0" layoutY="27.0" prefHeight="53.0" prefWidth="204.0" text="My Requests">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="316.0" endY="79.0" startX="22.0" startY="79.0" />
+                              <FontAwesomeIconView glyphName="BOOK" layoutX="24.0" layoutY="149.0" size="60" wrappingWidth="50.14285755157471" />
                            </children>
+                           <styleClass>
+                              <String fx:value="personalInformationContainer" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </AnchorPane>
-                        <AnchorPane prefHeight="163.0" prefWidth="163.0" styleClass="miniDashboardInfo3">
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="198.0" prefWidth="350.0" style="-fx-background-color: #FCD4B0;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <children>
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Assigned Assets">
+                              <Label layoutX="113.0" layoutY="80.0" prefHeight="53.0" prefWidth="210.0" text="Total Overdue Assets">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
+                              <Label fx:id="totalOverdueHolder_lbl" layoutX="113.0" layoutY="113.0" prefHeight="53.0" prefWidth="204.0" style="-fx-font-size: 22;" text="Placeholder">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
+                              <Label layoutX="22.0" layoutY="27.0" prefHeight="53.0" prefWidth="204.0" text="Overdue Assets">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="316.0" endY="79.0" startX="22.0" startY="79.0" />
+                              <FontIcon iconLiteral="mdi2d-desktop-tower-monitor" iconSize="75" layoutX="22.0" layoutY="149.0" />
                            </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="140.0" prefWidth="153.0" styleClass="miniDashboardInfo4">
-                           <children>
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Users">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
+                           <styleClass>
+                              <String fx:value="personalInformationContainer" />
+                              <String fx:value="shadow" />
+                           </styleClass>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </AnchorPane>
                      </children>
                   </HBox>
+                  <AnchorPane layoutX="20.0" layoutY="67.0" prefHeight="251.0" prefWidth="437.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <ImageView fitHeight="217.0" fitWidth="406.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Assets/bannerAsset.PNG" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="fullName_lbl" layoutX="184.0" layoutY="102.0" prefHeight="40.0" prefWidth="246.0" text="Name">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2a-account-outline" iconSize="40" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="phone_lbl" layoutX="279.0" layoutY="206.0" prefHeight="30.0" prefWidth="144.0" style="-fx-font-size: 12;" text="Work Phone">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2p-phone-outline" iconSize="30" />
+                           </graphic>
+                        </Label>
+                        <StackPane layoutX="48.0" layoutY="66.0">
+                           <children>
+                              <Circle fx:id="imageHolder_shape1" fill="WHITE" radius="57.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+                              <Circle fx:id="imageHolder_shape" fill="DODGERBLUE" radius="57.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+                           </children>
+                        </StackPane>
+                        <Label fx:id="deparment_lbl" layoutX="191.0" layoutY="137.0" prefHeight="34.0" prefWidth="232.0" style="-fx-font-size: 12;" text="Department" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="227.0" layoutY="16.0" prefHeight="53.0" prefWidth="195.0" style="-fx-font-size: 12;" text="University of Greenwich">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="36.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Assets/app_icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Label>
+                        <Line endX="100.0" layoutX="321.0" layoutY="71.0" startX="-93.0" />
+                        <Label fx:id="expiresDate_lbl" layoutX="191.0" layoutY="164.0" prefHeight="34.0" prefWidth="224.0" style="-fx-font-size: 12;" text="Expires On" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="email_lbl" layoutX="8.0" layoutY="206.0" prefHeight="30.0" prefWidth="263.0" style="-fx-font-size: 12;" text="Email">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2e-email" iconSize="30" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
-            <ScrollPane hbarPolicy="NEVER" layoutX="15.0" layoutY="249.0" prefHeight="532.0" prefWidth="1570.0" styleClass="dashboardSP" stylesheets="@../../../Styles/AdminMenu.css">
+            <ScrollPane hbarPolicy="NEVER" layoutX="15.0" layoutY="348.0" prefHeight="465.0" prefWidth="1570.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="970.0" prefWidth="1555.0" styleClass="dashboardMainBody" stylesheets="@../../../Styles/AdminMenu.css">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="463.0" prefWidth="1555.0" style="-fx-background-color: transparent;">
                      <children>
-                        <AreaChart layoutX="14.0" layoutY="24.0">
-                           <xAxis>
-                              <CategoryAxis side="BOTTOM" />
-                           </xAxis>
-                           <yAxis>
-                              <NumberAxis side="LEFT" />
-                           </yAxis>
-                        </AreaChart>
-                        <AreaChart layoutX="665.0" layoutY="24.0">
-                           <xAxis>
-                              <CategoryAxis side="BOTTOM" />
-                           </xAxis>
-                           <yAxis>
-                              <NumberAxis side="LEFT" />
-                           </yAxis>
-                        </AreaChart>
-                        <AreaChart layoutX="14.0" layoutY="424.0">
-                           <xAxis>
-                              <CategoryAxis side="BOTTOM" />
-                           </xAxis>
-                           <yAxis>
-                              <NumberAxis side="LEFT" />
-                           </yAxis>
-                        </AreaChart>
-                        <AreaChart layoutX="665.0" layoutY="434.0">
-                           <xAxis>
-                              <CategoryAxis side="BOTTOM" />
-                           </xAxis>
-                           <yAxis>
-                              <NumberAxis side="LEFT" />
-                           </yAxis>
-                        </AreaChart>
-                        <Button fx:id="hello_btn" layoutX="1252.0" layoutY="152.0" mnemonicParsing="false" text="Button" />
-                        <ListView fx:id="sampleListView" layoutX="544.0" layoutY="52.0" prefHeight="391.0" prefWidth="391.0" />
+                        <AnchorPane layoutX="959.0" layoutY="15.0" prefHeight="443.0" prefWidth="596.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="personalInformationContainer" />
+                           </styleClass>
+                           <children>
+                              <Label layoutX="26.0" layoutY="15.0" prefHeight="53.0" prefWidth="295.0" style="-fx-font-size: 22;" text="Procurement Request">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <graphic>
+                                    <FontIcon iconLiteral="mdi2b-basket" iconSize="45" />
+                                 </graphic>
+                              </Label>
+                              <TableView fx:id="procurementRequestTable" layoutX="30.0" layoutY="82.0" prefHeight="342.0" prefWidth="537.0">
+                                 <columns>
+                                    <TableColumn fx:id="sample" prefWidth="61.0" />
+                                    <TableColumn fx:id="procurementID_col" prefWidth="79.0" text="ID" />
+                                    <TableColumn fx:id="procurementStatus_col" prefWidth="127.0" text="Status" />
+                                    <TableColumn fx:id="procurementComment_col" prefWidth="269.0" text="Comments" />
+                                 </columns>
+                              </TableView>
+                              <Line endX="566.0" endY="66.0" layoutY="3.0" startX="28.0" startY="66.0" strokeWidth="2.0" />
+                              <Button fx:id="viewproc_btn" layoutX="530.0" layoutY="32.0" mnemonicParsing="false" onAction="#openManageRequest" text="View" />
+                              <Button fx:id="create_procbtn" layoutX="421.0" layoutY="36.0" mnemonicParsing="false" onAction="#openProcurementRequest" text="Create" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="21.0" layoutY="14.0" prefHeight="445.0" prefWidth="910.0" style="-fx-background-color: ffffff;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <children>
+                              <Label layoutX="26.0" layoutY="14.0" prefHeight="53.0" prefWidth="232.0" style="-fx-font-size: 22;" text="My Current Calls">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="BOOK" size="40" wrappingWidth="50.14285755157471" />
+                                 </graphic>
+                              </Label>
+                              <Line endX="885.0" endY="70.0" startX="26.0" startY="70.0" strokeWidth="2.0" />
+                              <TableView fx:id="ticketTable" layoutX="25.0" layoutY="83.0" prefHeight="341.0" prefWidth="864.0">
+                                <columns>
+                                    <TableColumn fx:id="ticketIcon_col" prefWidth="67.0" />
+                                  <TableColumn fx:id="ticketID_col" prefWidth="62.0" text="SD" />
+                                  <TableColumn fx:id="ticketTitle_col" prefWidth="190.0" text="Title" />
+                                    <TableColumn fx:id="ticketCategory_col" minWidth="0.0" prefWidth="94.0" text="Category" />
+                                    <TableColumn fx:id="ticketStatus_col" prefWidth="85.0" text="Status" />
+                                    <TableColumn fx:id="ticketEscalation_col" prefWidth="100.0" text="Escalation" />
+                                    <TableColumn fx:id="ticketCreated_col" prefWidth="129.0" text="Created" />
+                                    <TableColumn fx:id="ticketResolution_col" prefWidth="136.0" text="Resolution" />
+                                </columns>
+                              </TableView>
+                           </children>
+                           <styleClass>
+                              <String fx:value="shadow" />
+                              <String fx:value="personalInformationContainer" />
+                           </styleClass>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </content>

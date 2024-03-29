@@ -1,12 +1,13 @@
 package com.example.fyp_application.Controllers.Client.ClientRequestControllers;
 
-import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ViewTicketController;
 import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
+import com.example.fyp_application.Utils.TicketDetailsUtils;
 import com.example.fyp_application.Views.ViewConstants;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,9 +31,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClientRequestDashboardController implements Initializable {
+    @FXML
+    private TextField agentName_TF;
 
     @FXML
     private TableColumn<?, ?> agentName_col;
+
+    @FXML
+    private TextField dateClosed_TF;
 
     @FXML
     private AnchorPane contentAP;
@@ -41,31 +47,16 @@ public class ClientRequestDashboardController implements Initializable {
     private Label dateTimeHolder;
 
     @FXML
-    private Button deleteUser_btn;
-
-    @FXML
-    private Label deptHolder_lbl;
-
-    @FXML
-    private Button editProfile_btn1;
-
-    @FXML
-    private TextField email_TF;
-
-    @FXML
-    private TextField firstName_TF;
-
-    @FXML
     private Label fullNameHolder_lbl;
-
-    @FXML
-    private TextField lastName_TF;
 
     @FXML
     private Label lastUpdate_lbl;
 
     @FXML
     private Button newRequest;
+
+    @FXML
+    private TextField dateCreated_TF;
 
     @FXML
     private Button reload_btn;
@@ -77,6 +68,9 @@ public class ClientRequestDashboardController implements Initializable {
     private TextField searchBar_TF;
 
     @FXML
+    private TextField status_TF;
+
+    @FXML
     private TableColumn<?, ?> ticketDateClosed_col;
 
     @FXML
@@ -84,6 +78,9 @@ public class ClientRequestDashboardController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> ticketDescription_col;
+
+    @FXML
+    private TextField ticketID_TF;
 
     @FXML
     private TableColumn<?, ?> ticketID_col;
@@ -104,11 +101,7 @@ public class ClientRequestDashboardController implements Initializable {
     private Label userInactiveCounter_lbl;
 
     @FXML
-    private TextField username_TF;
-
-    @FXML
     private Button viewRequest;
-
     public static final int CURRENT_LOGGED_USER_ID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
 
     private final TicketDAO ticketDAO = new TicketDAO();//instance of the Ticket Data Access Object
@@ -116,7 +109,7 @@ public class ClientRequestDashboardController implements Initializable {
     @FXML
     private ObservableList<TicketModel>requestsData;
     @FXML
-    private void loadRequestsData(){
+    public void loadRequestsData(){
 
         requestsData = ticketDAO.getTicketsByUserID(CURRENT_LOGGED_USER_ID);
 
@@ -130,7 +123,6 @@ public class ClientRequestDashboardController implements Initializable {
 
         requestTableView.setItems(requestsData);
     }
-
 
     @FXML
     private void openNewRequestForm(){
@@ -172,36 +164,32 @@ public class ClientRequestDashboardController implements Initializable {
 
 
     @FXML
-    private void viewRequestDetails(){
+    public Stage viewRequestDetails(TableView<TicketModel> tableView, boolean isFromDashboard) {
         GaussianBlur blur = new GaussianBlur(10);
-        Stage currentDashboardStage = (Stage) requestTableView.getScene().getWindow();
+        Stage currentDashboardStage = (Stage) tableView.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
-
-        TicketModel selectedTicket = requestTableView.getSelectionModel().getSelectedItem();
+        TicketModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
+        Stage supplierPopUpStage = null;
 
         if (selectedTicket == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
+            AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
-        }
-        else {
+        } else {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
                 FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.CLIENT_VIEW_TICKET_POP_UP));
                 Parent root = modalViewLoader.load();
 
-
                 ClientViewRequestController viewTicketController = modalViewLoader.getController();
-                viewTicketController.loadTicketInformation(requestTableView.getSelectionModel().getSelectedItem().getTicketID());
-
+                viewTicketController.loadTicketInformation(tableView.getSelectionModel().getSelectedItem().getTicketID());
 
                 // New window setup as modal
-                Stage supplierPopUpStage = new Stage();
+                supplierPopUpStage = new Stage();
                 supplierPopUpStage.initOwner(currentDashboardStage);
                 supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
                 supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
-
 
                 Scene scene = new Scene(root);
                 supplierPopUpStage.setScene(scene);
@@ -212,13 +200,36 @@ public class ClientRequestDashboardController implements Initializable {
                 e.printStackTrace();
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-                Platform.runLater(this::loadRequestsData);
-
+                if (!isFromDashboard)
+                    loadRequestsData();
             }
         }
+        return supplierPopUpStage;
     }
+
+    @FXML
+    private void openRequestDetails() {
+        viewRequestDetails(requestTableView, false);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadRequestsData();
+
+        TicketDetailsUtils.setupUserRequestTableListener(requestTableView, ticketID_TF, status_TF, dateCreated_TF, dateClosed_TF, agentName_TF);
+        TableListenerUtils.searchTableDetails(searchBar_TF, requestTableView, requestsData, (ticket, search) -> {
+            String searchLower = search.toLowerCase();
+            return String.valueOf(ticket.getTicketID()).contains(searchLower);
+        });
+
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
+
+        requestTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                viewRequestDetails(requestTableView, false);
+            }
+        });
+
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
-import com.google.api.client.util.Data;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,7 +17,7 @@ public class TicketAttachmentDAO {
     public static void insertAttachment(int ticketID, String filePath, String dateUploaded) {
         String sql = "INSERT INTO tbl_ticketAttachments (TicketID, FilePath, DateAdded) VALUES (?, ?, ?)";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, ticketID);
@@ -39,7 +38,7 @@ public class TicketAttachmentDAO {
                 SELECT FilePath, DateAdded FROM tbl_ticketAttachments WHERE TicketID = ?;
                 """;
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection();
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, ticketID);

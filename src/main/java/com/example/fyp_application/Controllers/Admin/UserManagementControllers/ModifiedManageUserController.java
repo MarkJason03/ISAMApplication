@@ -2,28 +2,24 @@ package com.example.fyp_application.Controllers.Admin.UserManagementControllers;
 
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -168,7 +164,7 @@ public class ModifiedManageUserController implements Initializable {
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
 
         if (selectedUser == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Account Editor", "Please select a user to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -256,18 +252,18 @@ public class ModifiedManageUserController implements Initializable {
     private void deleteUser(){
         UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            AlertNotificationHandler.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
+            AlertNotificationUtils.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
             return;
         }
 
-        if(AlertNotificationHandler.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
+        if(AlertNotificationUtils.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
             int userID = selectedUser.getUserID();
             USER_DAO.deleteUser(userID);
             loadTableData();
 
         } else {
 
-             AlertNotificationHandler.showInformationMessageAlert("Action Aborted", "User has not been deleted");
+             AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "User has not been deleted");
 
             }
     }
@@ -275,14 +271,14 @@ public class ModifiedManageUserController implements Initializable {
     @FXML
     private void reloadTable(){
         Platform.runLater(this::loadTableData);
-        lastUpdate_lbl.setText("Last Updated: " + DateTimeHandler.getCurrentTime());
+        lastUpdate_lbl.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
 
 
     @FXML
     private void searchUserDetails(){
-        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
+/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 userTableView.setItems(userListData); // Reset to show all data
                 return;
@@ -295,7 +291,14 @@ public class ModifiedManageUserController implements Initializable {
 
             }
             userTableView.setItems(filteredList);
-        });
+        });*/
+
+        TableListenerUtils.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
+                userDetails.getFirstName().toLowerCase().contains(searchDetail.toLowerCase()) ||
+                        userDetails.getLastName().toLowerCase().contains(searchDetail.toLowerCase()) ||
+                        userDetails.getUsername().toLowerCase().contains(searchDetail.toLowerCase()));
+
+
     }
     private void tableListener(){
         userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -305,7 +308,7 @@ public class ModifiedManageUserController implements Initializable {
 
                 //personal info
                 fullNameHolder_lbl.setText(selectedUser.getFirstName() + " " + selectedUser.getLastName());
-                deptHolder_lbl.setText(selectedUser.getDeptName());
+                deptHolder_lbl.setText("Department: " + selectedUser.getDeptName());
                 email_TF.setText(selectedUser.getEmail());
                 username_TF.setText(selectedUser.getUsername());
                 firstName_TF.setText(selectedUser.getFirstName());
@@ -325,7 +328,7 @@ public class ModifiedManageUserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(this::loadTableData);
+        loadTableData();
 
         searchUserDetails();
         tableListener();
@@ -337,9 +340,41 @@ public class ModifiedManageUserController implements Initializable {
                 Platform.runLater(this::countActiveSuppliers);
                 Platform.runLater(this::countInactiveSuppliers);*/
 
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
+
+        //Debugging
+        userTableView.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                String selectedItem = userTableView.getSelectionModel().getSelectedItem().getFirstName();
+                String selectedItem2 = userTableView.getSelectionModel().getSelectedItem().getLastName();
+                String selectedItem3 = userTableView.getSelectionModel().getSelectedItem().getUsername();
+                String selectedItem4 = userTableView.getSelectionModel().getSelectedItem().getEmail();
+                String selectedItem5 = userTableView.getSelectionModel().getSelectedItem().getDeptName();
+                String selectedItem6 = userTableView.getSelectionModel().getSelectedItem().getRoleName();
+                String selectedItem7 = userTableView.getSelectionModel().getSelectedItem().getAccountStatus();
+                String selectedItem8 = userTableView.getSelectionModel().getSelectedItem().getCreatedAt();
+                String selectedItem9 = userTableView.getSelectionModel().getSelectedItem().getExpiresAt();
+                String selectedItem10 = userTableView.getSelectionModel().getSelectedItem().getLastLogin();
+                String selectedItem11 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getUserRoleID());
+                String selectedItem12 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getDeptID());
+
+                System.out.println(selectedItem + " " +
+                        selectedItem2 + " " +
+                        selectedItem3 + " " +
+                        selectedItem4 + "\n " +
+                        "Department name :" + selectedItem5 + "\n " +
+                        "Role name" + selectedItem6 + "\n " +
+                        selectedItem7 + " " +
+                        selectedItem8 + " " +
+                        selectedItem9 + " " +
+                        selectedItem10 + "\n " +
+                        "Role id is "  + selectedItem11 + "\n " +
+                        "dept id is" + selectedItem12);
+            }
+        });
 
 
+/*
 
         TableColumn<UserModel, Void> actionCol = new TableColumn<>("Actions");
 
@@ -383,6 +418,7 @@ public class ModifiedManageUserController implements Initializable {
         actionCol.setCellFactory(cellFactory);
 
         userTableView.getColumns().add(actionCol);
+    }*/
     }
 }
 

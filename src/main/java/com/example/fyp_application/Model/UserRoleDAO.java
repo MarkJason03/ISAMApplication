@@ -1,6 +1,6 @@
 package com.example.fyp_application.Model;
 
-import com.example.fyp_application.Utils.DatabaseConnectionHandler;
+import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ public class UserRoleDAO {
         List<UserRoleModel> roles = new ArrayList<>();
         String sql = "select * from tbl_userRoles";
 
-        try (Connection connection = DatabaseConnectionHandler.getConnection()) {
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {

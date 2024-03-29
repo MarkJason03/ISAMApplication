@@ -3,8 +3,8 @@ package com.example.fyp_application.Controllers.Admin.ProfileManagementControlle
 import com.example.fyp_application.Model.UserDAO;
 import com.example.fyp_application.Model.UserModel;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationHandler;
-import com.example.fyp_application.Utils.DateTimeHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -92,12 +92,8 @@ public class EditAdminProfileController implements Initializable {
 
     private final int userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
 
-    private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-
-
-
     private void loadUserData(Integer userID) throws SQLException {
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
 
         if (userModel != null) {
             firstName_TF.setText(userModel.getFirstName());
@@ -105,7 +101,7 @@ public class EditAdminProfileController implements Initializable {
             email_TF.setText(userModel.getEmail());
             gender_TF.setText(userModel.getGender());
             userName_TF.setText(userModel.getUsername());
-            //password_TF.setText(userModel.getPassword());
+
             createdAt_TF.setText(userModel.getCreatedAt());
             accountStatus_TF.setText(userModel.getAccountStatus());
             dept_TF.setText(userModel.getDeptName());
@@ -114,6 +110,7 @@ public class EditAdminProfileController implements Initializable {
             usernameMainHolder_lbl.setText(userModel.getFirstName());
             Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(userModel.getPhoto())));
             userProfileHolder.setFill(new ImagePattern(curPhoto));
+            CurrentLoggedUserHandler.setNewAdminName(userModel.getFullName());
         } else {
             System.out.println("User not found with ID: " + userID);
         }
@@ -126,7 +123,7 @@ public class EditAdminProfileController implements Initializable {
         Stage currentDashboardStage = (Stage) accountSettingsAP.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur);
 
-        UserModel userModel = USER_DAO.loadCurrentLoggedUser(userID);
+        UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
         try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
@@ -155,7 +152,7 @@ public class EditAdminProfileController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
                 loadUserData(userID);
-                CurrentLoggedUserHandler.setNewAdminName(userModel.getFirstName());
+
         }
 
     }
@@ -169,7 +166,7 @@ public class EditAdminProfileController implements Initializable {
         if (selectedFile != null) {
 
             String filePath = selectedFile.getAbsolutePath();
-            String keyPath = "\\Assets"; // Use File.separator + "Assets" for more portability
+            String keyPath = File.separator + "Assets";
             int index = filePath.indexOf(keyPath);
             String relativePath = index >= 0 ? filePath.substring(index) : filePath; // Keeps original path if keyPath not found
             String newPath = relativePath.replaceAll("\\\\", "/");// Replace backslashes with forward slashes
@@ -177,20 +174,20 @@ public class EditAdminProfileController implements Initializable {
             runProfileChanges(newPath);
 
         } else {
-            AlertNotificationHandler.showInformationMessageAlert("Cancelled Upload", "No file was selected");
+            AlertNotificationUtils.showInformationMessageAlert("Cancelled Upload", "No file was selected");
         }
 
     }
 
     private void runProfileChanges(String newPath){
         new Thread(() -> {
-            String  timeStamp = DateTimeHandler.getCurrentDate() + " " + DateTimeHandler.getCurrentTime();
+            String  timeStamp = DateTimeUtils.getUKDateFormat() + " " + DateTimeUtils.getCurrentTimeFormat();
             UserDAO userDAO = new UserDAO();
             userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedAdminID(), newPath, timeStamp);
             Platform.runLater(() -> {
                 try {
                     loadUserData(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
-                    UserModel userModel = userDAO.loadCurrentLoggedUser(userID);
+                    UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
                     CurrentLoggedUserHandler.setNewAdminPhoto(userModel.getPhoto());
 
 
@@ -203,7 +200,7 @@ public class EditAdminProfileController implements Initializable {
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DateTimeHandler.dateTimeUpdates(dateTimeHolder);
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
         try {
             loadUserData(userID);
         } catch (SQLException e) {

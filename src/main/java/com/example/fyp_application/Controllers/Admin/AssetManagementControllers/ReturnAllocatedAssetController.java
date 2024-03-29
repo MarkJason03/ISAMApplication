@@ -9,13 +9,7 @@ import com.example.fyp_application.Utils.SharedButtonUtils;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
@@ -133,6 +127,12 @@ public class ReturnAllocatedAssetController implements Initializable {
     @FXML
     private Label username_lbl;
 
+    @FXML
+    private CheckBox email_checkBox;
+
+    @FXML
+    private Button sendReminder_btn;
+
 
     private boolean viewOnly ;
 
@@ -222,6 +222,11 @@ public class ReturnAllocatedAssetController implements Initializable {
             allocationStatus_CB.setDisable(true);
             office_CB.setDisable(true);
             building_CB.setDisable(true);
+            sendReminder_btn.setDisable(true);
+            sendReminder_btn.setVisible(false);
+            email_checkBox.setDisable(true);
+            email_checkBox.setVisible(false);
+
         } else {
             assetName_TF.setEditable(true);
             serialNo_TF.setEditable(true);

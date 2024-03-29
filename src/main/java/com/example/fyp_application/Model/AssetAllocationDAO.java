@@ -30,7 +30,7 @@ public class AssetAllocationDAO {
                 		StartDate, -- Start Date of Loan
                 		DueDate, --Due date of loan
                 		AllocationStatus, -- In use
-                		AssetConditionBefore, -- Asset Condition Excellend
+                		AssetConditionBefore, -- Asset Condition before loan
                 		AdditionalComments)
                 VALUES (?,?,?,?,?,?,?,?,?,?)
                 """;
@@ -128,11 +128,11 @@ public class AssetAllocationDAO {
                 	    -- Calculate Overdue Days
                     CASE
                         WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
-                             AND allocation.AllocationStatus = 'In Use'\s
-                        THEN ROUND(julianday(date('now')) - julianday(date(allocation.DueDate)))
+                             AND allocation.AllocationStatus = 'In Use'
+                        THEN CAST(ROUND(julianday(date('now')) - julianday(date(allocation.DueDate))) AS INTEGER)
                         ELSE 0
                     END AS OverdueDays,
-                	
+                    
                     -- Asset Information
                     asset.AssetName,
                     asset.SerialNo,
@@ -230,11 +230,11 @@ public class AssetAllocationDAO {
                 	    -- Calculate Overdue Days
                     CASE
                         WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
-                             AND allocation.AllocationStatus = 'In Use'\s
-                        THEN ROUND(julianday(date('now')) - julianday(date(allocation.DueDate)))
+                             AND allocation.AllocationStatus = 'In Use'
+                        THEN CAST(ROUND(julianday(date('now')) - julianday(date(allocation.DueDate))) AS INTEGER)
                         ELSE 0
                     END AS OverdueDays,
-                	
+                                        
                     -- Asset Information
                     asset.AssetName,
                     asset.SerialNo,
@@ -256,9 +256,7 @@ public class AssetAllocationDAO {
                     -- Building Information
                     building.BuildingName,
                     office.OfficeName
-                   \s
 
-                   \s
                 FROM\s
                     tbl_AllocationHistory as allocation
                     JOIN tbl_Assets as asset ON asset.AssetID = allocation.AssetID
@@ -326,12 +324,12 @@ public class AssetAllocationDAO {
                 	allocation.AllocationStatus, -- Allocation Status
                 	allocation.OverdueStatus,
                 	-- Calculate Overdue Days
-                	CASE
-                		WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
-                		AND allocation.AllocationStatus = 'In Use'
-                		THEN ROUND(julianday(date('now')) - julianday(date(allocation.DueDate)))
-                		ELSE 0
-                	END AS OverdueDays,
+                CASE
+                    WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
+                         AND allocation.AllocationStatus = 'In Use'
+                    THEN CAST(ROUND(julianday(date('now')) - julianday(date(allocation.DueDate))) AS INTEGER)
+                    ELSE 0
+                END AS OverdueDays,
                 	allocation.LoanType,
                 	allocation.StartDate, -- Allocation Start Date
                 	allocation.DueDate, -- Allocation Due Date

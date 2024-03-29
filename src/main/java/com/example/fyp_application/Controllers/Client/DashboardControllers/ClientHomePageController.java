@@ -112,6 +112,10 @@ public class ClientHomePageController implements Initializable {
     }
 
     private VBox createAssetHistoryVBox(AssetAllocationModel assetAllocationModel) {
+        if (assetAllocationModel == null) {
+            throw new IllegalArgumentException("AssetAllocationModel cannot be null");
+        }
+
         VBox allocationHistoryVBox = new VBox(10); // VBox with spacing of 10 pixels
         allocationHistoryVBox.setAlignment(Pos.CENTER);
         allocationHistoryVBox.setStyle("-fx-border-color: black; -fx-border-width: 2; -fx-padding: 10;");
@@ -123,20 +127,28 @@ public class ClientHomePageController implements Initializable {
         Label overdueDays = new Label();
         Button profileButton = viewAllocationHistoryForm(assetAllocationModel);
 
-        if (Integer.parseInt(assetAllocationModel.getOverdueDays()) == 0 || Integer.parseInt(assetAllocationModel.getOverdueDays()) < 0) {
-            overdueDays.setText("No of Overdue Days: " + assetAllocationModel.getOverdueDays());
+        int overdueDaysValue = parseOverdueDays(assetAllocationModel.getOverdueDays());
+
+        if (overdueDaysValue <= 0) {
+            overdueDays.setText("No of Overdue Days: " + overdueDaysValue);
             overdueDays.setStyle("-fx-text-fill: green;");
-            profileButton.getStyleClass().add("refreshButton");
-            allocationHistoryVBox.getChildren().addAll(square, name, startDate, dueDate, overdueDays, profileButton);
         } else {
-            overdueDays.setText("No of Overdue Days: " + assetAllocationModel.getOverdueDays());
+            overdueDays.setText("No of Overdue Days: " + overdueDaysValue);
             overdueDays.setStyle("-fx-text-fill: red;");
-            profileButton.getStyleClass().add("refreshButton");
-            allocationHistoryVBox.getChildren().addAll(square, name, startDate, dueDate, overdueDays, profileButton);
         }
+        profileButton.getStyleClass().add("refreshButton");
+        allocationHistoryVBox.getChildren().addAll(square, name, startDate, dueDate, overdueDays, profileButton);
 
         return allocationHistoryVBox;
     }
+
+private int parseOverdueDays(String overdueDaysString) {
+    try {
+        return Integer.parseInt(overdueDaysString);
+    } catch (NumberFormatException e) {
+        return 0; // default value
+    }
+}
 
     private Rectangle createAssetVBoxPhoto(AssetAllocationModel assetAllocationModel) {
         Rectangle squareAssetPhoto = new Rectangle(100, 100);

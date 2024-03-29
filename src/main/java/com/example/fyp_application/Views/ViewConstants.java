@@ -91,7 +91,6 @@ public class ViewConstants {
 
     public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "/FXML/AdminView/ProcurementView/RaiseRequest.fxml";
 
-    public static final String ADMIN_RAISE_PROCUREMENT_TICKET_POP_UP = "";
 
     // Procurement Officer Views
 
@@ -105,7 +104,7 @@ public class ViewConstants {
 
     public static final String PROCUREMENT_OFFICER_RAISE_TICKET_POP_UP = "";
 
-    public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "";
+    public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "/FXML/AdminView/ProcurementView/ViewProcurementRequest.fxml";
 
     //Shared Views for admin and user
 

@@ -1,9 +1,13 @@
 package com.example.fyp_application.Controllers.Admin.DashboardControllers;
 
+import com.example.fyp_application.Controllers.Admin.ProcurementManagementControllers.EditProcurementRequestController;
 import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
+import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ViewTicketController;
+import com.example.fyp_application.Controllers.Admin.UserManagementControllers.ModifiedEditUserController;
 import com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRequestDashboardController;
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
+import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.UserDetailsUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
@@ -73,13 +77,13 @@ public class AdminHomePageController implements Initializable {
     private TableColumn<?, ?> procurementID_col;
 
     @FXML
-    private TableView<?> procurementRequestTable;
+    private TableView<ProcurementRequestModel> procurementRequestTable;
 
     @FXML
     private TableColumn<?, ?> procurementStatus_col;
 
     @FXML
-    private TableColumn<?, ?> sample;
+    private TableColumn<ProcurementRequestModel, FontIcon> sample;
 
     @FXML
     private Button test2btn;
@@ -247,13 +251,87 @@ public class AdminHomePageController implements Initializable {
     }
 
     @FXML
-    private void openTicketDetails() {
-        // Open the ticket details page
+    private void openManageRequest() {
+        // Open the manage request page
+        openTicketDetails(procurementRequestTable, false);
     }
 
     @FXML
-    private void viewProcurementRequest() {
+    public Stage  openTicketDetails(TableView<ProcurementRequestModel> tableView, boolean isFromDashboard){
+
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) tableView.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
+
+
+        ProcurementRequestModel selectedTicket = tableView.getSelectionModel().getSelectedItem();
+        Stage ticketModalWindow = null;
+
+        if (selectedTicket == null) {
+            AlertNotificationUtils.showErrorMessageAlert("Unable to load ticket details", "Please select a ticket to view details.");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
+        }
+        else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP));
+                Parent root = modalViewLoader.load();
+
+
+                EditProcurementRequestController editProcurementRequestController = modalViewLoader.getController();
+                editProcurementRequestController.loadProcurementBasketInfo(tableView.getSelectionModel().getSelectedItem().getProcurementRequestID());
+
+
+                // New window setup as modal
+                ticketModalWindow = new Stage();
+                ticketModalWindow.initOwner(currentDashboardStage);
+                ticketModalWindow.initModality(Modality.WINDOW_MODAL);
+                ticketModalWindow.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                ticketModalWindow.setScene(scene);
+
+                ticketModalWindow.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+            }
+        }
+        return ticketModalWindow;
+    }
+
+
+    @FXML
+    private void viewProcurementRequestByUser() {
         // View the procurement request
+        ObservableList<ProcurementRequestModel> procurementTicketsByUser = ProcurementRequestDAO.getProcurementTicketsByUser(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
+
+        sample.setCellValueFactory(cellData -> {
+            FontIcon icon;
+            // if request is approved
+            if (cellData.getValue().getProcurementRequestStatus().equals("Approved")) {
+                icon = new FontIcon("mdi2b-book-check");
+
+                // if request is awaiting approval
+            } else if (cellData.getValue().getProcurementRequestStatus().equals("Awaiting Approval")) {
+                icon = new FontIcon("mdi2b-book-clock");
+            } else {
+                // if request is rejected
+                icon = new FontIcon("mdi2b-book-cancel");
+            }
+            icon.setIconSize(40);
+            return new SimpleObjectProperty<>(icon);
+        });
+        procurementID_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestID"));
+        procurementStatus_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestStatus"));
+        procurementComment_col.setCellValueFactory(new PropertyValueFactory<>("procurementManagerComment"));
+
+        procurementRequestTable.setItems(procurementTicketsByUser);
 
     }
 
@@ -321,6 +399,7 @@ public class AdminHomePageController implements Initializable {
                 Platform.runLater(() -> {
                     try {
                         setupIDCard();
+                        viewProcurementRequestByUser();
                         loadTicketTableByAgent();
                         setupHomeStats();
                     } catch (Exception e) {

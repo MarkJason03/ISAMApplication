@@ -50,6 +50,15 @@
 }
 
 
+.personalInformationBorder{
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+}
+
+
+}
+
 /*custom button controls*/
 
 .refreshButton{

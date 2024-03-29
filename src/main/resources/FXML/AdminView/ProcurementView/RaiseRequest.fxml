@@ -328,7 +328,7 @@
                                        <children>
                                           <AnchorPane>
                                              <children>
-                                                <Button fx:id="saveProcurementRequest_btn" layoutY="-2.0" mnemonicParsing="false" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Request" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                                                <Button fx:id="saveProcurementRequest_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#startRaiseProcurementThread" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Submit Request" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                                                    <graphic>
                                                       <FontAwesomeIconView glyphName="EDIT" size="35" />
                                                    </graphic>

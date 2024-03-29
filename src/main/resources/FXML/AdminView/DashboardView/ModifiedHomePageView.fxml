@@ -217,7 +217,7 @@
                                  </columns>
                               </TableView>
                               <Line endX="566.0" endY="66.0" layoutY="3.0" startX="28.0" startY="66.0" strokeWidth="2.0" />
-                              <Button fx:id="viewproc_btn" layoutX="530.0" layoutY="32.0" mnemonicParsing="false" text="View" />
+                              <Button fx:id="viewproc_btn" layoutX="530.0" layoutY="32.0" mnemonicParsing="false" onAction="#openManageRequest" text="View" />
                               <Button fx:id="create_procbtn" layoutX="421.0" layoutY="36.0" mnemonicParsing="false" onAction="#openProcurementRequest" text="Create" />
                            </children>
                         </AnchorPane>

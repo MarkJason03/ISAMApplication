@@ -48,7 +48,7 @@
                </font>
             </Label>
             <Circle fx:id="loggedUserImage" fill="DODGERBLUE" layoutX="1289.0" layoutY="57.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="5.0" />
-            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox fillHeight="false" layoutX="1486.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane prefHeight="48.0" prefWidth="46.0">
                      <children>
@@ -59,15 +59,7 @@
                         </Button>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="minimizeApp_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="minimizeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="MINUS" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0" />
                   <AnchorPane prefHeight="5.0" prefWidth="0.0">
                      <children>
                         <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeMenu" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
@@ -315,15 +307,27 @@
                               <TextField fx:id="ramSpec_TF" editable="false" layoutX="502.0" layoutY="343.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="assetStatus_TF" editable="false" layoutX="504.0" layoutY="436.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                               <TextField fx:id="assetCondition_TF" editable="false" layoutX="97.0" layoutY="436.0" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: transparent;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
-                              <Button fx:id="submitForm_btn" layoutX="762.0" layoutY="37.0" mnemonicParsing="false" onAction="#startReturnAllocationThread" prefHeight="42.0" prefWidth="143.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="PASTE" size="30" />
-                                 </graphic>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
-                              <CheckBox fx:id="email_checkBox" layoutX="605.0" layoutY="50.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="162.0" text="Update without Emailing?" />
+                              <HBox layoutX="527.0" layoutY="34.0" prefHeight="48.0" prefWidth="387.0" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="submitForm_btn" mnemonicParsing="false" onAction="#startReturnAllocationThread" prefHeight="72.0" prefWidth="143.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Update">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="PASTE" size="30" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="sendReminder_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="230.0" styleClass="cancelChangesButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Send Due Reminder">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="PASTE" size="30" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <CheckBox fx:id="email_checkBox" alignment="CENTER" layoutX="361.0" layoutY="51.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="162.0" text="Update without Emailing?" textAlignment="JUSTIFY" />
                            </children>
                            <styleClass>
                               <String fx:value="shadow" />

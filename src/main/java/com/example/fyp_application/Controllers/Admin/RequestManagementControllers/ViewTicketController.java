@@ -160,6 +160,10 @@ public class ViewTicketController implements Initializable {
     private static final TicketAttachmentDAO TICKET_ATTACHMENT_DAO = new TicketAttachmentDAO();
 
     private static final TicketDAO TICKET_DAO = new TicketDAO();
+
+    private  double x ;
+
+    private double y;
 /*
     @FXML
     public void loadTicketDetails(TicketModel ticketModel) {

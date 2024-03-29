@@ -205,6 +205,25 @@ public class GMailUtils {
     }
 
 
+/*
+
+    public static String generateOverdueReminderEmailBody(String fullName, String assetName, String assetSerial, String returnCondition, String allocationStatus, String returnDate, String description) {
+        return "Hello " + fullName + "," + "\n\n\n"
+                + "An asset has been allocated to you . Please see the information below " + "\n\n\n"
+                + "Asset Name: " + assetName + "\n\n"
+                + "Asset Serial: " + assetSerial + "\n\n"
+                + "Loan Type: " + loanType + "\n\n"
+                + "Current Status: " + status + "\n\n"
+                + "Comments:\n" + description + "\n\n"
+                + "Start Date: " + startDate + "\n\n"
+                + "Due Date: " + dueDate + "\n\n\n"
+                + "When opening a service request, please use this Allocation ID " + allocationID +  " as reference."
+                + "\n\n\n"
+                + "Best Regards," + "\n\n"
+                + "ISAM Team";
+
+
+    }*/
     public static void main(String[] args) throws Exception {
         //System.out.println("Sending email...");
         GMailUtils.sendEmailTo(DEFAULT_EMAIL, "Test Subject", "Hello, this is a test email.");

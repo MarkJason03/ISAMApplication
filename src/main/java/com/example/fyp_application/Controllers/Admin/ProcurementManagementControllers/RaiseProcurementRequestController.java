@@ -3,9 +3,11 @@ package com.example.fyp_application.Controllers.Admin.ProcurementManagementContr
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Utils.*;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -134,6 +136,15 @@ public class RaiseProcurementRequestController implements Initializable {
     private ObservableList<ProcurementCatalogueModel> procurementList;
     private ObservableList<ProcurementCatalogueModel> basketList = FXCollections.observableArrayList(); // The ObservableList for the basket
 
+    private String REQUEST_STATUS = "Awaiting Approval";
+
+
+
+    @FXML
+    private void loadProcurementRequestTable(){
+
+    }
+
     @FXML
     private void loadCatalogueTable(){
 
@@ -238,12 +249,10 @@ public class RaiseProcurementRequestController implements Initializable {
     @FXML
     private void closeWindow(){
         SharedButtonUtils.closeMenu(closeMenu_btn);
-
     }
 
     @FXML
     private void setupRequesterDetails() {
-
 
         try {
             UserModel userModel = UserDAO.loadCurrentLoggedUser(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
@@ -278,10 +287,72 @@ public class RaiseProcurementRequestController implements Initializable {
         });
     }
 
-    @FXML
-    private void openTicket(){
 
+    @FXML
+    private void startRaiseProcurementThread() {
+        if (isFormValid()) {
+            Task<Void> procurementTask = new Task<Void>() {
+                @Override
+                public Void call() {
+                    try {
+                        System.out.println("Running the insertion of procurement thread");
+                        insertProcurementRecord();
+                        System.out.println("inserted successfully");
+                    } catch (Exception e) {
+                        System.err.println("Error in procurementTask: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+            new Thread(procurementTask).start();
+        } else {
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Add items on the basket!");
+        }
     }
+
+
+    @FXML
+    private void insertProcurementRecord() {
+        int procurementID = ProcurementRequestDAO.insertProcurementRequest(
+                CurrentLoggedUserHandler.getCurrentLoggedAdminID(),
+                REQUEST_STATUS,
+                DateTimeUtils.getYearMonthDayFormat(),
+                comments_TA.getText());
+
+        if (procurementID > 0) {
+            insertBasketRecord(procurementID);
+            Platform.runLater(() -> {
+                AlertNotificationUtils.showInformationMessageAlert("Success", "Procurement request raised successfully.");
+                closeWindow();
+            });
+        } else {
+            Platform.runLater(() -> AlertNotificationUtils.showErrorMessageAlert("Error", "An error occurred while inserting the procurement record."));
+        }
+    }
+
+    @FXML
+    private void insertBasketRecord(int procurementID){
+        // Insert the basket record into the database
+        for (ProcurementCatalogueModel item : basketList) {
+            ProcurementBasketDAO.insertBasketDetails(
+                    procurementID,
+                    item.getCatalogID(),
+                    item.getQuantity(),
+                    (int) (item.getQuantity() * item.getAssetPrice()));
+        }
+    }
+
+
+    @FXML
+    private boolean isFormValid(){
+        //return false if basket is empty
+        return !basketList.isEmpty();
+    }
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadCatalogueTable();
@@ -337,6 +408,9 @@ public class RaiseProcurementRequestController implements Initializable {
                         remove_Btn.setOnAction((ActionEvent event) -> {
                             ProcurementCatalogueModel data = getTableView().getItems().get(getIndex());
                             basketList.remove(data);
+                            System.out.println("Removed: " + data.getAssetName());
+                            System.out.println(basketList.size());
+                            System.out.println(basketList.isEmpty()? "Basket is empty": "Basket is not empty");
                         });
                     }
 

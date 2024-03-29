@@ -14,9 +14,26 @@ public class ProcurementBasketModel {
     private int totalCost;
 
 
+    private String modelName;
+
+    private int unitPrice;
 
     public ProcurementBasketModel(int catalogID, int quantity, int totalCost) {
         this.catalogID = catalogID;
+        this.quantity = quantity;
+        this.totalCost = totalCost;
+    }
+
+    public ProcurementBasketModel(
+            int catalogID,
+            String assetName,
+            int unitPrice,
+            int quantity,
+            int totalCost
+    ){
+        this.catalogID = catalogID;
+        this.modelName = assetName;
+        this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.totalCost = totalCost;
     }
@@ -53,4 +70,21 @@ public class ProcurementBasketModel {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
 }

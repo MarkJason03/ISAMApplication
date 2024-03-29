@@ -24,7 +24,9 @@ public class DatabaseConnectionUtils {
     }
     public static Connection getConnection() {
         try{
+
             return DriverManager.getConnection(dbUrl);
+
         } catch (SQLException e) {
             return null;
         }
@@ -74,3 +76,4 @@ public class DatabaseConnectionUtils {
 
 
 }
+

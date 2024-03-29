@@ -219,8 +219,7 @@ public class ClientRequestDashboardController implements Initializable {
         TicketDetailsUtils.setupUserRequestTableListener(requestTableView, ticketID_TF, status_TF, dateCreated_TF, dateClosed_TF, agentName_TF);
         TableListenerUtils.searchTableDetails(searchBar_TF, requestTableView, requestsData, (ticket, search) -> {
             String searchLower = search.toLowerCase();
-            return String.valueOf(ticket.getTicketID()).contains(searchLower) ||
-                    ticket.getAgentFullName().toLowerCase().contains(searchLower);
+            return String.valueOf(ticket.getTicketID()).contains(searchLower);
         });
 
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);

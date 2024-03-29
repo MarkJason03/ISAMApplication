@@ -39,7 +39,7 @@ public class DateTimeUtils {
     }
 
 
-    public static String getCurrentDateFormat(){
+    public static String getUKDateFormat(){
 
         return LocalDate.now().format(UK_CURRENT_DATE_FORMAT);
     }

@@ -181,7 +181,7 @@ public class EditAdminProfileController implements Initializable {
 
     private void runProfileChanges(String newPath){
         new Thread(() -> {
-            String  timeStamp = DateTimeUtils.getCurrentDateFormat() + " " + DateTimeUtils.getCurrentTimeFormat();
+            String  timeStamp = DateTimeUtils.getUKDateFormat() + " " + DateTimeUtils.getCurrentTimeFormat();
             UserDAO userDAO = new UserDAO();
             userDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedAdminID(), newPath, timeStamp);
             Platform.runLater(() -> {

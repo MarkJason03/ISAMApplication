@@ -81,7 +81,6 @@ public class ViewConstants {
 
     public static final String ADMIN_VIEW_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
 
-    public static final String ADMIN_EDIT_ALLOCATION_POP_UP = "/FXML/AdminView/AssetView/IndividualAssetAllocationReturnForm.fxml";
     public  static  final String ADMIN_EDIT_MY_PROFILE_VIEW = "/FXML/AdminView/AdminProfileView/EditAdminProfileView.fxml";
 
     public static final String ADMIN_EDIT_MY_PROFILE_POP_UP = "/FXML/AdminView/AdminProfileView/EditAdminProfilePopUpView.fxml";
@@ -91,21 +90,17 @@ public class ViewConstants {
 
     public static final String ADMIN_RAISE_PROCUREMENT_TICKET_VIEW = "/FXML/AdminView/ProcurementView/RaiseRequest.fxml";
 
-
-    // Procurement Officer Views
-
-    public static final String PROCUREMENT_OFFICER_DASHBOARD = "";
-
-    public static final String PROCUREMENT_OFFICER_SIDEBAR_MENU = "";
-
-    public static final String PROCUREMENT_OFFICER_HOME_PAGE_VIEW = "";
-
-    public static final String PROCUREMENT_OFFICER_MANAGE_REQUEST_VIEW = "";
-
-    public static final String PROCUREMENT_OFFICER_RAISE_TICKET_POP_UP = "";
-
     public static final String PROCUREMENT_OFFICER_EDIT_TICKET_POP_UP = "/FXML/AdminView/ProcurementView/ViewProcurementRequest.fxml";
 
+
+    // Admin adding / editing catalogue items
+
+    public static final String ADMIN_ADD_CATALOGUE_ITEM_POP_UP = "/FXML/AdminView/SupplierView/AddCatalogueItemView.fxml";
+
+    public static final String ADMIN_EDIT_CATALOGUE_ITEM_POP_UP = "/FXML/AdminView/SupplierView/EditCatalogueItemView.fxml";
+
+    // Admin view statistics
+    public static final String ADMIN_VIEW_STATISTICS = "/FXML/AdminView/DashboardView/ReportStatisticsPage.fxml";
     //Shared Views for admin and user
 
     //Login Page
@@ -115,4 +110,5 @@ public class ViewConstants {
     public static final String APP_ICON = "/Assets/app_icon.png";
 
     public static final String SHARED_MESSAGE_HISTORY_BOX_POP_UP = "/FXML/SharedView/MessageBoxView.fxml";
+    public static final String STYLESHEET ="/Styles/ClientStyleSheet/ClientPages.css" ;
 }

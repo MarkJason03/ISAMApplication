@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="mainAnchorPaneBody" prefHeight="828.0" prefWidth="848.0" scaleShape="false" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.AddCatalogueItemController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="315.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="826.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="10.0" />
+      <AnchorPane layoutX="33.0" layoutY="119.0" prefHeight="687.0" prefWidth="776.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="119.0">
+         <children>
+            <Label layoutX="65.0" layoutY="164.0" text="Asset Name" AnchorPane.leftAnchor="65.0" />
+            <Label layoutX="65.0" layoutY="262.0" text="Asset Price" AnchorPane.leftAnchor="65.0" />
+            <TextField fx:id="assetName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="257.0" promptText="Asset Name" style="-fx-border-radius: 20px;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="461.0" />
+            <TextField fx:id="assetPrice_TF" layoutX="65.0" layoutY="289.0" prefHeight="40.0" prefWidth="141.0" promptText="Asset Price" style="-fx-border-radius: 20px;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="461.0" />
+            <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
+            <Button fx:id="saveProfileChanges_btn"  onAction="#addCatalogueItem" layoutX="487.0" layoutY="60.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Create">
+               <graphic>
+                  <FontAwesomeIconView glyphName="EDIT" size="30" />
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="65.0" layoutY="464.0" text="Supplier" AnchorPane.leftAnchor="65.0" />
+            <FontAwesomeIconView glyphName="SHOPPING_CART" layoutX="443.0" layoutY="637.0" opacity="0.1" size="300" AnchorPane.rightAnchor="33.0" />
+            <ChoiceBox fx:id="supplier_CB" layoutX="65.0" layoutY="492.0" prefHeight="39.0" prefWidth="250.0" style="-fx-border-radius: 20px;" AnchorPane.leftAnchor="65.0" />
+            <Button fx:id="cancel_btn" onAction="#closeWindow" layoutX="612.0" layoutY="60.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 20px;" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Cancel" AnchorPane.rightAnchor="47.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="REMOVE" size="30" />
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label fx:id="dateChecker_lbl" layoutX="412.0" layoutY="531.0" prefHeight="27.0" prefWidth="250.0" textFill="RED" />
+            <Pane layoutX="50.0" layoutY="650.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
+            <Label layoutX="43.0" layoutY="53.0" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Add Catalogue Item">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="442.0" layoutY="465.0" text="Manufacturer Name" />
+            <Label layoutX="441.0" layoutY="367.0" text="Asset Category" />
+            <Label layoutX="442.0" layoutY="263.0" text="Ram Spec" />
+            <ChoiceBox fx:id="ramSpec_CB" layoutX="441.0" layoutY="291.0" prefHeight="39.0" prefWidth="250.0" />
+            <Label layoutX="442.0" layoutY="165.0" text="Storage Spec" />
+            <ChoiceBox fx:id="storageSpec_CB" layoutX="441.0" layoutY="193.0" prefHeight="39.0" prefWidth="250.0" />
+            <Label layoutX="66.0" layoutY="360.0" text="Asset Photo" />
+            <TextField fx:id="assetPhoto_TF" layoutX="66.0" layoutY="387.0" prefHeight="40.0" prefWidth="250.0" promptText="Asset Photo" style="-fx-border-radius: 20px;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+            <ChoiceBox fx:id="assetCategory_CB" layoutX="440.0" layoutY="391.0" prefHeight="39.0" prefWidth="250.0" />
+            <ChoiceBox fx:id="manufacturer_CB" layoutX="439.0" layoutY="492.0" prefHeight="39.0" prefWidth="250.0" />
+            <Button fx:id="addPhoto_btn" onAction="#setPhotoPath" layoutX="331.0" layoutY="386.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="46.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+               <graphic>
+                  <FontAwesomeIconView glyphName="PHOTO" size="30" />
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Opens file selector to choose photo path" />
+               </tooltip>
+            </Button>
+         </children>
+         <styleClass>
+            <String fx:value="shadow" />
+            <String fx:value="editInformationContainer" />
+         </styleClass>
+      </AnchorPane>
+      <Label layoutX="33.0" layoutY="29.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Procurement Catalogue" textFill="WHITE" AnchorPane.leftAnchor="33.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="dateTimeHolder" layoutX="33.0" layoutY="84.0" prefHeight="17.0" prefWidth="243.0" textFill="WHITE" AnchorPane.leftAnchor="33.0" />
+   </children>
+</AnchorPane>

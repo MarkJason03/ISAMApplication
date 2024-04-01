@@ -24,7 +24,7 @@
                   <FontAwesomeIconView glyphName="DASHBOARD" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="reports_btn" mnemonicParsing="false" text="Reports">
+            <Button fx:id="reports_btn" onAction="#openStatistics" mnemonicParsing="false" text="Reports">
                <graphic>
                   <FontAwesomeIconView glyphName="LIST" size="30" />
                </graphic>

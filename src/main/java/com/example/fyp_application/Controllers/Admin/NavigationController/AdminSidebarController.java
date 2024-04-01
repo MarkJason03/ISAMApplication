@@ -1,6 +1,7 @@
 package com.example.fyp_application.Controllers.Admin.NavigationController;
 
 import com.example.fyp_application.Controllers.Admin.AssetManagementControllers.ManageAssetController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.OverviewStatisticsController;
 import com.example.fyp_application.Controllers.Admin.ProfileManagementController.EditAdminProfileController;
 import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
 import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController;
@@ -57,8 +58,10 @@ public class AdminSidebarController {
 
 
     @FXML
-    private void openReports() throws IOException {
-        //TODO - write maybe predefined reports?
+    private void openStatistics() throws IOException {
+        // Opens the statistics page
+
+        swapScene(ViewConstants.ADMIN_VIEW_STATISTICS, OverviewStatisticsController.class);
 
 
     }

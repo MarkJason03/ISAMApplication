@@ -3,8 +3,11 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -76,127 +79,218 @@
                </font>
             </Label>
             <Label fx:id="dateTimeHolder" layoutX="29.0" layoutY="72.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
-            <AnchorPane layoutX="615.0" layoutY="188.0" prefHeight="598.0" prefWidth="946.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-               <children>
-                  <AnchorPane prefHeight="452.0" prefWidth="908.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
-                     <children>
-                        <TableView fx:id="supTableView" prefHeight="452.0" prefWidth="908.0">
-                           <columns>
-                              <TableColumn fx:id="supTable_col_ID" prefWidth="34.0" text="ID" />
-                              <TableColumn fx:id="supTable_col_supName" prefWidth="238.0" text="SupplierName" />
-                              <TableColumn fx:id="supTable_col_contractEmail" prefWidth="255.0" text="Email" />
-                              <TableColumn fx:id="supTable_col_contractStatus" prefWidth="98.0" text="Contract Status" />
-                              <TableColumn fx:id="supTable_col_contractStart" prefWidth="140.0" text="Contract Start" />
-                              <TableColumn fx:id="supTable_col_contractEnds" prefWidth="135.0" text="Contract Ends" />
-                           </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-                     <children>
-                        <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction="#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="editSupplier_btn" mnemonicParsing="false" onAction="#editSupplierDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="deleteSupplier_btn" mnemonicParsing="false" onAction="#deleteSupplier" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
-                     </children>
-                  </HBox>
-                  <Pane prefHeight="63.0" prefWidth="946.0" styleClass="informationContainerHeader" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-                     <children>
-                        <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
-                        <FontAwesomeIconView glyphName="SEARCH" layoutX="324.0" layoutY="44.0" size="35" />
-                        <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="601.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView glyphName="REFRESH" layoutX="881.0" layoutY="46.0" size="35" text="" />
-                        <Button fx:id="reload_btn" layoutX="870.0" layoutY="13.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
-                        <Button fx:id="search_btn" layoutX="314.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
-                     </children>
-                  </Pane>
-               </children>
-               <styleClass>
-                  <String fx:value="treeTableContainer" />
-                  <String fx:value="shadow" />
-               </styleClass>
-            </AnchorPane>
-            <AnchorPane layoutX="29.0" layoutY="188.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
-               <children>
-                  <Label fx:id="supNameHolder_lbl" layoutX="32.0" layoutY="41.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Name">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <VBox layoutX="32.0" layoutY="97.0" prefHeight="452.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
-                     <children>
-                        <TitledPane text="Supplier Info">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <TabPane layoutX="4.0" layoutY="157.0" prefHeight="640.0" prefWidth="1590.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Supplier Contracts">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="21.0" layoutY="8.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <children>
-                                    <Label layoutX="18.0" layoutY="20.0" text="Supplier Address">
+                                    <Label fx:id="supNameHolder_lbl" layoutX="32.0" layoutY="41.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Name">
                                        <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <Label layoutX="263.0" layoutY="84.0" text="Supplier Email">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <TextField fx:id="supEmail_TF" layoutX="262.0" layoutY="104.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="263.0" layoutY="20.0" text="Phone Number">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <TextField fx:id="supPhone_TF" layoutX="262.0" layoutY="40.0" prefHeight="40.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="test" />
-                                    <TextArea fx:id="supAddress_TA" editable="false" layoutX="25.0" layoutY="43.0" prefHeight="116.0" prefWidth="204.0" style="-fx-background-color: transparent;" wrapText="true" />
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox layoutX="32.0" layoutY="97.0" prefHeight="452.0" prefWidth="459.0" spacing="10.0" AnchorPane.leftAnchor="32.0">
+                                       <children>
+                                          <TitledPane collapsible="false" text="Supplier Address">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Label layoutX="18.0" layoutY="20.0" text="Supplier Address">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label layoutX="263.0" layoutY="84.0" text="Supplier Email">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="supEmail_TF" layoutX="262.0" layoutY="104.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <Label layoutX="263.0" layoutY="20.0" text="Phone Number">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="supPhone_TF" layoutX="262.0" layoutY="40.0" prefHeight="40.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <TextArea fx:id="supAddress_TA" editable="false" layoutX="25.0" layoutY="43.0" prefHeight="116.0" prefWidth="204.0" style="-fx-background-color: transparent;" wrapText="true" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </TitledPane>
+                                          <TitledPane collapsible="false" layoutX="10.0" layoutY="22.0" prefHeight="225.0" prefWidth="459.0" text="Contract Summary">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="173.0" prefWidth="457.0">
+                                                   <children>
+                                                      <Label layoutX="251.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="Created On">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="supContractStartDate_TF" layoutX="250.0" layoutY="36.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <Label layoutX="251.0" layoutY="99.0" text="Expires At">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="supContractEndDate_TF" layoutX="248.0" layoutY="129.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <Label layoutX="31.0" layoutY="99.0" text="Contract Status">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="supContractStatus_TF" layoutX="31.0" layoutY="127.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <TextField fx:id="supID_TF" layoutX="30.0" layoutY="36.0" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: transparent;" text="test" />
+                                                      <Label layoutX="30.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="SupplierID">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </children>
+                                    </VBox>
+                                    <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
                                  </children>
+                                 <styleClass>
+                                    <String fx:value="shadow" />
+                                    <String fx:value="personalInformationContainer" />
+                                 </styleClass>
                               </AnchorPane>
-                           </content>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane layoutX="10.0" layoutY="22.0" prefHeight="225.0" prefWidth="459.0" text="Account Info">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="173.0" prefWidth="457.0">
+                              <AnchorPane layoutX="608.0" layoutY="8.0" prefHeight="598.0" prefWidth="971.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <children>
-                                    <Label layoutX="251.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="Created On">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <TextField fx:id="supContractStartDate_TF" layoutX="250.0" layoutY="36.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="251.0" layoutY="99.0" text="Expires At">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <TextField fx:id="supContractEndDate_TF" layoutX="248.0" layoutY="129.0" prefHeight="40.0" prefWidth="176.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="31.0" layoutY="99.0" text="Contract Status">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
-                                    <TextField fx:id="supContractStatus_TF" layoutX="31.0" layoutY="127.0" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: transparent;" text="test" />
-                                    <TextField fx:id="supID_TF" layoutX="30.0" layoutY="36.0" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: transparent;" text="test" />
-                                    <Label layoutX="30.0" layoutY="16.0" prefHeight="17.0" prefWidth="81.0" text="SupplierID">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font></Label>
+                                    <AnchorPane prefHeight="452.0" prefWidth="908.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
+                                       <children>
+                                          <TableView fx:id="supTableView" prefHeight="451.0" prefWidth="940.0">
+                                             <columns>
+                                                <TableColumn fx:id="supTable_col_ID" prefWidth="34.0" text="ID" />
+                                                <TableColumn fx:id="supTable_col_supName" prefWidth="238.0" text="SupplierName" />
+                                                <TableColumn fx:id="supTable_col_contractEmail" prefWidth="255.0" text="Email" />
+                                                <TableColumn fx:id="supTable_col_contractStatus" prefWidth="98.0" text="Contract Status" />
+                                                <TableColumn fx:id="supTable_col_contractStart" prefWidth="140.0" text="Contract Start" />
+                                                <TableColumn fx:id="supTable_col_contractEnds" prefWidth="135.0" text="Contract Ends" />
+                                             </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                    <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                       <children>
+                                          <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction="#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
+                                          <Button fx:id="editSupplier_btn" mnemonicParsing="false" onAction="#editSupplierDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
+                                          <Button fx:id="deleteSupplier_btn" mnemonicParsing="false" onAction="#deleteSupplier" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="63.0" prefWidth="973.0" styleClass="informationContainerHeader" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                       <children>
+                                          <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
+                                          <FontAwesomeIconView glyphName="SEARCH" layoutX="324.0" layoutY="44.0" size="35" />
+                                          <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="657.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <FontAwesomeIconView glyphName="REFRESH" layoutX="918.0" layoutY="45.0" size="35" text="" />
+                                          <Button fx:id="reload_btn" layoutX="907.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                                          <Button fx:id="search_btn" layoutX="314.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                                       </children>
+                                    </Pane>
                                  </children>
+                                 <styleClass>
+                                    <String fx:value="treeTableContainer" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
                               </AnchorPane>
-                           </content>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </TitledPane>
-                     </children>
-                  </VBox>
-                  <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
-               </children>
-               <styleClass>
-                  <String fx:value="shadow" />
-                  <String fx:value="personalInformationContainer" />
-               </styleClass>
-            </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Procurement Catalogue">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="13.0" layoutY="8.0" prefHeight="591.0" prefWidth="1567.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                 <children>
+                                    <AnchorPane layoutX="31.0" layoutY="63.0" prefHeight="459.0" prefWidth="1508.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="63.0">
+                                       <children>
+                                          <TableView fx:id="catalogueTable" prefHeight="466.0" prefWidth="1509.0">
+                                             <columns>
+                                                <TableColumn fx:id="photo_col" prefWidth="191.0" text="Photo" />
+                                                <TableColumn fx:id="assetName_col" prefWidth="164.0" text="AssetName" />
+                                                <TableColumn fx:id="manufacturer_col" prefWidth="135.0" text="Manufacturer" />
+                                                <TableColumn fx:id="category_col" prefWidth="113.0" text="Category" />
+                                                <TableColumn fx:id="storageSpec_col" prefWidth="78.0" text="Storage" />
+                                                <TableColumn fx:id="ramSpec_col" prefWidth="91.0" text="Ram" />
+                                                <TableColumn fx:id="unitPrice_col" prefWidth="126.0" text="Unit Price" />
+                                             </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                    <HBox layoutX="31.0" layoutY="537.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                       <children>
+                                          <Button fx:id="addCatalogueDetails_btn" mnemonicParsing="false" onAction="#addNewCatalogueItem" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
+                                          <Button fx:id="editCatalogueDetails_btn" mnemonicParsing="false" onAction="#editCatalogueInformation" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="63.0" prefWidth="1571.0">
+                                       <children>
+                                          <Label fx:id="lastUpdate_lbl1" alignment="CENTER" layoutX="1224.0" layoutY="15.0" prefHeight="35.0" prefWidth="186.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <StackPane layoutX="1474.0" layoutY="12.0">
+                                             <children>
+                                                <FontAwesomeIconView glyphName="REFRESH" size="35" text="" />
+                                                <Button fx:id="reload_btn1" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                                             </children>
+                                          </StackPane>
+                                          <HBox layoutX="385.0" layoutY="10.0" prefHeight="46.0" prefWidth="839.0">
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="238.0" text="Supplier Contract:   ">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="contractFilter_CB" prefHeight="55.0" prefWidth="150.0" promptText="Contract Status" />
+                                                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="249.0" text="Sort by:   ">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="manufacturer_CB" prefHeight="55.0" prefWidth="200.0" promptText="Manufacturer" />
+                                             </children>
+                                          </HBox>
+                                          <TextField fx:id="searchBasket_TF" layoutX="29.0" layoutY="12.0" prefHeight="42.0" prefWidth="298.0" promptText="Model Name" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="treeTableContainer" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
          </children>
       </AnchorPane>
    </children>

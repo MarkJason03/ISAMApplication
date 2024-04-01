@@ -159,13 +159,13 @@ private int parseOverdueDays(String overdueDaysString) {
                 Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(assetAllocationModel.getPhotoPath())));
                 squareAssetPhoto.setFill(new ImagePattern(curPhoto));
             } catch (NullPointerException e) {
-                System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"));
-                Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"));
+                Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 squareAssetPhoto.setFill(new ImagePattern(curPhoto));
             }
         } else {
-            System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"));
-            Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+            System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"));
+            Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
             squareAssetPhoto.setFill(new ImagePattern(curPhoto));
         }
 

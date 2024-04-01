@@ -8,11 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SupplierDAO {
 
 
-    public ObservableList<SupplierModel>getAllSuppliers () {
+    public static ObservableList<SupplierModel>getAllSuppliers() {
         //List to store supplier data
         ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
         //Instance of the class
@@ -205,4 +207,41 @@ public class SupplierDAO {
 
         return counter;
     }
+
+
+    public static List<SupplierModel> getAllSupplierNameList() {
+        //List to store category data
+        List<SupplierModel> categoriesList = new ArrayList<>();
+        String sql = """
+                SELECT
+                	supplierID,
+                	supplierName
+                FROM
+                	tbl_Suppliers;
+                """;
+
+        //Try with resources to close the connection after the operation is done
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            //prepared statement to execute the query
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                //loop through the result set and add the data to the list
+                while (resultSet.next()) {
+                    SupplierModel SupplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"));
+                    categoriesList.add(SupplierModel);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        //return the list of categories
+        return categoriesList;
+    }
+
+
+
 }

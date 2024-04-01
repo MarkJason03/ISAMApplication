@@ -141,7 +141,7 @@ public class RaiseTicketController implements Initializable {
                 details,
                 "Created",
                 "Low",
-                DateTimeUtils.getCurrentDateTime()
+                DateTimeUtils.getYearMonthDayFormat()
         );
 
         // Check if the attachments ListView is not null and has items

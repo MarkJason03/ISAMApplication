@@ -148,7 +148,8 @@ public class RaiseProcurementRequestController implements Initializable {
     @FXML
     private void loadCatalogueTable(){
 
-        procurementList = ProcurementCatalogueDAO.getActiveProcurementCatalogue();
+        String filter = "Expired";
+        procurementList = ProcurementCatalogueDAO.getFilteredSupplierContractCatalogue(filter);
 
         photo_col.setCellValueFactory(cellData -> {
             ProcurementCatalogueModel asset = cellData.getValue();
@@ -165,11 +166,11 @@ public class RaiseProcurementRequestController implements Initializable {
                 } catch (NullPointerException e) {
 
                     System.err.println("Image not found: " + photoPath);
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                     imageView.setImage(image);
                 }
             } else {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 imageView.setImage(image);
             }
             return new SimpleObjectProperty<>(imageView);
@@ -206,11 +207,11 @@ public class RaiseProcurementRequestController implements Initializable {
                 } catch (NullPointerException e) {
 
                     System.err.println("Image not found: " + photoPath);
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                     imageView.setImage(image);
                 }
             } else {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 imageView.setImage(image);
             }
             return new SimpleObjectProperty<>(imageView);

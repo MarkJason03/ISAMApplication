@@ -23,6 +23,11 @@ public class ProcurementRequestModel {
     private String procurementManagerComment;
 
 
+    private int totalCost;
+
+
+
+
 
     public ProcurementRequestModel(int procurementRequestID,
                                    String procurementRequestStatus,
@@ -41,6 +46,14 @@ public class ProcurementRequestModel {
         this.requesterComment = requesterComment;
     }
 
+
+    public ProcurementRequestModel(
+            String procurementRequestDate,
+            int totalCost
+    ){
+        this.procurementRequestDate = procurementRequestDate;
+        this.totalCost = totalCost;
+    }
 
     public int getProcurementRequestID() {
         return procurementRequestID;
@@ -114,4 +127,11 @@ public class ProcurementRequestModel {
         this.procurementManagerComment = procurementManagerComment;
     }
 
+    public int getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
+    }
 }

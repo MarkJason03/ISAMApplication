@@ -14,8 +14,8 @@ public class GMailUtils {
 
 
     // Set the default email and password from config file
-    private static final String DEFAULT_EMAIL = ConfigPropertiesUtils.getValue("EMAIL");
-    private static final String DEFAULT_PASSWORD = ConfigPropertiesUtils.getValue("PASSWORD");
+    private static final String DEFAULT_EMAIL = ConfigPropertiesUtils.getPropertyValue("EMAIL");
+    private static final String DEFAULT_PASSWORD = ConfigPropertiesUtils.getPropertyValue("PASSWORD");
 
 
     private static final Logger LOGGER = Logger.getLogger(GMailUtils.class.getName());

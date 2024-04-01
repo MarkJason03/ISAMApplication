@@ -78,6 +78,7 @@ public class AdminDashboardWindowController implements Initializable {
     @FXML
     private void refreshInformationHeader() {
         // refresh the information header
+
         loadCurrentUser();
     }
 

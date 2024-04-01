@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProcurementRequestDAO {
 
@@ -135,4 +137,36 @@ public class ProcurementRequestDAO {
         }
     }
 
+    public static List<ProcurementRequestModel> getProcurementData() {
+        List<ProcurementRequestModel> records = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    proc.DateRaised,
+                    bask.TotalPrice
+                FROM
+                    tbl_Basket AS bask
+                JOIN 
+                    tbl_Procurement AS proc ON proc.ProcurementID = bask.ProcurementID
+                WHERE
+                    proc.ProcurementStatus = 'Approved';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                ProcurementRequestModel record = new ProcurementRequestModel(
+                        resultSet.getString("DateRaised"),
+                        resultSet.getInt("TotalPrice")
+                );
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return records;
+    }
 }

@@ -38,6 +38,8 @@ public class UserDAO {
     }
 
 
+
+
     public Pair<Boolean, String> validateLoginCredentials(String username, String password) {
         String sql = "SELECT AccountStatus, Password FROM tbl_Users WHERE Username = ?";
 
@@ -360,6 +362,26 @@ public class UserDAO {
         return count;
     }
 
+
+    public static int countAllUsers() {
+        int count = 0;
+
+        String sql = "Select Count (UserID) FROM tbl_Users; ";
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 
     public static void checkAndUpdateExpiredAccountStatus(){
 

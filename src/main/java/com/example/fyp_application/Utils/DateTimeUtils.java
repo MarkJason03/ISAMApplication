@@ -90,9 +90,9 @@ public class DateTimeUtils {
 
 
         // parse the date
-        LocalDateTime dateTime = LocalDateTime.parse(dateCreated, CURRENT_YEAR_MONTH_DAY_HOURS_FORMAT);
+        LocalDate dateTime = LocalDate.parse(dateCreated, CURRENT_YEAR_MONTH_DAY_FORMAT);
 
-        LocalDateTime twoWeeksDateTime = dateTime.plusDays(14);
+        LocalDate twoWeeksDateTime = dateTime.plusDays(14);
 
         return twoWeeksDateTime.format(CURRENT_YEAR_MONTH_DAY_FORMAT);
     }

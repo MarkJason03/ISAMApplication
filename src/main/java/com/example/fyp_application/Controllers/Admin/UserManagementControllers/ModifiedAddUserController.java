@@ -114,20 +114,20 @@ public class ModifiedAddUserController implements Initializable {
 
 
             UserDAO.addUser(
-                    accountRole_CB.getValue().getUserRoleID(),
-                    userDept_CB.getValue().getDeptID(),
+                    accountRole_CB.getPropertyValue().getUserRoleID(),
+                    userDept_CB.getPropertyValue().getDeptID(),
                     userFirstName_TF.getText(),
                     userLastName_TF.getText(),
-                    userGender_TF.getValue(),
-                    DateTimeUtils.setYearMonthDayFormat(dob_DP.getValue()),
+                    userGender_TF.getPropertyValue(),
+                    DateTimeUtils.setYearMonthDayFormat(dob_DP.getPropertyValue()),
                     userEmail_TF.getText(),
                     userName_TF.getText(),
                     PasswordHashingUtils.hashPassword(password_TF.getText()),
                     userWorkPhone_TF.getText(),
-                    accountStatus_CB.getValue(),
+                    accountStatus_CB.getPropertyValue(),
                     DEFAULT_PHOTO,
-                    DateTimeUtils.setYearMonthDayFormat(createdOn_DP.getValue()),
-                    DateTimeUtils.setYearMonthDayFormat(expiresAt_DP.getValue())
+                    DateTimeUtils.setYearMonthDayFormat(createdOn_DP.getPropertyValue()),
+                    DateTimeUtils.setYearMonthDayFormat(expiresAt_DP.getPropertyValue())
             );
             ALERT_HANDLER.showInformationMessageAlert("Success", "User added successfully");
 

@@ -50,6 +50,15 @@
 }
 
 
+.personalInformationBorder{
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
+}
+
+
+}
+
 /*custom button controls*/
 
 .refreshButton{
@@ -253,4 +262,22 @@
 }
 .combo-box .text {
     -fx-text-fill: black;/* Change this to your desired color */
+}
+
+
+
+.excellent-condition {
+    -fx-bar-fill: #7CEA9C;
+}
+
+.good-condition {
+    -fx-bar-fill: #8bc5f9;
+}
+
+.fair-condition {
+    -fx-bar-fill: #FFC75F;
+}
+
+.poor-condition {
+    -fx-bar-fill: #C97064;
 }

@@ -309,5 +309,90 @@ public class AssetDAO {
             error.printStackTrace();
         }
     }
+
+
+    public static int countGoodAssetCondition() {
+        //Count the number of assets in good condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Good';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countFairAssetCondition() {
+        //Count the number of assets in fair condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Fair';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countPoorAssetCondition() {
+        //Count the number of assets in poor condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Poor';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static  int countExcellentAssetCondition() {
+        //Count the number of assets in excellent condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Excellent';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
 }
 

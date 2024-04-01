@@ -100,7 +100,7 @@ public class ClientRaiseRequestController implements Initializable {
                 userEmail = user.getEmail();
                 //open a new ticket request which returns the created ticket ID after database insertion
                 int ticketID = TICKET_DAO.openUserTicketRequest(
-                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeUtils.getCurrentDateTime()
+                        user.getUserID(), ticketCategory, title, details, "Created", "Low", DateTimeUtils.getYearMonthDayFormat()
                 );
                 //upload the attachment and send the email notification
                 uploadAttachmentAsync(ticketID);

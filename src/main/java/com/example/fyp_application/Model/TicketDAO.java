@@ -3,8 +3,15 @@ package com.example.fyp_application.Model;
 import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class TicketDAO {
@@ -667,4 +674,78 @@ public class TicketDAO {
         }
         return counter;
     }
+
+
+    public static List<XYChart.Data<String, Number>> getTicketVolumeForMonth(LocalDate startDate) {
+        List<XYChart.Data<String, Number>> dataPoints = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    strftime('%Y-%m-%d', DateCreated) AS CreationDate,
+                    COUNT(*) AS TicketCount
+                FROM
+                    tbl_Tickets
+                WHERE
+                    DateCreated BETWEEN ? AND ?
+                GROUP BY
+                    strftime('%Y-%m-%d', DateCreated)
+                ORDER BY
+                    CreationDate;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, startDate.toString());
+                preparedStatement.setString(2, startDate.plusMonths(1).toString());
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String date = resultSet.getString("CreationDate");
+                        LocalDate localDate = LocalDate.parse(date);
+                        String formattedDate = localDate.format(DateTimeFormatter.ofPattern("MM-dd"));
+                        int count = resultSet.getInt("TicketCount");
+                        dataPoints.add(new XYChart.Data<>(formattedDate, count));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dataPoints;
+    }
+
+    public static int countTotalBreachedTicketsForMonth(LocalDate startDate) {
+        int count = 0;
+        // Format the start date to "yyyy-MM" for the SQL query
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String formattedStartDate = startDate.format(formatter);
+
+        String sql = """
+            SELECT
+                SUM(CASE WHEN julianday(TargetResolution) < julianday('now') THEN 1 ELSE 0 END) AS BreachedTicketCount
+            FROM
+                tbl_Tickets
+            WHERE
+                strftime('%Y-%m', DateCreated) = ?
+                AND Status != 'Closed';
+            """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, formattedStartDate);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        count = resultSet.getInt("BreachedTicketCount");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
 }

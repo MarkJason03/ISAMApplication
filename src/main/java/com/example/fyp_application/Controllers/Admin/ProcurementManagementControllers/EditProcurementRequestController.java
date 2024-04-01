@@ -2,10 +2,7 @@ package com.example.fyp_application.Controllers.Admin.ProcurementManagementContr
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.DateTimeUtils;
-import com.example.fyp_application.Utils.SharedButtonUtils;
-import com.example.fyp_application.Utils.TicketDetailsUtils;
-import com.example.fyp_application.Utils.UserDetailsUtils;
+import com.example.fyp_application.Utils.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -197,13 +194,50 @@ public class EditProcurementRequestController implements Initializable {
 
     @FXML
     private void approveProcurementRequest() {
-        String comment = approverComment_TA.getText();
-        String status = "Approved";
-        ProcurementRequestDAO.updateProcurementRequest(PROCUREMENT_ID,
-                CurrentLoggedUserHandler.getCurrentLoggedAdminID(),
-                status,
-                DateTimeUtils.getYearMonthDayFormat(),
-                approverComment_TA.getText());
+
+        //Current arbitrary budget for department is 250_000 - can be edited on config.properties
+        String departmentBudgetString = ConfigPropertiesUtils.getPropertyValue("DEPARTMENT_BUDGET");
+        double currentDepartmentBudget = Double.parseDouble(Objects.requireNonNull(departmentBudgetString));
+
+        //Get the total cost of the procurement request
+        double remainingBudget = currentDepartmentBudget - Double.parseDouble(totalCalculatedCost_TF.getText().replace("£", "").trim());
+
+
+        if (remainingBudget < 0) {
+            AlertNotificationUtils.showInformationMessageAlert("Budget exceeded",
+                    "Remaining department budget is " +  currentDepartmentBudget + "\n " +
+                            "and the Total cost of the procurement request is " + totalCalculatedCost_TF.getText() + ". " +
+                            "\nAutomatically rejecting the request.");
+
+            System.out.println("Remaining department budget:" + remainingBudget);
+            approverComment_TA.setText("The current financial budget exceeded, cannot accept the request.");
+            rejectProcurementRequest();
+            closeWindow();
+        } else {
+            //If the remaining balance is not negative Update the department budget
+            String formattedRemainingBudget = String.format("%.2f", remainingBudget);
+            ConfigPropertiesUtils.setPropertyValue("DEPARTMENT_BUDGET", formattedRemainingBudget);
+
+            //Update the procurement request
+
+            if (approverComment_TA.getText().isEmpty()) {
+                approverComment_TA.setText("Approved");
+            }
+
+            String status = "Approved";
+            ProcurementRequestDAO.updateProcurementRequest(PROCUREMENT_ID,
+                    CurrentLoggedUserHandler.getCurrentLoggedAdminID(),
+                    status,
+                    DateTimeUtils.getYearMonthDayFormat(),
+                    approverComment_TA.getText());
+
+            //
+            AlertNotificationUtils.showInformationMessageAlert("Procurement Request Approved",
+                    "Procurement Request has been approved successfully");
+            closeWindow();
+        }
+
+
     }
 
 

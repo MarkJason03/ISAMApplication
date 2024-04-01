@@ -160,13 +160,13 @@ public class AllocateAssetController implements Initializable {
         newAllocation.setUserID(selectedUser.getUserID());
         newAllocation.setOfficeID(selectedOffice.getOfficeID());
         newAllocation.setBuildingID(selectedBuilding.getBuildingID());
-        newAllocation.setLoanType(loanStatus_CB.getValue());
-        newAllocation.setStartDate(loanStart_DP.getValue().toString());
-        newAllocation.setDueDate(loanDue_DP.getValue().toString());
-        newAllocation.setEndDate(loanReturn_DP.getValue().toString());
+        newAllocation.setLoanType(loanStatus_CB.getPropertyValue());
+        newAllocation.setStartDate(loanStart_DP.getPropertyValue().toString());
+        newAllocation.setDueDate(loanDue_DP.getPropertyValue().toString());
+        newAllocation.setEndDate(loanReturn_DP.getPropertyValue().toString());
         newAllocation.setAllocationStatus("Active");
         newAllocation.setAssetConditionBefore(assetCondition_TF.getText());
-        newAllocation.setAssetConditionAfter(returnAssetCondition_CB.getValue());
+        newAllocation.setAssetConditionAfter(returnAssetCondition_CB.getPropertyValue());
         newAllocation.setAdditionalComments(comment_TA.getText());
 
         AssetAllocationDAO.insertAssetAllocation(newAllocation);

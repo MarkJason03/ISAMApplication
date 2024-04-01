@@ -6,11 +6,7 @@ import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -48,7 +44,8 @@ public class ModifiedEditSupplierController implements Initializable {
     @FXML
     private ChoiceBox<String> supStatus_CB;
 
-
+    @FXML
+    private TextArea supplierAddress_TA;
     private int supplierID;
 
 
@@ -64,7 +61,7 @@ public class ModifiedEditSupplierController implements Initializable {
 
         if(checkForm()){
 
-            SUPPLIER_DAO.updateSupplier(supplierID, supName_TF.getText(), supAddress_TF.getText(), supPhone_TF.getText(), supEmail_TF.getText(), supStatus_CB.getValue(), DateTimeUtils.setYearMonthDayFormat(currentSelectedDate));
+            SUPPLIER_DAO.updateSupplier(supplierID, supName_TF.getText(), supplierAddress_TA.getText(), supPhone_TF.getText(), supEmail_TF.getText(), supStatus_CB.getValue(), DateTimeUtils.setYearMonthDayFormat(currentSelectedDate));
             AlertNotificationUtils.showInformationMessageAlert("Success", "Supplier edited successfully");
             cancel_btn.getScene().getWindow().hide();
 
@@ -82,7 +79,7 @@ public class ModifiedEditSupplierController implements Initializable {
         this.supplierID = supplierModel.getSupplierID();
 
         supName_TF.setText(supplierModel.getSupplierName());
-        supAddress_TF.setText(supplierModel.getSupplierAddress());
+        supplierAddress_TA.setText(supplierModel.getSupplierAddress());
         supPhone_TF.setText(supplierModel.getSupplierContact());
         supEmail_TF.setText(supplierModel.getSupplierEmail());
         supStatus_CB.setValue(supplierModel.getSupplierContractStatus());

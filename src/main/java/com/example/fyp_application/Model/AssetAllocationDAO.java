@@ -472,8 +472,8 @@ public class AssetAllocationDAO {
         return assetCounter;
     }
 
-    public static int calculateTotalAssetCostByUserID(int currentLoggedUserID) {
-        int totalAssetCost = 0;
+    public static double calculateTotalAssetCostByUserID(int currentLoggedUserID) {
+        double totalAssetCost = 0;
 
         String sql = """
                 SELECT
@@ -491,7 +491,7 @@ public class AssetAllocationDAO {
                 preparedStatement.setInt(1, currentLoggedUserID);
                 try(ResultSet resultSet = preparedStatement.executeQuery()) {
                     if(resultSet.next()) {
-                        totalAssetCost = resultSet.getInt(1);
+                        totalAssetCost = resultSet.getDouble(1);
                     }
                 }
             }

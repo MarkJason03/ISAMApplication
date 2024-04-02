@@ -60,7 +60,7 @@
                         <ChoiceBox fx:id="accountStatus_CB" disable="true" layoutX="441.0" layoutY="697.0" prefHeight="39.0" prefWidth="300.0" style="-fx-opacity: 1;" />
                         <DatePicker fx:id="createdOn_DP" disable="true" editable="false" layoutX="65.0" layoutY="697.0" prefHeight="39.0" prefWidth="300.0" style="-fx-opacity: 1; -fx-text-fill: black;" />
                         <Label layoutX="70.0" layoutY="774.0" prefHeight="27.0" prefWidth="182.0" text="Expires At" />
-                        <DatePicker fx:id="expiresAt_DP" layoutX="65.0" layoutY="808.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="expiresAt_DP" editable="false" layoutX="65.0" layoutY="808.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="443.0" layoutY="781.0" prefHeight="27.0" prefWidth="182.0" text="Account Role" AnchorPane.bottomAnchor="244.0" />
                         <ChoiceBox fx:id="accountRole_CB" layoutX="441.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="65.0" layoutY="584.0" text="Username" AnchorPane.bottomAnchor="440.0" />
@@ -71,7 +71,7 @@
                            </font>
                         </Label>
                         <Label layoutX="70.0" layoutY="260.0" prefHeight="27.0" prefWidth="182.0" text="Date of Birth" />
-                        <DatePicker fx:id="dob_DP" layoutX="68.0" layoutY="287.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="dob_DP" editable="false" layoutX="68.0" layoutY="287.0" prefHeight="39.0" prefWidth="300.0" />
                         <Button fx:id="randomPassword_btn" layoutX="441.0" layoutY="893.0" mnemonicParsing="false" onAction="#generateRandomPassword" prefHeight="42.0" prefWidth="243.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Generate Password">
                            <graphic>
                               <FontAwesomeIconView glyphName="RANDOM" size="30" />

@@ -125,6 +125,32 @@ public class DateTimeUtils {
     }
 
 
+    public static void dobValidator(DatePicker datePicker){
+        Platform.runLater(() -> {
+            datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+                LocalDate currentDate = LocalDate.now();
+                LocalDate eighteenYearsAgo = currentDate.minusYears(18);
+
+                if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
+
+
+
+                    AlertNotificationUtils.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
+                    datePicker.setValue(null);
+                    datePicker.setStyle("-fx-border-color: red");
+
+                } else{
+
+                    datePicker.setStyle("-fx-border-color: green");
+                    System.out.println("Date is valid" + newValue);
+
+                }
+            });
+        });
+    }
+
+
     public static void endOfLifeValidator(DatePicker purchaseDate, DatePicker eolDate){
 
         Platform.runLater(() -> {

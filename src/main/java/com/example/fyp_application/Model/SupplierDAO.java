@@ -46,6 +46,40 @@ public class SupplierDAO {
     }
 
 
+    public static ObservableList<SupplierModel> getSupplierDetails(int supplierID) {
+
+        ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
+
+        String sql = """
+                SELECT * FROM tbl_Suppliers WHERE supplierID = ?;
+                """;
+
+        try(Connection connection = DatabaseConnectionUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, supplierID);
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    SupplierModel supplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"),
+                            resultSet.getString("supplierAddress"),
+                            resultSet.getString("supplierEmail"),
+                            resultSet.getString("supplierPhone"),
+                            resultSet.getString("supplierContractStatus"),
+                            resultSet.getString("contractStartDate"),
+                            resultSet.getString("contractEndDate")
+                    );
+                    supplierList.add(supplierModel);
+                }
+                return supplierList;
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return  supplierList;
+    }
+
+
 
     public void addSupplier(String supplierName, String supplierEmail, String supplierPhone, String contractStatus, String supplierAddress, String contractStartDate, String contractEndDate){
         String sql  = "INSERT INTO tbl_Suppliers (supplierName, supplierAddress, supplierEmail, supplierPhone, supplierContractStatus, contractStartDate, contractEndDate) VALUES (?,?,?,?,?,?,?)";
@@ -241,7 +275,6 @@ public class SupplierDAO {
         //return the list of categories
         return categoriesList;
     }
-
 
 
 }

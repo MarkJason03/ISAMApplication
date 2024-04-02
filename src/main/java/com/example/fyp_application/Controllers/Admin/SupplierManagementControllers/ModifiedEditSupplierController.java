@@ -4,6 +4,7 @@ import com.example.fyp_application.Model.SupplierDAO;
 import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -107,6 +108,17 @@ public class ModifiedEditSupplierController implements Initializable {
     @FXML
     private void refreshInformation(){
         //Todo reload the information from the database
+        ObservableList<SupplierModel> supplierModel = SupplierDAO.getSupplierDetails(supplierID);
+
+        this.supplierID = supplierModel.get(0).getSupplierID();
+
+        supName_TF.setText(supplierModel.get(0).getSupplierName());
+        supplierAddress_TA.setText(supplierModel.get(0).getSupplierAddress());
+        supPhone_TF.setText(supplierModel.get(0).getSupplierContact());
+        supEmail_TF.setText(supplierModel.get(0).getSupplierEmail());
+        supStatus_CB.setValue(supplierModel.get(0).getSupplierContractStatus());
+        expiryDate_DP.setValue(LocalDate.parse(supplierModel.get(0).getContractEndDate()));
+
     }
 
     private boolean checkForm(){

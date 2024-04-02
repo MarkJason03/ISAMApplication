@@ -427,24 +427,24 @@ public class ModifiedManageSupplierController implements Initializable {
     @FXML
     private void editCatalogueInformation(){
         GaussianBlur blur = new GaussianBlur(10);
-        Stage currentDashboardStage = (Stage) supTableView.getScene().getWindow();
+        Stage currentDashboardStage = (Stage) catalogueTable.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
 
-        SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
+        ProcurementCatalogueModel selectedItem = catalogueTable.getSelectionModel().getSelectedItem();
 
-        if (selectedSupplier == null) {
+        if (selectedItem == null) {
             AlertNotificationUtils.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
                 //Load the supplier menu
                 //modal pop-up dialogue box
-                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_SUPPLIER_POP_UP));
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_CATALOGUE_ITEM_POP_UP));
                 Parent root = modalViewLoader.load();
 
-                ModifiedEditSupplierController editSupplierController = modalViewLoader.getController();
-                editSupplierController.loadSelectedSupplierDetails(selectedSupplier);
+                EditCatalogueItemController editCatalogueItemController = modalViewLoader.getController();
+                editCatalogueItemController.loadSelectedCatalogueItem(selectedItem);
 
 
                 // New window setup as modal

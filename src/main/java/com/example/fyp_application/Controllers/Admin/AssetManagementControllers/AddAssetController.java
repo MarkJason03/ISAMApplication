@@ -98,7 +98,7 @@ public class AddAssetController implements Initializable {
                     manufacturer_CB.getValue().getManufacturerID(),
                     assetName_TF.getText(),
                     serialNo_TF.getText(),
-                    Integer.parseInt(assetPrice_TF.getText()),
+                    Double.parseDouble(assetPrice_TF.getText()),
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),

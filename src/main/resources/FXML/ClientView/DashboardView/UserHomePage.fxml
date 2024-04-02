@@ -14,6 +14,9 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -24,7 +27,24 @@
    <children>
       <AnchorPane fx:id="contentAP" prefHeight="800.0" prefWidth="1600.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="3.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" width="1590.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="4.0" layoutY="5.0" stroke="BLACK" strokeType="INSIDE" width="1590.0">
+               <fill>
+                  <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
             <AnchorPane fx:id="dashboardStatAP" layoutX="14.0" layoutY="18.0" prefHeight="300.0" prefWidth="1570.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <children>
                   <Label layoutX="14.0" layoutY="10.0" prefHeight="53.0" prefWidth="437.0" text="Dashboard" textFill="WHITE">
@@ -60,6 +80,7 @@
                            <styleClass>
                               <String fx:value="personalInformationContainer" />
                               <String fx:value="shadow" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
@@ -88,6 +109,7 @@
                            <styleClass>
                               <String fx:value="personalInformationContainer" />
                               <String fx:value="shadow" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
@@ -116,6 +138,7 @@
                            <styleClass>
                               <String fx:value="personalInformationContainer" />
                               <String fx:value="shadow" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
@@ -127,6 +150,7 @@
                      <styleClass>
                         <String fx:value="personalInformationContainer" />
                         <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
                      </styleClass>
                      <children>
                         <ImageView fitHeight="217.0" fitWidth="406.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -199,6 +223,7 @@
                            <styleClass>
                               <String fx:value="shadow" />
                               <String fx:value="personalInformationContainer" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                            <children>
                               <Label layoutX="26.0" layoutY="15.0" prefHeight="53.0" prefWidth="204.0" style="-fx-font-size: 22;" text="My Requests">
@@ -244,6 +269,7 @@
                            <styleClass>
                               <String fx:value="shadow" />
                               <String fx:value="personalInformationContainer" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                         </AnchorPane>
                      </children>

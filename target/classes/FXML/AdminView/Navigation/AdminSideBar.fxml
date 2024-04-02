@@ -14,19 +14,19 @@
    <children>
       <VBox prefHeight="593.0" prefWidth="230.0" styleClass="buttonContainers" stylesheets="@../../../Styles/AdminMenu.css">
          <children>
-            <Label prefHeight="53.0" prefWidth="204.0" text="Reports">
+            <Label prefHeight="53.0" prefWidth="204.0" text="Dashboard">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="dashboard_btn" mnemonicParsing="false" onAction="#openDashboard" text="Dashboard">
+            <Button fx:id="dashboard_btn" mnemonicParsing="false" onAction="#openDashboard" text="   Home">
                <graphic>
-                  <FontAwesomeIconView glyphName="DASHBOARD" size="30" />
+                  <FontAwesomeIconView glyphName="HOME" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="reports_btn" onAction="#openStatistics" mnemonicParsing="false" text="Reports">
+            <Button fx:id="reports_btn" mnemonicParsing="false" onAction="#openStatistics" text="Overview">
                <graphic>
-                  <FontAwesomeIconView glyphName="LIST" size="30" />
+                  <FontAwesomeIconView glyphName="DASHBOARD" size="30" />
                </graphic>
             </Button>
          </children>
@@ -39,17 +39,17 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="manageUsers_btn" onAction="#openManageUsers" mnemonicParsing="false" text="Users">
+            <Button fx:id="manageUsers_btn" mnemonicParsing="false" onAction="#openManageUsers" text="    Users">
                <graphic>
                   <FontAwesomeIconView glyphName="USER" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="manageSuppliers_btn" mnemonicParsing="false" onAction="#openManageSuppliers" text="Suppliers">
+            <Button fx:id="manageSuppliers_btn" mnemonicParsing="false" onAction="#openManageSuppliers" text=" Suppliers">
                <graphic>
                   <FontAwesomeIconView glyphName="TRUCK" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="manageAssets_btn" onAction="#openManageAssets" mnemonicParsing="false" text="Assets">
+            <Button fx:id="manageAssets_btn" mnemonicParsing="false" onAction="#openManageAssets" text="   Assets">
                <graphic>
                   <FontAwesomeIconView glyphName="DESKTOP" size="30" />
                </graphic>
@@ -57,7 +57,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="manageRequests_btn" onAction="#openManageRequests" mnemonicParsing="false" text="Requests">
+            <Button fx:id="manageRequests_btn" mnemonicParsing="false" onAction="#openManageRequests" text="Requests">
                <graphic>
                   <FontAwesomeIconView glyphName="ENVELOPE" size="30" />
                </graphic>
@@ -71,12 +71,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="editCurUserProfile_btn" mnemonicParsing="false" onAction="#openEditProfile" text="Edit Profile">
+            <Button fx:id="editCurUserProfile_btn" mnemonicParsing="false" onAction="#openEditProfile" text=" Edit Profile">
                <graphic>
                   <FontAwesomeIconView glyphName="GEARS" size="30" />
                </graphic>
             </Button>
-            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#logoutUser" text="Logout">
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#logoutUser" text="  Logout">
                <graphic>
                   <FontAwesomeIconView glyphName="SIGN_OUT" size="30" />
                </graphic>
@@ -88,21 +88,11 @@
       </VBox>
       <AnchorPane prefHeight="117.0" prefWidth="212.0" styleClass="footerContainer" stylesheets="@../../../Styles/AdminMenu.css">
          <children>
-            <Label layoutX="11.0" layoutY="14.0" prefHeight="27.0" prefWidth="86.0" text="Report Bugs" textAlignment="JUSTIFY" textOverrun="CLIP">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font>
-            </Label>
             <Label layoutX="11.0" layoutY="78.0" prefHeight="27.0" prefWidth="86.0" text="ISAM v1.0">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Label>
-            <Button layoutX="54.0" layoutY="40.0" mnemonicParsing="false" text="Report Bug">
-               <graphic>
-                  <FontAwesomeIconView glyphName="BUG" size="30" />
-               </graphic>
-            </Button>
          </children>
       </AnchorPane>
    </children>

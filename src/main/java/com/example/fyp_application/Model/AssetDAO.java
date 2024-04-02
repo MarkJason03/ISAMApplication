@@ -38,7 +38,7 @@ public class AssetDAO {
                         resultSet.getInt("ManufacturerID"),
                         resultSet.getString("AssetName"),
                         resultSet.getString("SerialNo"),
-                        resultSet.getInt("AssetPrice"),
+                        resultSet.getDouble("AssetPrice"),
                         resultSet.getString("StorageSpec"),
                         resultSet.getString("RamSpec"),
                         resultSet.getString("OperatingSystem"),
@@ -86,7 +86,7 @@ public class AssetDAO {
                             resultSet.getInt("ManufacturerID"),
                             resultSet.getString("AssetName"),
                             resultSet.getString("SerialNo"),
-                            resultSet.getInt("AssetPrice"),
+                            resultSet.getDouble("AssetPrice"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
                             resultSet.getString("OperatingSystem"),
@@ -136,7 +136,7 @@ public class AssetDAO {
                             resultSet.getInt("ManufacturerID"),
                             resultSet.getString("AssetName"),
                             resultSet.getString("SerialNo"),
-                            resultSet.getInt("AssetPrice"),
+                            resultSet.getDouble("AssetPrice"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
                             resultSet.getString("OperatingSystem"),
@@ -144,8 +144,8 @@ public class AssetDAO {
                             resultSet.getString("EoLDate"),
                             resultSet.getString("WarrantyStartDate"),
                             resultSet.getString("WarrantyEndDate"),
-                            resultSet.getString("AssetCondition"),
                             resultSet.getString("AssetStatus"),
+                            resultSet.getString("AssetCondition"),
                             resultSet.getString("PhotoPath"),
                             resultSet.getString("Category"),
                             resultSet.getString("Manufacturer")
@@ -165,7 +165,7 @@ public class AssetDAO {
                                           int manufacturerID,
                                           String assetName,
                                           String serialNo,
-                                          int assetPrice,
+                                          double assetPrice,
                                           String storageSpec,
                                           String ramSpec,
                                           String operatingSystem,
@@ -205,7 +205,7 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setDouble(5, assetPrice);
                 preparedStatement.setString(6, storageSpec);
                 preparedStatement.setString(7, ramSpec);
                 preparedStatement.setString(8, operatingSystem);
@@ -230,7 +230,7 @@ public class AssetDAO {
             int manufacturerID,
             String assetName,
             String serialNo,
-            int assetPrice,
+            Double assetPrice,
             String storageSpec,
             String ramSpec,
             String operatingSystem,
@@ -269,7 +269,7 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setDouble(5, assetPrice);
                 preparedStatement.setString(6, storageSpec);
                 preparedStatement.setString(7, ramSpec);
                 preparedStatement.setString(8, operatingSystem);

@@ -20,6 +20,7 @@ public class ProcurementCatalogueDAO {
                 catalogue.AssetName,
                 catalogue.StorageSpec,
                 catalogue.RamSpec,
+                sup.supplierName as Supplier,
                 manu.ManufacturerName as Manufacturer,
                 cat.assetCategoryName as Category,
                 catalogue.AssetPrice as "Unit Price",
@@ -42,9 +43,10 @@ public class ProcurementCatalogueDAO {
                             resultSet.getString("AssetName"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
+                            resultSet .getString("Supplier"),
                             resultSet.getString("Manufacturer"),
                             resultSet.getString("Category"),
-                            resultSet.getInt("Unit Price"),
+                            resultSet.getDouble("Unit Price"),
                             resultSet.getString("AssetPicture")
                     );
                     activeCatalogue.add(catalogueModel);
@@ -67,6 +69,7 @@ public class ProcurementCatalogueDAO {
                 catalogue.AssetName,
                 catalogue.StorageSpec,
                 catalogue.RamSpec,
+                sup.supplierName as Supplier,
                 manu.ManufacturerName as Manufacturer,
                 cat.assetCategoryName as Category,
                 catalogue.AssetPrice as "Unit Price",
@@ -87,9 +90,10 @@ public class ProcurementCatalogueDAO {
                         resultSet.getString("AssetName"),
                         resultSet.getString("StorageSpec"),
                         resultSet.getString("RamSpec"),
+                        resultSet.getString("Supplier"),
                         resultSet.getString("Manufacturer"),
                         resultSet.getString("Category"),
-                        resultSet.getInt("Unit Price"),
+                        resultSet.getDouble("Unit Price"),
                         resultSet.getString("AssetPicture")
                 );
                 inactiveSupplierCatalogue.add(catalogueModel);
@@ -111,6 +115,7 @@ public class ProcurementCatalogueDAO {
                 	catalogue.AssetName,
                 	catalogue.StorageSpec,
                 	catalogue.RamSpec,
+                	sup.supplierName as Supplier,
                 	manu.ManufacturerName as Manufacturer,
                 	cat.assetCategoryName as Category,
                 	catalogue.AssetPrice as "Unit Price",
@@ -132,9 +137,10 @@ public class ProcurementCatalogueDAO {
                         resultSet.getString("AssetName"),
                         resultSet.getString("StorageSpec"),
                         resultSet.getString("RamSpec"),
+                        resultSet.getString("Supplier"),
                         resultSet.getString("Manufacturer"),
                         resultSet.getString("Category"),
-                        resultSet.getInt("Unit Price"),
+                        resultSet.getDouble("Unit Price"),
                         resultSet.getString("AssetPicture")
                 );
                 activeCatalogue.add(catalogueModel);
@@ -169,7 +175,7 @@ public class ProcurementCatalogueDAO {
                 preparedStatement.setString(4, assetName);
                 preparedStatement.setString(5, storageSpec);
                 preparedStatement.setString(6, ramSpec);
-                preparedStatement.setInt(7, assetPrice);
+                preparedStatement.setDouble(7, assetPrice);
                 preparedStatement.setString(8, assetPicture);
                 preparedStatement.executeUpdate();
             }

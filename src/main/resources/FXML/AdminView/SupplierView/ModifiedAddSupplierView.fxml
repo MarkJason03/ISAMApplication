@@ -9,13 +9,35 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="mainAnchorPaneBody" prefHeight="857.0" prefWidth="761.0" scaleShape="false" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedAddSupplierController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="315.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="826.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="10.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="11.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="826.0">
+         <fill>
+            <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="315.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="826.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="10.0" />
       <AnchorPane layoutX="33.0" layoutY="119.0" prefHeight="687.0" prefWidth="776.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="119.0">
          <children>
             <Label layoutX="65.0" layoutY="164.0" text="Supplier Name" AnchorPane.leftAnchor="65.0" />
@@ -53,24 +75,48 @@
                </font>
             </Label>
             <Label layoutX="414.0" layoutY="464.0" text="Contract Expiry" />
-            <DatePicker fx:id="expiryDate_DP" layoutX="414.0" layoutY="491.0" prefHeight="40.0" prefWidth="250.0" style="-fx-border-radius: 20px;" />
+            <DatePicker fx:id="expiryDate_DP" editable="false" layoutX="414.0" layoutY="491.0" prefHeight="40.0" prefWidth="250.0" style="-fx-border-radius: 20px;" />
             <Label layoutX="413.0" layoutY="366.0" text="Contract Start" />
             <TextArea fx:id="supplierAddress_TA" layoutX="412.0" layoutY="185.0" prefHeight="127.0" prefWidth="250.0" promptText="Supplier UK Address" style="-fx-border-color: grey; -fx-border-radius: 10px; -fx-background-color: white;">
                <font>
                   <Font size="16.0" />
                </font></TextArea>
-            <DatePicker fx:id="contractStart_DP" disable="true" editable="false" layoutX="413.0" layoutY="393.0" prefHeight="40.0" prefWidth="250.0" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white; -fx-opacity: 1;" />
+            <DatePicker fx:id="contractStart_DP" disable="true" editable="false" layoutX="413.0" layoutY="393.0" prefHeight="40.0" prefWidth="250.0" style="-fx-border-radius: 20px; -fx-opacity: 1;" />
          </children>
          <styleClass>
             <String fx:value="shadow" />
             <String fx:value="editInformationContainer" />
+            <String fx:value="personalInformationBorder" />
          </styleClass>
       </AnchorPane>
-      <Label layoutX="33.0" layoutY="29.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Settings" textFill="WHITE" AnchorPane.leftAnchor="33.0">
+      <Label layoutX="33.0" layoutY="29.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Contract Settings" textFill="WHITE" AnchorPane.leftAnchor="33.0">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
       <Label fx:id="dateTimeHolder" layoutX="33.0" layoutY="84.0" prefHeight="17.0" prefWidth="243.0" textFill="WHITE" AnchorPane.leftAnchor="33.0" />
+      <HBox fillHeight="false" layoutX="733.0" layoutY="11.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
+         <children>
+            <AnchorPane prefHeight="48.0" prefWidth="46.0">
+               <children>
+                  <Button fx:id="resetFormBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#resetForm" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="REFRESH" size="35" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="5.0" prefWidth="0.0">
+               <children>
+                  <Button fx:id="exitWindowBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="40" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <Label fx:id="dateTimeHolder1" layoutX="39.0" layoutY="82.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
    </children>
 </AnchorPane>

@@ -52,19 +52,14 @@
          <children>
             <AnchorPane prefHeight="117.0" prefWidth="230.0" styleClass="footerContainer" stylesheets="@../../../Styles/AdminMenu.css">
                <children>
-                  <Label layoutX="11.0" layoutY="10.0" prefHeight="27.0" prefWidth="86.0" text="Report Bugs" textAlignment="JUSTIFY" textOverrun="CLIP">
-                     <font>
-                        <Font name="System Bold" size="11.0" />
-                     </font>
-                  </Label>
                   <Label layoutX="11.0" layoutY="83.0" prefHeight="27.0" prefWidth="86.0" text="ISAM v1.0">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Button layoutX="23.0" layoutY="39.0" mnemonicParsing="false" prefHeight="42.0" text="Report Bug">
+                  <Button disable="true" layoutX="25.0" layoutY="37.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="194.0" visible="false">
                      <graphic>
-                        <FontAwesomeIconView glyphName="BUG" size="30" />
+                        <FontAwesomeIconView glyphName="SIGN_OUT" size="30" />
                      </graphic>
                   </Button>
                </children>

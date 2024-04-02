@@ -204,11 +204,7 @@ public class ModifiedEditUserController implements Initializable{
                 dob_DP.getValue() == null;
 
     }
-    private void resetPasswordFields() {
-        newPassword_TF1.clear();
-        confirmationPassword_TF1.clear();
-        passwordChecker_lbl1.setText("");
-    }
+
     public void loadSelectedUserDetails(UserModel user) {
 
 
@@ -250,6 +246,15 @@ public class ModifiedEditUserController implements Initializable{
                 }
             }
         });
+
+    }
+
+
+    @FXML
+    private void refreshInformation() throws SQLException {
+        // Load the user's information again
+        UserModel user = UserDAO.loadCurrentLoggedUser(userID);
+        loadSelectedUserDetails(user);
 
     }
 
@@ -297,20 +302,8 @@ public class ModifiedEditUserController implements Initializable{
         confirmationPassword_TF1.textProperty().addListener(passwordChangeListener);
 
 
-        Platform.runLater(() -> {
-        expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && newValue.isBefore(LocalDate.now())) {
-                System.out.println("Invalid date: The date cannot be in the past.");
-                AlertNotificationUtils.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
-                expiryDate_DP.setValue(oldValue);  // Revert to the old value if new value is invalid
-                expiryDate_DP.setStyle("-fx-border-color: red");
 
-            } else {
-                // Handle valid date selection
-                expiryDate_DP.setStyle("-fx-border-color: green");
-                System.out.println("Valid date selected: " + newValue);
-            }
-        });});
+        DateTimeUtils.dateValidator(expiryDate_DP);
 
 
         accStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

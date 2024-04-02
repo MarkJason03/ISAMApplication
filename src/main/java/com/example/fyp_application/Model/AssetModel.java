@@ -11,7 +11,7 @@ public class AssetModel {
 
     private String serialNumber;
 
-    private int assetPrice;
+    private double assetPrice;
     private String storageSpec;
     private String ramSpec;
 
@@ -48,7 +48,7 @@ public class AssetModel {
             int manufacturerID,
             String assetName,
             String serialNumber,
-            int assetPrice,
+            double assetPrice,
             String storageSpec,
             String ramSpec,
             String osSpec,
@@ -107,7 +107,7 @@ public class AssetModel {
         return serialNumber;
     }
 
-    public int getAssetPrice() {
+    public double getAssetPrice() {
         return assetPrice;
     }
     public String getRamSpec() {

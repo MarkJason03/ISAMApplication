@@ -36,15 +36,17 @@ public class ProcurementCatalogueModel {
             String assetName,
             String storageSpecs,
             String ramSpecs,
+            String supplierName,
             String manufacturerName,
             String assetCategory,
-            int assetPrice,
+            double assetPrice,
             String assetPicture
     ){
         this.catalogID = catalogID;
         this.assetName = assetName;
         this.storageSpecs = storageSpecs;
         this.ramSpecs = ramSpecs;
+        this.supplierName = supplierName;
         this.manufacturerName = manufacturerName;
         this.assetCategory = assetCategory;
         this.assetPrice = assetPrice;

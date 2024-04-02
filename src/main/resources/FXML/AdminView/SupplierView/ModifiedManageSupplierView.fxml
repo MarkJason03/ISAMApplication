@@ -18,62 +18,37 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController">
    <children>
       <AnchorPane fx:id="contentAP" prefHeight="800.0" prefWidth="1600.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="527.0" layoutY="47.0" stroke="BLACK" strokeType="INSIDE" width="1590.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1590.0">
+               <fill>
+                  <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
             <Separator orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
-            <HBox layoutX="615.0" layoutY="35.0" prefHeight="116.0" prefWidth="437.0" spacing="10.0">
-               <children>
-                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Suppliers">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="activeSuppliers_lbl" layoutX="44.0" layoutY="67.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo4">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Inactive Suppliers">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="InactiveSuppliers_lbl" layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="268.0" layoutY="10.0" prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo4">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Active Users">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="userCounter_lbl1" layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <Label layoutX="29.0" layoutY="25.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Management" textFill="WHITE">
+            <Label fx:id="pageTitleHolder_lbl" layoutX="29.0" layoutY="25.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Manager" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -83,9 +58,9 @@
               <tabs>
                 <Tab text="Supplier Contracts">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                            <children>
-                              <AnchorPane layoutX="21.0" layoutY="8.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                              <AnchorPane layoutX="21.0" layoutY="8.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                  <children>
                                     <Label fx:id="supNameHolder_lbl" layoutX="32.0" layoutY="41.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Supplier Name">
                                        <font>
@@ -164,10 +139,11 @@
                                  </children>
                                  <styleClass>
                                     <String fx:value="shadow" />
-                                    <String fx:value="personalInformationContainer" />
+                                    <String fx:value="sideInformationContainer" />
+                                    <String fx:value="personalInformationBorder" />
                                  </styleClass>
                               </AnchorPane>
-                              <AnchorPane layoutX="608.0" layoutY="8.0" prefHeight="598.0" prefWidth="971.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                              <AnchorPane layoutX="608.0" layoutY="8.0" prefHeight="598.0" prefWidth="971.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                  <children>
                                     <AnchorPane prefHeight="452.0" prefWidth="908.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
                                        <children>
@@ -186,14 +162,19 @@
                                           </TableView>
                                        </children>
                                     </AnchorPane>
-                                    <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                    <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                        <children>
-                                          <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction="#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                                          <Button fx:id="editSupplier_btn" mnemonicParsing="false" onAction="#editSupplierDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                                          <Button fx:id="deleteSupplier_btn" mnemonicParsing="false" onAction="#deleteSupplier" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Delete" />
+                                          <Button fx:id="addSupplier_btn" mnemonicParsing="false" onAction="#addNewSupplierDetails" styleClass="addButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Add">
+                                             <graphic>
+                                                <FontIcon iconLiteral="mdi2p-plus" iconSize="25" />
+                                             </graphic></Button>
+                                          <Button fx:id="editSupplier_btn" mnemonicParsing="false" onAction="#editSupplierDetails" styleClass="editButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Edit">
+                                             <graphic>
+                                                <FontIcon iconLiteral="mdi2f-file-edit" iconSize="25" />
+                                             </graphic></Button>
                                        </children>
                                     </HBox>
-                                    <Pane prefHeight="63.0" prefWidth="973.0" styleClass="informationContainerHeader" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                    <Pane prefHeight="63.0" prefWidth="973.0" style="-fx-background-radius: 10 10 0 0;" styleClass="informationContainerHeader" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
                                        <children>
                                           <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="40.0" prefWidth="290.0" promptText="Search" />
                                           <FontAwesomeIconView glyphName="SEARCH" layoutX="324.0" layoutY="44.0" size="35" />
@@ -211,6 +192,7 @@
                                  <styleClass>
                                     <String fx:value="treeTableContainer" />
                                     <String fx:value="shadow" />
+                                    <String fx:value="personalInformationBorder" />
                                  </styleClass>
                               </AnchorPane>
                            </children>
@@ -221,7 +203,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <AnchorPane layoutX="13.0" layoutY="8.0" prefHeight="591.0" prefWidth="1567.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                              <AnchorPane layoutX="13.0" layoutY="8.0" prefHeight="591.0" prefWidth="1567.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                  <children>
                                     <AnchorPane layoutX="31.0" layoutY="63.0" prefHeight="459.0" prefWidth="1508.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="63.0">
                                        <children>
@@ -241,13 +223,13 @@
                                           </TableView>
                                        </children>
                                     </AnchorPane>
-                                    <HBox layoutX="31.0" layoutY="537.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                                    <HBox layoutX="31.0" layoutY="537.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                                        <children>
-                                          <Button fx:id="addCatalogueDetails_btn" mnemonicParsing="false" onAction="#addNewCatalogueItem" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                                          <Button fx:id="editCatalogueDetails_btn" mnemonicParsing="false" onAction="#editCatalogueInformation" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
+                                          <Button fx:id="addCatalogueDetails_btn" mnemonicParsing="false" onAction="#addNewCatalogueItem" styleClass="addButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Add" />
+                                          <Button fx:id="editCatalogueDetails_btn" mnemonicParsing="false" onAction="#editCatalogueInformation" styleClass="editButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Edit" />
                                        </children>
                                     </HBox>
-                                    <Pane prefHeight="63.0" prefWidth="1571.0">
+                                    <Pane prefHeight="63.0" prefWidth="1571.0" style="-fx-background-radius: 10 10 0 0;" styleClass="informationContainerHeader" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
                                        <children>
                                           <Label fx:id="lastUpdate_lbl1" alignment="CENTER" layoutX="1224.0" layoutY="15.0" prefHeight="35.0" prefWidth="186.0">
                                              <font>
@@ -260,7 +242,7 @@
                                                 <Button fx:id="reload_btn1" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                                              </children>
                                           </StackPane>
-                                          <HBox layoutX="385.0" layoutY="10.0" prefHeight="46.0" prefWidth="839.0">
+                                          <HBox layoutX="385.0" layoutY="10.0" prefHeight="46.0" prefWidth="811.0">
                                              <children>
                                                 <Label alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="238.0" text="Supplier Contract:   ">
                                                    <font>
@@ -268,7 +250,7 @@
                                                    </font>
                                                 </Label>
                                                 <ComboBox fx:id="contractFilter_CB" prefHeight="55.0" prefWidth="150.0" promptText="Contract Status" />
-                                                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="249.0" text="Sort by:   ">
+                                                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="220.0" text="Sort by:   ">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
                                                    </font>
@@ -276,13 +258,14 @@
                                                 <ComboBox fx:id="manufacturer_CB" prefHeight="55.0" prefWidth="200.0" promptText="Manufacturer" />
                                              </children>
                                           </HBox>
-                                          <TextField fx:id="searchBasket_TF" layoutX="29.0" layoutY="12.0" prefHeight="42.0" prefWidth="298.0" promptText="Model Name" />
+                                          <TextField fx:id="searchBasket_TF" layoutX="31.0" layoutY="12.0" prefHeight="42.0" prefWidth="298.0" promptText="Model Name" />
                                        </children>
                                     </Pane>
                                  </children>
                                  <styleClass>
                                     <String fx:value="treeTableContainer" />
                                     <String fx:value="shadow" />
+                                    <String fx:value="personalInformationBorder" />
                                  </styleClass>
                               </AnchorPane>
                            </children>
@@ -291,6 +274,70 @@
                   </Tab>
               </tabs>
             </TabPane>
+            <HBox layoutX="684.0" layoutY="19.0" prefHeight="91.0" prefWidth="790.0" spacing="20.0">
+               <children>
+                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: #93f0d9;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="229.0" text="Active Supplier Contracts">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="activeSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2c-clipboard-check-multiple" iconSize="40" layoutX="14.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: #fbdf9d;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="229.0" text="Inactive Supplier Contracts">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="InactiveSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2c-clipboard-alert" iconSize="40" layoutX="14.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: #FCD4B0;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Total Procureable Asset">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalProcureableItems_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2c-cart-check" iconSize="40" layoutX="15.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>

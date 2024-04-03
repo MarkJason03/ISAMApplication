@@ -78,6 +78,7 @@ public class AdminDashboardWindowController implements Initializable {
     @FXML
     private void refreshInformationHeader() {
         // refresh the information header
+
         loadCurrentUser();
     }
 
@@ -92,6 +93,7 @@ public class AdminDashboardWindowController implements Initializable {
         try {
 
             VBox sideMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.ADMIN_SIDEBAR_MENU)));
+
             drawerContainer.setSidePane(sideMenu);
             openMenu_btn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> openMenu() );
         } catch (IOException e) {
@@ -168,9 +170,7 @@ public class AdminDashboardWindowController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_HOME_PAGE_VIEW));
             StackPane stackPane = fxmlLoader.load();
 
-            swappableContentPane.getChildren().setAll(stackPane);/*
-            swappableContentPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.CLIENT_HOME_PAGE_VIEW)));
-            mainContentAnchorPane.getChildren().setAll(swappableContentPane);*/
+            swappableContentPane.getChildren().setAll(stackPane);
         } catch (IOException e) {
             e.printStackTrace();
         }

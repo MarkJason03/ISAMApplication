@@ -68,14 +68,9 @@ public class ClientDashboardWindowController implements Initializable {
 
     public static AnchorPane swappableContentPane;
 
-/*
-    private   int userID;
-    private   String firstName;
-    private   String photo;*/
 
-    public static Integer userID;
-    public static String name;
-    public static String photoPath;
+
+    private static Integer userID;
 
     @FXML
     private void initializeSideMenu(){
@@ -121,18 +116,11 @@ public class ClientDashboardWindowController implements Initializable {
 
     }
 
-    @FXML
-    private void helloworld(){
-        System.out.println("Hello World");
-    }
-
-
-
 
     public void loadCurrentUser() {
         userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
-        name = CurrentLoggedUserHandler.getCurrentLoggedUserFullName();
-        photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
+        String name = CurrentLoggedUserHandler.getCurrentLoggedUserFullName();
+        String photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
 
         username_lbl.setText(name);
@@ -188,16 +176,7 @@ public class ClientDashboardWindowController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         swappableContentPane = mainContentAnchorPane;
-        /*initializeSideMenu();*/
-        // Use the CurrentUserService to access the logged-in user's information
-/*         userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
-         name = CurrentLoggedUserHandler.getCurrentLoggedUserFullName();
-         photoPath = CurrentLoggedUserHandler.getCurrentLoggedUserImagePath();
 
-
-        username_lbl.setText(name);
-        Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
-        loggedUserImage.setFill(new ImagePattern(curPhoto));*/
         loadHomeScreen();
         loadCurrentUser();
 

@@ -38,7 +38,7 @@ public class AssetDAO {
                         resultSet.getInt("ManufacturerID"),
                         resultSet.getString("AssetName"),
                         resultSet.getString("SerialNo"),
-                        resultSet.getInt("AssetPrice"),
+                        resultSet.getDouble("AssetPrice"),
                         resultSet.getString("StorageSpec"),
                         resultSet.getString("RamSpec"),
                         resultSet.getString("OperatingSystem"),
@@ -86,7 +86,7 @@ public class AssetDAO {
                             resultSet.getInt("ManufacturerID"),
                             resultSet.getString("AssetName"),
                             resultSet.getString("SerialNo"),
-                            resultSet.getInt("AssetPrice"),
+                            resultSet.getDouble("AssetPrice"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
                             resultSet.getString("OperatingSystem"),
@@ -136,7 +136,7 @@ public class AssetDAO {
                             resultSet.getInt("ManufacturerID"),
                             resultSet.getString("AssetName"),
                             resultSet.getString("SerialNo"),
-                            resultSet.getInt("AssetPrice"),
+                            resultSet.getDouble("AssetPrice"),
                             resultSet.getString("StorageSpec"),
                             resultSet.getString("RamSpec"),
                             resultSet.getString("OperatingSystem"),
@@ -144,8 +144,8 @@ public class AssetDAO {
                             resultSet.getString("EoLDate"),
                             resultSet.getString("WarrantyStartDate"),
                             resultSet.getString("WarrantyEndDate"),
-                            resultSet.getString("AssetCondition"),
                             resultSet.getString("AssetStatus"),
+                            resultSet.getString("AssetCondition"),
                             resultSet.getString("PhotoPath"),
                             resultSet.getString("Category"),
                             resultSet.getString("Manufacturer")
@@ -165,7 +165,7 @@ public class AssetDAO {
                                           int manufacturerID,
                                           String assetName,
                                           String serialNo,
-                                          int assetPrice,
+                                          double assetPrice,
                                           String storageSpec,
                                           String ramSpec,
                                           String operatingSystem,
@@ -205,7 +205,7 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setDouble(5, assetPrice);
                 preparedStatement.setString(6, storageSpec);
                 preparedStatement.setString(7, ramSpec);
                 preparedStatement.setString(8, operatingSystem);
@@ -230,7 +230,7 @@ public class AssetDAO {
             int manufacturerID,
             String assetName,
             String serialNo,
-            int assetPrice,
+            Double assetPrice,
             String storageSpec,
             String ramSpec,
             String operatingSystem,
@@ -269,7 +269,7 @@ public class AssetDAO {
                 preparedStatement.setInt(2, manufacturerID);
                 preparedStatement.setString(3, assetName);
                 preparedStatement.setString(4, serialNo);
-                preparedStatement.setInt(5, assetPrice);
+                preparedStatement.setDouble(5, assetPrice);
                 preparedStatement.setString(6, storageSpec);
                 preparedStatement.setString(7, ramSpec);
                 preparedStatement.setString(8, operatingSystem);
@@ -309,5 +309,138 @@ public class AssetDAO {
             error.printStackTrace();
         }
     }
+
+
+    public static int countGoodAssetCondition() {
+        //Count the number of assets in good condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Good';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countFairAssetCondition() {
+        //Count the number of assets in fair condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Fair';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countPoorAssetCondition() {
+        //Count the number of assets in poor condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Poor';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+    public static  int countExcellentAssetCondition() {
+        //Count the number of assets in excellent condition
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetCondition)
+                FROM tbl_Assets
+                WHERE AssetCondition = 'Excellent';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+
+    public static int countTotalAvailableAssets() {
+        //Count the total number of available assets
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetStatus)
+                FROM tbl_Assets
+                WHERE AssetStatus = 'Available';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+
+    public static int countTotalDeployedAssets() {
+        //Count the total number of deployed assets
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetStatus)
+                FROM tbl_Assets
+                WHERE AssetStatus = 'In Use';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+
+
+
 }
 

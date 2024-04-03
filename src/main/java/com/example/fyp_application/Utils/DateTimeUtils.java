@@ -90,9 +90,9 @@ public class DateTimeUtils {
 
 
         // parse the date
-        LocalDateTime dateTime = LocalDateTime.parse(dateCreated, CURRENT_YEAR_MONTH_DAY_HOURS_FORMAT);
+        LocalDate dateTime = LocalDate.parse(dateCreated, CURRENT_YEAR_MONTH_DAY_FORMAT);
 
-        LocalDateTime twoWeeksDateTime = dateTime.plusDays(14);
+        LocalDate twoWeeksDateTime = dateTime.plusDays(14);
 
         return twoWeeksDateTime.format(CURRENT_YEAR_MONTH_DAY_FORMAT);
     }
@@ -111,6 +111,32 @@ public class DateTimeUtils {
                     AlertNotificationUtils.showInformationMessageAlert("Invalid date",
                             "The date selected is before the current date. Please select a valid date.");
 
+                    datePicker.setValue(null);
+                    datePicker.setStyle("-fx-border-color: red");
+
+                } else{
+
+                    datePicker.setStyle("-fx-border-color: green");
+                    System.out.println("Date is valid" + newValue);
+
+                }
+            });
+        });
+    }
+
+
+    public static void dobValidator(DatePicker datePicker){
+        Platform.runLater(() -> {
+            datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+                LocalDate currentDate = LocalDate.now();
+                LocalDate eighteenYearsAgo = currentDate.minusYears(18);
+
+                if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
+
+
+
+                    AlertNotificationUtils.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
                     datePicker.setValue(null);
                     datePicker.setStyle("-fx-border-color: red");
 

@@ -472,8 +472,8 @@ public class AssetAllocationDAO {
         return assetCounter;
     }
 
-    public static int calculateTotalAssetCostByUserID(int currentLoggedUserID) {
-        int totalAssetCost = 0;
+    public static double calculateTotalAssetCostByUserID(int currentLoggedUserID) {
+        double totalAssetCost = 0;
 
         String sql = """
                 SELECT
@@ -491,7 +491,7 @@ public class AssetAllocationDAO {
                 preparedStatement.setInt(1, currentLoggedUserID);
                 try(ResultSet resultSet = preparedStatement.executeQuery()) {
                     if(resultSet.next()) {
-                        totalAssetCost = resultSet.getInt(1);
+                        totalAssetCost = resultSet.getDouble(1);
                     }
                 }
             }
@@ -524,5 +524,35 @@ public class AssetAllocationDAO {
             error.printStackTrace();
         }
         return totalOverdueAssets;
+    }
+
+
+    public static double countTotalOverdueAssetsCost(){
+        double totalOverdueAssetsCost = 0;
+
+        String sql = """
+                SELECT
+                    SUM(asset.AssetPrice)
+                FROM
+                    tbl_AllocationHistory as allocation
+                JOIN
+                    tbl_Assets as asset on asset.AssetID = allocation.AssetID
+                WHERE
+                    allocation.OverdueStatus = 'Overdue';
+                """;
+
+        try(Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if(resultSet.next()) {
+                        totalOverdueAssetsCost = resultSet.getDouble(1);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return totalOverdueAssetsCost;
     }
 }

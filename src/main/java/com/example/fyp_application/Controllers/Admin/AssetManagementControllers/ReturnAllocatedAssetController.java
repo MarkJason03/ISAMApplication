@@ -191,23 +191,7 @@ public class ReturnAllocatedAssetController implements Initializable {
 
     @FXML
     private void setViewOnly(){
-        if (viewOnly || CurrentLoggedUserHandler.getCurrentLoggedAdminID() == null){
-            assetName_TF.setEditable(false);
-            serialNo_TF.setEditable(false);
-            manufacturer_TF.setEditable(false);
-            category_TF.setEditable(false);
-            storageSpec_TF.setEditable(false);
-            ramSpec_TF.setEditable(false);
-            assetCondition_TF.setEditable(false);
-            assetStatus_TF.setEditable(false);
-            firstName_TF.setEditable(false);
-            lastName_TF.setEditable(false);
-            department_TF.setEditable(false);
-            username_TF.setEditable(false);
-            email_TF.setEditable(false);
-            phone_TF.setEditable(false);
-            buildingName_TF.setEditable(false);
-            officeName_TF.setEditable(false);
+        if (viewOnly || CurrentLoggedUserHandler.getCurrentLoggedAdminID() == null || allocationStatus_CB.getValue().equals("Returned")){
             loanStart_DP.setEditable(false);
             loanStart_DP.setDisable(true);
             loanDue_DP.setEditable(false);
@@ -227,23 +211,8 @@ public class ReturnAllocatedAssetController implements Initializable {
             email_checkBox.setDisable(true);
             email_checkBox.setVisible(false);
 
+
         } else {
-            assetName_TF.setEditable(true);
-            serialNo_TF.setEditable(true);
-            manufacturer_TF.setEditable(true);
-            category_TF.setEditable(true);
-            storageSpec_TF.setEditable(true);
-            ramSpec_TF.setEditable(true);
-            assetCondition_TF.setEditable(true);
-            assetStatus_TF.setEditable(true);
-            firstName_TF.setEditable(true);
-            lastName_TF.setEditable(true);
-            department_TF.setEditable(true);
-            username_TF.setEditable(true);
-            email_TF.setEditable(true);
-            phone_TF.setEditable(true);
-            buildingName_TF.setEditable(true);
-            officeName_TF.setEditable(true);
             loanStart_DP.setEditable(true);
             loanStart_DP.setDisable(false);
             loanDue_DP.setEditable(true);
@@ -284,6 +253,20 @@ public class ReturnAllocatedAssetController implements Initializable {
 
     }
 
+
+
+    @FXML
+    private void sendEmailReminder() {
+        GMailUtils.sendEmailTo(email_TF.getText(),
+                "Return Asset Reminder",
+                GMailUtils.generateOverdueReminderEmailBody(
+                        allocationID,
+                        firstName_TF.getText()+" "+lastName_TF.getText(),
+                        assetName_TF.getText(),
+                        serialNo_TF.getText()));
+
+        AlertNotificationUtils.showInformationMessageAlert("Reminder Sent", "Reminder email has been sent successfully");
+    }
 
     @FXML
     private void startReturnAllocationThread() {
@@ -334,7 +317,14 @@ public class ReturnAllocatedAssetController implements Initializable {
                 comment_TA.getText());
 
         // Update the asset status to the selected status
-        sendEmail();
+
+        System.out.println("Debugging email checkbox: "+email_checkBox.isSelected());
+        if (!email_checkBox.isSelected()) {
+            System.out.println("Sending email");
+            sendEmail();
+            System.out.println("Email sent successfully, closing menu");
+            closeMenu();
+        }
     }
 
 
@@ -376,7 +366,6 @@ public class ReturnAllocatedAssetController implements Initializable {
     private void closeMenu() {
         viewOnly = false;
         SharedButtonUtils.closeMenu(closeMenu_btn);
-        SharedButtonUtils.closeMenu(exitApp_btn);
     }
 
     @Override

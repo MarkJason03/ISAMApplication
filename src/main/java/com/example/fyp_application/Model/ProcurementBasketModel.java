@@ -23,7 +23,6 @@ public class ProcurementBasketModel {
         this.quantity = quantity;
         this.totalCost = totalCost;
     }
-
     public ProcurementBasketModel(
             int catalogID,
             String assetName,

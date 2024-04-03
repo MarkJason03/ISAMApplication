@@ -2,6 +2,7 @@ package com.example.fyp_application.Controllers.Admin.AssetManagementControllers
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
@@ -102,14 +103,6 @@ public class ManageAssetController implements Initializable {
     @FXML
     private Label dateTimeHolder;
 
-    @FXML
-    private Button editProfile_btn11;
-
-    @FXML
-    private Label lastUpdate_lbl;
-
-    @FXML
-    private Label lastUpdate_lbl1;
 
     @FXML
     private TextField manufacturer_TF;
@@ -133,12 +126,6 @@ public class ManageAssetController implements Initializable {
     private TextField ramSpec_TF;
 
     @FXML
-    private Button reload_btn;
-
-    @FXML
-    private Button reload_btn1;
-
-    @FXML
     private TextField searchBar_TF;
 
     @FXML
@@ -156,11 +143,6 @@ public class ManageAssetController implements Initializable {
     @FXML
     private Button updateAllocation_TF;
 
-    @FXML
-    private Label userCounter_lbl;
-
-    @FXML
-    private Label userCounter_lbl1;
 
     @FXML
     private TextField userDept_TF;
@@ -170,9 +152,6 @@ public class ManageAssetController implements Initializable {
 
     @FXML
     private TextField userFullname_TF;
-
-    @FXML
-    private Label userInactiveCounter_lbl;
 
     @FXML
     private TextField userPhone_TF;
@@ -201,6 +180,17 @@ public class ManageAssetController implements Initializable {
     @FXML
     private TableColumn<?, ?> allocOverDueDays;
 
+    @FXML
+    private Label totalAvailableAssets_lbl;
+
+    @FXML
+    private Label totalDeployedAssets_lbl;
+
+    @FXML
+    private Label totalOverdueReturns_lbl;
+
+    @FXML
+    private TableColumn<?, ?> owner_col;
     private ObservableList<AssetModel> assetList;
 
     private ObservableList<AssetAllocationModel> allocationList;
@@ -303,6 +293,7 @@ public class ManageAssetController implements Initializable {
         allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
         allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
+        owner_col.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         allocHistoryTable.setItems(allocationList);
     }
 
@@ -320,25 +311,10 @@ public class ManageAssetController implements Initializable {
         allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
         allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
+        owner_col.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         allocHistoryTable.setItems(allocationList);
     }
-    /*@FXML
-    private void loadAllocationTable(){
 
-            ObservableList<AssetAllocationModel> allocationList = AssetAllocationDAO.getAssetAllocations();
-
-            allocHistoryID_col.setCellValueFactory(new PropertyValueFactory<>("allocationID"));
-            allocHistoryAssetID_col.setCellValueFactory(new PropertyValueFactory<>("assetID"));
-            allocHistoryUserID_col.setCellValueFactory(new PropertyValueFactory<>("userID"));
-            allocHistoryStartDate_col.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            allocHistoryDueDate_col.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
-            allocHistoryRetDate_col.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
-            allocHistoryStatus_col.setCellValueFactory(new PropertyValueFactory<>("status"));
-            allocHistoryType_col.setCellValueFactory(new PropertyValueFactory<>("allocationType"));
-            allocHistoryComment_col.setCellValueFactory(new PropertyValueFactory<>("comment"));
-
-            allocHistoryTable.setItems(allocationList);
-    }*/
     private void assetTableListener(){
         assetTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -376,25 +352,24 @@ public class ManageAssetController implements Initializable {
         });
     }
     @FXML
-    private void searchAssetDetails(){
-/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                assetTable.setItems(assetList); // Reset to show all data
-                return;
-            }
-            ObservableList<AssetModel> filteredList = FXCollections.observableArrayList();
-            for (AssetModel assetModel : assetList) {
-                if(assetModel.getSerialNumber().toLowerCase().contains(newValue.toLowerCase()) || String.valueOf(assetModel.getAssetID()).contains(newValue)) {
-                    filteredList.add(assetModel);
-                }
-
-            }
-            assetTable.setItems(filteredList);
-        });*/
+    private void setupAssetTableSearchBar(){
 
         TableListenerUtils.searchTableDetails(searchBar_TF, assetTable, assetList, (asset, search) ->
                 asset.getSerialNumber().toLowerCase().contains(search.toLowerCase()) ||
-                        String.valueOf(asset.getAssetID()).contains(search));
+                String.valueOf(asset.getAssetID()).contains(search)|| asset.getAssetName().toLowerCase().contains(search.toLowerCase()));
+
+    }
+
+    @FXML
+    private void setupAllocationTableSearchBar(){
+
+        TableListenerUtils.searchTableDetails(allocSearchBar_TF, allocHistoryTable, allocationList, (allocation, search) ->
+                allocation.getAssetName().toLowerCase().contains(search.toLowerCase()) ||
+                        String.valueOf(allocation.getAllocationID()).contains(search) ||
+                        allocation.getSerialNumber().toLowerCase().contains(search.toLowerCase()) ||
+                        allocation.getFirstName().toLowerCase().contains(search.toLowerCase()) ||
+                        allocation.getLastName().toLowerCase().contains(search.toLowerCase()));
+
     }
 
 
@@ -439,12 +414,21 @@ public class ManageAssetController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
-                Platform.runLater(this::loadAssetTable);
+                Task<Void> initTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        Platform.runLater(() -> {
+                            allocationTableListener();
+                            assetTableListener();
+                            loadAssetTable();
+                            loadAssetAllocationTable();
 
-
-                Platform.runLater(this::countDeployedAsset);
-                Platform.runLater(this::countAvailableAsset);
-
+                            setupMiniDashboard();
+                        });
+                        return null;
+                    }
+                };
+                new Thread(initTask).start();
             }
 
         }
@@ -452,10 +436,13 @@ public class ManageAssetController implements Initializable {
 
     }
 
-    private void countAvailableAsset() {
-    }
-
-    private void countDeployedAsset() {
+    @FXML
+    private void setupMiniDashboard(){
+        totalAvailableAssets_lbl.setText("Total: " + AssetDAO.countTotalAvailableAssets());
+        totalDeployedAssets_lbl.setText("Total: " + AssetDAO.countTotalDeployedAssets());
+        totalOverdueReturns_lbl.setText("Total: " + AssetAllocationDAO.countTotalOverdueAssets());
+        assetStatusFilter_CB.setValue("All");
+        allocationStatusFilter_CB.setValue("All");
     }
 
     @FXML
@@ -490,17 +477,48 @@ public class ManageAssetController implements Initializable {
             e.printStackTrace();
         }  finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+            Task<Void> initTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    Platform.runLater(() -> {
+                        allocationTableListener();
+                        assetTableListener();
+                        loadAssetTable();
+                        loadAssetAllocationTable();
 
-            Platform.runLater(this::loadAssetTable);
-            Platform.runLater(this::countAvailableAsset);
-            Platform.runLater(this::countAvailableAsset);
+                        setupMiniDashboard();
+
+                    });
+                    return null;
+                }
+            };
+            new Thread(initTask).start();
 
         }
 
 
     }
 
+    @FXML
+    private void createAssetReport(){
+        try {
+            TableListenerUtils.exportTableViewToExcel(assetTable);
+            AlertNotificationUtils.showInformationMessageAlert("Export Successful", "Asset Report Exported Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+
+    @FXML
+    private void createAllocationReport(){
+        try {
+            TableListenerUtils.exportTableViewToExcel(allocHistoryTable);
+            AlertNotificationUtils.showInformationMessageAlert("Export Successful", "Allocation Report Exported Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void recordNewAllocationRequest(){
@@ -543,11 +561,24 @@ public class ManageAssetController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
-                Platform.runLater(this::loadAssetTable);
 
+                // Reload the table
+                Task<Void> initTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        Platform.runLater(() -> {
+                            allocationTableListener();
+                            assetTableListener();
+                            loadAssetTable();
+                            loadAssetAllocationTable();
 
-                Platform.runLater(this::countDeployedAsset);
-                Platform.runLater(this::countAvailableAsset);
+                            setupMiniDashboard();
+                        });
+                        return null;
+                    }
+                };
+                new Thread(initTask).start();
+
 
             }
 
@@ -598,6 +629,23 @@ public class ManageAssetController implements Initializable {
                 e.printStackTrace();
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+
+                Task<Void> initTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        Platform.runLater(() -> {
+                            allocationTableListener();
+                            assetTableListener();
+                            loadAssetTable();
+                            loadAssetAllocationTable();
+
+                            setupMiniDashboard();
+                        });
+                        return null;
+                    }
+                };
+                new Thread(initTask).start();
             }
 
         }
@@ -649,25 +697,20 @@ public class ManageAssetController implements Initializable {
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
-
-                // Reload the table
-                Task<Void>initTask = new Task<Void>() {
+                Task<Void> initTask = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        setupAllocationFilterComboBox();
-                        assetTableListener();
-                        searchAssetDetails();
-
-                        loadAssetTable();
-
-                        loadAssetAllocationTable();
-                        setupAssetFilterComboBox();
-                        allocationTableListener();
+                        Platform.runLater(() -> {
+                            allocationTableListener();
+                            assetTableListener();
+                            loadAssetTable();
+                            loadAssetAllocationTable();
+                            setupMiniDashboard();
+                        });
                         return null;
                     }
                 };
                 new Thread(initTask).start();
-
             }
 
         }
@@ -714,12 +757,6 @@ public class ManageAssetController implements Initializable {
         });
     }
 
-    @FXML
-    private void reloadAssetTable(){
-        loadFilteredAllocationTable(allocationStatusFilter_CB.getValue());
-    }
-
-
 
 
     @Override
@@ -728,25 +765,23 @@ public class ManageAssetController implements Initializable {
         Task<Void>initTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                DateTimeUtils.dateTimeUpdates(dateTimeHolder);
+                setupMiniDashboard();
+
                 setupAllocationFilterComboBox();
                 assetTableListener();
-                searchAssetDetails();
-
+;
                 loadAssetTable();
 
                 loadAssetAllocationTable();
-                        setupAssetFilterComboBox();
+                setupAssetFilterComboBox();
                 allocationTableListener();
+                setupAssetTableSearchBar();
+                setupAllocationTableSearchBar();
                 return null;
             }
         };
         new Thread(initTask).start();
 
-
-
-/*
-        Platform.runLater(this::loadAssetAllocationTable);
-        Platform.runLater(this::setupAssetFilterComboBox);
-        Platform.runLater(this::allocationTableListener);*/
     }
 }

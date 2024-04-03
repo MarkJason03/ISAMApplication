@@ -3,8 +3,13 @@ package com.example.fyp_application.Model;
 import com.example.fyp_application.Utils.DatabaseConnectionUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TicketDAO {
@@ -211,65 +216,6 @@ public class TicketDAO {
         }
         return ticketCount;
     }
-/*
-    public void displayTicketInformation(int ticketID) {
-        String sql = """
-                SELECT\s
-                    request.TicketID,
-                    request.UserID,
-                    request.AgentID,
-                    request.categoryID,
-                    user.FirstName || ' ' || user.LastName AS User,
-                    request.Title,
-                    request.Description,
-                    request.Status,
-                    request.Priority,
-                    reqcat.categoryName as Category,
-                    info.knowledgeInformation,
-                    agent.FirstName || ' ' || agent.LastName AS Agent,
-                    request.DateCreated,
-                    request.DateClosed
-                FROM\s
-                    tbl_tickets AS request
-                JOIN
-                	tbl_ticketCategory as reqcat on reqcat.ticketCategoryID = request.categoryID
-                JOIN
-                	tbl_knowledgeBase AS info on reqcat.knowledgeID = info.knowledgeID
-                JOIN\s
-                    tbl_Users AS user ON user.UserID = request.UserID
-                	
-                LEFT JOIN\s
-                    tbl_Users AS agent ON agent.UserID = request.AgentID
-                Where request.TicketID = ?;
-                """;
-
-        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, ticketID);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        // Set the ticket information
-                        ticketID = resultSet.getInt("TicketID");
-                        int userID = resultSet.getInt("UserID");
-                        int agentID = resultSet.getInt("AgentID");
-                        int categoryID = resultSet.getInt("categoryID");
-                        String user = resultSet.getString("User");
-                        String title = resultSet.getString("Title");
-                        String description = resultSet.getString("Description");
-                        String status = resultSet.getString("Status");
-                        String priority = resultSet.getString("Priority");
-                        String category = resultSet.getString("Category");
-                        String agent = resultSet.getString("Agent");
-                        String dateCreated = resultSet.getString("DateCreated");
-                        String dateClosed = resultSet.getString("DateClosed");
-                    }
-                }
-            }
-        } catch (SQLException error) {
-            error.printStackTrace();
-        }
-    }*/
 
 
     public ObservableList<TicketModel> getFullTicketDetails(int ticketID){
@@ -663,6 +609,241 @@ public class TicketDAO {
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+
+    public static List<XYChart.Data<String, Number>> getTicketVolumeForMonth(LocalDate startDate) {
+        List<XYChart.Data<String, Number>> dataPoints = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    strftime('%Y-%m-%d', DateCreated) AS CreationDate,
+                    COUNT(*) AS TicketCount
+                FROM
+                    tbl_Tickets
+                WHERE
+                    DateCreated BETWEEN ? AND ?
+                GROUP BY
+                    strftime('%Y-%m-%d', DateCreated)
+                ORDER BY
+                    CreationDate;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, startDate.toString());
+                preparedStatement.setString(2, startDate.plusMonths(1).toString());
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String date = resultSet.getString("CreationDate");
+                        LocalDate localDate = LocalDate.parse(date);
+                        String formattedDate = localDate.format(DateTimeFormatter.ofPattern("MM-dd"));
+                        int count = resultSet.getInt("TicketCount");
+                        dataPoints.add(new XYChart.Data<>(formattedDate, count));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dataPoints;
+    }
+
+    public static int countTotalBreachedTicketsForMonth(LocalDate startDate) {
+        int count = 0;
+        // Format the start date to "yyyy-MM" for the SQL query
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String formattedStartDate = startDate.format(formatter);
+
+        String sql = """
+            SELECT
+                SUM(CASE WHEN julianday(TargetResolution) < julianday('now') THEN 1 ELSE 0 END) AS BreachedTicketCount
+            FROM
+                tbl_Tickets
+            WHERE
+                strftime('%Y-%m', DateCreated) = ?
+                AND Status != 'Closed';
+            """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, formattedStartDate);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        count = resultSet.getInt("BreachedTicketCount");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+
+    public static int countTotalCreatedCalls() {
+        int count = 0;
+        String sql = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    tbl_tickets
+                WHERE
+                    Status = 'Created';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+
+    }
+
+    public static int countTotalOngoingCalls() {
+        int count = 0;
+        String sql = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    tbl_tickets
+                WHERE
+                    Status = 'In Progress' OR Status = 'Awaiting Response' AND Status != 'Closed';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int countTotalBreachedCalls(){
+        int counter = 0;
+
+        String sql = """
+                SELECT
+                    SUM(CASE
+                            WHEN request.Status != 'Closed' AND date(request.TargetResolution) < date('now')
+                                 AND (request.Status = 'In Progress' OR request.Status = 'Awaiting Response') THEN 1
+                            ELSE 0
+                        END) AS Breached
+                FROM
+                    tbl_tickets AS request
+                WHERE request.Status != 'Closed';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        counter = resultSet.getInt("Breached");
+                    }
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+    public static int countCreatedCallsFromClient(int userID){
+        int counter = 0;
+
+        String sql = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    tbl_tickets
+                WHERE
+                    UserID = ? AND Status = 'Created';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1,userID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        counter = resultSet.getInt(1);
+                    }
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+    public static int countOngoingCallsFromClient(int userID){
+        int counter = 0;
+
+        String sql = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    tbl_tickets
+                WHERE
+                    UserID = ? AND (Status = 'In Progress' OR Status = 'Awaiting Response') AND Status != 'Closed';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1,userID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        counter = resultSet.getInt(1);
+                    }
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return counter;
+    }
+
+    public static int countResolvedPreviousCallsFromClient(int userID){
+        int counter = 0;
+
+        String sql = """
+                SELECT
+                    COUNT(*)
+                FROM
+                    tbl_tickets
+                WHERE
+                    UserID = ? AND Status = 'Closed';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+                preparedStatement.setInt(1,userID);
+                try (ResultSet resultSet = preparedStatement.executeQuery()){
+                    if (resultSet.next()){
+                        counter = resultSet.getInt(1);
+                    }
+                }
+            }
+        }catch (SQLException e) {
             e.printStackTrace();
         }
         return counter;

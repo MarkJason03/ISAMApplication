@@ -52,9 +52,7 @@ public class ModifiedAddSupplierController implements Initializable{
     @FXML
     private void saveProfileChanges() {
 
-        if(isEmptyFields()){
-            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
-        } else{
+        if(!isEmptyFields()){
             SUPPLIER_DAO.addSupplier(
                     supName_TF.getText(),
                     supEmail_TF.getText(),
@@ -65,6 +63,9 @@ public class ModifiedAddSupplierController implements Initializable{
                     DateTimeUtils.setYearMonthDayFormat(expiryDate_DP.getValue()));
             AlertNotificationUtils.showInformationMessageAlert("Success", "Supplier added successfully");
             resetForm();
+
+        } else{
+            AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all the fields");
         }
     }
 
@@ -159,16 +160,7 @@ public class ModifiedAddSupplierController implements Initializable{
 
         });
 
-        expiryDate_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (newValue != null && newValue.isBefore(LocalDate.now())) {
-                expiryDate_DP.setValue(oldValue);  // Revert to the old value if new value is invalid
-                expiryDate_DP.setStyle("-fx-border-color: red");
-            } else {
-
-                expiryDate_DP.setStyle("-fx-border-color: green");
-            }
-        });
+        DateTimeUtils.dateValidator(expiryDate_DP);
 
 
 

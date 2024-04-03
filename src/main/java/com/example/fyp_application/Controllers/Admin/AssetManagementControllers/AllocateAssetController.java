@@ -2,10 +2,7 @@ package com.example.fyp_application.Controllers.Admin.AssetManagementControllers
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
-import com.example.fyp_application.Utils.AlertNotificationUtils;
-import com.example.fyp_application.Utils.DateTimeUtils;
-import com.example.fyp_application.Utils.GMailUtils;
-import com.example.fyp_application.Utils.SharedButtonUtils;
+import com.example.fyp_application.Utils.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -145,34 +142,6 @@ public class AllocateAssetController implements Initializable {
 
     private ObservableList<UserModel> allUsers = FXCollections.observableArrayList();
 
-/*
-    @FXML
-    private void insertAssetAllocation() {
-
-
-
-        UserModel selectedUser = userComboBox.getSelectionModel().getSelectedItem();
-        BuildingOfficesModel selectedOffice = office_CB.getSelectionModel().getSelectedItem();
-        BuildingModel selectedBuilding = building_CB.getSelectionModel().getSelectedItem();
-
-        AssetAllocationModel newAllocation = new AssetAllocationModel();
-        newAllocation.setAssetID(assetID);
-        newAllocation.setUserID(selectedUser.getUserID());
-        newAllocation.setOfficeID(selectedOffice.getOfficeID());
-        newAllocation.setBuildingID(selectedBuilding.getBuildingID());
-        newAllocation.setLoanType(loanStatus_CB.getValue());
-        newAllocation.setStartDate(loanStart_DP.getValue().toString());
-        newAllocation.setDueDate(loanDue_DP.getValue().toString());
-        newAllocation.setEndDate(loanReturn_DP.getValue().toString());
-        newAllocation.setAllocationStatus("Active");
-        newAllocation.setAssetConditionBefore(assetCondition_TF.getText());
-        newAllocation.setAssetConditionAfter(returnAssetCondition_CB.getValue());
-        newAllocation.setAdditionalComments(comment_TA.getText());
-
-        AssetAllocationDAO.insertAssetAllocation(newAllocation);
-
-    }*/
-
 
     @FXML
     private void startAllocationThread() {
@@ -266,8 +235,6 @@ public class AllocateAssetController implements Initializable {
 
     @FXML
     private void closeMenu() {
-
-        SharedButtonUtils.closeMenu(exitApp_btn);
         SharedButtonUtils.closeMenu(closeMenu_btn);
     }
 
@@ -414,6 +381,7 @@ public class AllocateAssetController implements Initializable {
                 setUserComboBox();
                 userInformationListener();
 
+                TextFieldListenerUtils.userSearchBarListener(searchBar_TF, userComboBox, allUsers);
                 DateTimeUtils.dateValidator(loanStart_DP);
                 DateTimeUtils.dateValidator(loanDue_DP);
 

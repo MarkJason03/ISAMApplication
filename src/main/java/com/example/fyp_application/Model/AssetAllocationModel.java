@@ -67,6 +67,7 @@ public class AssetAllocationModel {
     private String assetCondition;
     private String assetStatus;
 
+    private String fullName;
 
     //Default Constructor
 
@@ -457,5 +458,9 @@ public class AssetAllocationModel {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }

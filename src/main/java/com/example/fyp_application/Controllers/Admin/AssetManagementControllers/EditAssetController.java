@@ -135,7 +135,7 @@ public class EditAssetController implements Initializable {
     @FXML
     private void updateAssetDetails() {
 
-        if(isFormValid()) {
+        if(!isFormValid()) {
             AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         } else {
             AssetDAO.updateAssetDetails(
@@ -144,7 +144,7 @@ public class EditAssetController implements Initializable {
                     manufacturer_CB.getValue().getManufacturerID(),
                     assetName_TF.getText(),
                     serialNo_TF.getText(),
-                    Integer.parseInt(assetPrice_TF.getText()),
+                    Double.parseDouble(assetPrice_TF.getText()),
                     storageSpec_CB.getValue(),
                     ramSpec_CB.getValue(),
                     osSpec_CB.getValue(),
@@ -241,6 +241,9 @@ public class EditAssetController implements Initializable {
         manufacturer_CB.getItems().addAll(assetManufacturerList);
 
 
+        purchaseDate_DP.setDisable(true);
+        warrantyStart_DP.setDisable(true);
+
         assetCondition_CB.getItems().addAll("Excellent", "Good", "Fair", "Poor");
         assetStatus_CB.getItems().addAll("Available", "In Repair", "Retired", "Disposed");
         osSpec_CB.getItems().addAll("N/A", "Windows", "iOS", "MacOS", "Android", "Linux");
@@ -249,8 +252,7 @@ public class EditAssetController implements Initializable {
 
 
         //date validator to ensure that date entered are not past dates
-        DateTimeUtils.dateValidator(purchaseDate_DP);
-        DateTimeUtils.dateValidator(warrantyStart_DP);
+
         DateTimeUtils.warrantyEndDateValidator(warrantyStart_DP, warrantyEnd_DP);
         DateTimeUtils.endOfLifeValidator(purchaseDate_DP, estimatedEOL_DP);
 

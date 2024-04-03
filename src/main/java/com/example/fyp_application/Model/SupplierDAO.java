@@ -8,11 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SupplierDAO {
 
 
-    public ObservableList<SupplierModel>getAllSuppliers () {
+    public static ObservableList<SupplierModel>getAllSuppliers() {
         //List to store supplier data
         ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
         //Instance of the class
@@ -43,6 +45,75 @@ public class SupplierDAO {
         return supplierList;
     }
 
+
+    public static ObservableList<SupplierModel> getSupplierDetails(int supplierID) {
+
+        ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
+
+        String sql = """
+                SELECT * FROM tbl_Suppliers WHERE supplierID = ?;
+                """;
+
+        try(Connection connection = DatabaseConnectionUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, supplierID);
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    SupplierModel supplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"),
+                            resultSet.getString("supplierAddress"),
+                            resultSet.getString("supplierEmail"),
+                            resultSet.getString("supplierPhone"),
+                            resultSet.getString("supplierContractStatus"),
+                            resultSet.getString("contractStartDate"),
+                            resultSet.getString("contractEndDate")
+                    );
+                    supplierList.add(supplierModel);
+                }
+                return supplierList;
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return  supplierList;
+    }
+
+    public static ObservableList<SupplierModel> getFilteredSupplierList(String filter) {
+        //List to store supplier data
+        ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
+        //Instance of the class
+        SupplierModel supplierModel;
+
+        String sql = """
+                SELECT *
+                FROM tbl_Suppliers
+                WHERE supplierContractStatus = ?;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, filter);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    supplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"),
+                            resultSet.getString("supplierAddress"),
+                            resultSet.getString("supplierEmail"),
+                            resultSet.getString("supplierPhone"),
+                            resultSet.getString("supplierContractStatus"),
+                            resultSet.getString("contractStartDate"),
+                            resultSet.getString("contractEndDate")
+                    );
+                    supplierList.add(supplierModel);
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return supplierList;
+    }
 
 
     public void addSupplier(String supplierName, String supplierEmail, String supplierPhone, String contractStatus, String supplierAddress, String contractStartDate, String contractEndDate){
@@ -159,7 +230,7 @@ public class SupplierDAO {
 
 
 
-    public int countActiveSupplierContracts() {
+    public static int countActiveSupplierContracts() {
 
         int counter = 0;
 
@@ -182,7 +253,7 @@ public class SupplierDAO {
 
     }
 
-    public int countInactiveSupplierContracts(){
+    public static int  countInactiveSupplierContracts(){
 
         int counter = 0;
         String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Expired'";
@@ -205,4 +276,40 @@ public class SupplierDAO {
 
         return counter;
     }
+
+
+    public static List<SupplierModel> getAllSupplierNameList() {
+        //List to store category data
+        List<SupplierModel> categoriesList = new ArrayList<>();
+        String sql = """
+                SELECT
+                	supplierID,
+                	supplierName
+                FROM
+                	tbl_Suppliers;
+                """;
+
+        //Try with resources to close the connection after the operation is done
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            //prepared statement to execute the query
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                //loop through the result set and add the data to the list
+                while (resultSet.next()) {
+                    SupplierModel SupplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"));
+                    categoriesList.add(SupplierModel);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        //return the list of categories
+        return categoriesList;
+    }
+
+
 }

@@ -130,86 +130,6 @@ public class AdminHomePageController implements Initializable {
     @FXML
     private BarChart<String,Number> sampleBarChart;
 
-
-//    @FXML
-//    private void setUserPieChart() {
-//        int activeUser = UserDAO.countActiveUsers();
-//        int inactiveUser = UserDAO.countInactiveUsers();
-//        int expiredUser = UserDAO.countExpiredUsers();
-//
-//        // Creating the pie chart data
-//        PieChart.Data activeData = new PieChart.Data("Active", activeUser);
-//        PieChart.Data inactiveData = new PieChart.Data("Inactive", inactiveUser);
-//        PieChart.Data expiredData = new PieChart.Data("Expired", expiredUser);
-//
-//        userPieChart.setTitle("User Status");
-//        userPieChart.getData().addAll(activeData, inactiveData, expiredData);
-//
-//    }
-//
-//    @FXML
-//    private void setUserLineChart() {
-//        // Assuming we're setting this up for three time points: T1, T2, and T3
-//        // In your real application, these would be actual data points like months or years
-//        String[] timePoints = {"T1", "T2", "T3"};
-//
-//        // Example user counts at three different time points
-//        // For demonstration, using static data; replace these with your actual data retrieval
-//        int[][] userCounts = {
-//                {UserDAO.countActiveUsers(), 120, 130}, // Simulated counts for active users over time
-//                {UserDAO.countInactiveUsers(), 80, 90}, // Simulated counts for inactive users
-//                {UserDAO.countExpiredUsers(), 50, 60}   // And for expired users
-//        };
-//
-//        XYChart.Series<String, Number> seriesActive = new XYChart.Series<>();
-//        seriesActive.setName("Active Users");
-//
-//        XYChart.Series<String, Number> seriesInactive = new XYChart.Series<>();
-//        seriesInactive.setName("Inactive Users");
-//
-//        XYChart.Series<String, Number> seriesExpired = new XYChart.Series<>();
-//        seriesExpired.setName("Expired Users");
-//
-//        for (int i = 0; i < timePoints.length; i++) {
-//            seriesActive.getData().add(new XYChart.Data<>(timePoints[i], userCounts[0][i]));
-//            seriesInactive.getData().add(new XYChart.Data<>(timePoints[i], userCounts[1][i]));
-//            seriesExpired.getData().add(new XYChart.Data<>(timePoints[i], userCounts[2][i]));
-//        }
-//
-//        sampleLineChart.getData().addAll(seriesActive, seriesInactive, seriesExpired);
-//    }
-//
-//
-//    @FXML
-//    private void setUserBarChart() {
-//        int activeUser = UserDAO.countActiveUsers();
-//        int inactiveUser = UserDAO.countInactiveUsers();
-//        int expiredUser = UserDAO.countExpiredUsers();
-//
-//        System.out.println("Active users: " + activeUser);
-//        System.out.println("Inactive users: " + inactiveUser);
-//        System.out.println("Expired users: " + expiredUser);
-//
-//        CategoryAxis xAxis = (CategoryAxis) sampleBarChart.getXAxis();
-//        xAxis.setLabel("User Status");
-//
-//        NumberAxis yAxis = (NumberAxis) sampleBarChart.getYAxis();
-//        yAxis.setLabel("User Count");
-//
-//        XYChart.Series<String, Number> series = new XYChart.Series<>();
-//        series.setName("Account Status");
-//
-//        series.getData().add(new XYChart.Data<>("Active", activeUser));
-//        series.getData().add(new XYChart.Data<>("Inactive", inactiveUser));
-//        series.getData().add(new XYChart.Data<>("Expired", expiredUser));
-//        xAxis.getCategories().addAll("Active", "Inactive", "Expired");
-//
-//        sampleBarChart.getData().clear();
-//        sampleBarChart.layout();
-//        sampleBarChart.getData().add(series);
-//    }
-
-
     @FXML
     private void openProcurementRequest() {
         // Open the procurement request page
@@ -307,6 +227,45 @@ public class AdminHomePageController implements Initializable {
 
 
     @FXML
+    private void loadProcurementRequestTable(){
+
+        if (CurrentLoggedUserHandler.getCurrentLoggedAdminID() == 1){
+            viewProcurementByAdmin();
+        } else {
+            viewProcurementRequestByUser();
+
+        }
+    }
+    @FXML
+    private void viewProcurementByAdmin() {
+        // View the procurement request
+        ObservableList<ProcurementRequestModel> procurementTicketsByUser = ProcurementRequestDAO.getAllProcurementRequest();
+
+        sample.setCellValueFactory(cellData -> {
+            FontIcon icon;
+            // if request is approved
+            if (cellData.getValue().getProcurementRequestStatus().equals("Approved")) {
+                icon = new FontIcon("mdi2b-book-check");
+
+                // if request is awaiting approval
+            } else if (cellData.getValue().getProcurementRequestStatus().equals("Awaiting Approval")) {
+                icon = new FontIcon("mdi2b-book-clock");
+            } else {
+                // if request is rejected
+                icon = new FontIcon("mdi2b-book-cancel");
+            }
+            icon.setIconSize(40);
+            return new SimpleObjectProperty<>(icon);
+        });
+        procurementID_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestID"));
+        procurementStatus_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestStatus"));
+        procurementComment_col.setCellValueFactory(new PropertyValueFactory<>("procurementManagerComment"));
+
+        procurementRequestTable.setItems(procurementTicketsByUser);
+
+    }
+
+    @FXML
     private void viewProcurementRequestByUser() {
         // View the procurement request
         ObservableList<ProcurementRequestModel> procurementTicketsByUser = ProcurementRequestDAO.getProcurementTicketsByUser(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
@@ -393,13 +352,15 @@ public class AdminHomePageController implements Initializable {
         Platform.runLater(this::setUserLineChart);
         setUserBarChart();
 */
+
+        loadProcurementRequestTable();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Platform.runLater(() -> {
                     try {
                         setupIDCard();
-                        viewProcurementRequestByUser();
+
                         loadTicketTableByAgent();
                         setupHomeStats();
                     } catch (Exception e) {
@@ -412,6 +373,12 @@ public class AdminHomePageController implements Initializable {
         Thread thread = new Thread(task);
         thread.start();
 
+
+        procurementRequestTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                openManageRequest();
+            }
+        });
 
         ticketTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {

@@ -22,10 +22,6 @@ Text{
     -fx-background-radius: 10 10 10 10;
     -fx-border-radius: 10 10 10 10;
 
-/*
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0.5, 0.0, 0.0);
-*/
-    /*-fx-effect: dropshadow(three-pass-box, #DDDDDD, 5, 0, 0, 6);*/
 }
 
 .buttonContainers Button:hover {
@@ -36,12 +32,11 @@ Text{
 }
 
 .buttonContainers Button:pressed {
-    -fx-background-color: green;
+    -fx-background-color: white;
+    -fx-text-fill: black;
 
 }
 
-
-/* dropshadow param pass, color, radius blur, spread, x, y*/
 
 .adminSidebar {
     -fx-background-color: #9CE3FC;
@@ -90,30 +85,6 @@ Text{
 
 }
 
-/*
-.miniDashboardInfo1{
-
-    }
-
-.miniDashboardInfo2{
-
-    -fx-background-color: #241f6ac7;
-    -fx-background-radius: 20 20 20 20;
-    -fx-pref-width: 200;
-    -fx-pref-height: 150;
-}
-
-.miniDashboardInfo3{
-
-    -fx-background-color: #241f6ac7;
-    -fx-background-radius: 20 20 20 20;
-}
-
-.miniDashboardInfo4{
-
-    -fx-background-color: #241f6ac7;
-    -fx-background-radius: 20 20 20 20;
-}*/
 .dashboardSP{
 
     -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);

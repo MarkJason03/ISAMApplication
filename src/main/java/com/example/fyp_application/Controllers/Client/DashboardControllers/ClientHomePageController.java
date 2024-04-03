@@ -142,13 +142,13 @@ public class ClientHomePageController implements Initializable {
         return allocationHistoryVBox;
     }
 
-private int parseOverdueDays(String overdueDaysString) {
-    try {
-        return Integer.parseInt(overdueDaysString);
-    } catch (NumberFormatException e) {
-        return 0; // default value
+    private int parseOverdueDays(String overdueDaysString) {
+        try {
+            return Integer.parseInt(overdueDaysString);
+        } catch (NumberFormatException e) {
+            return 0; // default value
+        }
     }
-}
 
     private Rectangle createAssetVBoxPhoto(AssetAllocationModel assetAllocationModel) {
         Rectangle squareAssetPhoto = new Rectangle(100, 100);
@@ -159,13 +159,13 @@ private int parseOverdueDays(String overdueDaysString) {
                 Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(assetAllocationModel.getPhotoPath())));
                 squareAssetPhoto.setFill(new ImagePattern(curPhoto));
             } catch (NullPointerException e) {
-                System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"));
-                Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+                System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"));
+                Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 squareAssetPhoto.setFill(new ImagePattern(curPhoto));
             }
         } else {
-            System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"));
-            Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getValue("DEFAULT_ASSET_PHOTO"))));
+            System.err.println("No image assigned, Using Placeholder" + ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"));
+            Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
             squareAssetPhoto.setFill(new ImagePattern(curPhoto));
         }
 
@@ -240,7 +240,9 @@ private int parseOverdueDays(String overdueDaysString) {
     private void setupDashboardCounters(){
         totalInProgressTicket_lbl.setText("Requests: " + TicketDAO.countOngoingTicketByUserID(CurrentLoggedUserHandler.getCurrentLoggedUserID()));
         totalAssetsHolder_lbl.setText("Assets: " + AssetAllocationDAO.countAssetsByUserID(CurrentLoggedUserHandler.getCurrentLoggedUserID()));
-        totalAssetCostHolder_lbl.setText("$"+ AssetAllocationDAO.calculateTotalAssetCostByUserID(CurrentLoggedUserHandler.getCurrentLoggedUserID()));
+
+        String formattedTotalAssetCost = String.format("%.2f", AssetAllocationDAO.calculateTotalAssetCostByUserID(CurrentLoggedUserHandler.getCurrentLoggedUserID()));
+        totalAssetCostHolder_lbl.setText("$"+ formattedTotalAssetCost);
     }
     @FXML
     private void loadRequests(){

@@ -100,49 +100,6 @@ public class ModifiedAddUserController implements Initializable {
         cancel_btn.getScene().getWindow().hide();
     }
 
-/*
-    private void addUser(){
-        // check if the phone number is valid
-
-        if (userWorkPhone_TF.getText().length() < 11) {
-            ALERT_HANDLER.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
-        }
-
-        if( isEmptyFields()){
-            ALERT_HANDLER.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
-        } else {
-
-
-            UserDAO.addUser(
-                    accountRole_CB.getValue().getUserRoleID(),
-                    userDept_CB.getValue().getDeptID(),
-                    userFirstName_TF.getText(),
-                    userLastName_TF.getText(),
-                    userGender_TF.getValue(),
-                    DateTimeUtils.setYearMonthDayFormat(dob_DP.getValue()),
-                    userEmail_TF.getText(),
-                    userName_TF.getText(),
-                    PasswordHashingUtils.hashPassword(password_TF.getText()),
-                    userWorkPhone_TF.getText(),
-                    accountStatus_CB.getValue(),
-                    DEFAULT_PHOTO,
-                    DateTimeUtils.setYearMonthDayFormat(createdOn_DP.getValue()),
-                    DateTimeUtils.setYearMonthDayFormat(expiresAt_DP.getValue())
-            );
-            ALERT_HANDLER.showInformationMessageAlert("Success", "User added successfully");
-
-            Platform.runLater(() -> {
-                try {
-                    sendAccountDetailEmail();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            Platform.runLater(cancel_btn.getScene().getWindow()::hide);
-        }
-    }*/
-
     @FXML
     private void addUser() {
         // check if any field is empty
@@ -331,27 +288,7 @@ public class ModifiedAddUserController implements Initializable {
                 }
         });
 
-        // Listen for changes in the phone number field
-        userWorkPhone_TF.textProperty().addListener((observable, oldValue, newInput) -> {
 
-            // Remove spaces from the new value and set it to the TextField.
-            String numberOnlyValue = newInput.replaceAll("\\D", "");
-
-            // check the length of the phone number
-            if(numberOnlyValue.length() > 11){
-                // stop the user from entering more than 11 characters
-                userWorkPhone_TF.setText(numberOnlyValue.substring(0, 11));
-
-
-            } else if (!numberOnlyValue.equals(newInput)) {
-                //if the new value is not a digit, replace it with the sanitized value
-                userWorkPhone_TF.setText(numberOnlyValue);
-            }
-
-            if (numberOnlyValue.length() == 11 ){
-                System.out.println("Valid phone number");
-            }
-        });
 
 /*
         userName_TF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -388,38 +325,12 @@ public class ModifiedAddUserController implements Initializable {
             // Reset and start the pause transition
             pause.playFromStart();
         });
+        TextFieldListenerUtils.phoneNumberTextFieldListener(userWorkPhone_TF);
+
+        DateTimeUtils.dobValidator(dob_DP);
+        DateTimeUtils.dateValidator(expiresAt_DP);
 
 
-        dob_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
-            LocalDate currentDate = LocalDate.now();
-            LocalDate eighteenYearsAgo = currentDate.minusYears(18);
-
-            if (newValue != null && newValue.isAfter(eighteenYearsAgo)) {
-                System.out.println("Invalid date: The date cannot be less than 18 years old.");
-                AlertNotificationUtils.showInformationMessageAlert("Invalid Employee DOB", "The employee must be at least 18 years old.");
-                dob_DP.setValue(null);  // Revert to the old value if new value is invalid
-                dob_DP.setStyle("-fx-border-color: red");
-            } else {
-                // Handle valid date selection
-                dob_DP.setStyle("-fx-border-color: green");
-                System.out.println("Valid date selected: " + newValue);
-            }
-        });
-
-
-        expiresAt_DP.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && newValue.isBefore(LocalDate.now())) {
-                System.out.println("Invalid date: The date cannot be in the past.");
-                AlertNotificationUtils.showInformationMessageAlert("Invalid Date", "The date cannot be in the past.");
-                expiresAt_DP.setValue(null);  // Revert to the old value if new value is invalid
-                expiresAt_DP.setStyle("-fx-border-color: red");
-
-            } else {
-                // Handle valid date selection
-                expiresAt_DP.setStyle("-fx-border-color: green");
-                System.out.println("Valid date selected: " + newValue);
-            }
-        });
 
 
     }

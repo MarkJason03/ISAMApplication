@@ -14,7 +14,7 @@ class GMailUtilsTest {
         assertDoesNotThrow(new Executable() {
             @Override
             public void execute() throws Throwable {
-                GMailUtils.sendEmailTo(ConfigPropertiesUtils.getValue("EMAIL"), "Test Subject", "Test Body");
+                GMailUtils.sendEmailTo(ConfigPropertiesUtils.getPropertyValue("EMAIL"), "Test Subject", "Test Body");
             }
         });
     }
@@ -23,22 +23,22 @@ class GMailUtilsTest {
     @Test
     void shouldUseDefaultEmailForSending() throws Exception {
         // Act & Assert
-        assertDoesNotThrow(() -> GMailUtils.sendEmailTo(ConfigPropertiesUtils.getValue("EMAIL"), "Test Subject", "Test Body"));
+        assertDoesNotThrow(() -> GMailUtils.sendEmailTo(ConfigPropertiesUtils.getPropertyValue("EMAIL"), "Test Subject", "Test Body"));
     }
 
     //Test to check if the default password is used for sending
     @Test
     void shouldUseDefaultPasswordForSending() throws Exception {
         // Act & Assert
-        assertDoesNotThrow(() -> GMailUtils.sendEmailTo(ConfigPropertiesUtils.getValue("EMAIL"), "Test Subject", "Test Body"));
+        assertDoesNotThrow(() -> GMailUtils.sendEmailTo(ConfigPropertiesUtils.getPropertyValue("EMAIL"), "Test Subject", "Test Body"));
     }
 
     //Test to check if the credentials are correct
     @Test
     void testCredentials() {
         // Arrange
-        String expectedEmail = ConfigPropertiesUtils.getValue("EMAIL");
-        String expectedPassword = ConfigPropertiesUtils.getValue("PASSWORD");
+        String expectedEmail = ConfigPropertiesUtils.getPropertyValue("EMAIL");
+        String expectedPassword = ConfigPropertiesUtils.getPropertyValue("PASSWORD");
 
         // Act
         String actualEmail = GMailUtils.getDefaultEmail();

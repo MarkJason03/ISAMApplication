@@ -92,12 +92,6 @@ public class EditUserProfileController implements Initializable {
 
     private final int userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
 
-    private final UserDAO USER_DAO = new UserDAO(); // This is a class that handles database operations for user model
-
-
-
-
-
     private void loadUserData(Integer userID) throws SQLException {
         UserModel userModel = UserDAO.loadCurrentLoggedUser(userID);
 
@@ -107,7 +101,7 @@ public class EditUserProfileController implements Initializable {
             email_TF.setText(userModel.getEmail());
             gender_TF.setText(userModel.getGender());
             userName_TF.setText(userModel.getUsername());
-            //password_TF.setText(userModel.getPassword());
+
             createdAt_TF.setText(userModel.getCreatedAt());
             accountStatus_TF.setText(userModel.getAccountStatus());
             dept_TF.setText(userModel.getDeptName());

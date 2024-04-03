@@ -1,13 +1,33 @@
-
 /*Styling for edit profile view*/
 .shadow{
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5,0,0,0);
+}
+
+
+
+
+.treeTableContainer {
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
 }
 
 .personalInformationContainer{
     -fx-background-radius: 15px;
     -fx-background-color: #FFFFFF;
 }
+
+
+.sideInformationContainer{
+    -fx-background-radius: 15px;
+    -fx-background-color: #FFFFFF;
+}
+
+.informationContainerHeader {
+    -fx-background-radius: 15 15 0 0;
+    -fx-alignment: center;
+    -fx-background-color: dodgerblue;
+}
+
 
 .personalInformationContainer Label{
     -fx-font-size: 1.5em;
@@ -47,6 +67,7 @@
     -fx-font-size: 2.5em;
     -fx-font-weight: bold;
     -fx-pref-width: 400;
+
 }
 
 
@@ -56,10 +77,20 @@
     -fx-border-radius: 10px;
 }
 
+/*custom button controls*/
+/* For the buttons in dashboard pages main body */
 
+.buttonContainer {
+    -fx-alignment: center;
+    -fx-spacing: 20;
 }
 
-/*custom button controls*/
+.buttonContainer Button {
+    -fx-pref-width: 180;
+    -fx-font-size: 1.5em;
+    -fx-pref-height: 40;
+}
+
 
 .refreshButton{
     -fx-background-color: transparent;
@@ -70,7 +101,7 @@
     -fx-background-color: #7CEA9C;
 }
 
-}.refreshButton:pressed{
+.refreshButton:pressed{
     -fx-background-color: #7CEA9Cc8;
 }
 
@@ -113,7 +144,23 @@
     -fx-background-color: green;
 }
 
+/*Action buttons for the main body*/
 
+
+
+.addButton {
+    -fx-background-color: #7CEA9C;
+
+}
+
+.deleteButton {
+    -fx-background-color : #FF7378;
+}
+
+.editButton {
+    -fx-background-color : #FFC75F;
+
+}
 
 
 /*Styling for edit profile pop*/
@@ -130,13 +177,10 @@
 
 .editInformationContainer TextField{
     -fx-font-size: 1.5em;
-
-
 }
 
 .editInformationContainer PasswordField{
     -fx-font-size: 1.5em;
-
 }
 
 .saveInformationButton{
@@ -190,12 +234,12 @@
 
  .scroll-pane .viewport {
      -fx-background-color: transparent;
-     
  }
 
  .scroll-pane .content {
      -fx-background-color: transparent;
  }
+
 .scroll-pane .scroll-bar:vertical {
     -fx-max-width: 0;
     -fx-pref-width: 0;
@@ -206,13 +250,19 @@
 }
 
 
+/* Header for all pages */
+
+.adminHeaderBar {
+    -fx-background-color: #ffffff
+}
+
+
 /*Styling for mini dashboard on main home page*/
 
 .miniDashboardHeader{
     -fx-background-radius: 20 0 20 0;
     -fx-alignment: center;
     -fx-padding: 10;
-
 }
 
 
@@ -222,14 +272,12 @@
     -fx-pref-width: 300;
     -fx-pref-height: 150;
     -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);
-
 }
 
 
 .miniDashboardHeader HBox{
     -fx-alignment: center;
     -fx-spacing:30;
-
 }
 
 
@@ -260,6 +308,33 @@
 .combo-box:disabled .text {
     -fx-fill: black; /* Change this to your desired color */
 }
+
 .combo-box .text {
     -fx-text-fill: black;/* Change this to your desired color */
+}
+
+.excellent-condition {
+    -fx-bar-fill: #7CEA9C;
+}
+
+.good-condition {
+    -fx-bar-fill: #8bc5f9;
+}
+
+.fair-condition {
+    -fx-bar-fill: #FFC75F;
+}
+
+.poor-condition {
+    -fx-bar-fill: #C97064;
+}
+
+
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
 }

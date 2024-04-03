@@ -27,6 +27,11 @@ public class SupplierModel {
 
     }
 
+    public SupplierModel(int supplierID,
+                         String supplierName){
+        this.supplierID = supplierID;
+        this.supplierName = supplierName;
+    }
 
     //getter methods
 
@@ -99,5 +104,9 @@ public class SupplierModel {
     }
 
 
+    @Override
+    public String toString() {
+        return supplierName;
+    }
 
 }

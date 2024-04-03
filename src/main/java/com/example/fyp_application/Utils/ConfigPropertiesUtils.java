@@ -1,8 +1,10 @@
 package com.example.fyp_application.Utils;
 
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 public class ConfigPropertiesUtils {
@@ -23,7 +25,7 @@ public class ConfigPropertiesUtils {
         }
     }
 
-    public static String getValue(String key) {
+    public static String getPropertyValue(String key) {
 
         // Get the value of the key from the properties
         String value = properties.getProperty(key);
@@ -35,5 +37,14 @@ public class ConfigPropertiesUtils {
         return value;
     }
 
+
+    public static void setPropertyValue(String key, String value) {
+        properties.setProperty(key, value);
+        try (OutputStream output = new FileOutputStream("src/main/resources/config.properties")) {
+            properties.store(output, null);
+        } catch (IOException io) {
+            throw new RuntimeException("Could not write to config.properties", io);
+        }
+    }
 
 }

@@ -1,10 +1,4 @@
 
-
-
-
-/*to be deleted later*/
-
-
 .treeTableContainer {
     -fx-background-radius: 15px;
     -fx-background-color: #FFFFFF;
@@ -94,9 +88,6 @@
 }
 
 
-
-/*Styling for dashboard view*/
-
 .personalInformationContainer{
     -fx-background-radius: 15px;
     -fx-background-color: #FFFFFF;
@@ -104,12 +95,10 @@
 
 
 
-.personalInformationContainer Label{
 
+.personalInformationBorder{
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 10px;
 }
-
-
-/*custom button control styles*/
-
-
 

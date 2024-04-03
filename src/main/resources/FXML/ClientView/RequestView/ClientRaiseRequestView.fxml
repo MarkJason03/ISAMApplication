@@ -18,23 +18,95 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" prefWidth="1049.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRaiseRequestController">
    <children>
+      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1049.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/app_icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
+                     <children>
+                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#refreshForm" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
+                     <children>
+                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
+               <children>
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <graphic>
+                        <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="40" />
+                     </graphic>
+                  </Button>
+               </children>
+            </StackPane>
+         </children>
+         <styleClass>
+            <String fx:value="adminHeaderBar" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
       <AnchorPane fx:id="mainContentAnchorPane" layoutX="-1.0" layoutY="90.0" prefHeight="830.0" prefWidth="1070.0">
          <children>
             <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" prefHeight="830.0" prefWidth="1049.0" scaleShape="false" vbarPolicy="NEVER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="821.0" prefWidth="1051.0">
                      <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="5.0" stroke="BLACK" strokeType="INSIDE" width="1037.0">
+                           <fill>
+                              <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </Rectangle>
                         <VBox layoutX="14.0" layoutY="22.0" spacing="20.0">
                            <children>
                               <AnchorPane prefHeight="463.0" prefWidth="1021.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <styleClass>
                                     <String fx:value="shadow" />
                                     <String fx:value="personalInformationContainer" />
+                                    <String fx:value="personalInformationBorder" />
                                  </styleClass>
                                  <children>
                                     <VBox layoutY="98.0" prefHeight="347.0" prefWidth="1021.0" spacing="10.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
@@ -144,55 +216,6 @@
                </content>
             </ScrollPane>
          </children>
-      </AnchorPane>
-      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1049.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/app_icon.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="246.0" layoutY="18.0" prefHeight="53.0" prefWidth="227.0" text="ISAM Portal">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
-                     <children>
-                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#refreshForm" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
-               <children>
-                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeWindow" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
-                     <graphic>
-                        <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="40" />
-                     </graphic>
-                  </Button>
-               </children>
-            </StackPane>
-         </children>
-         <styleClass>
-            <String fx:value="adminHeaderBar" />
-            <String fx:value="shadow" />
-         </styleClass>
       </AnchorPane>
    </children>
 </AnchorPane>

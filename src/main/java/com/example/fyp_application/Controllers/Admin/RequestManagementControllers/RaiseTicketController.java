@@ -141,7 +141,7 @@ public class RaiseTicketController implements Initializable {
                 details,
                 "Created",
                 "Low",
-                DateTimeUtils.getCurrentDateTime()
+                DateTimeUtils.getYearMonthDayFormat()
         );
 
         // Check if the attachments ListView is not null and has items
@@ -288,19 +288,6 @@ public class RaiseTicketController implements Initializable {
     }
 
     @FXML
-    private void loadCurrentUser() {
-        userID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
-        name = CurrentLoggedUserHandler.getCurrentLoggedAdminFullName();
-        photoPath = CurrentLoggedUserHandler.getCurrentLoggedAdminImagePath();
-
-
-        username_lbl.setText(name);
-        javafx.scene.image.Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
-        loggedUserImage.setFill(new ImagePattern(curPhoto));
-        lastUpdateTime_lbl.setText("Last refreshed: " + DateTimeUtils.getCurrentTimeFormat());
-    }
-
-    @FXML
     private void searchUserInformation(){
         searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
@@ -325,7 +312,7 @@ public class RaiseTicketController implements Initializable {
         setUserComboBox();
         userInformationListener();
         searchUserInformation();
-        Platform.runLater(this::loadCurrentUser);
+
 
         attachmentCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {

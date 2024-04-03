@@ -1,6 +1,7 @@
 package com.example.fyp_application.Controllers.Admin.NavigationController;
 
 import com.example.fyp_application.Controllers.Admin.AssetManagementControllers.ManageAssetController;
+import com.example.fyp_application.Controllers.Admin.DashboardControllers.OverviewStatisticsController;
 import com.example.fyp_application.Controllers.Admin.ProfileManagementController.EditAdminProfileController;
 import com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController;
 import com.example.fyp_application.Controllers.Admin.SupplierManagementControllers.ModifiedManageSupplierController;
@@ -11,6 +12,7 @@ import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,9 +21,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class AdminSidebarController {
+public class AdminSidebarController implements Initializable {
 
     @FXML
     private Button dashboard_btn;
@@ -57,8 +61,10 @@ public class AdminSidebarController {
 
 
     @FXML
-    private void openReports() throws IOException {
-        //TODO - write maybe predefined reports?
+    private void openStatistics() throws IOException {
+        // Opens the statistics page
+
+        swapScene(ViewConstants.ADMIN_VIEW_STATISTICS, OverviewStatisticsController.class);
 
 
     }
@@ -143,4 +149,11 @@ public class AdminSidebarController {
 
     }
 
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        reports_btn.setVisible(CurrentLoggedUserHandler.getCurrentLoggedAdminID() == 1);
+    }
 }

@@ -21,12 +21,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane fx:id="mainAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ViewTicketController">
    <children>
-      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1600.0" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="headerAP" layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="1600.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="86.0" fitWidth="144.0" layoutX="125.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -38,49 +42,11 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label fx:id="username_lbl" layoutX="1333.0" layoutY="38.0" prefHeight="24.0" prefWidth="227.0" text="User" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="40.0">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <Circle fx:id="loggedUserImage" fill="DODGERBLUE" layoutX="1289.0" layoutY="57.0" radius="26.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="5.0" />
-            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
-                     <children>
-                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="minimizeApp_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="minimizeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="MINUS" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <Label fx:id="lastUpdateTime_lbl" layoutX="1333.0" layoutY="73.0" prefHeight="17.0" prefWidth="258.0" text="Last Updated:" />
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
-                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0">
+                  <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                      <graphic>
-                        <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="50" />
+                        <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="40" />
                      </graphic>
                   </Button>
                </children>
@@ -97,9 +63,27 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="1586.0">
                      <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="5.0" stroke="BLACK" strokeType="INSIDE" width="1585.0">
+                           <fill>
+                              <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </Rectangle>
                         <AnchorPane layoutX="1051.0" layoutY="35.0" prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                            <children>
-                              <Label fx:id="fullNameHolder_lbl1" layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Additional Information">
+                              <Label fx:id="fullNameHolder_lbl1" layoutX="36.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Additional Information">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -330,12 +314,14 @@
                            <styleClass>
                               <String fx:value="shadow" />
                               <String fx:value="personalInformationContainer" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                         </AnchorPane>
                         <AnchorPane layoutX="13.0" layoutY="35.0" prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                            <styleClass>
                               <String fx:value="shadow" />
                               <String fx:value="personalInformationContainer" />
+                              <String fx:value="personalInformationBorder" />
                            </styleClass>
                            <children>
                               <VBox layoutY="98.0" prefWidth="980.0" spacing="10.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="98.0">
@@ -437,7 +423,7 @@
                                     <Insets bottom="30.0" left="20.0" right="20.0" />
                                  </padding>
                               </VBox>
-                              <Label fx:id="fullNameHolder_lbl11" layoutX="20.0" layoutY="38.0" prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Call Summary">
+                              <Label fx:id="fullNameHolder_lbl11" layoutX="24.0" layoutY="39.0" prefHeight="35.0" prefWidth="161.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Call Summary">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>

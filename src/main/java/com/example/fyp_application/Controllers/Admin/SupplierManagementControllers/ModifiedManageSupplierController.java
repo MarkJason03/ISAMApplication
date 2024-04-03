@@ -1,12 +1,13 @@
 package com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
 
-import com.example.fyp_application.Model.SupplierDAO;
-import com.example.fyp_application.Model.SupplierModel;
+import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.ConfigPropertiesUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,15 +15,12 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,10 +28,44 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ModifiedManageSupplierController implements Initializable {
 
+
+    @FXML
+    private ComboBox<String>contractFilter_CB;
+    @FXML
+    private TextField searchBasket_TF;
+    @FXML
+    private ComboBox<AssetManufacturerModel> manufacturer_CB;
+
+    @FXML
+    private Button reload_btn1;
+    @FXML
+    private Label lastUpdate_lbl1;
+    @FXML
+    private Button addCatalogueDetails_btn;
+    @FXML
+    private Button editCatalogueDetails_btn;
+    @FXML
+    private TableView<ProcurementCatalogueModel> catalogueTable;
+    @FXML
+    private TableColumn<ProcurementCatalogueModel,ImageView> photo_col;
+    @FXML
+    private TableColumn<?,?> assetName_col;
+    @FXML
+    private TableColumn<?,?> manufacturer_col;
+    @FXML
+    private TableColumn<?,?> category_col;
+    @FXML
+    private TableColumn<?,?> storageSpec_col;
+    @FXML
+    private TableColumn<?,?> ramSpec_col;
+    @FXML
+    private TableColumn<?,?> unitPrice_col;
     @FXML
     private Button addSupplier_btn;
 
@@ -44,25 +76,13 @@ public class ModifiedManageSupplierController implements Initializable {
     private Label dateTimeHolder;
 
     @FXML
-    private Button deleteSupplier_btn;
-
-    @FXML
-    private Button editProfile_btn1;
-
-    @FXML
     private Button editSupplier_btn;
-
-    @FXML
-    private Label lastUpdate_lbl;
-
-    @FXML
-    private Button reload_btn;
 
     @FXML
     private TextField searchBar_TF;
 
     @FXML
-    private Button search_btn;
+    private TextField searchCatalogue_TF;
 
     @FXML
     private TextField supPhone_TF;
@@ -111,29 +131,32 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
     @FXML
-    private Label activeSuppliers_lbl;
-
+    private ComboBox<String> supplierFilter_CB;
     @FXML
-    private Label userCounter_lbl1;
+    private Label activeSuppliers_lbl;
 
     @FXML
     private Label InactiveSuppliers_lbl;
 
+    @FXML
+    private Label totalProcureableItems_lbl;
 
     private final SupplierDAO supplierDAO = new SupplierDAO();//instance of the Supplier Data Access Object
 
-
-    private void refreshTimer(){
-        String currentTime = DateTimeUtils.getCurrentTimeFormat();
-        lastUpdate_lbl.setText("Last Updated : " + currentTime);
-    }
+    private ObservableList<ProcurementCatalogueModel> procurementList;
 
     @FXML
     private ObservableList<SupplierModel> supplierListData;
 
     @FXML
-    private void loadSupplierTableData(){
-        supplierListData = supplierDAO.getAllSuppliers();
+    private void loadSupplierTableData(String filter){
+
+        if(filter.contains("All")){
+            supplierListData = SupplierDAO.getAllSuppliers();
+        } else {
+            supplierListData = SupplierDAO.getFilteredSupplierList(filter);
+        }
+
 
         supTable_col_ID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
         supTable_col_supName.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
@@ -147,26 +170,61 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
     }
+    
+    
 
     @FXML
-    private void searchSupplierDetails(){
-/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                supTableView.setItems(supplierListData); // Reset to show all data
-                return;
-            }
-            ObservableList<SupplierModel> filteredList = FXCollections.observableArrayList();
-            for (SupplierModel supplierModel : supplierListData) {
-                if (supplierModel.getSupplierName().toLowerCase().contains(newValue.toLowerCase())) {
-                    filteredList.add(supplierModel);
-                }
-            }
-            supTableView.setItems(filteredList);
-        });*/
+    private void loadCatalogueTable(String filter){
 
-        TableListenerUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
-                supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
+        // Set the items of the catalogueTable to get all the non-expired procurement items
+
+        if (filter.contains("All")) {
+            procurementList = ProcurementCatalogueDAO.getAllCatalogueList();
+        } else {
+            procurementList = ProcurementCatalogueDAO.getFilteredSupplierContractCatalogue(filter);
+        }
+
+
+
+        photo_col.setCellValueFactory(cellData -> {
+            ProcurementCatalogueModel asset = cellData.getValue();
+            String photoPath = asset.getAssetPicture();
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(150); // Set the desired height
+            imageView.setFitWidth(150); // Set the desired width
+
+            if (photoPath != null && !photoPath.isEmpty()) {
+                try {
+                    // Load the image from the photo path -Relative Folder:  CataloguePhotos
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
+                    imageView.setImage(image);
+                } catch (NullPointerException e) {
+
+                    System.err.println("Image not found: " + photoPath);
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
+                    imageView.setImage(image);
+                }
+            } else {
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
+                imageView.setImage(image);
+            }
+            return new SimpleObjectProperty<>(imageView);
+        });
+
+        assetName_col.setCellValueFactory(new PropertyValueFactory<>("assetName"));
+        manufacturer_col.setCellValueFactory(new PropertyValueFactory<>("manufacturerName"));
+        category_col.setCellValueFactory(new PropertyValueFactory<>("assetCategory"));
+        storageSpec_col.setCellValueFactory(new PropertyValueFactory<>("storageSpecs"));
+        ramSpec_col.setCellValueFactory(new PropertyValueFactory<>("ramSpecs"));
+        unitPrice_col.setCellValueFactory(new PropertyValueFactory<>("assetPrice"));
+
+        catalogueTable.setItems(procurementList);
     }
+
+
+
+
+
     private void tableListener(){
         supTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -189,6 +247,8 @@ public class ModifiedManageSupplierController implements Initializable {
             }
         });
     }
+
+
 
 
     @FXML
@@ -225,13 +285,8 @@ public class ModifiedManageSupplierController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
 
-
-            Platform.runLater(this::loadSupplierTableData);
-
-
-            Platform.runLater(this::countActiveSuppliers);
-            Platform.runLater(this::countInactiveSuppliers);
-
+            loadSupplierTableData("All");
+            Platform.runLater(this::setupMiniDashboardHeaders);
         }
 
 
@@ -279,14 +334,9 @@ public class ModifiedManageSupplierController implements Initializable {
                 e.printStackTrace();
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+                loadSupplierTableData("All");
+                Platform.runLater(this::setupMiniDashboardHeaders);
 
-
-
-                Platform.runLater(this::loadSupplierTableData);
-
-
-                Platform.runLater(this::countActiveSuppliers);
-                Platform.runLater(this::countInactiveSuppliers);
 
             }
 
@@ -295,41 +345,199 @@ public class ModifiedManageSupplierController implements Initializable {
 
     }
 
-
     @FXML
-    private void deleteSupplier(){
+    private void addNewCatalogueItem() {
 
-        SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) supTableView.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
-        if(selectedSupplier == null){
-            AlertNotificationUtils.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
-            return;
-        }
-        if(AlertNotificationUtils.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
-            int supplierID = selectedSupplier.getSupplierID();
-            supplierDAO.deleteSupplier(supplierID);
-            loadSupplierTableData();
-        } else{
-            AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
+        try {
+            //Load the supplier menu
+            //modal pop-up dialogue box
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_CATALOGUE_ITEM_POP_UP));
+            Parent root = modalViewLoader.load();
+
+
+
+            // New window setup as modal
+            Stage catalogueModalWindow = new Stage();
+            catalogueModalWindow.initOwner(currentDashboardStage);
+            catalogueModalWindow.initModality(Modality.WINDOW_MODAL);
+            catalogueModalWindow.initStyle(StageStyle.TRANSPARENT);
+
+
+            Scene scene = new Scene(root);
+            catalogueModalWindow.setScene(scene);
+
+            catalogueModalWindow.showAndWait(); // Blocks interaction with the main stage
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+            loadCatalogueTable("All");
+            Platform.runLater(this::setupMiniDashboardHeaders);
         }
     }
 
 
-
     @FXML
-    private void countActiveSuppliers(){
+    private void editCatalogueInformation(){
+        GaussianBlur blur = new GaussianBlur(10);
+        Stage currentDashboardStage = (Stage) catalogueTable.getScene().getWindow();
+        currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
-        System.out.println("Running Active Supplier Count");
-        int activeSuppliers = supplierDAO.countActiveSupplierContracts();
-        activeSuppliers_lbl.setText(String.valueOf(activeSuppliers));
+
+        ProcurementCatalogueModel selectedItem = catalogueTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Catalogue Editor", "Please select an item to edit");
+            currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
+        } else {
+            try {
+                //Load the supplier menu
+                //modal pop-up dialogue box
+                FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_CATALOGUE_ITEM_POP_UP));
+                Parent root = modalViewLoader.load();
+
+                EditCatalogueItemController editCatalogueItemController = modalViewLoader.getController();
+                editCatalogueItemController.loadSelectedCatalogueItem(selectedItem);
+
+
+                // New window setup as modal
+                Stage catalogueWindow = new Stage();
+                catalogueWindow.initOwner(currentDashboardStage);
+                catalogueWindow.initModality(Modality.WINDOW_MODAL);
+                catalogueWindow.initStyle(StageStyle.TRANSPARENT);
+
+
+                Scene scene = new Scene(root);
+                catalogueWindow.setScene(scene);
+
+                catalogueWindow.showAndWait(); // Blocks interaction with the main stage
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  finally {
+                currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+
+
+
+
+                loadCatalogueTable("All");
+                Platform.runLater(this::setupMiniDashboardHeaders);
+
+            }
+
+        }
     }
 
     @FXML
-    private void countInactiveSuppliers(){
+    private void loadFilteredCatalogueTable(String filter){
 
-        System.out.println("Running Inactive Supplier Count");
-        int inactiveSuppliers = supplierDAO.countInactiveSupplierContracts();
-        InactiveSuppliers_lbl.setText(String.valueOf(inactiveSuppliers));
+        procurementList = ProcurementCatalogueDAO.getFilteredProcurementCatalogue(filter);
+
+        photo_col.setCellValueFactory(cellData -> {
+            ProcurementCatalogueModel asset = cellData.getValue();
+            String photoPath = asset.getAssetPicture();
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(150); // Set the desired height
+            imageView.setFitWidth(150); // Set the desired width
+
+            if (photoPath != null && !photoPath.isEmpty()) {
+                try {
+                    // Load the image from the photo path -Relative Folder:  CataloguePhotos
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(photoPath)));
+                    imageView.setImage(image);
+                } catch (NullPointerException e) {
+
+                    System.err.println("Image not found: " + photoPath);
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
+                    imageView.setImage(image);
+                }
+            } else {
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
+                imageView.setImage(image);
+            }
+            return new SimpleObjectProperty<>(imageView);
+        });
+
+        assetName_col.setCellValueFactory(new PropertyValueFactory<>("assetName"));
+        manufacturer_col.setCellValueFactory(new PropertyValueFactory<>("manufacturerName"));
+        category_col.setCellValueFactory(new PropertyValueFactory<>("assetCategory"));
+        storageSpec_col.setCellValueFactory(new PropertyValueFactory<>("storageSpecs"));
+        ramSpec_col.setCellValueFactory(new PropertyValueFactory<>("ramSpecs"));
+        unitPrice_col.setCellValueFactory(new PropertyValueFactory<>("assetPrice"));
+
+        catalogueTable.setItems(procurementList);
+    }
+
+
+    @FXML
+    private void setupManufacturerFilter(){
+        // Set the items of the catalogueTable
+        List<AssetManufacturerModel> assetManufacturerList = AssetManufacturerDAO.getAllAssetManufacturers();
+        assetManufacturerList.add(0, new AssetManufacturerModel(0, "All"));
+        manufacturer_CB.getItems().addAll(assetManufacturerList);
+
+        manufacturer_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.getManufacturerName().contains("All")) {
+                loadCatalogueTable("All");
+            } else {
+                loadFilteredCatalogueTable(newValue.getManufacturerName());
+
+            }
+        });
+    }
+    
+    
+    @FXML
+    private void setupContractStatusFilter(){
+        List<String> contractStatusList = List.of("All","Active", "Expired");
+        contractFilter_CB.getItems().addAll(contractStatusList);
+        supplierFilter_CB.getItems().addAll(contractStatusList);
+
+        contractFilter_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.contains("All")) {
+                loadCatalogueTable("All");
+            } else {
+                loadCatalogueTable(newValue);
+            }
+        });
+
+        supplierFilter_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.contains("All")) {
+                loadSupplierTableData("All");
+            } else {
+                loadSupplierTableData(newValue);
+            }
+        });
+
+    }
+
+    @FXML
+    private void createCatalogReport() throws IOException {
+
+        TableListenerUtils.exportTableViewToExcel(catalogueTable);
+
+        AlertNotificationUtils.showInformationMessageAlert("Export Complete", "Catalogue data exported to Excel");
+    }
+
+    @FXML
+    private void createSupplierReport() throws IOException {
+
+        TableListenerUtils.exportTableViewToExcel(supTableView);
+
+        AlertNotificationUtils.showInformationMessageAlert("Export Complete", "Supplier data exported to Excel");
+    }
+
+    @FXML
+    private void setupMiniDashboardHeaders(){
+        activeSuppliers_lbl.setText("Total: " + SupplierDAO.countActiveSupplierContracts());
+        InactiveSuppliers_lbl.setText("Total: " + SupplierDAO.countInactiveSupplierContracts());
+        totalProcureableItems_lbl.setText("Total: " + ProcurementCatalogueDAO.countTotalProcurementItems());
     }
 
     @Override
@@ -338,14 +546,21 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
 
-        Platform.runLater(this::countActiveSuppliers);
-        Platform.runLater(this::countInactiveSuppliers);
+        setupManufacturerFilter();
+        setupContractStatusFilter();
+
+        loadCatalogueTable("All");
+        loadSupplierTableData("All");
+        Platform.runLater(this::setupMiniDashboardHeaders);
 
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
-        loadSupplierTableData();
-        refreshTimer();
-        searchSupplierDetails();
         tableListener();
+        TableListenerUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
+                supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
+
+        TableListenerUtils.searchTableDetails(searchCatalogue_TF, catalogueTable, procurementList, (catalogue, search) ->
+                catalogue.getAssetName().toLowerCase().contains(search.toLowerCase()));
+
     }
 }

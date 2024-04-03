@@ -13,12 +13,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="mainAnchorPaneBody" prefHeight="905.0" prefWidth="961.0" scaleShape="false" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.AssetManagementControllers.EditAssetController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="368.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="932.0" AnchorPane.leftAnchor="14.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="368.0" layoutX="15.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" width="932.0">
+         <fill>
+            <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
       <Label layoutX="51.0" layoutY="39.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Asset Manager" textFill="WHITE">
          <font>
             <Font name="System Bold" size="36.0" />
@@ -106,13 +126,13 @@
                         <Label layoutX="448.0" layoutY="659.0" text="Asset Status" />
                         <ChoiceBox fx:id="assetCondition_CB" layoutX="66.0" layoutY="686.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="66.0" layoutY="796.0" text="Purchase Date" />
-                        <DatePicker fx:id="purchaseDate_DP" layoutX="65.0" layoutY="824.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="purchaseDate_DP" editable="false" layoutX="65.0" layoutY="824.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="443.0" layoutY="796.0" text="Estimated EoL Date" />
-                        <DatePicker fx:id="estimatedEOL_DP" layoutX="442.0" layoutY="824.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="estimatedEOL_DP" editable="false" layoutX="442.0" layoutY="824.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="445.0" layoutY="884.0" text="Warranty End Date" />
-                        <DatePicker fx:id="warrantyEnd_DP" layoutX="444.0" layoutY="912.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="warrantyEnd_DP" editable="false" layoutX="444.0" layoutY="912.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="67.0" layoutY="884.0" text="Warranty Start Date" />
-                        <DatePicker fx:id="warrantyStart_DP" layoutX="66.0" layoutY="912.0" prefHeight="39.0" prefWidth="300.0" />
+                        <DatePicker fx:id="warrantyStart_DP" editable="false" layoutX="66.0" layoutY="912.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="445.0" layoutY="257.0" text="Category" />
                         <ChoiceBox fx:id="category_CB" layoutX="444.0" layoutY="286.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="67.0" layoutY="346.0" text="Manufacturer" />
@@ -135,7 +155,7 @@
                <children>
                   <Button fx:id="resetFormBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#refreshInformation" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
                      <graphic>
-                        <FontAwesomeIconView glyphName="REFRESH" size="35" />
+                        <FontAwesomeIconView fill="WHITE" glyphName="REFRESH" size="35" />
                      </graphic>
                   </Button>
                </children>
@@ -144,7 +164,7 @@
                <children>
                   <Button fx:id="exitWindowBtn" layoutY="-2.0" mnemonicParsing="false" onAction="#cancelUpdate" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
                      <graphic>
-                        <FontAwesomeIconView glyphName="CLOSE" size="40" />
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="40" />
                      </graphic>
                   </Button>
                </children>

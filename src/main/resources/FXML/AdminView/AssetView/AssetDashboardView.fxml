@@ -97,27 +97,27 @@
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="opSystem_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="OS" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="opSystem_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="OS" GridPane.rowIndex="1" />
                                                             <Label text="Ram Spec" GridPane.rowIndex="3">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="ramSpec_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="RAM" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="ramSpec_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="RAM" GridPane.rowIndex="4" />
                                                             <Label text="Storage Spec" GridPane.rowIndex="6">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="storageSpec_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Storage" GridPane.rowIndex="7" />
+                                                            <TextField fx:id="storageSpec_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Storage" GridPane.rowIndex="7" />
                                                             <Label text="Manufacturer" GridPane.columnIndex="1">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="manufacturer_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                            <TextField fx:id="warrantStartDate_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Warranty Start Date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                                            <TextField fx:id="warrantEndDate_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Warranty End Date" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                                            <TextField fx:id="manufacturer_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="warrantStartDate_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Warranty Start Date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="warrantEndDate_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="Warranty End Date" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                                             <Label text="Warranty Start Date" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
@@ -201,19 +201,17 @@
                                        <children>
                                           <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="42.0" prefWidth="290.0" promptText="Search Asset ID / SN" />
                                           <FontAwesomeIconView glyphName="SEARCH" layoutX="271.0" layoutY="45.0" opacity="0.25" size="35" />
-                                          <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="652.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                                             <font>
-                                                <Font name="System Bold" size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <FontAwesomeIconView glyphName="REFRESH" layoutX="921.0" layoutY="44.0" size="35" text="" />
-                                          <Button fx:id="reload_btn" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                                           <Label layoutX="364.0" layoutY="16.0" prefHeight="32.0" prefWidth="67.0" text="Sort by :">
                                              <font>
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
                                           <ComboBox fx:id="assetStatusFilter_CB" layoutX="447.0" layoutY="15.0" prefHeight="34.0" prefWidth="191.0" style="-fx-background-color: white;" />
+                                          <Button fx:id="generateAssetReport_btn" layoutX="905.0" layoutY="10.0" mnemonicParsing="false" onAction="#createAssetReport" prefHeight="40.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                             <graphic>
+                                                <FontIcon iconLiteral="mdi2p-printer" iconSize="35" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                     </Pane>
                                  </children>
@@ -265,27 +263,27 @@
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="userFullname_TF" prefHeight="40.0" prefWidth="180.0" promptText="Current Owner" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="userFullname_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Current Owner" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
                                                             <Label text="Email" GridPane.rowIndex="3">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="userEmail_TF" prefHeight="40.0" prefWidth="180.0" promptText="Email" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="userEmail_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Email" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
                                                             <Label text="Building " GridPane.rowIndex="6">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="building_TF" prefHeight="40.0" prefWidth="180.0" promptText="Building Name" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
+                                                            <TextField fx:id="building_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Building Name" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
                                                             <Label text="Department" GridPane.columnIndex="1">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextField fx:id="userDept_TF" prefHeight="40.0" prefWidth="180.0" promptText="Department" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                            <TextField fx:id="userPhone_TF" prefHeight="40.0" prefWidth="180.0" promptText="Work Phone" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                                            <TextField fx:id="office_TF" prefHeight="40.0" prefWidth="180.0" promptText="Office Room" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                                            <TextField fx:id="userDept_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Department" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="userPhone_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Work Phone" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="office_TF" editable="false" prefHeight="40.0" prefWidth="180.0" promptText="Office Room" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                                             <Label text="Phone" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
@@ -339,7 +337,7 @@
                                     </HBox>
                                     <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
                                        <children>
-                                          <ScrollPane hbarPolicy="NEVER" layoutY="19.0" prefHeight="445.0" prefWidth="943.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <ScrollPane layoutY="19.0" prefHeight="445.0" prefWidth="943.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <content>
                                                 <TableView fx:id="allocHistoryTable" prefHeight="467.0" prefWidth="941.0" tableMenuButtonVisible="true">
                                                    <columns>
@@ -352,6 +350,7 @@
                                                       <TableColumn fx:id="allocHistoryRetDate_col" prefWidth="110.0" text="ReturnedDate" />
                                                       <TableColumn fx:id="allocOverdueInfo_col" prefWidth="132.0" text="OverDue" />
                                                       <TableColumn fx:id="allocOverDueDays" prefWidth="132.0" text="Days Overdue" />
+                                                      <TableColumn fx:id="owner_col" prefWidth="75.0" text="Current Owner" />
                                                    </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -365,19 +364,17 @@
                                        <children>
                                           <TextField fx:id="allocSearchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="42.0" prefWidth="290.0" promptText="Search" />
                                           <FontAwesomeIconView glyphName="SEARCH" layoutX="271.0" layoutY="45.0" opacity="0.25" size="35" />
-                                          <Label fx:id="lastUpdate_lbl1" alignment="CENTER" layoutX="652.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                                             <font>
-                                                <Font name="System Bold" size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <FontAwesomeIconView glyphName="REFRESH" layoutX="921.0" layoutY="44.0" size="35" text="" />
-                                          <Button fx:id="reload_btn1" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" onAction="#reloadAssetTable" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                                           <Label layoutX="364.0" layoutY="16.0" prefHeight="32.0" prefWidth="67.0" text="Sort by :">
                                              <font>
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
                                           <ComboBox fx:id="allocationStatusFilter_CB" layoutX="447.0" layoutY="15.0" prefHeight="34.0" prefWidth="191.0" style="-fx-background-color: white;" />
+                                          <Button fx:id="generateAllocationReport" layoutX="905.0" layoutY="10.0" mnemonicParsing="false" onAction="#createAllocationReport" prefHeight="40.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                             <graphic>
+                                                <FontIcon iconLiteral="mdi2p-printer" iconSize="35" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                     </Pane>
                                  </children>

@@ -32,6 +32,8 @@ module com.example.fyp_application {
     requires de.mkammerer.argon2;
     requires org.apache.commons.codec;
     requires java.mail;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
 
     opens com.example.fyp_application to javafx.fxml;

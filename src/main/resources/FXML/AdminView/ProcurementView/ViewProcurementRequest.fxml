@@ -230,6 +230,11 @@
                                           </TableView>
                                           <HBox alignment="CENTER_RIGHT" fillHeight="false" layoutX="30.0" layoutY="276.0" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                              <children>
+                                                <Label fx:id="currentStatus_lbl" prefHeight="35.0" prefWidth="572.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Request Status">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
                                                 <Label prefHeight="35.0" prefWidth="107.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Subtotal">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
@@ -244,6 +249,11 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                              <children>
+                                                <Label fx:id="approvedBy_lbl" prefHeight="35.0" prefWidth="581.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Approved By">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
                                                 <Label prefHeight="35.0" prefWidth="98.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="VAT(%)">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
@@ -258,6 +268,11 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="46.0" prefWidth="258.0" spacing="20.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css">
                                              <children>
+                                                <Label fx:id="dateHolder_lbl" prefHeight="35.0" prefWidth="556.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Subtotal">
+                                                   <font>
+                                                      <Font name="System Bold" size="24.0" />
+                                                   </font>
+                                                </Label>
                                                 <Label prefHeight="35.0" prefWidth="130.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Total Cost">
                                                    <font>
                                                       <Font name="System Bold" size="24.0" />
@@ -319,15 +334,7 @@
                                                             </Label>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane layoutX="815.0" layoutY="16.0" prefHeight="74.0" prefWidth="303.0">
-                                                         <children>
-                                                            <Label fx:id="procurementManager_lbl" prefHeight="41.0" prefWidth="319.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Total Cost">
-                                                               <font>
-                                                                  <Font name="System Bold" size="24.0" />
-                                                               </font>
-                                                            </Label>
-                                                         </children>
-                                                      </AnchorPane>
+                                                      <AnchorPane layoutX="815.0" layoutY="16.0" prefHeight="74.0" prefWidth="303.0" />
                                                    </children>
                                                 </HBox>
                                              </children>

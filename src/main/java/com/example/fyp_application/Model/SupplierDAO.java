@@ -79,6 +79,41 @@ public class SupplierDAO {
         return  supplierList;
     }
 
+    public static ObservableList<SupplierModel> getFilteredSupplierList(String filter) {
+        //List to store supplier data
+        ObservableList<SupplierModel> supplierList = FXCollections.observableArrayList();
+        //Instance of the class
+        SupplierModel supplierModel;
+
+        String sql = """
+                SELECT *
+                FROM tbl_Suppliers
+                WHERE supplierContractStatus = ?;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, filter);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    supplierModel = new SupplierModel(
+                            resultSet.getInt("supplierID"),
+                            resultSet.getString("supplierName"),
+                            resultSet.getString("supplierAddress"),
+                            resultSet.getString("supplierEmail"),
+                            resultSet.getString("supplierPhone"),
+                            resultSet.getString("supplierContractStatus"),
+                            resultSet.getString("contractStartDate"),
+                            resultSet.getString("contractEndDate")
+                    );
+                    supplierList.add(supplierModel);
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return supplierList;
+    }
 
 
     public void addSupplier(String supplierName, String supplierEmail, String supplierPhone, String contractStatus, String supplierAddress, String contractStartDate, String contractEndDate){
@@ -195,7 +230,7 @@ public class SupplierDAO {
 
 
 
-    public int countActiveSupplierContracts() {
+    public static int countActiveSupplierContracts() {
 
         int counter = 0;
 
@@ -218,7 +253,7 @@ public class SupplierDAO {
 
     }
 
-    public int countInactiveSupplierContracts(){
+    public static int  countInactiveSupplierContracts(){
 
         int counter = 0;
         String sql = "SELECT COUNT(supplierID) FROM tbl_Suppliers WHERE supplierContractStatus = 'Expired'";

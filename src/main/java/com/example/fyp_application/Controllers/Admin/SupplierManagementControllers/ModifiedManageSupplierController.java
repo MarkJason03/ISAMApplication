@@ -76,25 +76,13 @@ public class ModifiedManageSupplierController implements Initializable {
     private Label dateTimeHolder;
 
     @FXML
-    private Button deleteSupplier_btn;
-
-    @FXML
-    private Button editProfile_btn1;
-
-    @FXML
     private Button editSupplier_btn;
-
-    @FXML
-    private Label lastUpdate_lbl;
-
-    @FXML
-    private Button reload_btn;
 
     @FXML
     private TextField searchBar_TF;
 
     @FXML
-    private Button search_btn;
+    private TextField searchCatalogue_TF;
 
     @FXML
     private TextField supPhone_TF;
@@ -143,29 +131,32 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
     @FXML
+    private ComboBox<String> supplierFilter_CB;
+    @FXML
     private Label activeSuppliers_lbl;
 
     @FXML
-    private Label userCounter_lbl1;
+    private Label InactiveSuppliers_lbl;
 
     @FXML
-    private Label InactiveSuppliers_lbl;
+    private Label totalProcureableItems_lbl;
 
     private final SupplierDAO supplierDAO = new SupplierDAO();//instance of the Supplier Data Access Object
 
     private ObservableList<ProcurementCatalogueModel> procurementList;
 
-    private void refreshTimer(){
-        String currentTime = DateTimeUtils.getCurrentTimeFormat();
-        lastUpdate_lbl.setText("Last Updated : " + currentTime);
-    }
-
     @FXML
     private ObservableList<SupplierModel> supplierListData;
 
     @FXML
-    private void loadSupplierTableData(){
-        supplierListData = SupplierDAO.getAllSuppliers();
+    private void loadSupplierTableData(String filter){
+
+        if(filter.contains("All")){
+            supplierListData = SupplierDAO.getAllSuppliers();
+        } else {
+            supplierListData = SupplierDAO.getFilteredSupplierList(filter);
+        }
+
 
         supTable_col_ID.setCellValueFactory(new PropertyValueFactory<>("supplierID"));
         supTable_col_supName.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
@@ -190,10 +181,10 @@ public class ModifiedManageSupplierController implements Initializable {
         if (filter.contains("All")) {
             procurementList = ProcurementCatalogueDAO.getAllCatalogueList();
         } else {
-            procurementList = ProcurementCatalogueDAO.getFilteredActiveProcurementCatalogue(filter);
+            procurementList = ProcurementCatalogueDAO.getFilteredSupplierContractCatalogue(filter);
         }
 
-        procurementList = ProcurementCatalogueDAO.getFilteredSupplierContractCatalogue(filter);
+
 
         photo_col.setCellValueFactory(cellData -> {
             ProcurementCatalogueModel asset = cellData.getValue();
@@ -232,12 +223,8 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
 
-    @FXML
-    private void searchSupplierDetails(){
 
-        TableListenerUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
-                supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
-    }
+
     private void tableListener(){
         supTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -298,13 +285,8 @@ public class ModifiedManageSupplierController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
 
-
-            Platform.runLater(this::loadSupplierTableData);
-
-
-            Platform.runLater(this::countActiveSuppliers);
-            Platform.runLater(this::countInactiveSuppliers);
-
+            loadSupplierTableData("All");
+            Platform.runLater(this::setupMiniDashboardHeaders);
         }
 
 
@@ -352,14 +334,9 @@ public class ModifiedManageSupplierController implements Initializable {
                 e.printStackTrace();
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
+                loadSupplierTableData("All");
+                Platform.runLater(this::setupMiniDashboardHeaders);
 
-
-
-                Platform.runLater(this::loadSupplierTableData);
-
-
-                Platform.runLater(this::countActiveSuppliers);
-                Platform.runLater(this::countInactiveSuppliers);
 
             }
 
@@ -400,26 +377,8 @@ public class ModifiedManageSupplierController implements Initializable {
         }  finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
-
-        }
-    }
-
-
-    @FXML
-    private void deleteSupplier(){
-
-        SupplierModel selectedSupplier = supTableView.getSelectionModel().getSelectedItem();
-
-        if(selectedSupplier == null){
-            AlertNotificationUtils.showErrorMessageAlert("Error Deleting Supplier", "Please select a supplier to delete");
-            return;
-        }
-        if(AlertNotificationUtils.showConfirmationAlert("Delete Supplier", "Are you sure you want to delete this supplier?")){
-            int supplierID = selectedSupplier.getSupplierID();
-            supplierDAO.deleteSupplier(supplierID);
-            loadSupplierTableData();
-        } else{
-            AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "Supplier Deletion Cancelled");
+            loadCatalogueTable("All");
+            Platform.runLater(this::setupMiniDashboardHeaders);
         }
     }
 
@@ -434,7 +393,7 @@ public class ModifiedManageSupplierController implements Initializable {
         ProcurementCatalogueModel selectedItem = catalogueTable.getSelectionModel().getSelectedItem();
 
         if (selectedItem == null) {
-            AlertNotificationUtils.showErrorMessageAlert("Error Loading Supplier Editor", "Please select a supplier to edit");
+            AlertNotificationUtils.showErrorMessageAlert("Error Loading Catalogue Editor", "Please select an item to edit");
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
@@ -448,16 +407,16 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
                 // New window setup as modal
-                Stage supplierPopUpStage = new Stage();
-                supplierPopUpStage.initOwner(currentDashboardStage);
-                supplierPopUpStage.initModality(Modality.WINDOW_MODAL);
-                supplierPopUpStage.initStyle(StageStyle.TRANSPARENT);
+                Stage catalogueWindow = new Stage();
+                catalogueWindow.initOwner(currentDashboardStage);
+                catalogueWindow.initModality(Modality.WINDOW_MODAL);
+                catalogueWindow.initStyle(StageStyle.TRANSPARENT);
 
 
                 Scene scene = new Scene(root);
-                supplierPopUpStage.setScene(scene);
+                catalogueWindow.setScene(scene);
 
-                supplierPopUpStage.showAndWait(); // Blocks interaction with the main stage
+                catalogueWindow.showAndWait(); // Blocks interaction with the main stage
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -466,11 +425,9 @@ public class ModifiedManageSupplierController implements Initializable {
 
 
 
-                Platform.runLater(this::loadSupplierTableData);
 
-
-                Platform.runLater(this::countActiveSuppliers);
-                Platform.runLater(this::countInactiveSuppliers);
+                loadCatalogueTable("All");
+                Platform.runLater(this::setupMiniDashboardHeaders);
 
             }
 
@@ -480,7 +437,7 @@ public class ModifiedManageSupplierController implements Initializable {
     @FXML
     private void loadFilteredCatalogueTable(String filter){
 
-        procurementList = ProcurementCatalogueDAO.getFilteredActiveProcurementCatalogue(filter);
+        procurementList = ProcurementCatalogueDAO.getFilteredProcurementCatalogue(filter);
 
         photo_col.setCellValueFactory(cellData -> {
             ProcurementCatalogueModel asset = cellData.getValue();
@@ -540,51 +497,70 @@ public class ModifiedManageSupplierController implements Initializable {
     private void setupContractStatusFilter(){
         List<String> contractStatusList = List.of("All","Active", "Expired");
         contractFilter_CB.getItems().addAll(contractStatusList);
+        supplierFilter_CB.getItems().addAll(contractStatusList);
 
         contractFilter_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.contains("All")) {
                 loadCatalogueTable("All");
             } else {
                 loadCatalogueTable(newValue);
+            }
+        });
 
+        supplierFilter_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.contains("All")) {
+                loadSupplierTableData("All");
+            } else {
+                loadSupplierTableData(newValue);
             }
         });
 
     }
 
     @FXML
-    private void countActiveSuppliers(){
+    private void createCatalogReport() throws IOException {
 
-        System.out.println("Running Active Supplier Count");
-        int activeSuppliers = supplierDAO.countActiveSupplierContracts();
-        activeSuppliers_lbl.setText(String.valueOf(activeSuppliers));
+        TableListenerUtils.exportTableViewToExcel(catalogueTable);
+
+        AlertNotificationUtils.showInformationMessageAlert("Export Complete", "Catalogue data exported to Excel");
     }
 
     @FXML
-    private void countInactiveSuppliers(){
+    private void createSupplierReport() throws IOException {
 
-        System.out.println("Running Inactive Supplier Count");
-        int inactiveSuppliers = supplierDAO.countInactiveSupplierContracts();
-        InactiveSuppliers_lbl.setText(String.valueOf(inactiveSuppliers));
+        TableListenerUtils.exportTableViewToExcel(supTableView);
+
+        AlertNotificationUtils.showInformationMessageAlert("Export Complete", "Supplier data exported to Excel");
+    }
+
+    @FXML
+    private void setupMiniDashboardHeaders(){
+        activeSuppliers_lbl.setText("Total: " + SupplierDAO.countActiveSupplierContracts());
+        InactiveSuppliers_lbl.setText("Total: " + SupplierDAO.countInactiveSupplierContracts());
+        totalProcureableItems_lbl.setText("Total: " + ProcurementCatalogueDAO.countTotalProcurementItems());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+
+
         setupManufacturerFilter();
         setupContractStatusFilter();
 
         loadCatalogueTable("All");
-
-        Platform.runLater(this::countActiveSuppliers);
-        Platform.runLater(this::countInactiveSuppliers);
+        loadSupplierTableData("All");
+        Platform.runLater(this::setupMiniDashboardHeaders);
 
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
-        loadSupplierTableData();
-        refreshTimer();
-        searchSupplierDetails();
         tableListener();
+        TableListenerUtils.searchTableDetails(searchBar_TF, supTableView, supplierListData, (supplier, search) ->
+                supplier.getSupplierName().toLowerCase().contains(search.toLowerCase()));
+
+        TableListenerUtils.searchTableDetails(searchCatalogue_TF, catalogueTable, procurementList, (catalogue, search) ->
+                catalogue.getAssetName().toLowerCase().contains(search.toLowerCase()));
+
     }
 }

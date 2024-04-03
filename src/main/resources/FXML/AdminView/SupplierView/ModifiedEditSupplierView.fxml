@@ -116,6 +116,5 @@
             </AnchorPane>
          </children>
       </HBox>
-      <Label fx:id="dateTimeHolder1" layoutX="39.0" layoutY="82.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
    </children>
 </AnchorPane>

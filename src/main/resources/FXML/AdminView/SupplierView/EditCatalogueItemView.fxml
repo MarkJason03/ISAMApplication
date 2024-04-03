@@ -43,7 +43,7 @@
             <TextField fx:id="assetName_TF" layoutX="65.0" layoutY="191.0" prefHeight="40.0" prefWidth="257.0" style="-fx-border-radius: 20px;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="461.0" />
             <TextField fx:id="assetPrice_TF" layoutX="65.0" layoutY="289.0" prefHeight="40.0" prefWidth="141.0" style="-fx-border-radius: 20px;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="461.0" />
             <Pane layoutX="37.0" layoutY="116.0" opacity="0.5" prefHeight="2.0" prefWidth="780.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="116.0" />
-            <Button fx:id="saveProfileChanges_btn" layoutX="487.0" layoutY="60.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
+            <Button fx:id="saveProfileChanges_btn" layoutX="487.0" layoutY="60.0" mnemonicParsing="false" onAction="#saveCatalogueChanges" prefHeight="42.0" prefWidth="117.0" styleClass="editProfileButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Save">
                <graphic>
                   <FontAwesomeIconView glyphName="SAVE" size="30" />
                </graphic>
@@ -125,6 +125,5 @@
             </AnchorPane>
          </children>
       </HBox>
-      <Label fx:id="dateTimeHolder1" layoutX="36.0" layoutY="82.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
    </children>
 </AnchorPane>

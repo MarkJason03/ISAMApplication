@@ -34,24 +34,13 @@ public class TextFieldListenerUtils {
 
 
 
-       public static void assetPriceTextFieldListener(TextField assetPriceTextField) {
+        public static void assetPriceTextFieldListener(TextField assetPriceTextField) {
             assetPriceTextField.textProperty().addListener((observable, oldValue, newInput) -> {
-
-                // Removes non digit numbers from the input
-                String numberOnlyValue = newInput.replaceAll("\\D", "");
-
-                // Assuming arbitrary value - 1_000_000
-                // check the length of the phone number
-                if (numberOnlyValue.length() > 6) {
-                    // stop the user from entering more than 7 characters
-                    assetPriceTextField.setText(numberOnlyValue.substring(0, 6));
-                }
-
-                if(!newInput.equals(numberOnlyValue)){
-                    assetPriceTextField.setText(numberOnlyValue);
+                if (!newInput.matches("\\d*(\\.\\d{0,2})?") || newInput.length() > 7) {
+                    assetPriceTextField.setText(oldValue);
                 }
             });
-       }
+        }
 
 
        public static void userSearchBarListener(TextField searchBar, ComboBox<UserModel> userList_CB, List<UserModel> userList) {

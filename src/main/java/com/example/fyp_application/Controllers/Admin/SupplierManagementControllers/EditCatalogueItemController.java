@@ -1,9 +1,8 @@
 package com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AttachmentUtils;
-import com.example.fyp_application.Utils.SharedButtonUtils;
-import com.example.fyp_application.Utils.TextFieldListenerUtils;
+import com.example.fyp_application.Utils.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -60,10 +59,45 @@ public class EditCatalogueItemController implements Initializable {
     private int catalogueID;
 
 
+    private ObservableList<ProcurementCatalogueModel> catalogueInformation;
+
     //This controller breaks DRY principles as it has a lot of repeated code from other controllers.
     //This controller can be refactored to use a superclass that contains the repeated code.
 
 
+    @FXML
+    private void saveCatalogueChanges(){
+        //save profile changes
+        if(isFormValid()){
+            ProcurementCatalogueDAO.updateCatalogueItem(
+                    supplier_CB.getValue().getSupplierID(),
+                    manufacturer_CB.getValue().getManufacturerID(),
+                    assetCategory_CB.getValue().getAssetCategoryID(),
+                    assetName_TF.getText(),
+                    storageSpec_CB.getValue(),
+                    ramSpec_CB.getValue(),
+                    Double.parseDouble(assetPrice_TF.getText()),
+                    assetPhotoPath_TF.getText(),
+                    catalogueID);
+            AlertNotificationUtils.showInformationMessageAlert("Success", "Catalogue item updated successfully");
+            closeWindow();
+        }
+        else{
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields");
+        }
+    }
+
+
+    private boolean isFormValid() {
+        return !assetName_TF.getText().isEmpty() &&
+                !assetPrice_TF.getText().isEmpty() &&
+                !assetPhotoPath_TF.getText().isEmpty() &&
+                assetCategory_CB.getValue() != null &&
+                manufacturer_CB.getValue() != null &&
+                supplier_CB.getValue() != null &&
+                ramSpec_CB.getValue() != null &&
+                storageSpec_CB.getValue() != null;
+    }
 
 
     @FXML
@@ -86,9 +120,11 @@ public class EditCatalogueItemController implements Initializable {
         ramSpec_CB.getItems().addAll("N/A","8GB", "16GB", "32GB", "64GB");
         storageSpec_CB.getItems().addAll("N/A","128GB", "256GB", "512GB", "1TB", "2TB");
 
-        //TextFieldListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
+        TextFieldListenerUtils.assetPriceTextFieldListener(assetPrice_TF);
     }
     public void loadSelectedCatalogueItem(ProcurementCatalogueModel selectedItem) {
+
+
 
         this.catalogueID = selectedItem.getCatalogID();
 
@@ -123,6 +159,43 @@ public class EditCatalogueItemController implements Initializable {
     }
 
     @FXML
+    private void resetForm(){
+
+        ObservableList<ProcurementCatalogueModel> selectedItem = ProcurementCatalogueDAO.getSelectedCatalogueItem(catalogueID);
+
+
+        assetName_TF.setText(selectedItem.get(0).getAssetName());
+
+        String formattedPrice = String.format("%.2f", selectedItem.get(0).getAssetPrice());
+        assetPrice_TF.setText(formattedPrice);
+        assetPhotoPath_TF.setText(selectedItem.get(0).getAssetPicture());
+
+
+        for (AssetCategoryModel assetCategoryModel : assetCategory_CB.getItems()) {
+            if (assetCategoryModel.getAssetCategoryID() == selectedItem.get(0).getAssetCategoryID()) {
+                assetCategory_CB.setValue(assetCategoryModel);
+            }
+        }
+
+        for (AssetManufacturerModel assetManufacturerModel : manufacturer_CB.getItems()) {
+            if (assetManufacturerModel.getManufacturerID() == selectedItem.get(0).getManufacturerID()){
+                manufacturer_CB.setValue(assetManufacturerModel);
+            }
+        }
+
+        for (SupplierModel supplierModel : supplier_CB.getItems()) {
+            if (supplierModel.getSupplierID() == selectedItem.get(0).getSupplierID()){
+                supplier_CB.setValue(supplierModel);
+            }
+        }
+
+        ramSpec_CB.setValue(selectedItem.get(0).getRamSpecs());
+        storageSpec_CB.setValue(selectedItem.get(0).getStorageSpecs());
+
+    }
+
+
+    @FXML
     private void closeWindow(){
 
         SharedButtonUtils.closeMenu(cancel_btn);
@@ -131,7 +204,7 @@ public class EditCatalogueItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupForm();
-
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
     }
 

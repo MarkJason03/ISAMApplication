@@ -394,5 +394,53 @@ public class AssetDAO {
         }
         return count;
     }
+
+
+    public static int countTotalAvailableAssets() {
+        //Count the total number of available assets
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetStatus)
+                FROM tbl_Assets
+                WHERE AssetStatus = 'Available';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+
+    public static int countTotalDeployedAssets() {
+        //Count the total number of deployed assets
+        int count = 0;
+        String sql = """
+                SELECT COUNT(AssetStatus)
+                FROM tbl_Assets
+                WHERE AssetStatus = 'In Use';
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return count;
+    }
+
+
+
+
 }
 

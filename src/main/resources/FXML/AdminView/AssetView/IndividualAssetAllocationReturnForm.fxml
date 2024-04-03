@@ -44,29 +44,6 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <HBox fillHeight="false" layoutX="1486.0" spacing="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
-                     <children>
-                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0" />
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeMenu" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
                   <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
@@ -116,10 +93,10 @@
                                        </font>
                                     </Label>
                                     <Pane layoutX="32.0" layoutY="82.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
-                                    <GridPane layoutX="56.0" layoutY="93.0" prefHeight="274.0" prefWidth="438.0">
+                                    <GridPane layoutX="34.0" layoutY="95.0" prefHeight="273.0" prefWidth="462.0">
                                        <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="230.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="182.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="277.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="188.0" />
                                        </columnConstraints>
                                        <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -340,7 +317,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="sendReminder_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="230.0" styleClass="cancelChangesButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Send Reminder">
+                                    <Button fx:id="sendReminder_btn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#sendEmailReminder" prefHeight="57.0" prefWidth="230.0" styleClass="cancelChangesButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Send Reminder">
                                        <graphic>
                                           <FontAwesomeIconView glyphName="PASTE" size="30" />
                                        </graphic>

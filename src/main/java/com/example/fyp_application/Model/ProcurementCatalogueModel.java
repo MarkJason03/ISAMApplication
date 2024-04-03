@@ -65,6 +65,30 @@ public class ProcurementCatalogueModel {
         this.quantity = quantity;
     }
 
+
+    public ProcurementCatalogueModel(
+            int catalogID,
+            int supplierID,
+            int manufacturerID,
+            int assetCategoryID,
+            String assetName,
+            String storageSpecs,
+            String ramSpecs,
+            double assetPrice,
+            String assetPicture
+    ){
+        this.catalogID = catalogID;
+        this.supplierID = supplierID;
+        this.manufacturerID = manufacturerID;
+        this.assetCategoryID = assetCategoryID;
+        this.assetName = assetName;
+        this.storageSpecs = storageSpecs;
+        this.ramSpecs = ramSpecs;
+        this.assetPrice = assetPrice;
+        this.assetPicture = assetPicture;
+
+    }
+
     public int getCatalogID() {
         return catalogID;
     }

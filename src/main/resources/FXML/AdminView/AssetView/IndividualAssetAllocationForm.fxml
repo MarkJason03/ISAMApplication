@@ -44,29 +44,6 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <HBox fillHeight="false" layoutX="1440.0" spacing="10.0" styleClass="controlButtons" stylesheets="@../../../Styles/AdminMenu.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane prefHeight="48.0" prefWidth="46.0">
-                     <children>
-                        <Button fx:id="refreshHeader_btn" layoutY="-2.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="67.0" styleClass="refreshButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="REFRESH" size="35" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0" />
-                  <AnchorPane prefHeight="5.0" prefWidth="0.0">
-                     <children>
-                        <Button fx:id="exitApp_btn" layoutY="-2.0" mnemonicParsing="false" onAction="#closeMenu" prefHeight="56.0" prefWidth="67.0" styleClass="closeButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                           <graphic>
-                              <FontAwesomeIconView glyphName="CLOSE" size="40" />
-                           </graphic>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
             <StackPane layoutX="25.0" layoutY="17.0" prefHeight="60.0" prefWidth="60.0">
                <children>
                   <Button fx:id="closeMenu_btn" mnemonicParsing="false" onAction="#closeMenu" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
@@ -108,7 +85,7 @@
                         </Rectangle>
                         <VBox layoutX="1046.0" layoutY="36.0" spacing="10.0">
                            <children>
-                              <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                              <AnchorPane prefWidth="521.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                                  <children>
                                     <Label layoutX="31.0" layoutY="46.0" prefHeight="35.0" prefWidth="278.0" style="-fx-font-size: 24;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="User Information">
                                        <font>
@@ -141,7 +118,7 @@
                                                 <Font name="System Bold" size="24.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="searchBar_TF" prefHeight="40.0" prefWidth="276.0" style="-fx-border-color: black;" />
+                                          <TextField fx:id="searchBar_TF" prefHeight="40.0" prefWidth="276.0" />
                                        </children>
                                     </HBox>
                                     <HBox layoutX="31.0" layoutY="151.0" prefHeight="40.0" prefWidth="452.0" spacing="30.0">
@@ -154,10 +131,10 @@
                                           <ComboBox fx:id="userComboBox" prefHeight="40.0" prefWidth="275.0" />
                                        </children>
                                     </HBox>
-                                    <GridPane layoutX="56.0" layoutY="255.0" prefHeight="228.0" prefWidth="412.0">
+                                    <GridPane layoutX="42.0" layoutY="255.0" prefHeight="226.0" prefWidth="448.0">
                                        <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="261.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.0" minWidth="10.0" prefWidth="187.0" />
                                        </columnConstraints>
                                        <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

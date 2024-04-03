@@ -45,16 +45,21 @@ public class ProcurementRequestDAO {
     }
 
 
-    public static ObservableList<ProcurementRequestModel> getShortenedProcurementDetails(int procurementID) {
+    public static ObservableList<ProcurementRequestModel> getProcurementRequestDetails(int procurementID) {
         ObservableList<ProcurementRequestModel> procurementDetails = FXCollections.observableArrayList();
         ProcurementRequestModel procurementRequestModel;
 
         String sql = """
-                select
-                   user.UserID,
-                   officer.UserID AS ProcurementManagerID,
-                   RequesterComment
-                	
+                SELECT
+                	user.UserID,
+                	officer.UserID AS ProcurementManagerID,
+                	officer.FirstName || ' ' || officer.LastName AS Approver,
+                	ProcurementStatus,
+                	DateRaised,
+                	DateClosed,
+                	RequesterComment,
+                	ProcurementComment
+                                	
                 from tbl_Procurement as procurement
                 JOIN tbl_Users AS user ON user.UserID = procurement.UserID
                 LEFT JOIN tbl_Users AS officer ON officer.UserID = procurement.ProcurementManagerID
@@ -70,7 +75,12 @@ public class ProcurementRequestDAO {
                         procurementRequestModel = new ProcurementRequestModel(
                                 resultSet.getInt("UserID"),
                                 resultSet.getInt("ProcurementManagerID"),
-                                resultSet.getString("RequesterComment")
+                                resultSet.getString("Approver"),
+                                resultSet.getString("ProcurementStatus"),
+                                resultSet.getString("DateRaised"),
+                                resultSet.getString("DateClosed"),
+                                resultSet.getString("RequesterComment"),
+                                resultSet.getString("ProcurementComment")
                         );
                         procurementDetails.add(procurementRequestModel);
                     }
@@ -82,6 +92,45 @@ public class ProcurementRequestDAO {
         return procurementDetails;
     }
 
+    public static ObservableList<ProcurementRequestModel> getAllProcurementRequest() {
+        ObservableList<ProcurementRequestModel> procurementRequestPerUser = FXCollections.observableArrayList();
+        ProcurementRequestModel procurementRequestModel;
+
+        String sql = """
+                SELECT
+                    procurement.ProcurementID,
+                    procurement.ProcurementStatus,
+                    procurement.ProcurementComment,
+                    procurement.DateRaised,
+                    procurement.DateClosed
+                    
+                FROM tbl_Procurement as procurement
+                JOIN tbl_Users as user on user.UserID = procurement.UserID;
+                """;
+
+        try (Connection connection = DatabaseConnectionUtils.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        procurementRequestModel = new ProcurementRequestModel(
+                                resultSet.getInt("ProcurementID"),
+                                resultSet.getString("ProcurementStatus"),
+                                resultSet.getString("ProcurementComment"),
+                                resultSet.getString("DateRaised"),
+                                resultSet.getString("DateClosed")
+                        );
+                        procurementRequestPerUser.add(procurementRequestModel);
+                    }
+                }
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+        return procurementRequestPerUser;
+    }
+
+
 
     public static ObservableList<ProcurementRequestModel> getProcurementTicketsByUser(int userID) {
         ObservableList<ProcurementRequestModel> procurementRequestPerUser = FXCollections.observableArrayList();
@@ -89,10 +138,11 @@ public class ProcurementRequestDAO {
 
         String sql = """
                 SELECT
-                	procurement.ProcurementID,
-                	procurement.ProcurementStatus,
-                	procurement.ProcurementComment
-                	
+                    procurement.ProcurementID,
+                    procurement.ProcurementStatus,
+                    procurement.ProcurementComment,
+                    procurement.DateRaised,
+                    procurement.DateClosed
                 FROM tbl_Procurement as procurement
                 JOIN tbl_Users as user on user.UserID = procurement.UserID
                 where procurement.UserID = ?;
@@ -107,7 +157,9 @@ public class ProcurementRequestDAO {
                         procurementRequestModel = new ProcurementRequestModel(
                                 resultSet.getInt("ProcurementID"),
                                 resultSet.getString("ProcurementStatus"),
-                                resultSet.getString("ProcurementComment")
+                                resultSet.getString("ProcurementComment"),
+                                resultSet.getString("DateRaised"),
+                                resultSet.getString("DateClosed")
                         );
                         procurementRequestPerUser.add(procurementRequestModel);
                     }

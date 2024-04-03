@@ -92,13 +92,13 @@ public class ClientRequestDashboardController implements Initializable {
     private TableColumn<?, ?> ticketTitle_col;
 
     @FXML
-    private Label userCounter_lbl;
+    private Label resolvedRequest_lbl;
 
     @FXML
-    private Label userCounter_lbl1;
+    private Label inprogressRequest_lbl;
 
     @FXML
-    private Label userInactiveCounter_lbl;
+    private Label createdRequest_lbl;
 
     @FXML
     private Button viewRequest;
@@ -158,9 +158,10 @@ public class ClientRequestDashboardController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
 
             loadRequestsData();
-
+            setupMiniDashboardPerLoggedUser();
         }
     }
+
 
 
     @FXML
@@ -200,13 +201,20 @@ public class ClientRequestDashboardController implements Initializable {
                 e.printStackTrace();
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-                if (!isFromDashboard)
+                if (!isFromDashboard){
                     loadRequestsData();
+                    setupMiniDashboardPerLoggedUser();
+                }
             }
         }
         return supplierPopUpStage;
     }
 
+    private void setupMiniDashboardPerLoggedUser(){
+        resolvedRequest_lbl.setText("Total:" + TicketDAO.countResolvedPreviousCallsFromClient(CURRENT_LOGGED_USER_ID));
+        inprogressRequest_lbl.setText("Total:" + TicketDAO.countOngoingCallsFromClient(CURRENT_LOGGED_USER_ID));
+        createdRequest_lbl.setText("Total: " + TicketDAO.countCreatedCallsFromClient(CURRENT_LOGGED_USER_ID));
+    }
     @FXML
     private void openRequestDetails() {
         viewRequestDetails(requestTableView, false);
@@ -214,6 +222,7 @@ public class ClientRequestDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setupMiniDashboardPerLoggedUser();
         loadRequestsData();
 
         TicketDetailsUtils.setupUserRequestTableListener(requestTableView, ticketID_TF, status_TF, dateCreated_TF, dateClosed_TF, agentName_TF);

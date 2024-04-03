@@ -68,8 +68,8 @@ public class OverviewStatisticsController implements Initializable {
     @FXML
     private void setMiniDashboard() {
         totalUserCount_lbl.setText(String.valueOf(UserDAO.countAllUsers()));
-        totalRemainingBudget_lbl.setText(String.valueOf(ConfigPropertiesUtils.getPropertyValue("DEPARTMENT_BUDGET")));
-        totalOverdueCollection_lbl.setText(String.valueOf(AssetAllocationDAO.countTotalOverdueAssets()));
+        totalRemainingBudget_lbl.setText("£ "+ ConfigPropertiesUtils.getPropertyValue("DEPARTMENT_BUDGET"));
+        totalOverdueCollection_lbl.setText(String.format("£ %.2f", AssetAllocationDAO.countTotalOverdueAssetsCost()));
         totalBreachedCounter_lbl.setText(String.valueOf(TicketDAO.countTotalBreachedTicketsForMonth(LocalDate.now())));
         System.out.println(LocalDate.now());
     }
@@ -92,6 +92,7 @@ public class OverviewStatisticsController implements Initializable {
 
     }
 
+
     private void setAssetBarChart() {
         // Asset counts
         int excellentAssetConditionTotal = AssetDAO.countExcellentAssetCondition();
@@ -112,7 +113,6 @@ public class OverviewStatisticsController implements Initializable {
 
         xAxis.setLabel("Asset Condition");
         yAxis.setLabel("Number of Assets");
-
 
         series.getData().addAll(excellentData, goodData, fairData, poorData);
 
@@ -283,6 +283,7 @@ public class OverviewStatisticsController implements Initializable {
 
         yearCB.setItems(FXCollections.observableArrayList("2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"));
         yearCB.setValue("2021");
+        sampleDP.setValue(LocalDate.now());
         setMonthlySpendingChart(yearCB.getValue());
         setMiniDashboard();
         setUserPieChart();

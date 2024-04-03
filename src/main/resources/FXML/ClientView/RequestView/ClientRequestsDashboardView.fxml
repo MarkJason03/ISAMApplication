@@ -87,13 +87,6 @@
                      <children>
                         <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="42.0" prefWidth="290.0" promptText="Search ID" />
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="271.0" layoutY="45.0" opacity="0.25" size="35" />
-                        <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="652.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView glyphName="REFRESH" layoutX="921.0" layoutY="44.0" size="35" text="" />
-                        <Button fx:id="reload_btn" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
                      </children>
                   </Pane>
                </children>
@@ -136,21 +129,21 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="ticketID_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
+                                    <TextField fx:id="ticketID_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
                                     <Label text="Date Created" GridPane.rowIndex="3">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="dateCreated_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
+                                    <TextField fx:id="dateCreated_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
                                     <Label text="Status" GridPane.columnIndex="1">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="status_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="agentName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
-                                    <TextField fx:id="dateClosed_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="status_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="agentName_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
+                                    <TextField fx:id="dateClosed_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Responding Agent" GridPane.rowIndex="6">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
@@ -195,7 +188,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="activeSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="createdRequest_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -215,7 +208,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="InactiveSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="inprogressRequest_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -235,7 +228,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalProcureableItems_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="resolvedRequest_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

@@ -22,6 +22,7 @@ public class ProcurementRequestModel {
 
     private String procurementManagerComment;
 
+    private String procurementApproverName;
 
     private int totalCost;
 
@@ -29,21 +30,39 @@ public class ProcurementRequestModel {
 
 
 
+
+
     public ProcurementRequestModel(int procurementRequestID,
                                    String procurementRequestStatus,
-                                   String procurementManagerComment){
+                                   String procurementManagerComment,
+                                   String procurementRequestDate,
+                                  String procurementCompletionDate
+
+    ){
         this.procurementRequestID = procurementRequestID;
         this.procurementRequestStatus = procurementRequestStatus;
         this.procurementManagerComment = procurementManagerComment;
+        this.procurementRequestDate = procurementRequestDate;
+        this.procurementCompletionDate = procurementCompletionDate;
     }
 
 
     public ProcurementRequestModel(int userID,
                                    int procurementManagerID,
-                                    String requesterComment){
+                                   String procurementApproverName,
+                                   String procurementRequestStatus,
+                                   String procurementRequestDate,
+                                   String procurementCompletionDate,
+                                   String requesterComment,
+                                   String procurementManagerComment){
         this.userID = userID;
         this.procurementManagerID = procurementManagerID;
+        this.procurementApproverName = procurementApproverName;
+        this.procurementRequestStatus = procurementRequestStatus;
+        this.procurementRequestDate = procurementRequestDate;
+        this.procurementCompletionDate = procurementCompletionDate;
         this.requesterComment = requesterComment;
+        this.procurementManagerComment = procurementManagerComment;
     }
 
 
@@ -133,5 +152,13 @@ public class ProcurementRequestModel {
 
     public void setTotalCost(int totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public String getProcurementApproverName() {
+        return procurementApproverName;
+    }
+
+    public void setProcurementApproverName(String procurementApproverName) {
+        this.procurementApproverName = procurementApproverName;
     }
 }

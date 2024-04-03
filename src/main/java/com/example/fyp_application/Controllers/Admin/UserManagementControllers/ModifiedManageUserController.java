@@ -44,14 +44,12 @@ public class ModifiedManageUserController implements Initializable {
     @FXML
     private Label dateTimeHolder;
 
-    @FXML
-    private Button deleteUser_btn;
+
 
     @FXML
     private Label deptHolder_lbl;
 
-    @FXML
-    private Button editProfile_btn1;
+
 
     @FXML
     private Button editUser_btn;
@@ -84,10 +82,13 @@ public class ModifiedManageUserController implements Initializable {
     private TextField searchBar_TF;
 
     @FXML
-    private Label userCounter_lbl;
+    private Label activeUsers_lbl;
 
     @FXML
-    private Label userInactiveCounter_lbl;
+    private Label inactiveUsers_lbl;
+
+    @FXML
+    private Label expiredUsers_lbl;
 
     @FXML
     private TableView<UserModel> userTableView;
@@ -198,14 +199,8 @@ public class ModifiedManageUserController implements Initializable {
             }  finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
                 Platform.runLater(this::loadTableData);
+                Platform.runLater(this::setupMiniDashboard);
 
-
-    /*            Platform.runLater(this::runContractStatusUpdate);
-                Platform.runLater(this::loadSupplierTableData);
-
-
-                Platform.runLater(this::countActiveSuppliers);
-                Platform.runLater(this::countInactiveSuppliers);*/
 
             }
 
@@ -244,54 +239,25 @@ public class ModifiedManageUserController implements Initializable {
         } finally {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
             Platform.runLater(this::loadTableData);
-
+            Platform.runLater(this::setupMiniDashboard);
         }
     }
 
+
     @FXML
-    private void deleteUser(){
-        UserModel selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        if (selectedUser == null) {
-            AlertNotificationUtils.showErrorMessageAlert("Error Deleting User", "Please select a user to delete");
-            return;
+    private void createAccountReport(){
+        try{
+            TableListenerUtils.exportTableViewToExcel(userTableView);
+            AlertNotificationUtils.showInformationMessageAlert("Export Successful", "User Account Report has been exported successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        if(AlertNotificationUtils.showConfirmationAlert("Delete User", "Are you sure you want to delete this user?")){
-            int userID = selectedUser.getUserID();
-            USER_DAO.deleteUser(userID);
-            loadTableData();
-
-        } else {
-
-             AlertNotificationUtils.showInformationMessageAlert("Action Aborted", "User has not been deleted");
-
-            }
-    }
-
-    @FXML
-    private void reloadTable(){
-        Platform.runLater(this::loadTableData);
-        lastUpdate_lbl.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
     }
 
 
 
     @FXML
     private void searchUserDetails(){
-/*        searchBar_TF.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                userTableView.setItems(userListData); // Reset to show all data
-                return;
-            }
-            ObservableList<UserModel> filteredList = FXCollections.observableArrayList();
-            for (UserModel userModel : userListData) {
-                if(userModel.getFirstName().toLowerCase().contains(newValue.toLowerCase())) {
-                    filteredList.add(userModel);
-                }
-
-            }
-            userTableView.setItems(filteredList);
-        });*/
 
         TableListenerUtils.searchTableDetails(searchBar_TF, userTableView, userListData, (userDetails, searchDetail) ->
                 userDetails.getFirstName().toLowerCase().contains(searchDetail.toLowerCase()) ||
@@ -325,100 +291,24 @@ public class ModifiedManageUserController implements Initializable {
     }
 
 
+    @FXML
+    private void setupMiniDashboard(){
+        activeUsers_lbl.setText("Total: " + UserDAO.countActiveUsers());
+        inactiveUsers_lbl.setText("Total: " + UserDAO.countInactiveUsers());
+        expiredUsers_lbl.setText("Total: " + UserDAO.countExpiredUsers());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setupMiniDashboard();
         loadTableData();
 
         searchUserDetails();
         tableListener();
 
-    /*            Platform.runLater(this::runContractStatusUpdate);
-                Platform.runLater(this::loadSupplierTableData);
-
-
-                Platform.runLater(this::countActiveSuppliers);
-                Platform.runLater(this::countInactiveSuppliers);*/
 
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
-        //Debugging
-        userTableView.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getClickCount() == 2) {
-                String selectedItem = userTableView.getSelectionModel().getSelectedItem().getFirstName();
-                String selectedItem2 = userTableView.getSelectionModel().getSelectedItem().getLastName();
-                String selectedItem3 = userTableView.getSelectionModel().getSelectedItem().getUsername();
-                String selectedItem4 = userTableView.getSelectionModel().getSelectedItem().getEmail();
-                String selectedItem5 = userTableView.getSelectionModel().getSelectedItem().getDeptName();
-                String selectedItem6 = userTableView.getSelectionModel().getSelectedItem().getRoleName();
-                String selectedItem7 = userTableView.getSelectionModel().getSelectedItem().getAccountStatus();
-                String selectedItem8 = userTableView.getSelectionModel().getSelectedItem().getCreatedAt();
-                String selectedItem9 = userTableView.getSelectionModel().getSelectedItem().getExpiresAt();
-                String selectedItem10 = userTableView.getSelectionModel().getSelectedItem().getLastLogin();
-                String selectedItem11 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getUserRoleID());
-                String selectedItem12 = String.valueOf(userTableView.getSelectionModel().getSelectedItem().getDeptID());
-
-                System.out.println(selectedItem + " " +
-                        selectedItem2 + " " +
-                        selectedItem3 + " " +
-                        selectedItem4 + "\n " +
-                        "Department name :" + selectedItem5 + "\n " +
-                        "Role name" + selectedItem6 + "\n " +
-                        selectedItem7 + " " +
-                        selectedItem8 + " " +
-                        selectedItem9 + " " +
-                        selectedItem10 + "\n " +
-                        "Role id is "  + selectedItem11 + "\n " +
-                        "dept id is" + selectedItem12);
-            }
-        });
-
-
-/*
-
-        TableColumn<UserModel, Void> actionCol = new TableColumn<>("Actions");
-
-        Callback<TableColumn<UserModel, Void>, TableCell<UserModel, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<UserModel, Void> call(final TableColumn<UserModel, Void> param) {
-                return new TableCell<>() {
-
-                    private final Button btnModify = new Button("Modify");
-                    private final Button btnDelete = new Button("Delete");
-
-                    {
-                        btnModify.setOnAction((ActionEvent event) -> {
-                            UserModel data = getTableView().getItems().get(getIndex());
-                            //modifyUser(data);
-                        });
-
-                        btnDelete.setOnAction((ActionEvent event) -> {
-                            UserModel data = getTableView().getItems().get(getIndex());
-                            //deleteUser(data);
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            HBox manageBtn = new HBox(btnModify, btnDelete);
-                            manageBtn.setStyle("-fx-alignment:center");
-                            HBox.setMargin(btnModify, new Insets(2, 2, 0, 3));
-                            HBox.setMargin(btnDelete, new Insets(2, 3, 0, 2));
-                            setGraphic(manageBtn);
-                        }
-                    }
-                };
-            }
-        };
-
-        actionCol.setCellFactory(cellFactory);
-
-        userTableView.getColumns().add(actionCol);
-    }*/
     }
 }
 

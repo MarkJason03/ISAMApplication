@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="230.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.NavigationController.AdminSidebarController">
+<VBox fx:id="superAdmin_MenuBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="230.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.NavigationController.AdminSidebarController">
    <children>
       <VBox prefHeight="593.0" prefWidth="230.0" styleClass="buttonContainers" stylesheets="@../../../Styles/AdminMenu.css">
          <children>

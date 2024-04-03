@@ -227,6 +227,45 @@ public class AdminHomePageController implements Initializable {
 
 
     @FXML
+    private void loadProcurementRequestTable(){
+
+        if (CurrentLoggedUserHandler.getCurrentLoggedAdminID() == 1){
+            viewProcurementByAdmin();
+        } else {
+            viewProcurementRequestByUser();
+
+        }
+    }
+    @FXML
+    private void viewProcurementByAdmin() {
+        // View the procurement request
+        ObservableList<ProcurementRequestModel> procurementTicketsByUser = ProcurementRequestDAO.getAllProcurementRequest();
+
+        sample.setCellValueFactory(cellData -> {
+            FontIcon icon;
+            // if request is approved
+            if (cellData.getValue().getProcurementRequestStatus().equals("Approved")) {
+                icon = new FontIcon("mdi2b-book-check");
+
+                // if request is awaiting approval
+            } else if (cellData.getValue().getProcurementRequestStatus().equals("Awaiting Approval")) {
+                icon = new FontIcon("mdi2b-book-clock");
+            } else {
+                // if request is rejected
+                icon = new FontIcon("mdi2b-book-cancel");
+            }
+            icon.setIconSize(40);
+            return new SimpleObjectProperty<>(icon);
+        });
+        procurementID_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestID"));
+        procurementStatus_col.setCellValueFactory(new PropertyValueFactory<>("procurementRequestStatus"));
+        procurementComment_col.setCellValueFactory(new PropertyValueFactory<>("procurementManagerComment"));
+
+        procurementRequestTable.setItems(procurementTicketsByUser);
+
+    }
+
+    @FXML
     private void viewProcurementRequestByUser() {
         // View the procurement request
         ObservableList<ProcurementRequestModel> procurementTicketsByUser = ProcurementRequestDAO.getProcurementTicketsByUser(CurrentLoggedUserHandler.getCurrentLoggedAdminID());
@@ -313,13 +352,15 @@ public class AdminHomePageController implements Initializable {
         Platform.runLater(this::setUserLineChart);
         setUserBarChart();
 */
+
+        loadProcurementRequestTable();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Platform.runLater(() -> {
                     try {
                         setupIDCard();
-                        viewProcurementRequestByUser();
+
                         loadTicketTableByAgent();
                         setupHomeStats();
                     } catch (Exception e) {
@@ -332,6 +373,12 @@ public class AdminHomePageController implements Initializable {
         Thread thread = new Thread(task);
         thread.start();
 
+
+        procurementRequestTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                openManageRequest();
+            }
+        });
 
         ticketTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {

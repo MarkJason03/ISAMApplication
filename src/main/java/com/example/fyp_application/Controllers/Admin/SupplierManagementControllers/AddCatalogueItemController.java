@@ -1,10 +1,7 @@
 package com.example.fyp_application.Controllers.Admin.SupplierManagementControllers;
 
 import com.example.fyp_application.Model.*;
-import com.example.fyp_application.Utils.AlertNotificationUtils;
-import com.example.fyp_application.Utils.AttachmentUtils;
-import com.example.fyp_application.Utils.SharedButtonUtils;
-import com.example.fyp_application.Utils.TextFieldListenerUtils;
+import com.example.fyp_application.Utils.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -106,6 +103,17 @@ public class AddCatalogueItemController implements Initializable {
     }
 
 
+    @FXML
+    private void resetForm(){
+        assetName_TF.clear();
+        assetPrice_TF.clear();
+        assetPhoto_TF.clear();
+        manufacturer_CB.setValue(null);
+        ramSpec_CB.setValue(null);
+        storageSpec_CB.setValue(null);
+        assetCategory_CB.setValue(null);
+        supplier_CB.setValue(null);
+    }
 
     @FXML
     private boolean  isFormValid(){
@@ -123,5 +131,7 @@ public class AddCatalogueItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupForm();
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
+
     }
 }

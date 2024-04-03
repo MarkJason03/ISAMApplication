@@ -38,7 +38,7 @@ public class TicketCategoryDAO {
     }
 
 
-    public List<TicketCategoryModel>getSelectedCategoryTitles(int categoryID){
+    public static List<TicketCategoryModel>getSelectedCategoryTitles(int categoryID){
         List<TicketCategoryModel> categoryTitles = new ArrayList<>();
         String sql = "select ticketCategoryID, TitleName from tbl_categoryTitlePresets where ticketCategoryID = ?";
 

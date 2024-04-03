@@ -49,11 +49,20 @@
             <Separator orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
             <AnchorPane layoutX="595.0" layoutY="188.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <children>
-                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="459.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
-                        <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewTicketDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="assignTicket_btn" mnemonicParsing="false" onAction="#assignTicket" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to" />
+                        <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Raise">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-edit" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewTicketDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="View">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-search" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="assignTicket_btn" mnemonicParsing="false" onAction="#assignTicket" prefWidth="237.0" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-send" iconSize="25" />
+                           </graphic></Button>
                      </children>
                   </HBox>
                   <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
@@ -63,12 +72,8 @@
                               <TableColumn fx:id="ticketID_col" prefWidth="50.0" text="SD ID" />
                               <TableColumn fx:id="userFullname_col" prefWidth="130.0" text="User" />
                               <TableColumn fx:id="ticketTitle_col" prefWidth="197.0" text="Title" />
-                              <TableColumn prefWidth="164.0" text="Info">
-                                 <columns>
-                                    <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
-                                    <TableColumn fx:id="agentName_col" prefWidth="73.0" text="Agent" />
-                                 </columns>
-                              </TableColumn>
+                              <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
+                              <TableColumn fx:id="agentName_col" prefWidth="73.0" text="Agent" />
                               <TableColumn fx:id="ticketPriority_col" prefWidth="86.0" text="Priority" />
                               <TableColumn fx:id="ticketEscalation_col" prefWidth="74.0" text="Escalation" />
                               <TableColumn fx:id="ticketDateCreated_col" prefWidth="107.0" text="DateCreated" />
@@ -84,17 +89,11 @@
                      <children>
                         <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="42.0" prefWidth="290.0" promptText="Search" />
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="271.0" layoutY="45.0" opacity="0.25" size="35" />
-                        <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="652.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <StackPane layoutX="910.0" layoutY="12.0">
-                           <children>
-                              <FontAwesomeIconView glyphName="REFRESH" size="35" text="" />
-                              <Button fx:id="reload_btn" mnemonicParsing="false" onAction="#reloadTable" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
-                           </children>
-                        </StackPane>
+                        <Button fx:id="generateTicketReport_btn" layoutX="905.0" layoutY="10.0" mnemonicParsing="false" onAction="#createTicketReport" prefHeight="40.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2p-printer" iconSize="35" />
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                </children>
@@ -148,27 +147,27 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ticketID_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
+                        <TextField fx:id="ticketID_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
                         <Label text="Escalation Status" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="escalationStatus_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
+                        <TextField fx:id="escalationStatus_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
                         <Label text="Priority" GridPane.rowIndex="6">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="priority_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
+                        <TextField fx:id="priority_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
                         <Label text="Raised By" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="raisedBy_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="agentName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="category_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="raisedBy_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="agentName_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="category_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                         <Label text="Responding Agent" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="12.0" />
@@ -203,7 +202,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="activeSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="createdCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -223,7 +222,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="InactiveSuppliers_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="ongoingCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -243,7 +242,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalProcureableItems_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                        <Label fx:id="breachCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

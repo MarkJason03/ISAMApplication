@@ -4,6 +4,7 @@ import com.example.fyp_application.Model.TicketDAO;
 import com.example.fyp_application.Model.TicketModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
+import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Utils.TicketDetailsUtils;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.application.Platform;
@@ -103,16 +104,16 @@ public class ManageRequestController implements Initializable {
     private TableColumn<?, ?> ticketTitle_col;
 
     @FXML
-    private Label userCounter_lbl;
+    private Label breachCalls_lbl;
 
     @FXML
-    private Label userCounter_lbl1;
+    private Label ongoingCalls_lbl;
 
     @FXML
     private TableColumn<?, ?> userFullname_col;
 
     @FXML
-    private Label userInactiveCounter_lbl;
+    private Label createdCalls_lbl;
 
     @FXML
     private Button viewRequest;
@@ -130,17 +131,11 @@ public class ManageRequestController implements Initializable {
         Stage currentDashboardStage = (Stage) requestTableView.getScene().getWindow();
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
-
-        //SupplierModel selectedSupplier = requestTableView.getSelectionModel().getSelectedItem();
-
         try {
             //Load the supplier menu
             //modal pop-up dialogue box
             FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_RAISE_TICKET_POP_UP));
             Parent root = modalViewLoader.load();
-
-
-
 
             // New window setup as modal
             Stage requestPopUp = new Stage();
@@ -162,9 +157,8 @@ public class ManageRequestController implements Initializable {
             loadTicketsTable();
 
 
-            Platform.runLater(this::countCreatedRequests);
-            Platform.runLater(this::countOnProgressRequests);
-            Platform.runLater(this::countClosedCalls);
+            Platform.runLater(this::setupMiniDashboard);
+
 
         }
 
@@ -174,29 +168,15 @@ public class ManageRequestController implements Initializable {
 
     }
 
-    @FXML
-    private void reloadTable() {
-
-        Platform.runLater(this::loadTicketsTable);
-        dateTimeHolder.setText("Last Updated: " + DateTimeUtils.getCurrentTimeFormat());
-    }
-
 
     @FXML
-    private void countCreatedRequests() {
-        // TODO counts the number of created requests
+    private void setupMiniDashboard(){
+        // TODO setup mini dashboard
+        createdCalls_lbl.setText("Total: " + TicketDAO.countTotalCreatedCalls());
+        ongoingCalls_lbl.setText("Total: " + TicketDAO.countTotalOngoingCalls());
+        breachCalls_lbl.setText("Total: " + TicketDAO.countTotalBreachedCalls());
     }
 
-
-    @FXML
-    private void countOnProgressRequests() {
-        // TODO counts the number of in progress requests
-    }
-
-    @FXML
-    private void countClosedCalls() {
-        // TODO counts the number of closed requests
-    }
 
 
     @FXML
@@ -246,9 +226,7 @@ public class ManageRequestController implements Initializable {
 
                 if(!isFromDashboard){
                     loadTicketsTable();
-                    Platform.runLater(this::countCreatedRequests);
-                    Platform.runLater(this::countOnProgressRequests);
-                    Platform.runLater(this::countClosedCalls);
+                    Platform.runLater(this::setupMiniDashboard);
 
                 }
 
@@ -305,12 +283,10 @@ public class ManageRequestController implements Initializable {
                 e.printStackTrace();
             } finally {
                 currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect and reload data on close
-                //Platform.runLater(this::loadTicketsTable);
+
 
                 loadTicketsTable();
-                Platform.runLater(this::countCreatedRequests);
-                Platform.runLater(this::countOnProgressRequests);
-                Platform.runLater(this::countClosedCalls);
+                Platform.runLater(this::setupMiniDashboard);
 
             }
         }
@@ -341,9 +317,28 @@ public class ManageRequestController implements Initializable {
     }
 
 
+    @FXML
+    private void createTicketReport(){
+        try {
+            TableListenerUtils.exportTableViewToExcel(requestTableView);
+            AlertNotificationUtils.showInformationMessageAlert("Export Successful", "Ticket report has been exported successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
         loadTicketsTable();
+        setupMiniDashboard();
+        TableListenerUtils.searchTableDetails(searchBar_TF, requestTableView, ticketList, (ticket, search) -> {
+            String searchLower = search.toLowerCase();
+            return String.valueOf(ticket.getTicketID()).contains(searchLower) ||
+                    ticket.getAgentFullName().toLowerCase().contains(searchLower) ||
+                    ticket.getUserFullName().toLowerCase().contains(searchLower);
+        });
 
         TicketDetailsUtils.setupTicketDetailsTableListner(requestTableView, ticketID_TF, raisedBy_TF, category_TF, priority_TF, escalationStatus_TF, agentName_TF);
     }

@@ -4,7 +4,6 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,118 +17,93 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fyp_application.Controllers.Admin.RequestManagementControllers.ManageRequestController">
    <children>
       <AnchorPane fx:id="contentAP" prefHeight="800.0" prefWidth="1600.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="527.0" layoutY="47.0" stroke="BLACK" strokeType="INSIDE" width="1590.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1590.0">
+               <fill>
+                  <LinearGradient cycleMethod="REFLECT" endX="0.4786729857819905" endY="1.0" startX="0.23222748815165883">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.10863000154495239" green="0.012600000016391277" blue="0.41999998688697815" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
             <Separator orientation="VERTICAL" prefHeight="598.0" prefWidth="6.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" />
-            <AnchorPane layoutX="595.0" layoutY="188.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+            <AnchorPane layoutX="595.0" layoutY="188.0" prefHeight="598.0" prefWidth="976.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <children>
-                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="339.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                  <HBox layoutX="18.0" layoutY="544.0" prefHeight="40.0" prefWidth="459.0" styleClass="buttonContainer" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
                      <children>
-                        <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Add" />
-                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewTicketDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Edit" />
-                        <Button fx:id="assignTicket_btn" mnemonicParsing="false" onAction="#assignTicket" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to" />
+                        <Button fx:id="newRequest" mnemonicParsing="false" onAction="#raiseNewTicket" styleClass="addButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Raise">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-edit" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="viewRequest" mnemonicParsing="false" onAction="#viewTicketDetails" styleClass="editButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="View">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-search" iconSize="25" />
+                           </graphic></Button>
+                        <Button fx:id="assignTicket_btn" mnemonicParsing="false" onAction="#assignTicket" prefWidth="237.0" styleClass="deleteButton" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" text="Assign to">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2f-file-send" iconSize="25" />
+                           </graphic></Button>
                      </children>
                   </HBox>
                   <AnchorPane layoutX="18.0" layoutY="63.0" prefHeight="464.0" prefWidth="943.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="63.0">
                      <children>
-                        <ScrollPane hbarPolicy="NEVER" prefHeight="464.0" prefWidth="943.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <content>
-                              <TableView fx:id="requestTableView" prefHeight="467.0" prefWidth="941.0" tableMenuButtonVisible="true">
-                                 <columns>
-                                    <TableColumn fx:id="ticketID_col" prefWidth="50.0" text="SD ID" />
-                                    <TableColumn fx:id="userFullname_col" prefWidth="130.0" text="User" />
-                                    <TableColumn fx:id="ticketTitle_col" prefWidth="197.0" text="Title" />
-                                    <TableColumn prefWidth="164.0" text="Info">
-                                       <columns>
-                                          <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
-                                          <TableColumn fx:id="agentName_col" prefWidth="73.0" text="Agent" />
-                                       </columns>
-                                    </TableColumn>
-                                    <TableColumn fx:id="ticketPriority_col" prefWidth="86.0" text="Priority" />
-                                    <TableColumn fx:id="ticketEscalation_col" prefWidth="74.0" text="Escalation" />
-                                    <TableColumn fx:id="ticketDateCreated_col" prefWidth="107.0" text="DateCreated" />
-                                    <TableColumn fx:id="ticketDateClosed_col" prefWidth="103.0" text="DateClosed" />
-                                 </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                           </content>
-                        </ScrollPane>
+                        <TableView fx:id="requestTableView" layoutY="-1.0" prefHeight="467.0" prefWidth="941.0">
+                           <columns>
+                              <TableColumn fx:id="ticketID_col" prefWidth="50.0" text="SD ID" />
+                              <TableColumn fx:id="userFullname_col" prefWidth="130.0" text="User" />
+                              <TableColumn fx:id="ticketTitle_col" prefWidth="197.0" text="Title" />
+                              <TableColumn fx:id="ticketStatus_col" prefWidth="73.0" text="Status" />
+                              <TableColumn fx:id="agentName_col" prefWidth="73.0" text="Agent" />
+                              <TableColumn fx:id="ticketPriority_col" prefWidth="86.0" text="Priority" />
+                              <TableColumn fx:id="ticketEscalation_col" prefWidth="74.0" text="Escalation" />
+                              <TableColumn fx:id="ticketDateCreated_col" prefWidth="107.0" text="DateCreated" />
+                              <TableColumn fx:id="ticketDateClosed_col" editable="false" prefWidth="103.0" text="DateClosed" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                      </children>
                   </AnchorPane>
-                  <Pane prefHeight="63.0" prefWidth="976.0" styleClass="informationContainerHeader" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+                  <Pane layoutX="-1.0" prefHeight="63.0" prefWidth="977.0" style="-fx-background-radius: 10 10 0 0;" styleClass="informationContainerHeader" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" AnchorPane.leftAnchor="-0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
                      <children>
                         <TextField fx:id="searchBar_TF" layoutX="22.0" layoutY="12.0" prefHeight="42.0" prefWidth="290.0" promptText="Search" />
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="271.0" layoutY="45.0" opacity="0.25" size="35" />
-                        <Label fx:id="lastUpdate_lbl" alignment="CENTER" layoutX="652.0" layoutY="14.0" prefHeight="35.0" prefWidth="186.0">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView glyphName="REFRESH" layoutX="921.0" layoutY="44.0" size="35" text="" />
-                        <Button fx:id="reload_btn" layoutX="910.0" layoutY="12.0" mnemonicParsing="false" onAction="#reloadTable" opacity="0.0" prefHeight="40.0" prefWidth="52.0" />
+                        <Button fx:id="generateTicketReport_btn" layoutX="905.0" layoutY="10.0" mnemonicParsing="false" onAction="#createTicketReport" prefHeight="40.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi2p-printer" iconSize="35" />
+                           </graphic>
+                        </Button>
                      </children>
                   </Pane>
                </children>
                <styleClass>
                   <String fx:value="treeTableContainer" />
                   <String fx:value="shadow" />
+                  <String fx:value="personalInformationBorder" />
                </styleClass>
             </AnchorPane>
-            <HBox layoutX="615.0" layoutY="35.0" prefHeight="116.0" prefWidth="437.0" spacing="10.0">
-               <children>
-                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo3">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Created">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="userInactiveCounter_lbl" layoutX="44.0" layoutY="63.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo4">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="On Progress">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="userCounter_lbl" layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: white;" styleClass="miniDashboardInfo4">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Closed">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="userCounter_lbl1" layoutX="44.0" layoutY="59.0" prefHeight="53.0" prefWidth="204.0" text="Placeholder">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <AnchorPane layoutX="29.0" layoutY="188.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/AdminStyleSheet/sharedManageStylesheet.css">
+            <AnchorPane layoutX="29.0" layoutY="188.0" prefHeight="598.0" prefWidth="523.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
                <children>
                   <Label fx:id="fullNameHolder_lbl" layoutX="32.0" layoutY="80.0" prefHeight="28.0" prefWidth="250.0" style="-fx-font-size: 24;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Ticket Information">
                      <font>
@@ -140,64 +114,7 @@
                      <children>
                         <TitledPane collapsible="false" text="Call Summary">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="442.0">
-                                 <children>
-                                    <GridPane layoutX="29.0" prefHeight="347.0" prefWidth="400.0">
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="194.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="206.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                       <children>
-                                          <Label text="SD Number">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="ticketID_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
-                                          <Label text="Escalation Status" GridPane.rowIndex="3">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="escalationStatus_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
-                                          <Label text="Priority" GridPane.rowIndex="6">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="priority_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
-                                          <Label text="Raised By" GridPane.columnIndex="1">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="raisedBy_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <TextField fx:id="agentName_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <TextField fx:id="category_TF" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                          <Label text="Responding Agent" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </GridPane>
-                                 </children>
-                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="438.0" prefWidth="442.0" />
                           </content>
                            <font>
                               <Font size="18.0" />
@@ -209,10 +126,65 @@
                      </children>
                   </VBox>
                   <Pane layoutX="26.0" layoutY="123.0" opacity="0.5" prefHeight="3.0" prefWidth="459.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="32.0" />
+                  <GridPane layoutX="63.0" layoutY="174.0" prefHeight="347.0" prefWidth="400.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="194.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="206.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="SD Number">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ticketID_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="1" />
+                        <Label text="Escalation Status" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="escalationStatus_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="4" />
+                        <Label text="Priority" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="priority_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.rowIndex="7" />
+                        <Label text="Raised By" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="raisedBy_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="agentName_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="category_TF" editable="false" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label text="Responding Agent" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
                </children>
                <styleClass>
                   <String fx:value="shadow" />
                   <String fx:value="personalInformationContainer" />
+                  <String fx:value="personalInformationBorder" />
                </styleClass>
             </AnchorPane>
             <Label layoutX="29.0" layoutY="25.0" prefHeight="55.0" prefWidth="376.0" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Help Desk Manager" textFill="WHITE">
@@ -221,6 +193,70 @@
                </font>
             </Label>
             <Label fx:id="dateTimeHolder" layoutX="29.0" layoutY="72.0" prefHeight="17.0" prefWidth="243.0" text="Today Feb 24 2024 | 10:50 am" textFill="WHITE" />
+            <HBox layoutX="694.0" layoutY="29.0" prefHeight="91.0" prefWidth="790.0" spacing="20.0">
+               <children>
+                  <AnchorPane prefHeight="163.0" prefWidth="163.0" style="-fx-background-color: #93f0d9;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="229.0" text="Created Calls">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="createdCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2b-book-plus-multiple" iconSize="40" layoutX="14.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: #fbdf9d;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="229.0" text="Ongoing Calls">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ongoingCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2b-book-clock" iconSize="40" layoutX="14.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="140.0" prefWidth="153.0" style="-fx-background-color: #FCD4B0;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="204.0" text="Breached Calls">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="breachCalls_lbl" layoutX="58.0" layoutY="59.0" prefHeight="60.0" prefWidth="190.0" text="Placeholder">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconLiteral="mdi2b-book-alert" iconSize="40" layoutX="15.0" layoutY="101.0" selectionFill="BLACK" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="personalInformationContainer" />
+                        <String fx:value="shadow" />
+                        <String fx:value="personalInformationBorder" />
+                     </styleClass>
+                  </AnchorPane>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>

@@ -242,8 +242,20 @@
                                  </columns>
                               </TableView>
                               <Line endX="566.0" endY="66.0" layoutY="3.0" startX="28.0" startY="66.0" strokeWidth="2.0" />
-                              <Button fx:id="viewproc_btn" layoutX="525.0" layoutY="29.0" mnemonicParsing="false" onAction="#openManageRequest" text="View" />
-                              <Button fx:id="create_procbtn" layoutX="444.0" layoutY="29.0" mnemonicParsing="false" onAction="#openProcurementRequest" text="Create" />
+                              <HBox layoutX="465.0" layoutY="14.0">
+                                 <children>
+                                    <Button fx:id="create_procbtn" mnemonicParsing="false" onAction="#openProcurementRequest" prefHeight="40.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                       <graphic>
+                                          <FontIcon iconLiteral="mdi2p-plus" iconSize="35" />
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="refreshProcurementTable_btn" mnemonicParsing="false" onAction="#loadProcurementRequestTable" prefHeight="34.0" prefWidth="51.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                       <graphic>
+                                          <FontIcon iconLiteral="mdi2r-refresh" iconSize="35" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="21.0" layoutY="14.0" prefHeight="445.0" prefWidth="910.0" style="-fx-background-color: ffffff;" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
@@ -269,6 +281,15 @@
                                     <TableColumn fx:id="ticketResolution_col" prefWidth="136.0" text="Resolution" />
                                 </columns>
                               </TableView>
+                              <StackPane layoutX="838.0" layoutY="17.0" prefHeight="47.0" prefWidth="39.0">
+                                 <children>
+                                    <Button fx:id="refreshTIcketTable_btn" mnemonicParsing="false" onAction="#loadTicketTableByAgent" prefHeight="60.0" prefWidth="60.0" styleClass="navigationButton" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css">
+                                       <graphic>
+                                          <FontIcon iconLiteral="mdi2r-refresh" iconSize="35" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </StackPane>
                            </children>
                            <styleClass>
                               <String fx:value="shadow" />

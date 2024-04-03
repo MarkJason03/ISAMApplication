@@ -108,14 +108,6 @@ public class EditProfilePopUpController implements Initializable {
 
     @FXML
     private void saveProfileChanges(){
-/*        String password = password_TF.getText();
-        String hashedPassword = PasswordHashingUtils.hashPassword(password);
-
-        System.out.println(password);
-        System.out.println(hashedPassword);
-
-        System.out.println(PasswordHashingUtils.verifyPassword(hashedPassword, password));*/
-
 
         if(isValidFields()){
             AlertNotificationUtils.showErrorMessageAlert("Empty Fields", "Please fill in all fields");

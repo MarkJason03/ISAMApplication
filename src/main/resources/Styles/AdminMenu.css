@@ -32,7 +32,8 @@ Text{
 }
 
 .buttonContainers Button:pressed {
-    -fx-background-color: green;
+    -fx-background-color: white;
+    -fx-text-fill: black;
 
 }
 

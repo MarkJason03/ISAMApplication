@@ -55,7 +55,7 @@ public class ModifyCallDetailsController implements Initializable  {
     private CheckBox ticketTitle_checkbox;
 
     @FXML
-    private ComboBox<TicketCategoryModel>presetTitle_CB;
+    private ComboBox<TitleCategoryModel>presetTitle_CB;
 
     @FXML
     private TextField phone_TF;
@@ -142,20 +142,8 @@ public class ModifyCallDetailsController implements Initializable  {
     }
 
 
-    public List<TitleCategoryModel> getSelectedCategoryTitles(int categoryID) {
-        String sql = "select * from tbl_categoryTitlePresets where ticketCategoryID = ?";
-        return DatabaseConnectionUtils.executeQuery(sql, resultSet -> {
-            try {
-                return new TitleCategoryModel(
-                        resultSet.getInt("titleID"),
-                        resultSet.getInt("ticketCategoryID"),
-                        resultSet.getString("TitleName")
-                );
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }, categoryID);
-    }
+
+
 
     @FXML
     private void saveChanges(){
@@ -209,12 +197,30 @@ public class ModifyCallDetailsController implements Initializable  {
         TicketDetailsUtils.setTicketStatusComboBox(ticketStatus_CB);
     }
 
+
+
+    public List<TitleCategoryModel> getSelectedCategoryTitles(int categoryID) {
+        String sql = "select * from tbl_categoryTitlePresets where ticketCategoryID = ?";
+        return DatabaseConnectionUtils.executeQuery(sql, resultSet -> {
+            try {
+                return new TitleCategoryModel(
+                        resultSet.getInt("titleID"),
+                        resultSet.getInt("ticketCategoryID"),
+                        resultSet.getString("TitleName")
+                );
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }, categoryID);
+    }
+
+
     @FXML
     private void setupCategoryTitleListener(){
         category_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !newValue.getCategoryName().equals("Others")){
                 presetTitle_CB.getItems().clear();
-                List<TitleCategoryModel> categoryTitles = getSelectedCategoryTitles(newValue.getCategoryID());
+                List<TitleCategoryModel> categoryTitles = TitleCategoryDAO.getSelectedCategoryTitles(newValue.getCategoryID());
                 presetTitle_CB.getItems().addAll(categoryTitles);
                 presetTitle_CB.setValue(categoryTitles.get(0));
                 presetTitle_CB.setVisible(true);

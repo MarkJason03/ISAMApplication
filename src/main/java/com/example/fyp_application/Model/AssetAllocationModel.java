@@ -1,5 +1,7 @@
 package com.example.fyp_application.Model;
 
+import java.util.PrimitiveIterator;
+
 public class AssetAllocationModel {
 
     private int allocationID;
@@ -69,6 +71,11 @@ public class AssetAllocationModel {
 
     private String fullName;
 
+    private String agentFullName;
+
+    private String agentFirstName;
+    private String agentLastName;
+
     //Default Constructor
 
     public AssetAllocationModel(
@@ -96,6 +103,8 @@ public class AssetAllocationModel {
             String username,
             String email,
             String phone,
+            String agentFirstName,
+            String agentLastName,
             String buildingName,
             String officeName
     )
@@ -125,12 +134,16 @@ public class AssetAllocationModel {
         this.username = username;
         this.email = email;
         this.phone = phone;
+        this.agentFirstName = agentFirstName;
+        this.agentLastName = agentLastName;
         this.buildingName = buildingName;
         this.officeName = officeName;
 
     }
 
 
+    // Client Flow Pane Constructor - Used to display the asset allocation information in the client flow pane
+    // Using VBOX with labels per row of data
 
     public AssetAllocationModel(
             int allocationID,
@@ -462,5 +475,9 @@ public class AssetAllocationModel {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public String getAgentFullName() {
+        return agentFirstName + " " + agentLastName;
     }
 }

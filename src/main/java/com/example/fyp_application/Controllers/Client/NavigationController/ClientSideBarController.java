@@ -2,8 +2,8 @@ package com.example.fyp_application.Controllers.Client.NavigationController;
 
 import com.example.fyp_application.Controllers.Client.ClientRequestControllers.ClientRequestDashboardController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientHomePageController;
-import com.example.fyp_application.Controllers.Client.ClientProfileManagementControllers.EditUserProfileController;
 import com.example.fyp_application.Controllers.Client.DashboardControllers.ClientDashboardWindowController;
+import com.example.fyp_application.Controllers.Shared.SharedProfileController;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
@@ -41,7 +41,7 @@ public class ClientSideBarController {
 
     @FXML
     private void openEditProfile () throws IOException {
-        swapScene(ViewConstants.CLIENT_EDIT_PROFILE_VIEW, EditUserProfileController.class);
+        swapScene(ViewConstants.SHARED_EDIT_PROFILE_VIEW, SharedProfileController.class);
     }
 
     @FXML
@@ -58,7 +58,7 @@ public class ClientSideBarController {
     @FXML
     private void logoutUser() throws IOException {
         //Wiping the current user data
-        CurrentLoggedUserHandler.setCurrentUser(null, null, null);
+        CurrentLoggedUserHandler.setCurrentUser(null, null, null, null);
         // Logging out the user and redirecting to the login page
         logout_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));
@@ -74,11 +74,16 @@ public class ClientSideBarController {
     private <T> void swapScene(String newContent, Class<T> controllerClass) throws IOException {
 
         try {
+            // Load the new content
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(newContent)));
             StackPane newLoadedPane = loader.load();
+
+            // Get the controller for the new content
             T controller = loader.getController();
+
+            // Check if the controller is the type you want
             if (controllerClass.isInstance(controller)) {
-                // Assuming you want to replace all children of temporaryAP with those of newLoadedPane
+                // Replace the current content with the new loaded pane
                 ClientDashboardWindowController.swappableContentPane.getChildren().setAll(newLoadedPane);
             }
         } catch (IOException e) {

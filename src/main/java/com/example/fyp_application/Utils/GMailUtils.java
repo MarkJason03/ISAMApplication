@@ -219,7 +219,7 @@ public class GMailUtils {
 
     }
     public static void main(String[] args) throws Exception {
-        //System.out.println("Sending email...");
+        //Testing the email sending functionality
         GMailUtils.sendEmailTo(DEFAULT_EMAIL, "Test Subject", "Hello, this is a test email.");
         // System.out.println("Email sent.");
     }

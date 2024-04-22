@@ -23,7 +23,7 @@ public class AlertNotificationUtils {
 
         Optional<ButtonType> option = alert.showAndWait();
 
-        return option.get().equals(ButtonType.OK);
+        return option.isPresent() && option.get().equals(ButtonType.OK);
     }
 
     //Showing Alert with Confirmation
@@ -33,7 +33,7 @@ public class AlertNotificationUtils {
         alert.setHeaderText(null);
         alert.setContentText(Message);
         Optional<ButtonType> option = alert.showAndWait();
-        return option.get().equals(ButtonType.OK);
+        return option.isPresent() && option.get().equals(ButtonType.OK);
     }
 
 
@@ -47,7 +47,7 @@ public class AlertNotificationUtils {
 
         Optional<ButtonType> option = alert.showAndWait();
 
-        return option.get().equals(ButtonType.OK);
+        return option.isPresent() && option.get().equals(ButtonType.OK);
     }
 
 }

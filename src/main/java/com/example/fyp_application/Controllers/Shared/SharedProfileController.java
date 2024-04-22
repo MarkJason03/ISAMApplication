@@ -33,7 +33,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class EditProfileController implements Initializable {
+public class SharedProfileController implements Initializable {
 
     @FXML
     private TextField accountStatus_TF;
@@ -90,33 +90,27 @@ public class EditProfileController implements Initializable {
     @FXML
     private Label usernameMainHolder_lbl;
 
-    private final int userID = CurrentLoggedUserHandler.getCurrentLoggedUserID();
-
-    private final int adminID = CurrentLoggedUserHandler.getCurrentLoggedAdminID();
-
     private UserModel userModel = null;
-    private void checkUserType(){
 
-        // Check if the user is an admin or a client
-        if ( userID == 0){
-            try {
-                loadUserData(adminID);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                loadUserData(userID);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+    private int loggedID = 0;
+
+    private void checkUserTypeAndLoadUserData() {
+        try {
+            String userType = CurrentLoggedUserHandler.getCurrentUserRoleName(); // Retrieve the current user role
+
+            this.loggedID = "Admin".equals(userType) ? CurrentLoggedUserHandler.getCurrentLoggedAdminID() : CurrentLoggedUserHandler.getCurrentLoggedUserID();
+
+            loadUserData(loggedID);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
 
-
     private void loadUserData(Integer loggedID) throws SQLException {
-        userModel = UserDAO.loadCurrentLoggedUser(loggedID);
+        this.userModel = UserDAO.loadCurrentLoggedUser(loggedID);
+
 
         if (userModel != null) {
             firstName_TF.setText(userModel.getFirstName());
@@ -133,15 +127,23 @@ public class EditProfileController implements Initializable {
             usernameMainHolder_lbl.setText(userModel.getFirstName() + " " + userModel.getLastName());
             Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(userModel.getPhoto())));
             userProfileHolder.setFill(new ImagePattern(curPhoto));
-            CurrentLoggedUserHandler.setUserFullName(userModel.getFullName());
-            CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
+
+            if("Admin".equals(CurrentLoggedUserHandler.getCurrentUserRoleName())){
+                CurrentLoggedUserHandler.setNewAdminName(userModel.getFirstName() + " " + userModel.getLastName());
+                CurrentLoggedUserHandler.setNewAdminPhoto(userModel.getPhoto());
+            } else {
+                CurrentLoggedUserHandler.setUserFullName(userModel.getFirstName() + " " + userModel.getLastName());
+                CurrentLoggedUserHandler.setNewPhoto(userModel.getPhoto());
+            }
+
+
         } else {
             System.out.println("User not found with ID: " + loggedID);
         }
     }
 
     @FXML
-    private void editAccountSettings() throws SQLException {
+    private void editAccountSettings() {
 
         GaussianBlur blur = new GaussianBlur(10);
         Stage currentDashboardStage = (Stage) accountSettingsAP.getScene().getWindow();
@@ -149,12 +151,12 @@ public class EditProfileController implements Initializable {
 
 
         try {
-            //Load the supplier menu
+
             //modal pop-up dialogue box
-            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.CLIENT_EDIT_PROFILE_POP_UP));
+            FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.SHARED_EDIT_PROFILE_POP_UP));
             Parent root = modalViewLoader.load();
 
-            EditProfilePopUpController accountSettingsController = modalViewLoader.getController();
+            SharedEditProfilePopUp accountSettingsController = modalViewLoader.getController();
             accountSettingsController.loadUserDetails(userModel);
 
 
@@ -175,7 +177,7 @@ public class EditProfileController implements Initializable {
             e.printStackTrace();
         }  finally {
             currentDashboardStage.getScene().getRoot().setEffect(null);// Remove blur effect and reload data on close
-            checkUserType();
+            checkUserTypeAndLoadUserData();
 
 
         }
@@ -207,15 +209,16 @@ public class EditProfileController implements Initializable {
     private void runProfileChanges(String newPath){
         new Thread(() -> {
             String  timeStamp = DateTimeUtils.getUKDateFormat() + " " + DateTimeUtils.getCurrentTimeFormat();
-            UserDAO.updateProfilePhoto(CurrentLoggedUserHandler.getCurrentLoggedUserID(), newPath, timeStamp);
-            Platform.runLater(this::checkUserType);
+            UserDAO.updateProfilePhoto(loggedID, newPath, timeStamp);
+
+            Platform.runLater(this::checkUserTypeAndLoadUserData);
 
         }).start();
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
-        checkUserType();
+        checkUserTypeAndLoadUserData();
     }
 
 

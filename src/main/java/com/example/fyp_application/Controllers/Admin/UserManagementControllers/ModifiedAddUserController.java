@@ -86,7 +86,6 @@ public class ModifiedAddUserController implements Initializable {
     private static final String DEFAULT_EMAIL = "projecthandler51@gmail.com";
 
     //Default photo for the user profile
-    private static final String DEFAULT_USER_PLACEHOLDER_PHOTO = "/Assets/defaultUser.png";
 
 
     // Get the list of departments and user roles
@@ -102,6 +101,8 @@ public class ModifiedAddUserController implements Initializable {
 
     @FXML
     private void addUser() {
+        int DEFAULT_PASSWORD_LENGTH = 12;
+        int DEFAULT_PHONE_LENGTH = 11;
         // check if any field is empty
         if (isEmptyFields()) {
             AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
@@ -109,9 +110,16 @@ public class ModifiedAddUserController implements Initializable {
         }
 
 
-        // check if the phone number is valid
+        // check if the username is not taken
+        if (UserDAO.isUsernameTaken(userName_TF.getText())) {
+            AlertNotificationUtils.showErrorMessageAlert("Username Taken", "The username is already taken");
+            return; // Stop execution if validation fails
+        }
 
-        if (userWorkPhone_TF.getText().length() < 11) {
+
+
+        // check if the phone number is valid
+        if (userWorkPhone_TF.getText().length() < DEFAULT_PHONE_LENGTH && password_TF.getText().length() < DEFAULT_PASSWORD_LENGTH){
             AlertNotificationUtils.showErrorMessageAlert("Invalid Phone Number", "The phone number must be 11 digits long");
             return; // Stop execution if validation fails
         } else {
@@ -127,7 +135,7 @@ public class ModifiedAddUserController implements Initializable {
                     PasswordHashingUtils.hashPassword(password_TF.getText()),
                     userWorkPhone_TF.getText(),
                     accountStatus_CB.getValue(),
-                    DEFAULT_USER_PLACEHOLDER_PHOTO,
+                    ConfigPropertiesUtils.getPropertyValue("DEFAULT_USER_PHOTO"),
                     DateTimeUtils.setYearMonthDayFormat(createdOn_DP.getValue()),
                     DateTimeUtils.setYearMonthDayFormat(expiresAt_DP.getValue())
             );
@@ -171,7 +179,7 @@ public class ModifiedAddUserController implements Initializable {
 
     @FXML
     private boolean isEmptyFields(){
-        return  userName_TF.getText().isEmpty()
+        return    userName_TF.getText().isEmpty()
                 || userFirstName_TF.getText().isEmpty()
                 || userLastName_TF.getText().isEmpty()
                 || userEmail_TF.getText().isEmpty()

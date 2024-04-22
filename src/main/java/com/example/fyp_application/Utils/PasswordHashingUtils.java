@@ -9,8 +9,7 @@ public class PasswordHashingUtils {
     public static String hashPassword(String password) {
         Argon2 argon2 = Argon2Factory.create();
         try {
-            // Use argon2id for a balance between Argon2i and Argon2d
-            return argon2.hash(15, 65536, 1, password.toCharArray());
+            return argon2.hash(16, 65536, 1, password.toCharArray());
         } finally {
             argon2.wipeArray(password.toCharArray());
         }
@@ -25,5 +24,4 @@ public class PasswordHashingUtils {
             argon2.wipeArray(password.toCharArray());
         }
     }
-
 }

@@ -164,11 +164,12 @@ public class RaiseTicketController implements Initializable {
         closeWindow();
     }
 
-    // Dummy method to represent sending an email notification
-    private void sendEmailNotification(int ticketID,String firstname, String title, String details) throws Exception {
-        // Implement the email sending logic here
+    private void sendEmailNotification(int ticketID,String firstname, String title, String details) {
+        // Send an email notification to the user
 
-       GMailUtils.sendEmailTo(email_TF.getText(), "Call Logged SD " + ticketID , GMailUtils.generateTicketRequestEmailBody(ticketID, firstname, title, details));
+       GMailUtils.sendEmailTo(email_TF.getText(),
+               "Call Logged SD " + ticketID ,
+               GMailUtils.generateTicketRequestEmailBody(ticketID, firstname, title, details));
 
     }
 

@@ -107,7 +107,7 @@ public class EditUserProfileController implements Initializable {
             dept_TF.setText(userModel.getDeptName());
             phone_TF.setText(userModel.getPhone());
             dob_TF.setText(userModel.getDOB());
-            usernameMainHolder_lbl.setText(userModel.getFirstName());
+            usernameMainHolder_lbl.setText(userModel.getFirstName() + " " + userModel.getLastName());
             Image curPhoto = new Image(Objects.requireNonNull(getClass().getResourceAsStream(userModel.getPhoto())));
             userProfileHolder.setFill(new ImagePattern(curPhoto));
             CurrentLoggedUserHandler.setUserFullName(userModel.getFullName());

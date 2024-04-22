@@ -110,5 +110,7 @@ public class ViewConstants {
     public static final String APP_ICON = "/Assets/app_icon.png";
 
     public static final String SHARED_MESSAGE_HISTORY_BOX_POP_UP = "/FXML/SharedView/MessageBoxView.fxml";
-    public static final String STYLESHEET ="/Styles/ClientStyleSheet/ClientPages.css" ;
+    public static final String SHARED_EDIT_PROFILE_VIEW ="/FXML/SharedView/EditProfileView.fxml" ;
+
+    public static final String SHARED_EDIT_PROFILE_POP_UP = "/FXML/SharedView/EditProfilePopUp.fxml";
 }

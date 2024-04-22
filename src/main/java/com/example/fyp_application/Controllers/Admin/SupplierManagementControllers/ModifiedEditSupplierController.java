@@ -5,6 +5,7 @@ import com.example.fyp_application.Model.SupplierModel;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.SharedButtonUtils;
+import com.example.fyp_application.Utils.TextFieldListenerUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,7 +55,10 @@ public class ModifiedEditSupplierController implements Initializable {
     @FXML
     private void saveProfileChanges () {
 
-        if(!isEmptyFields()){
+
+        if (expiryDate_DP.getValue().isBefore(LocalDate.now()) || expiryDate_DP.getValue() == null){
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Date", "Please select a valid date");
+        } else if (!isEmptyFields()){
 
             SUPPLIER_DAO.updateSupplier(
                     supplierID, supName_TF.getText(),
@@ -65,9 +69,6 @@ public class ModifiedEditSupplierController implements Initializable {
                     DateTimeUtils.setYearMonthDayFormat(expiryDate_DP.getValue()));
             AlertNotificationUtils.showInformationMessageAlert("Success", "Supplier edited successfully");
             cancel_btn.getScene().getWindow().hide();
-
-
-
         } else {
             AlertNotificationUtils.showErrorMessageAlert("Invalid Entry", "Please fill in all fields and select a valid date");
         }
@@ -129,6 +130,7 @@ public class ModifiedEditSupplierController implements Initializable {
         @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         supStatus_CB.getItems().addAll("Active", "Expired");
+        TextFieldListenerUtils.phoneNumberTextFieldListener(supPhone_TF);
         DateTimeUtils.dateTimeUpdates(dateTimeHolder);
         DateTimeUtils.dateValidator(expiryDate_DP);
     }

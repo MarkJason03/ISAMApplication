@@ -28,6 +28,8 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -159,8 +161,9 @@ public class LoginPageController implements Initializable {
                         Platform.runLater(() -> {
                             try {
                                 handleSuccessfulLogin(userDetails); //
-                            } catch (Exception e) {
-                                e.printStackTrace(); // Handle exceptions properly
+                            } catch (NoSuchElementException | IOException e) {
+                                e.printStackTrace();
+
                             }
                         });
                     }
@@ -224,25 +227,25 @@ public class LoginPageController implements Initializable {
 
     private void handleRoleBasedLogin(Integer userID, String firstName, String photoPath, String role) throws IOException {
         // Logic for handling role based login - Current defined roles are "Admin" and "User"
-        // Perhaps hashmap would suit this better on a larger scale
+        // Perhaps hashmap would suit this better on a larger scale to introduce key-value pairs for roles and their respective logic
         switch (role) {
             case "Admin" ->{
                 // Logic for admin
                 AlertNotificationUtils.showInformationMessageAlert("Login Successful", "Welcome Admin " + firstName + "!");
-                openAdminView(userID, firstName, photoPath);
+                openAdminView(userID, firstName, photoPath, role);
             }
             case "User" ->{
                 // Logic for user
                 AlertNotificationUtils.showInformationMessageAlert("Login Successful", "Welcome " + firstName + "!");
-                openClientView(userID, firstName, photoPath);
+                openClientView(userID, firstName, photoPath, role);
             }
         }
     }
 
-    public void openClientView(Integer userID, String name, String photoPath) throws IOException {
+    public void openClientView(Integer userID, String name, String photoPath, String role) throws IOException {
 
         //Store the current ID of the logged-in user - used for fetching data from the database within the application
-        CurrentLoggedUserHandler.setCurrentUser(userID, name, photoPath);
+        CurrentLoggedUserHandler.setCurrentUser(userID, name, photoPath, role);
 
 
         login_btn.getScene().getWindow().hide();
@@ -274,12 +277,12 @@ public class LoginPageController implements Initializable {
     }
 
 
-    public void openAdminView(Integer userID, String name, String photoPath) throws IOException {
+    public void openAdminView(Integer userID, String name, String photoPath, String role) throws IOException {
 
 
         //Store the current ID of the logged-in user - used for fetching data from the database within the application
 
-        CurrentLoggedUserHandler.setCurrentAdmin(userID, name, photoPath);
+        CurrentLoggedUserHandler.setCurrentAdmin(userID, name, photoPath, role);
         login_btn.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(ViewConstants.ADMIN_DASHBOARD)));
         Parent parent = loader.load(); // Load the FXML and get the root node
@@ -320,12 +323,6 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void closeApplication() {
-/*
-        Stage stage = (Stage) exit_btn.getScene().getWindow();
-
-        if (AlertNotificationUtils.showConfirmationAlert("Exit Application", "Are you sure you want to exit?")) {
-            stage.close();
-        }*/
 
         SharedButtonUtils.exitApplication(exit_btn,
                 AlertNotificationUtils.showConfirmationAlert("Exit Application?", "Do you want to exit this application?"));
@@ -337,16 +334,6 @@ public class LoginPageController implements Initializable {
         //check if the database is connected
         checkDatabaseConnection();
 
-/*
-        contentAP.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                loginButtonAction();
-            }
-            if (event.getCode() == KeyCode.ESCAPE)
-            {
-                exitApplication();
-            }
-        });*/
 
         // Atomic boolean to prevent multiple login actions
 
@@ -363,15 +350,7 @@ public class LoginPageController implements Initializable {
                 exitApplication();
             }
         });
-
-/*        Thread accountUpdateThread = new Thread(() -> {
-            synchronized (lock) {
-                UserDAO.checkAndUpdateInactiveAccountStatus();
-                UserDAO.checkAndUpdateExpiredAccountStatus();
-            }
-        });
-        accountUpdateThread.start();
-    }*/
     }
+
 }
 

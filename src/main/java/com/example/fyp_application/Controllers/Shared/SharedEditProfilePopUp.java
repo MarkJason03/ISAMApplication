@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-public class EditProfilePopUpController implements Initializable {
+public class SharedEditProfilePopUp implements Initializable {
 
 
     @FXML
@@ -114,12 +114,17 @@ public class EditProfilePopUpController implements Initializable {
     private void savePasswordChange() {
         // First, confirm if the user wants to update the password.
         boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Update Password", "Are you sure you want to update your password?");
-
+        int DEFAULT_PASSWORD_LENGTH = 12;
         // If the user confirmed, proceed with further checks.
         if (confirmation) {
             // Check if either password field is empty.
             if (newPassword_TF.getText().isEmpty() || confirmationPassword_TF.getText().isEmpty()) {
                 AlertNotificationUtils.showErrorMessageAlert("Empty Field", "Password fields cannot be empty.");
+                return;
+            }
+
+            if (newPassword_TF.getText().length() < DEFAULT_PASSWORD_LENGTH || confirmationPassword_TF.getText().length() < DEFAULT_PASSWORD_LENGTH) {
+                AlertNotificationUtils.showErrorMessageAlert("Invalid Password", "Password must be at least 12 characters long.");
                 return;
             }
 

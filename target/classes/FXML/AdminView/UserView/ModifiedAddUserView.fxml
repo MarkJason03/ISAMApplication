@@ -84,7 +84,7 @@
                         <Label layoutX="443.0" layoutY="781.0" prefHeight="27.0" prefWidth="182.0" text="Account Role" AnchorPane.bottomAnchor="244.0" />
                         <ChoiceBox fx:id="accountRole_CB" layoutX="441.0" layoutY="807.0" prefHeight="39.0" prefWidth="300.0" />
                         <Label layoutX="65.0" layoutY="584.0" text="Username" AnchorPane.bottomAnchor="440.0" />
-                        <TextField fx:id="userName_TF" layoutX="65.0" layoutY="611.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
+                        <TextField fx:id="userName_TF" editable="false" layoutX="65.0" layoutY="611.0" prefHeight="40.0" prefWidth="300.0" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" />
                         <Label layoutX="42.0" layoutY="48.0" prefHeight="55.0" prefWidth="376.0" style="-fx-font-size: 36px;" styleClass="personalInformationHeaderLabel" stylesheets="@../../../Styles/ClientStyleSheet/ClientPages.css" text="Create Account">
                            <font>
                               <Font name="System Bold" size="36.0" />

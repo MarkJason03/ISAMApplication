@@ -118,6 +118,7 @@ public class AddAssetController implements Initializable {
 
     @FXML
     private void resetForm() {
+        // Clear all fields
         assetName_TF.clear();
         serialNo_TF.clear();
         assetPrice_TF.clear();
@@ -139,6 +140,7 @@ public class AddAssetController implements Initializable {
 
     @FXML
     private boolean isEmptyFields(){
+        // Check if any field is empty
         return assetName_TF.getText().isEmpty() || serialNo_TF.getText().isEmpty() || purchaseDate_DP.getEditor().getText().isEmpty() || warrantyStart_DP.getEditor().getText().isEmpty() || warrantyEnd_DP.getEditor().getText().isEmpty() || estimatedEOL_DP.getEditor().getText().isEmpty() || assetStatus_CB.getValue() == null || assetCondition_CB.getValue() == null || category_CB.getValue() == null || manufacturer_CB.getValue() == null || osSpec_CB.getValue() == null || ramSpec_CB.getValue() == null || storageSpec_CB.getValue() == null || photoPath_TF.getText().isEmpty();
     }
 

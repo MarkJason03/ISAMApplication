@@ -125,12 +125,20 @@ public class AssetAllocationDAO {
                     allocation.EndDate,
                     allocation.AdditionalComments, -- Additional Comments
 
-                	    -- Calculate Overdue Days
                     CASE
-                        WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
-                             AND allocation.AllocationStatus = 'In Use'
+                        -- When item is overdue and still in use, calculate difference between now and due date
+                        WHEN allocation.AllocationStatus = 'In Use' AND date(allocation.DueDate) < date('now')
                         THEN CAST(ROUND(julianday(date('now')) - julianday(date(allocation.DueDate))) AS INTEGER)
-                        ELSE 0
+                        
+                        -- When item is returned and was overdue, calculate difference between return date and due date
+                        WHEN allocation.AllocationStatus = 'Returned' AND date(allocation.DueDate) < date(allocation.EndDate)
+                        THEN CAST(ROUND(julianday(date(allocation.EndDate)) - julianday(date(allocation.DueDate))) AS INTEGER)
+                        
+                        -- When item is returned but not overdue (returned before due date), set overdue days to 0
+                        WHEN allocation.AllocationStatus = 'Returned' AND date(allocation.EndDate) <= date(allocation.DueDate)
+                        THEN 0
+                        
+                        ELSE 0 -- If the item is not overdue, then no overdue days are counted
                     END AS OverdueDays,
                     
                     -- Asset Information
@@ -150,7 +158,11 @@ public class AssetAllocationDAO {
                     user.Username,
                     user.Email,
                     user.Phone,
-
+                
+                    -- Agent information
+                    agent.FirstName as AgentFirstName,
+                    agent.LastName as AgentLastName,
+                    
                     -- Building Information
                     building.BuildingName,
                     office.OfficeName
@@ -165,6 +177,7 @@ public class AssetAllocationDAO {
                     JOIN tbl_BuildingOffices as office ON office.OfficeID = allocation.OfficeID
                     JOIN tbl_Buildings as building ON building.BuildingID = office.BuildingID
                     JOIN tbl_Users as user ON user.UserID = allocation.UserID
+                    JOIN tbl_Users as agent ON agent.UserID = allocation.AgentID
                     JOIN tbl_Departments as dept ON dept.deptID = user.deptID;
 
                                 """;
@@ -199,6 +212,8 @@ public class AssetAllocationDAO {
                                 resultSet.getString("Username"),
                                 resultSet.getString("Email"),
                                 resultSet.getString("Phone"),
+                                resultSet.getString("AgentFirstName"),
+                                resultSet.getString("AgentLastName"),
                                 resultSet.getString("BuildingName"),
                                 resultSet.getString("OfficeName")
                         );
@@ -227,13 +242,22 @@ public class AssetAllocationDAO {
                     allocation.EndDate,
                     allocation.AdditionalComments, -- Additional Comments
 
-                	    -- Calculate Overdue Days
                     CASE
-                        WHEN allocation.AllocationStatus != 'Return' AND date(allocation.DueDate) < date('now')
-                             AND allocation.AllocationStatus = 'In Use'
+                        -- When item is overdue and still in use, calculate difference between now and due date
+                        WHEN allocation.AllocationStatus = 'In Use' AND date(allocation.DueDate) < date('now')
                         THEN CAST(ROUND(julianday(date('now')) - julianday(date(allocation.DueDate))) AS INTEGER)
-                        ELSE 0
+                        
+                        -- When item is returned and was overdue, calculate difference between return date and due date
+                        WHEN allocation.AllocationStatus = 'Returned' AND date(allocation.DueDate) < date(allocation.EndDate)
+                        THEN CAST(ROUND(julianday(date(allocation.EndDate)) - julianday(date(allocation.DueDate))) AS INTEGER)
+                        
+                        -- When item is returned but not overdue (returned before due date), set overdue days to 0
+                        WHEN allocation.AllocationStatus = 'Returned' AND date(allocation.EndDate) <= date(allocation.DueDate)
+                        THEN 0
+                        
+                        ELSE 0 -- If the item is not overdue, then no overdue days are counted
                     END AS OverdueDays,
+
                                         
                     -- Asset Information
                     asset.AssetName,
@@ -252,7 +276,11 @@ public class AssetAllocationDAO {
                     user.Username,
                     user.Email,
                     user.Phone,
-
+                
+                    -- Agent information
+                    agent.FirstName as AgentFirstName,
+                    agent.LastName as AgentLastName,
+                    
                     -- Building Information
                     building.BuildingName,
                     office.OfficeName
@@ -265,6 +293,7 @@ public class AssetAllocationDAO {
                     JOIN tbl_BuildingOffices as office ON office.OfficeID = allocation.OfficeID
                     JOIN tbl_Buildings as building ON building.BuildingID = office.BuildingID
                     JOIN tbl_Users as user ON user.UserID = allocation.UserID
+                    JOIN tbl_Users as agent ON agent.UserID = allocation.AgentID
                     JOIN tbl_Departments as dept ON dept.deptID = user.deptID
                     WHERE allocation.AllocationStatus = ?;
                      """;
@@ -300,6 +329,8 @@ public class AssetAllocationDAO {
                                 resultSet.getString("Username"),
                                 resultSet.getString("Email"),
                                 resultSet.getString("Phone"),
+                                resultSet.getString("AgentFirstName"),
+                                resultSet.getString("AgentLastName"),
                                 resultSet.getString("BuildingName"),
                                 resultSet.getString("OfficeName")
                         );
@@ -421,15 +452,25 @@ public class AssetAllocationDAO {
     public static void checkAndUpdateOverdueAllocation(){
 
         String sql = """
-                UPDATE tbl_AllocationHistory
-                SET OverdueStatus = CASE
-                                        WHEN AllocationStatus = 'In Use' AND DueDate < date('now') THEN 'Overdue'
-                                        WHEN AllocationStatus = 'Return' THEN 'No'  --  "No" for "Return" asset status
-                                        ELSE 'No'  -- Setting "No" as the default for all other cases
-                                    END
-                WHERE AllocationStatus IN ('In Use', 'Return') OR DueDate < date('now');
-
-                                """;
+                    UPDATE tbl_AllocationHistory
+                    SET OverdueStatus = CASE
+                        -- If item is in use and past due date, mark as Overdue
+                        WHEN AllocationStatus = 'In Use' AND DueDate < date('now')
+                        THEN 'Overdue'
+                    
+                        -- If item is returned but was overdue, keep the status as Overdue
+                        WHEN AllocationStatus = 'Returned' AND OverdueStatus = 'Overdue'
+                        THEN 'Overdue'
+                    
+                        -- If item is returned and not overdue, update status to No
+                        WHEN AllocationStatus = 'Returned' AND DueDate >= date('now')
+                        THEN 'No'
+                    
+                        -- Default case if none of the above conditions are met
+                        ELSE 'No'
+                        END
+                    WHERE AllocationStatus IN ('In Use', 'Returned') OR DueDate < date('now');
+                    """;
 
 
         try( Connection connection = DatabaseConnectionUtils.getConnection()) {

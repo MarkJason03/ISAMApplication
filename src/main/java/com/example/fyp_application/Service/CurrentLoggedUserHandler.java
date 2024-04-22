@@ -10,13 +10,48 @@ public class CurrentLoggedUserHandler {
     private static String adminFullName;
     private static String adminImagePath;
 
+    private static String roleName;
 
-    public static void setCurrentUser(Integer userID, String userFullName, String imagePath) {
+    // Tracks the current logged in user
+    public static void setCurrentUser(Integer userID, String userFullName, String imagePath, String roleName) {
         CurrentLoggedUserHandler.userID = userID;
         CurrentLoggedUserHandler.userFullName = userFullName;
         CurrentLoggedUserHandler.imagePath = imagePath;
+        CurrentLoggedUserHandler.roleName = roleName;
     }
 
+    public static void setCurrentAdmin(Integer adminID, String adminName, String adminImagePath, String roleName) {
+        CurrentLoggedUserHandler.adminID = adminID;
+        CurrentLoggedUserHandler.adminFullName = adminName;
+        CurrentLoggedUserHandler.adminImagePath = adminImagePath;
+        CurrentLoggedUserHandler.roleName = roleName;
+    }
+
+    public static void setNewAdminPhoto(String newPhotoPath) {
+        CurrentLoggedUserHandler.adminImagePath = newPhotoPath;
+    }
+
+    public static void setNewAdminName(String newFullName) {
+        CurrentLoggedUserHandler.adminFullName = newFullName;
+    }
+
+    public static Integer getCurrentLoggedAdminID() {
+        return adminID;
+    }
+
+    public static String getCurrentLoggedAdminFullName() {
+        return adminFullName;
+    }
+
+    public static String getCurrentLoggedAdminImagePath() {
+        return adminImagePath;
+    }
+
+    public static String getCurrentUserRoleName() {
+        return roleName;
+    }
+
+    // Getters and Setters for the current logged in user - in case the user changes their profile picture or name
     public static void setNewPhoto(String newPhotoPath) {
         CurrentLoggedUserHandler.imagePath = newPhotoPath;
     }
@@ -38,36 +73,6 @@ public class CurrentLoggedUserHandler {
 
     public static String getCurrentLoggedUserImagePath() {
         return imagePath;
-    }
-
-
-    public static void setCurrentAdmin(Integer adminID, String adminName, String adminImagePath) {
-        CurrentLoggedUserHandler.adminID = adminID;
-        CurrentLoggedUserHandler.adminFullName = adminName;
-        CurrentLoggedUserHandler.adminImagePath = adminImagePath;
-    }
-
-    public static void setNewAdminPhoto(String newPhotoPath) {
-        CurrentLoggedUserHandler.adminImagePath = newPhotoPath;
-    }
-
-    public static void setNewAdminName(String newFullName) {
-        CurrentLoggedUserHandler.adminFullName = newFullName;
-    }
-
-    public static void setAdminID(Integer adminID) {
-        CurrentLoggedUserHandler.adminID = adminID;
-    }
-    public static Integer getCurrentLoggedAdminID() {
-        return adminID;
-    }
-
-    public static String getCurrentLoggedAdminFullName() {
-        return adminFullName;
-    }
-
-    public static String getCurrentLoggedAdminImagePath() {
-        return adminImagePath;
     }
 
 }

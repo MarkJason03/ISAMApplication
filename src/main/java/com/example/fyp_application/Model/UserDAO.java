@@ -43,8 +43,6 @@ public class UserDAO {
     public Pair<Boolean, String> validateLoginCredentials(String username, String password) {
         String sql = "SELECT AccountStatus, Password FROM tbl_Users WHERE Username = ?";
 
-
-
         try (Connection connection = DatabaseConnectionUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -54,8 +52,8 @@ public class UserDAO {
                     String hashedPassword = resultSet.getString("Password");
                     boolean isValidAccount = PasswordHashingUtils.verifyPassword(hashedPassword, password);
                     String accountStatus = resultSet.getString("AccountStatus");
-                    System.out.println("Account Status: " + accountStatus);
-                    System.out.println("Account Exists? " + isValidAccount);
+//                    System.out.println("Account Status: " + accountStatus);
+//                    System.out.println("Account Exists? " + isValidAccount);
                     return new Pair<>(isValidAccount, accountStatus);
 
                 }
@@ -475,7 +473,7 @@ public class UserDAO {
     }
 
 
-    public void updateProfilePhoto(int userID, String photo, String lastModified) {
+    public static  void updateProfilePhoto(int userID, String photo, String lastModified) {
         String sql = "UPDATE tbl_Users SET Photo = ?, LastModified = ? WHERE UserID = ?";
 
         try {

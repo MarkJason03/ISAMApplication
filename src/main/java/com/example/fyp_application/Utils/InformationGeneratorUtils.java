@@ -26,8 +26,10 @@ public class InformationGeneratorUtils {
 
     private InformationGeneratorUtils(){}
     public static String generatePassword(int length) {
-        if (length < 4) {
-            throw new IllegalArgumentException();
+        int DEFAULT_LENGTH = 12;
+        if (length < DEFAULT_LENGTH) {
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Password Length",
+                    "Password length must be at least 12 characters");
         }
 
         StringBuilder password = new StringBuilder(length);

@@ -8,6 +8,7 @@ import com.example.fyp_application.Controllers.Admin.SupplierManagementControlle
 import com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminDashboardWindowController;
 import com.example.fyp_application.Controllers.Admin.DashboardControllers.AdminHomePageController;
 import com.example.fyp_application.Controllers.Admin.UserManagementControllers.ModifiedManageUserController;
+import com.example.fyp_application.Controllers.Shared.SharedProfileController;
 import com.example.fyp_application.Service.CurrentLoggedUserHandler;
 import com.example.fyp_application.Views.ViewConstants;
 import javafx.fxml.FXML;
@@ -105,7 +106,8 @@ public class AdminSidebarController implements Initializable {
 
     @FXML
     private void openEditProfile() throws IOException {
-        swapScene(ViewConstants.ADMIN_EDIT_MY_PROFILE_VIEW, EditAdminProfileController.class);
+        swapScene(ViewConstants.SHARED_EDIT_PROFILE_VIEW, SharedProfileController.class);
+        //swapScene(ViewConstants.ADMIN_EDIT_MY_PROFILE_VIEW, EditAdminProfileController.class);
     }
 
 
@@ -115,7 +117,7 @@ public class AdminSidebarController implements Initializable {
         //Swap stage to log in screen
         System.out.println("Wiping admin id");
         System.out.println("Current admin id: " + CurrentLoggedUserHandler.getCurrentLoggedAdminID());
-        CurrentLoggedUserHandler.setCurrentAdmin(null, null, null);
+        CurrentLoggedUserHandler.setCurrentAdmin(null, null, null, null);
         System.out.println("wiped admin id" + CurrentLoggedUserHandler.getCurrentLoggedAdminID());
         logout_btn.getScene().getWindow().hide();
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(ViewConstants.APP_LOGIN)));

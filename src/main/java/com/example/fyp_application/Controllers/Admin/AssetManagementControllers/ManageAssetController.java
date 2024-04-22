@@ -2,6 +2,7 @@ package com.example.fyp_application.Controllers.Admin.AssetManagementControllers
 
 import com.example.fyp_application.Model.*;
 import com.example.fyp_application.Utils.AlertNotificationUtils;
+import com.example.fyp_application.Utils.ConfigPropertiesUtils;
 import com.example.fyp_application.Utils.DateTimeUtils;
 import com.example.fyp_application.Utils.TableListenerUtils;
 import com.example.fyp_application.Views.ViewConstants;
@@ -111,7 +112,7 @@ public class ManageAssetController implements Initializable {
     private Button newRequest;
 
     @FXML
-    private TextField office_TF;
+    private TextField agentName_TF;
 
     @FXML
     private TextField opSystem_TF;
@@ -138,7 +139,7 @@ public class ManageAssetController implements Initializable {
     private TextField storageSpec_TF;
 
     @FXML
-    private Button test;
+    private Button assignAsset_btn;
 
     @FXML
     private Button updateAllocation_TF;
@@ -191,10 +192,13 @@ public class ManageAssetController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> owner_col;
+
+    @FXML
+    private TableColumn<?, ?> agent_col;
     private ObservableList<AssetModel> assetList;
 
     private ObservableList<AssetAllocationModel> allocationList;
-    private static final String DEFAULT_PHOTO_PATH = "/CataloguePhotos/DefaultPlaceholder.PNG";
+
     @FXML
     private void loadAssetTable() {
 
@@ -216,11 +220,11 @@ public class ManageAssetController implements Initializable {
                 } catch (NullPointerException e) {
 
                     System.err.println("Image not found: " + photoPath);
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                     imageView.setImage(image);
                 }
             } else {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 imageView.setImage(image);
             }
             return new SimpleObjectProperty<>(imageView);
@@ -259,11 +263,11 @@ public class ManageAssetController implements Initializable {
                 } catch (NullPointerException e) {
 
                     System.err.println("Image not found: " + photoPath);
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                     imageView.setImage(image);
                 }
             } else {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DEFAULT_PHOTO_PATH)));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ConfigPropertiesUtils.getPropertyValue("DEFAULT_ASSET_PHOTO"))));
                 imageView.setImage(image);
             }
             return new SimpleObjectProperty<>(imageView);
@@ -294,6 +298,7 @@ public class ManageAssetController implements Initializable {
         allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
         allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
         owner_col.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        agent_col.setCellValueFactory(new PropertyValueFactory<>("agentFullName"));
         allocHistoryTable.setItems(allocationList);
     }
 
@@ -312,6 +317,7 @@ public class ManageAssetController implements Initializable {
         allocOverdueInfo_col.setCellValueFactory(new PropertyValueFactory<>("overdueStatus"));
         allocOverDueDays.setCellValueFactory(new PropertyValueFactory<>("overdueDays"));
         owner_col.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        agent_col.setCellValueFactory(new PropertyValueFactory<>("agentFullName"));
         allocHistoryTable.setItems(allocationList);
     }
 
@@ -342,8 +348,8 @@ public class ManageAssetController implements Initializable {
                 //asset info
                 allocAssetName_lbl.setText(selectedItem.getAssetName());
                 currentStatus_lbl.setText(selectedItem.getAllocationStatus());
-                building_TF.setText(selectedItem.getBuildingName());
-                office_TF.setText(selectedItem.getOfficeName());
+                building_TF.setText(selectedItem.getBuildingName() + " " + selectedItem.getOfficeName());
+                agentName_TF.setText(selectedItem.getAgentFullName());
                 userFullname_TF.setText(selectedItem.getFirstName() + " " + selectedItem.getLastName());
                 userDept_TF.setText(selectedItem.getDepartment());
                 userEmail_TF.setText(selectedItem.getEmail());
@@ -388,7 +394,6 @@ public class ManageAssetController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
-                //Load the supplier menu
                 //modal pop-up dialogue box
                 FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_EDIT_ASSET_POP_UP));
                 Parent root = modalViewLoader.load();
@@ -452,7 +457,6 @@ public class ManageAssetController implements Initializable {
         currentDashboardStage.getScene().getRoot().setEffect(blur); // Apply blur to main dashboard stage
 
         try {
-            //Load the supplier menu
             //modal pop-up dialogue box
             FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_ASSET_POP_UP));
             Parent root = modalViewLoader.load();
@@ -535,7 +539,6 @@ public class ManageAssetController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
-                //Load the supplier menu
                 //modal pop-up dialogue box
                 FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_ADD_ALLOCATION_POP_UP));
                 Parent root = modalViewLoader.load();
@@ -604,7 +607,6 @@ public class ManageAssetController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
-                //Load the supplier menu
                 //modal pop-up dialogue box
                 FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_ALLOCATION_POP_UP));
                 Parent root = modalViewLoader.load();
@@ -671,7 +673,6 @@ public class ManageAssetController implements Initializable {
             currentDashboardStage.getScene().getRoot().setEffect(null); // Remove blur effect
         } else {
             try {
-                //Load the supplier menu
                 //modal pop-up dialogue box
                 FXMLLoader modalViewLoader = new FXMLLoader(getClass().getResource(ViewConstants.ADMIN_VIEW_ALLOCATION_POP_UP));
                 Parent root = modalViewLoader.load();
@@ -722,15 +723,11 @@ public class ManageAssetController implements Initializable {
         assetStatusFilter_CB.setValue("All");
 
         assetStatusFilter_CB.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection.equals("All")) {
-                test.setDisable(true);
-                loadAssetTable();
-                }
-            else if(newSelection.equals("In Use")) {
-                test.setDisable(true);
+            if(newSelection.equals("Available")){
+                assignAsset_btn.setDisable(false);
                 loadFilteredAssetTable(newSelection);
-            }else {
-                test.setDisable(false);
+            } else{
+                assignAsset_btn.setDisable(true);
                 loadFilteredAssetTable(newSelection);
             }
         });

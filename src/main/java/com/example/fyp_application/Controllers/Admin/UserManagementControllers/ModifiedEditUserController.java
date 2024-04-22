@@ -108,14 +108,14 @@ public class ModifiedEditUserController implements Initializable{
     @FXML
     private void saveProfileChanges() throws SQLException {
 
-        // Show a confirmation alert before saving the changes
-        boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Save Profile Changes", "Are you sure you want to save the changes made to this user's profile?");
 
 
         // Check if the user has confirmed the changes
         if (isEmptyField()){
             AlertNotificationUtils.showErrorMessageAlert("Missing Information", "Please fill in all required fields.");
 
+        } else if (expiryDate_DP.getValue().isBefore(LocalDate.now())){
+            AlertNotificationUtils.showErrorMessageAlert("Invalid Date", "The expiry date cannot be before the current date.");
         } else {
             // Proceed with saving the changes
             UserDAO.updateUserProfile(userID,
@@ -161,7 +161,7 @@ public class ModifiedEditUserController implements Initializable{
     private void sendPasswordResetEmail() {
 
         boolean confirmation = AlertNotificationUtils.showConfirmationAlert("Send Password Reset Email", "Are you sure you want to send a password reset email to this user?");
-
+        int DEFAULT_LENGTH = 12;
         if (confirmation) {
             // Check if either of the password fields is empty
             if (newPassword_TF1.getText().isEmpty() || confirmationPassword_TF1.getText().isEmpty()) {
@@ -170,7 +170,7 @@ public class ModifiedEditUserController implements Initializable{
             }
 
             // Check if the passwords match
-            if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText())) {
+            if (newPassword_TF1.getText().equals(confirmationPassword_TF1.getText()) && newPassword_TF1.getText().length() >= DEFAULT_LENGTH){
                 // Passwords match, proceed with sending email
                 GMailUtils.sendEmailTo(userEmail_TF.getText(), "Password Reset", GMailUtils.generatePasswordResetEmailBody(userFirstName_TF.getText(), newPassword_TF1.getText()));
 
@@ -183,7 +183,7 @@ public class ModifiedEditUserController implements Initializable{
 
             } else {
                 // Passwords do not match, show an error message
-                AlertNotificationUtils.showErrorMessageAlert("Password Mismatch", "The new password and the confirmation password do not match. Please try again.");
+                AlertNotificationUtils.showErrorMessageAlert("Invalid Password", "Please try again. Passwords do not match or are less than 12 characters.");
             }
         }
     }
@@ -272,7 +272,11 @@ public class ModifiedEditUserController implements Initializable{
         accStatus_CB.setItems(FXCollections.observableArrayList("Active","Inactive","Expired"));
 
 
+        DateTimeUtils.dateTimeUpdates(dateTimeHolder);
 
+        DateTimeUtils.dateValidator(expiryDate_DP);
+
+        TextFieldListenerUtils.phoneNumberTextFieldListener(userPhone_TF);
 
         updatePassword_btn1.setDisable(true);
 
@@ -303,16 +307,10 @@ public class ModifiedEditUserController implements Initializable{
 
 
 
-        DateTimeUtils.dateValidator(expiryDate_DP);
 
 
         accStatus_CB.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals("Inactive")) {
-                expiryDate_DP.setDisable(true);
-                expiryDate_DP.setValue(null);
-            } else {
-                expiryDate_DP.setDisable(false);
-            }
+            expiryDate_DP.setDisable(newValue.equals("Inactive"));
         });
 
 

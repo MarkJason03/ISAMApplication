@@ -2,7 +2,7 @@
 ---
 
 # Integrated Servicing and Asset Management (ISAM) System
-A Proposed conceptual application as part of my dissertation to complete my studies.
+A proposed conceptual application as part of my dissertation to complete my studies.
 
 ## Rationale of the project
 

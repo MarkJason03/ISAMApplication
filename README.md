@@ -35,6 +35,7 @@ This system combines asset tracking, maintenance scheduling, and servicing reque
 
 ## How to run
 -  Run **App** class to initiate the application.
+-  Requires you to create your own Gmail API Keys to run the features on the config file
 ### Admin Demo Account
 - Username: **admin**
 - Password: **admin**
